@@ -1,16 +1,15 @@
-import React from 'react';
-import * as Sentry from '@sentry/browser';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import * as Sentry from "@sentry/browser";
+import ReactDOM from "react-dom";
+import App from "./App";
 
-import ErrorBoundary from './components/ErrorBoundary';
+import ErrorBoundary from "./components/ErrorBoundary";
 import { Auth0Provider } from "./hooks/auth";
-import * as serviceWorker from './serviceWorker';
-// import { makeMainRoutes } from './Routes';
+import * as serviceWorker from "./serviceWorker";
 
 // Configure error tracking with Sentry
 Sentry.init({
-  dsn: 'https://e68b1cd5e7a1495c9a8b66f971511079@sentry.io/1485108',
+  dsn: "https://e68b1cd5e7a1495c9a8b66f971511079@sentry.io/1485108",
   environment: process.env.REACT_APP_ENVIRONMENT,
 });
 
@@ -39,7 +38,7 @@ ReactDOM.render(
     </Auth0Provider>
   </ErrorBoundary>,
   document.getElementById("root")
-)
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
