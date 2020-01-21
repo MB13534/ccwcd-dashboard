@@ -9,7 +9,7 @@ import * as serviceWorker from "./serviceWorker";
 
 // Configure error tracking with Sentry
 Sentry.init({
-  dsn: "https://e68b1cd5e7a1495c9a8b66f971511079@sentry.io/1485108",
+  dsn: "https://357a8386574947b097e5921c743e995e@sentry.io/1890540",
   environment: process.env.REACT_APP_ENVIRONMENT,
 });
 
