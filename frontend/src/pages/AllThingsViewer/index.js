@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Sidebar from "../../components/Sidebar";
-import FilterBar from "./FilterBar";
-import MultiSelectFilter from "./MultiSelectFilter";
-import SwitchFilter from "./SwitchFilter";
+import FilterBar from "../../components/Filters/FilterBar";
+import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
+import SwitchFilter from "../../components/Filters/SwitchFilter";
 import useFetchData from "../../hooks/useFetchData";
 
 const useStyles = makeStyles(theme => ({
