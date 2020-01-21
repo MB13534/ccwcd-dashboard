@@ -10,6 +10,7 @@ import Loading from "./components/Loading";
 import theme from "./theme";
 
 import Home from "./pages/Home";
+import AllThingsViewer from "./pages/AllThingsViewer";
 
 import Doc from "./pages/Docs";
 import StructuresAPI from "./pages/Docs/api/StructuresAPI";
@@ -65,6 +66,7 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/all-things-viewer" exact component={AllThingsViewer} />
           <Route
             path="/docs"
             exact

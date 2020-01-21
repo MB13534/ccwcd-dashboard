@@ -43,7 +43,6 @@ const styles = theme => ({
   toolbar: {
     textAlign: "center",
     padding: theme.spacing(4, 0),
-    borderRight: "1px solid #ffffff",
     backgroundColor: "#ffffff",
     ...theme.mixins.toolbar,
   },
@@ -51,6 +50,7 @@ const styles = theme => ({
     width: drawerWidth,
     overflow: `auto!important`,
     backgroundColor: theme.palette.primary.main,
+    borderRight: "1px solid #ddd",
   },
   content: {
     flexGrow: 1,

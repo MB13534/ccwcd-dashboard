@@ -5,7 +5,14 @@ import { indigo, green } from "@material-ui/core/colors";
 export default createMuiTheme({
   palette: {
     primary: indigo,
-    secondary: green,
+    secondary: {
+      light: green[300],
+      main: green[600],
+      dark: green[700],
+    },
+    background: {
+      default: "#f1f1f1",
+    },
   },
   typography: {
     useNextVariants: true,
