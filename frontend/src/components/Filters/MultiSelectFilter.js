@@ -48,6 +48,19 @@ const MultiSelectFilter = props => {
   } = props;
   const classes = useStyles();
 
+  /**
+   * Function used to render the text associated with the currently
+   * selected values
+   * Without this function, the ndx value is displayed instead of the text
+   * @param {*} selections
+   */
+  const setSelectedText = selections => {
+    const textValues = data
+      .filter(d => selections.includes(d[valueField]))
+      .map(d => d[displayField]);
+    return textValues.join(", ");
+  };
+
   return (
     <FormControl className={classes.formControl} variant="outlined">
       <InputLabel
@@ -67,7 +80,7 @@ const MultiSelectFilter = props => {
         input={<OutlinedInput data-testid="multi-select" />}
         classes={{ outlined: classes.outlined }}
         variant="outlined"
-        renderValue={selections => selections.join(", ")}
+        renderValue={selections => setSelectedText(selections)}
         MenuProps={MenuProps}
       >
         {data.map(val => (
