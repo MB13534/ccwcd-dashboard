@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   outlinedLabel: {
     color: theme.palette.primary.main,
+    backgroundColor: "#ffffff",
   },
 }));
 
