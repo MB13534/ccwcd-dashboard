@@ -119,6 +119,13 @@ const Sidebar = props => {
       icon: DocsIcon,
       loginRequired: true,
     },
+    {
+      link: "all-things-viewer",
+      title: "All Things Viewer",
+      activePath: "all-things-viewer",
+      icon: DashboardIcon,
+      loginRequired: true,
+    },
   ];
 
   const drawer = (
