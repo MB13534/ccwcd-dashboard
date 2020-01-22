@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Paper } from "@material-ui/core";
 import Sidebar from "../../components/Sidebar";
 import FilterBar from "../../components/Filters/FilterBar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import SwitchFilter from "../../components/Filters/SwitchFilter";
 import useFetchData from "../../hooks/useFetchData";
+import { getAssociations } from "../../util";
+import useFilterAssoc from "../../hooks/useFilterAssoc";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,8 +16,11 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
   },
-  submit: {
-    marginLeft: theme.spacing(1),
+  mainContent: {
+    padding: theme.spacing(3),
+  },
+  paper: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -33,6 +39,17 @@ const AllThingsViewer = ({ history }) => {
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
   const [Structures] = useFetchData("dummy/structures", []);
   const [Measurements] = useFetchData("dummy/measurements", []);
+
+  const filteredStructures = useFilterAssoc(
+    filterValues.station_types,
+    Structures,
+    "structure_types"
+  );
+  const filteredMeasurements = useFilterAssoc(
+    filterValues.structures,
+    Measurements,
+    "structures"
+  );
 
   /**
    * Event handler for the filters bar
@@ -74,7 +91,7 @@ const AllThingsViewer = ({ history }) => {
             label="Structures"
             valueField="structure_ndx"
             displayField="structure_desc"
-            data={Structures}
+            data={filteredStructures}
             selected={filterValues.structures}
             onChange={handleFilter}
           />
@@ -85,7 +102,7 @@ const AllThingsViewer = ({ history }) => {
             label="Measurements"
             valueField="measure_type_ndx"
             displayField="measure_type_desc"
-            data={Measurements}
+            data={filteredMeasurements}
             selected={filterValues.measurements}
             onChange={handleFilter}
           />
@@ -103,6 +120,15 @@ const AllThingsViewer = ({ history }) => {
             value="autoselect"
           />
         </FilterBar>
+
+        <Grid container spacing={3} className={classes.mainContent}>
+          <Grid xs={12} md={9} item>
+            <Paper className={classes.paper}></Paper>
+          </Grid>
+          <Grid xs={12} md={3} item>
+            <Paper className={classes.paper}></Paper>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

@@ -17,6 +17,12 @@ const useStyles = makeStyles(theme => ({
     minWidth: 175,
     maxWidth: 400,
   },
+  outlined: {
+    border: `1.5px solid ${theme.palette.primary.main}`,
+  },
+  outlinedLabel: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 const ITEM_HEIGHT = 48;
@@ -42,10 +48,13 @@ const MultiSelectFilter = props => {
   } = props;
   const classes = useStyles();
 
-  if (data.length === 0) return null;
   return (
     <FormControl className={classes.formControl} variant="outlined">
-      <InputLabel id={name} variant="outlined">
+      <InputLabel
+        id={name}
+        variant="outlined"
+        classes={{ outlined: classes.outlinedLabel }}
+      >
         {label}
       </InputLabel>
       <Select
@@ -55,7 +64,8 @@ const MultiSelectFilter = props => {
         multiple
         value={selected}
         onChange={onChange}
-        input={<OutlinedInput />}
+        input={<OutlinedInput data-testid="multi-select" />}
+        classes={{ outlined: classes.outlined }}
         variant="outlined"
         renderValue={selections => selections.join(", ")}
         MenuProps={MenuProps}
@@ -74,6 +84,14 @@ const MultiSelectFilter = props => {
   );
 };
 
-MultiSelectFilter.propTypes = {};
+MultiSelectFilter.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  valueField: PropTypes.string.isRequired,
+  displayField: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  selected: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default MultiSelectFilter;

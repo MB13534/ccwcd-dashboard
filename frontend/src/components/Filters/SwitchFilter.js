@@ -18,6 +18,7 @@ const SwitchFilter = props => {
       <FormControlLabel
         control={
           <Switch
+            data-testid="switch"
             color="primary"
             name={name}
             checked={checked}
@@ -31,6 +32,12 @@ const SwitchFilter = props => {
   );
 };
 
-SwitchFilter.propTypes = {};
+SwitchFilter.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  checked: PropTypes.bool.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default SwitchFilter;

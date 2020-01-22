@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button } from "@material-ui/core";
 
@@ -20,7 +21,11 @@ const FilterBar = ({ onSubmit, children }) => {
 
   return (
     <Box boxShadow={1} className={classes.root}>
-      <form className={classes.filters}>
+      <form
+        data-testid="filter-form"
+        className={classes.filters}
+        onSubmit={onSubmit}
+      >
         {children}
         <Button
           type="submit"
@@ -33,6 +38,14 @@ const FilterBar = ({ onSubmit, children }) => {
       </form>
     </Box>
   );
+};
+
+FilterBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default FilterBar;

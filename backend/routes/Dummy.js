@@ -1,5 +1,4 @@
 const express = require("express");
-const jwtAuthz = require("express-jwt-authz");
 const { checkAccessToken, checkPermission } = require("../middleware/auth.js");
 
 // Create Express Router
@@ -26,9 +25,13 @@ router.get(
 // Route for returning all structures
 router.get("/structures", checkPermission(["read:users"]), (req, res, next) => {
   res.json([
-    { structure_ndx: 1, structure_desc: "PVIC West" },
-    { structure_ndx: 2, structure_desc: "Weldon Valley Aug" },
-    { structure_ndx: 3, structure_desc: "Siebring Res" },
+    { structure_ndx: 1, structure_desc: "PVIC West", structure_types: [1] },
+    {
+      structure_ndx: 2,
+      structure_desc: "Weldon Valley Aug",
+      structure_types: [1, 3],
+    },
+    { structure_ndx: 3, structure_desc: "Siebring Res", structure_types: [2] },
   ]);
 });
 
@@ -39,9 +42,9 @@ router.get(
   checkPermission(["read:users"]),
   (req, res, next) => {
     res.json([
-      { measure_type_ndx: 1, measure_type_desc: "Stage" },
-      { measure_type_ndx: 2, measure_type_desc: "Storage" },
-      { measure_type_ndx: 3, measure_type_desc: "Flow" },
+      { measure_type_ndx: 1, measure_type_desc: "Stage", structures: [1] },
+      { measure_type_ndx: 2, measure_type_desc: "Storage", structures: [3] },
+      { measure_type_ndx: 3, measure_type_desc: "Flow", structures: [2] },
     ]);
   }
 );
