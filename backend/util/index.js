@@ -103,7 +103,7 @@ const generateDailyData = count => {
 
   const records = Array.apply(null, Array(recordCount)).map((d, i) => {
     if (i % 6 === 0) {
-      baseDate = new Date(baseDate.setDate(baseDate.getDate() - i));
+      baseDate = new Date(baseDate.setDate(baseDate.getDate() - 1));
     }
     return {
       date: baseDate,
