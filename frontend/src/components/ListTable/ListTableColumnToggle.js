@@ -9,6 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import MultiSelectFilter from '../Filters/MultiSelectFilter';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -21,7 +22,7 @@ const MenuProps = {
   },
 };
 
-const useFilterStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({
   filters: {
     padding: 15,
     marginBottom: 30,
@@ -35,43 +36,38 @@ const useFilterStyles = makeStyles(theme => ({
   },
 }));
 
-const ListTableFilters = props => {
-  const classes = useFilterStyles();
-  const { data, columns, handleFilterChange, toggleColumns } = props;
-  const [filtersData, setFiltersData] = useState([]);
+const ListTableColumnToggle = props => {
+  const classes = useStyles();
 
-  const getFilterValues = (data, column) => [...new Set(data.map(d => d[column]))];
+  const data = [
+    { value: "Date", display: "Date" },
+    { value: "West Stage (ft)", display: "West Stage (ft)" },
+    { value: "Oster Stage (ft)", display: "Oster Stage (ft)" },
+    { value: "FIDCO Stage (ft)", display: "FIDCO Stage (ft)" },
+    { value: "West Flow (CFS)", display: "West Flow (CFS)" },
+    { value: "Oster Flow (CFS)", display: "Oster Flow (CFS)" },
+    { value: "FIDCO Flow (CFS)", display: "FIDCO Flow (CFS)" },
+  ];
 
-  const handleChange = (e, id) => {
-    const value = e.target.value;
-    setFiltersData(prevState => {
-      return prevState.map((d) => {
-        if (d.id === id) {
-          return Object.assign(d, { active: value });
-        }
-        return d;
-      });
-    });
-    handleFilterChange(filtersData);
-  }
+  const selected = ["Date", "West Stage (ft)", "Oster Stage (ft)", "FIDCO Stage (ft)", "West Flow (CFS)", "Oster Flow (CFS)", "FIDCO Flow (CFS)"];
 
-  useEffect(() => {
-    const filters = columns
-      .filter(col => col.filterEnabled !== false)
-      .map((col) => ({
-        id: col.id,
-        label: col.label,
-        values: getFilterValues(data, col.id),
-        active: getFilterValues(data, col.id),
-      }));
-      setFiltersData(filters);
-  }, [data, columns])
+  const handleFilter = () => {};
 
-  if (filtersData.length === 0) return null;
+  // if (filtersData.length === 0) return null;
   return (
     <div className={classes.filters}>
-      <Typography variant="h6">Filters</Typography>
-      {filtersData.map((filter) => (
+      <Typography variant="h6" gutterBottom>Toggle Columns</Typography>
+      <MultiSelectFilter
+        name="columns"
+        label="Columns"
+        valueField="value"
+        displayField="display"
+        data={data}
+        selected={selected}
+        onChange={handleFilter}
+      />
+
+      {/* {filtersData.map((filter) => (
         <FormControl key={filter.id} id={filter.id} className={classes.formControl}>
           <InputLabel htmlFor={filter.id}>{filter.label}</InputLabel>
           <Select
@@ -92,15 +88,15 @@ const ListTableFilters = props => {
             ))}
           </Select>
         </FormControl>
-      ))}
+      ))} */}
     </div>
   );
 };
 
-ListTableFilters.propTypes = {
+ListTableColumnToggle.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
   handleFilterChange: PropTypes.func
 };
 
-export default ListTableFilters;
+export default ListTableColumnToggle;

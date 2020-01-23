@@ -14,6 +14,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     alignItems: "center",
   },
+  submit: {
+    marginLeft: theme.spacing(1),
+  }
 }));
 
 const FilterBar = ({ onSubmit, children }) => {

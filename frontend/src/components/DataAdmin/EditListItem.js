@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   Paper,
   Button,
@@ -13,22 +13,24 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+  InputLabel,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-import Sidebar from '../Sidebar';
-import FormSnackbar from './FormSnackbar';
-import { useAuth0 } from '../../hooks/auth';
-import useFetchData from '../../hooks/useFetchData';
-import useFormSubmitStatus from '../../hooks/useFormSubmitStatus';
+import Sidebar from "../Sidebar";
+import FormSnackbar from "./FormSnackbar";
+import { useAuth0 } from "../../hooks/auth";
+import useFetchData from "../../hooks/useFetchData";
+import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 
-const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+const AdapterLink = React.forwardRef((props, ref) => (
+  <Link innerRef={ref} {...props} />
+));
 
 // create page styles
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   content: {
     flexGrow: 1,
@@ -76,18 +78,12 @@ const useStyles = makeStyles(theme => ({
   checkbox: {
     marginTop: theme.spacing(1),
     marginLeft: theme.spacing(1),
-  }
+  },
 }));
 
-const EditListItem = (props) => {
+const EditListItem = props => {
   const classes = useStyles();
-  const {
-    history,
-    endpoint,
-    formConfig = [],
-    keyField,
-    activeItem,
-  } = props;
+  const { history, endpoint, formConfig = [], keyField, activeItem } = props;
 
   const [values, setValues] = useState(null);
   const [FormData, isLoading] = useFetchData(`${endpoint}/${activeItem}`, []);
@@ -105,9 +101,8 @@ const EditListItem = (props) => {
    */
   useEffect(() => {
     const formValues = {};
-    console.log(FormData)
     if (!isLoading && FormData.length !== 0) {
-      formConfig.forEach((d) => {
+      formConfig.forEach(d => {
         formValues[d.name] = FormData[d.name];
       });
       formValues[keyField] = activeItem;
@@ -120,7 +115,7 @@ const EditListItem = (props) => {
    * @param {*} event
    */
   const handleChange = event => {
-    if (event.target.type === 'checkbox') {
+    if (event.target.type === "checkbox") {
       setValues({ ...values, [event.target.name]: event.target.checked });
     } else {
       setValues({ ...values, [event.target.name]: event.target.value });
@@ -131,19 +126,23 @@ const EditListItem = (props) => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    setWaitingState('in progress');
+    setWaitingState("in progress");
     try {
       const token = await getTokenSilently();
-      const headers = { 'Authorization': `Bearer ${token}` };
-      await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`, values, { headers });
-      setWaitingState('complete', 'no error');
+      const headers = { Authorization: `Bearer ${token}` };
+      await axios.post(
+        `${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`,
+        values,
+        { headers }
+      );
+      setWaitingState("complete", "no error");
     } catch (err) {
       console.error(err);
-      setWaitingState('complete', 'error');
+      setWaitingState("complete", "error");
     }
-  }
+  };
 
   /**
    * This function is used to generate the form based
@@ -151,13 +150,14 @@ const EditListItem = (props) => {
    */
   const formElements = () => {
     if (values !== null) {
-      const elements = formConfig.map((el) => { //eslint-disable-line
-        if (el.component === 'input') {
+      const elements = formConfig.map(el => {
+        //eslint-disable-line
+        if (el.component === "input") {
           return (
             <TextField
               key={el.name}
               id={el.name}
-              type={el.type || 'text'}
+              type={el.type || "text"}
               label={el.label}
               className={classes.textField}
               value={values[el.name]}
@@ -166,8 +166,8 @@ const EditListItem = (props) => {
               margin="normal"
               required={el.required}
             />
-          )
-        } else if (el.component === 'textarea') {
+          );
+        } else if (el.component === "textarea") {
           return (
             <TextField
               key={el.name}
@@ -182,7 +182,7 @@ const EditListItem = (props) => {
               fullWidth
             />
           );
-        } else if (el.component === 'checkbox') {
+        } else if (el.component === "checkbox") {
           return (
             <FormGroup row className={classes.checkbox} key={el.name}>
               <FormControlLabel
@@ -191,13 +191,14 @@ const EditListItem = (props) => {
                     checked={values[el.name]}
                     name={el.name}
                     onChange={handleChange}
-                    value={el.name} />
+                    value={el.name}
+                  />
                 }
                 label={el.label}
               />
             </FormGroup>
-          )
-        } else if (el.component === 'select' && el.type === 'single') {
+          );
+        } else if (el.component === "select" && el.type === "single") {
           return (
             <FormControl className={classes.formControl} key={el.name}>
               <InputLabel htmlFor={el.name}>{el.label}</InputLabel>
@@ -212,20 +213,20 @@ const EditListItem = (props) => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {el.data.map((d) => (
+                {el.data.map(d => (
                   <MenuItem key={d[el.name]} value={d[el.name]}>
                     {d[el.displayField]}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
-          )
+          );
         }
       });
       return elements;
     }
     return null;
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -233,13 +234,43 @@ const EditListItem = (props) => {
       <div className={classes.content}>
         <section className={classes.row}>
           <div className={classes.pageTitleBar}>
-            <Typography variant="h5" color="secondary" className={classes.title}>Edit Item</Typography>
-            <Button variant="contained" size="small" color="secondary" style={{marginLeft: 15}} component={AdapterLink} to={`/admin/data/${endpoint}`}>View All</Button>
-            <Button variant="contained" size="small" color="secondary" style={{marginLeft: 15}} component={AdapterLink} to={`/admin/data/${endpoint}/new`}>+ Add New</Button>
+            <Typography
+              variant="h5"
+              color="secondary"
+              className={classes.title}
+            >
+              Edit Item
+            </Typography>
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              style={{ marginLeft: 15 }}
+              component={AdapterLink}
+              to={`/admin/data/${endpoint}`}
+            >
+              View All
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              style={{ marginLeft: 15 }}
+              component={AdapterLink}
+              to={`/admin/data/${endpoint}/new`}
+            >
+              + Add New
+            </Button>
           </div>
           <Paper className={classes.dashboardMain}>
             <form onSubmit={handleSubmit} method="post">
-              <Typography variant="h6" color="primary" className={classes.title}>Item Details</Typography>
+              <Typography
+                variant="h6"
+                color="primary"
+                className={classes.title}
+              >
+                Item Details
+              </Typography>
 
               {/* Render form elements based on formConfig prop */}
               {formElements()}
@@ -257,7 +288,7 @@ const EditListItem = (props) => {
                 variant="contained"
                 color="default"
                 className={classes.marginTop}
-                style={{marginLeft: 10}}
+                style={{ marginLeft: 10 }}
                 component={AdapterLink}
                 to={`/admin/data/${endpoint}`}
               >
@@ -267,13 +298,14 @@ const EditListItem = (props) => {
             <FormSnackbar
               open={snackbarOpen}
               error={snackbarError}
-              handleClose={handleSnackbarClose} />
+              handleClose={handleSnackbarClose}
+            />
           </Paper>
         </section>
       </div>
     </div>
-  )
-}
+  );
+};
 
 EditListItem.propTypes = {
   history: PropTypes.object.isRequired,

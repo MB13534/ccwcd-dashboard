@@ -1,4 +1,4 @@
-import { getAssociations } from "../util/";
+import { getAssociations, crosstab } from "../util/";
 
 test("getAssociations()", () => {
   const StructureTypes = [1, 2];

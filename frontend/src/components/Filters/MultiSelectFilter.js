@@ -14,7 +14,7 @@ import {
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 175,
+    minWidth: 200,
     maxWidth: 400,
   },
   outlined: {

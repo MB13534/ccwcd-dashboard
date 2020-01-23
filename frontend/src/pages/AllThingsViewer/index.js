@@ -4,14 +4,14 @@ import { Grid, Paper } from "@material-ui/core";
 import Sidebar from "../../components/Sidebar";
 import FilterBar from "../../components/Filters/FilterBar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
-import SwitchFilter from "../../components/Filters/SwitchFilter";
 import useFetchData from "../../hooks/useFetchData";
-import { getAssociations } from "../../util";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
+import DailyDataTable from "./DailyDataTable";
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
+    overflow: "hidden",
   },
   content: {
     flexGrow: 1,
@@ -34,11 +34,14 @@ const AllThingsViewer = ({ history }) => {
     aggregation: "",
     autoselect: false,
   });
+  const [dailyDataColumns, setDailyDataColumns] = useState([]);
+  const [dailyDataColumnToggles, setDailyDataColumnToggles] = useState([]);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
   const [Structures] = useFetchData("dummy/structures", []);
   const [Measurements] = useFetchData("dummy/measurements", []);
+  const [DailyData] = useFetchData("dummy/atv/daily-data", []);
 
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
@@ -68,6 +71,26 @@ const AllThingsViewer = ({ history }) => {
       return newValues;
     });
   };
+
+  useEffect(() => {
+    if (DailyData.length > 0) {
+      const keys = Object.keys(DailyData[0]);
+      setDailyDataColumns(
+        keys.map(key => {
+          return {
+            label: key,
+            accessor: key,
+          };
+        })
+      );
+      setDailyDataColumnToggles(
+        keys.map(key => ({
+          accessor: key,
+          enabled: true,
+        }))
+      );
+    }
+  }, [DailyData]);
 
   return (
     <div className={classes.root}>
@@ -99,31 +122,25 @@ const AllThingsViewer = ({ history }) => {
           {/* Measurements Filter */}
           <MultiSelectFilter
             name="measurements"
-            label="Measurements"
+            label="Measurements Types"
             valueField="measure_type_ndx"
             displayField="measure_type_desc"
             data={filteredMeasurements}
             selected={filterValues.measurements}
             onChange={handleFilter}
           />
-
-          {/* Switch Filter */}
-          <SwitchFilter
-            name="autoselect"
-            checked={filterValues.autoselect}
-            onChange={handleFilter}
-            label={
-              filterValues.autoselect
-                ? "Autoselect Active"
-                : "AutoSelect Inactive"
-            }
-            value="autoselect"
-          />
         </FilterBar>
 
         <Grid container spacing={3} className={classes.mainContent}>
           <Grid xs={12} md={9} item>
-            <Paper className={classes.paper}></Paper>
+            <Paper className={classes.paper}>
+              <DailyDataTable
+                data={DailyData}
+                columns={dailyDataColumns}
+                // filters={dailyDataFilters}
+                columnToggles={dailyDataColumnToggles}
+              />
+            </Paper>
           </Grid>
           <Grid xs={12} md={3} item>
             <Paper className={classes.paper}></Paper>

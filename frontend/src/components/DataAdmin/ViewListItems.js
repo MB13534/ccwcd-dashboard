@@ -1,35 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import {
-  Paper,
-  Button,
-  Typography,
-  Chip,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
-import Avatar from '@material-ui/core/Avatar';
-import LocationIcon from '@material-ui/icons/LocationOn';
+import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { Paper, Button, Typography, Chip } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
+import Avatar from "@material-ui/core/Avatar";
+import LocationIcon from "@material-ui/icons/LocationOn";
 
-import Sidebar from '../Sidebar';
-import ChipMenu from '../ChipMenu';
-import ListTable from '../ListTable';
-import ItemGraphic from '../../images/list_item_drop.png';
-import MenuItems from '../../pages/DataAdmin/DataAdminMenuLinks';
+import Sidebar from "../Sidebar";
+import ChipMenu from "../ChipMenu";
+import ListTable from "../ListTable";
+import ItemGraphic from "../../images/list_item_drop.png";
+import MenuItems from "../../pages/DataAdmin/DataAdminMenuLinks";
 
-import useFetchData from '../../hooks/useFetchData';
-import useFormSubmitStatus from '../../hooks/useFormSubmitStatus';
-import { useAuth0 } from '../../hooks/auth';
-import FormSnackbar from './FormSnackbar';
+import useFetchData from "../../hooks/useFetchData";
+import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
+import { useAuth0 } from "../../hooks/auth";
+import FormSnackbar from "./FormSnackbar";
 
-const AdapterLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+const AdapterLink = React.forwardRef((props, ref) => (
+  <Link innerRef={ref} {...props} />
+));
 
 // create page styles
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   content: {
     flexGrow: 1,
@@ -37,11 +34,11 @@ const useStyles = makeStyles(theme => ({
     // backgroundColor: `#f1f1f1`,
     minHeight: `100vh`,
     maxWidth: 1400,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   pageTitleBar: {
-    display: `flex`
+    display: `flex`,
   },
   row: {
     display: `grid`,
@@ -51,14 +48,14 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10,
   },
   dashboardSidebar: {
-    backgroundColor:`#333333`,
+    backgroundColor: `#333333`,
   },
   NoSelection: {
     padding: 30,
     color: `#ffffff`,
-    textAlign: 'center',
-    '& p': {
-      textAlign: 'left',
+    textAlign: "center",
+    "& p": {
+      textAlign: "left",
     },
   },
   illustration: {
@@ -75,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     padding: 15,
   },
   map: {
-    width: '100%',
+    width: "100%",
     height: 225,
   },
   avatar: {
@@ -95,10 +92,10 @@ const useStyles = makeStyles(theme => ({
   chip: {
     marginTop: 5,
     marginRight: 5,
-  }
+  },
 }));
 
-const ViewListItems = (props) => {
+const ViewListItems = props => {
   const {
     history,
     title,
@@ -108,9 +105,9 @@ const ViewListItems = (props) => {
     sidebarColumns,
     mapSettings = {
       enabled: false,
-      style: '',
-      latField: '',
-      lonField: '',
+      style: "",
+      latField: "",
+      lonField: "",
     },
   } = props;
   const classes = useStyles();
@@ -129,64 +126,64 @@ const ViewListItems = (props) => {
   const [data] = useFetchData(endpoint, [formSubmitting]);
   const { getTokenSilently } = useAuth0();
 
-  const handleRowClick = (row) => {
+  const handleRowClick = row => {
     setActiveListItem(row);
-  }
+  };
 
-  const handleDelete = async (activeItems) => {
-    setWaitingState('in progress');
+  const handleDelete = async activeItems => {
+    setWaitingState("in progress");
     try {
       const token = await getTokenSilently();
 
       // Create request headers with token authorization
-      const headers = { 'Authorization': `Bearer ${token}` };
+      const headers = { Authorization: `Bearer ${token}` };
 
       const fields = Object.keys(data[0]);
 
-      const deleteData = activeItems.map((d) => {
+      const deleteData = activeItems.map(d => {
         const activeData = data.filter(dd => dd[keyField] === d)[0];
         let obj = {};
-        fields.forEach((field) => (
-          obj[field] = activeData[field]
-        ));
+        fields.forEach(field => (obj[field] = activeData[field]));
         obj.delete_flag = true;
-        console.log(obj)
         return obj;
       });
-      await axios.delete(
-        `${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`,
-        { data: deleteData, headers }
-      );
-      setWaitingState('complete', 'no error');
+      await axios.delete(`${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`, {
+        data: deleteData,
+        headers,
+      });
+      setWaitingState("complete", "no error");
       setActiveListItem(null);
     } catch (err) {
       console.error(err);
-      setWaitingState('complete', 'error');
+      setWaitingState("complete", "error");
     }
-  }
+  };
 
   useEffect(() => {
     if (mapSettings.enabled && activeListItem !== null) {
-      mapboxgl.accessToken =  'pk.eyJ1IjoidHlsZXJiZW4iLCJhIjoiMWE1NGM1YWY3NTk1MmNlNWRkY2RhOTcyNmIyNGRlODQifQ.H2RO2o1HrmfvW8gn9y7FBQ';
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoidHlsZXJiZW4iLCJhIjoiMWE1NGM1YWY3NTk1MmNlNWRkY2RhOTcyNmIyNGRlODQifQ.H2RO2o1HrmfvW8gn9y7FBQ";
 
       const { latField, lonField } = mapSettings;
 
       // Declare mapbox map
       const map = new mapboxgl.Map({
         container: mapContainer.current,
-        style: mapSettings.style || 'mapbox://styles/tylerben/cje4ho95p1gvj2rsag3ge9ym7',
+        style:
+          mapSettings.style ||
+          "mapbox://styles/tylerben/cje4ho95p1gvj2rsag3ge9ym7",
         center: [
-          activeListItem[lonField] || 'lon_dd',
-          activeListItem[latField] || 'lat_dd'
+          activeListItem[lonField] || "lon_dd",
+          activeListItem[latField] || "lat_dd",
         ],
         zoom: activeListItem.zoom || 11,
       });
 
       // Add a navigation control
       const nav = new mapboxgl.NavigationControl();
-      map.addControl(nav, 'top-left');
+      map.addControl(nav, "top-left");
 
-      setMarker((marker) => {
+      setMarker(marker => {
         if (marker !== null) {
           marker.remove();
         }
@@ -200,42 +197,69 @@ const ViewListItems = (props) => {
 
       setMap(map);
     }
-  }, [mapSettings, activeListItem])
+  }, [mapSettings, activeListItem]);
 
   return (
     <div className={classes.root}>
       <Sidebar history={history} />
       <div className={classes.content}>
         <div className={classes.pageTitleBar}>
-          <Typography variant="h5" color="secondary" className={classes.title}>Data Management</Typography>
-          <Button variant="contained" size="small" color="secondary" style={{marginLeft: 15}} component={AdapterLink} to={`/admin/data/${endpoint}/new`}>+ Add New</Button>
+          <Typography variant="h5" color="secondary" className={classes.title}>
+            Data Management
+          </Typography>
+          <Button
+            variant="contained"
+            size="small"
+            color="secondary"
+            style={{ marginLeft: 15 }}
+            component={AdapterLink}
+            to={`/admin/data/${endpoint}/new`}
+          >
+            + Add New
+          </Button>
         </div>
         <ChipMenu items={MenuItems} activePage={history.location.pathname} />
         <section className={classes.row}>
-          <Paper className={classes.dashboardSidebar} style={{backgroundColor: activeListItem === null ? `#333333` : `#ffffff`}}>
+          <Paper
+            className={classes.dashboardSidebar}
+            style={{
+              backgroundColor: activeListItem === null ? `#333333` : `#ffffff`,
+            }}
+          >
             {activeListItem !== null ? (
               <div>
-                { mapSettings.enabled &&
+                {mapSettings.enabled && (
                   <React.Fragment>
                     <div className="map-container">
                       <div className={classes.map} ref={mapContainer}></div>
                     </div>
-                    <Avatar className={classes.avatar} color="secondary" >
+                    <Avatar className={classes.avatar} color="secondary">
                       <LocationIcon className={classes.avatarIcon} />
                     </Avatar>
                   </React.Fragment>
-                }
+                )}
                 <div className={classes.itemDetails}>
-                  {sidebarColumns.map((col) => (
+                  {sidebarColumns.map(col => (
                     <div className={classes.itemDetail} key={col.id}>
-                      <Typography variant="body1" color="secondary">{col.label}</Typography>
-                      { (typeof col.type !== 'undefined' && col.type === 'chip-array' && activeListItem[col.id] !== null) ? (
-                        activeListItem[col.id].map((item) => (
-                          <Chip key={item} label={item} className={classes.chip} />
+                      <Typography variant="body1" color="secondary">
+                        {col.label}
+                      </Typography>
+                      {typeof col.type !== "undefined" &&
+                      col.type === "chip-array" &&
+                      activeListItem[col.id] !== null ? (
+                        activeListItem[col.id].map(item => (
+                          <Chip
+                            key={item}
+                            label={item}
+                            className={classes.chip}
+                          />
                         ))
                       ) : (
                         <Typography variant="body1">
-                          {activeListItem[col.id] === '' || activeListItem[col.id] === null  ? 'none' : activeListItem[col.id].toString()}
+                          {activeListItem[col.id] === "" ||
+                          activeListItem[col.id] === null
+                            ? "none"
+                            : activeListItem[col.id].toString()}
                         </Typography>
                       )}
                     </div>
@@ -244,7 +268,7 @@ const ViewListItems = (props) => {
                     variant="contained"
                     size="small"
                     color="secondary"
-                    style={{marginTop: 15}}
+                    style={{ marginTop: 15 }}
                     component={AdapterLink}
                     to={`/admin/data/${endpoint}/edit/${activeListItem[keyField]}`}
                   >
@@ -254,8 +278,14 @@ const ViewListItems = (props) => {
               </div>
             ) : (
               <div className={classes.NoSelection}>
-                <img src={ItemGraphic} alt="Structure Icon" className={classes.illustration} />
-                <Typography variant="body1" className={classes.title}>Select a record from the table to view details and edit.</Typography>
+                <img
+                  src={ItemGraphic}
+                  alt="Structure Icon"
+                  className={classes.illustration}
+                />
+                <Typography variant="body1" className={classes.title}>
+                  Select a record from the table to view details and edit.
+                </Typography>
               </div>
             )}
           </Paper>
@@ -265,19 +295,21 @@ const ViewListItems = (props) => {
               columns={columns}
               title={title}
               handleRowClick={handleRowClick}
-              handleDelete={handleDelete} />
+              handleDelete={handleDelete}
+            />
           </Paper>
           <FormSnackbar
             open={snackbarOpen}
             error={snackbarError}
             errorMessage="There was an error deleting the data."
             successMessage="Data successfully saved!"
-            handleClose={handleSnackbarClose} />
+            handleClose={handleSnackbarClose}
+          />
         </section>
       </div>
     </div>
-  )
-}
+  );
+};
 
 ViewListItems.propTypes = {
   history: PropTypes.object.isRequired,

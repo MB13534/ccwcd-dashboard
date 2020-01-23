@@ -6,6 +6,11 @@
  */
 const unique = (data, field) => [...new Set(data.map(d => d[field]))];
 
+const formatDate = date => {
+  return `${date.getMonth() +
+    1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+};
+
 /**
  * Utility function for dynamically crosstabbing data. The function takes stacked
  * data and returns it in a crosstabbed format
@@ -74,7 +79,7 @@ const generateCrosstabbedDailyData = count => {
 
   const records = Array.apply(null, Array(count)).map((d, i) => {
     let record = {
-      date: new Date(baseDate.setDate(baseDate.getDate() - i)),
+      Date: new Date(baseDate.setDate(baseDate.getDate() - i)),
     };
     Measurements.forEach(m => {
       record[m] = (Math.random() * 6).toFixed(2);
@@ -106,7 +111,7 @@ const generateDailyData = count => {
       baseDate = new Date(baseDate.setDate(baseDate.getDate() - 1));
     }
     return {
-      date: baseDate,
+      Date: baseDate,
       measurement_abbrev: Measurements[i % 6],
       value: (Math.random() * 6).toFixed(2),
     };

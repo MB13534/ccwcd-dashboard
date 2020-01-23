@@ -1,6 +1,10 @@
 const express = require("express");
 const { checkAccessToken, checkPermission } = require("../middleware/auth.js");
-const { generateCrosstabbedDailyData, generateDailyData, crosstab } = require("../util");
+const {
+  generateCrosstabbedDailyData,
+  generateDailyData,
+  crosstab,
+} = require("../util");
 
 // Create Express Router
 const router = express.Router();
@@ -62,7 +66,7 @@ router.get(
   checkPermission(["read:users"]),
   (req, res, next) => {
     const data = generateDailyData(31);
-    const crosstabbed = crosstab(data, 'date', 'measurement_abbrev', 'value');
+    const crosstabbed = crosstab(data, "Date", "measurement_abbrev", "value");
     res.json(crosstabbed);
   }
 );

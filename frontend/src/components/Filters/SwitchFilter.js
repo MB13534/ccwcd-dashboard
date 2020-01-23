@@ -24,6 +24,7 @@ const SwitchFilter = props => {
             checked={checked}
             onChange={onChange}
             value={value}
+            {...props}
           />
         }
         label={label}
