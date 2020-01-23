@@ -1,0 +1,65 @@
+[
+  {
+    "date": "2019-01-01",
+    "structure": "PVIC - Oster Clock",
+    "measurement_abbrev": "Oster Stage (ft)",
+    "value": 2,
+    "unit": "ft"
+  },
+  {
+    "date": "2019-01-01",
+    "structure": "PVIC - West",
+    "measurement_abbrev": "West Stage (ft)",
+    "value": 4.5,
+    "unit": "ft"
+  },
+  {
+    "date": "2019-01-01",
+    "structure": "FIDCO",
+    "measurement_abbrev": "FIDCO Flow (CFS)",
+    "value": 1.2,
+    "unit": "CFS"
+  },
+  {
+    "date": "2019-01-02",
+    "structure": "PVIC - West",
+    "measurement_abbrev": "West Stage (ft)",
+    "value": 3,
+    "unit": "ft"
+  },
+  {
+    "date": "2019-01-02",
+    "structure": "PVIC - Oster Clock",
+    "measurement_abbrev": "Oster Stage (ft)",
+    "value": 9.8,
+    "unit": "ft"
+  },
+  {
+    "date": "2019-01-02",
+    "structure": "FIDCO",
+    "measurement_abbrev": "FIDCO Flow (CFS)",
+    "value": 1.3,
+    "unit": "CFS"
+  },
+  {
+    "date": "2019-01-03",
+    "structure": "PVIC - West",
+    "measurement_abbrev": "West Stage (ft)",
+    "value": 5.6,
+    "unit": "ft"
+  },
+  {
+    "date": "2019-01-03",
+    "structure": "PVIC - Oster Clock",
+    "measurement_abbrev": "Oster Stage (ft)",
+    "value": 7.8,
+    "unit": "ft"
+  },
+  {
+    "date": "2019-01-03",
+    "structure": "FIDCO",
+    "measurement_abbrev": "FIDCO Flow (CFS)",
+    "value": 0.9,
+    "unit": "CFS"
+  }
+]
