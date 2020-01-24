@@ -18,30 +18,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ColumnToggles = ({ columnToggles, visible, visibilityHandler }) => {
+const ColumnToggles = ({
+  columns,
+  visible,
+  selections,
+  visibilityHandler,
+  handleToggle,
+}) => {
   const classes = useStyles();
 
-  const data = [
-    { value: "Date", display: "Date" },
-    { value: "West Stage (ft)", display: "West Stage (ft)" },
-    { value: "Oster Stage (ft)", display: "Oster Stage (ft)" },
-    { value: "FIDCO Stage (ft)", display: "FIDCO Stage (ft)" },
-    { value: "West Flow (CFS)", display: "West Flow (CFS)" },
-    { value: "Oster Flow (CFS)", display: "Oster Flow (CFS)" },
-    { value: "FIDCO Flow (CFS)", display: "FIDCO Flow (CFS)" },
-  ];
-
-  const selected = [
-    "Date",
-    "West Stage (ft)",
-    "Oster Stage (ft)",
-    "FIDCO Stage (ft)",
-    "West Flow (CFS)",
-    "Oster Flow (CFS)",
-    "FIDCO Flow (CFS)",
-  ];
-
-  const handleFilter = () => {};
+  const handleFilter = event => {
+    handleToggle(event.target.value);
+  };
 
   if (!visible) return null;
   return (
@@ -52,10 +40,10 @@ const ColumnToggles = ({ columnToggles, visible, visibilityHandler }) => {
       <MultiSelectFilter
         name="columns"
         label="Columns"
-        valueField="value"
-        displayField="display"
-        data={data}
-        selected={selected}
+        valueField="label"
+        displayField="accessor"
+        data={columns}
+        selected={selections}
         onChange={handleFilter}
       />
     </div>
@@ -63,7 +51,7 @@ const ColumnToggles = ({ columnToggles, visible, visibilityHandler }) => {
 };
 
 ColumnToggles.propTypes = {
-  columnToggles: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
 };
 
 export default ColumnToggles;

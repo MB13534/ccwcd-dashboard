@@ -1,25 +1,44 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { stableSort, getSorting } from "../util";
 
 const useTable = (data, columns) => {
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("Date");
+  const [filteredKeys, setFilteredKeys] = useState([]);
+
+  // filtered columns
+  const initFilteredColumns = useCallback(() => {
+    const columnKeys = columns.map(col => col.accessor);
+    setFilteredKeys(columnKeys);
+  }, [columns]);
+
+  useEffect(() => {
+    initFilteredColumns();
+  }, [initFilteredColumns]);
+
+  const handleFilteredKeys = keys => {
+    setFilteredKeys(keys);
+  };
 
   // headers
   const headers = useMemo(() => {
     if (columns.length > 0) {
-      return columns.map(col => col.label);
+      return columns
+        .filter(col => filteredKeys.includes(col.accessor))
+        .map(col => col.label);
     }
     return [];
-  }, [columns]);
+  }, [columns, filteredKeys]);
 
   // keys
   const keys = useMemo(() => {
     if (columns.length > 0) {
-      return columns.map(col => col.accessor);
+      return columns
+        .filter(col => filteredKeys.includes(col.accessor))
+        .map(col => col.accessor);
     }
     return [];
-  }, [columns]);
+  }, [columns, filteredKeys]);
 
   // rows
   const rows = useMemo(() => {
@@ -42,8 +61,17 @@ const useTable = (data, columns) => {
   };
 
   // filter
-
-  // toggle columns
+  const toggleColumns = useCallback(() => {
+    return data.map(d => {
+      let record = {};
+      keys.forEach(key => {
+        if (filteredKeys.includes(key)) {
+          record[key] = d[key];
+        }
+      });
+      return record;
+    });
+  }, [data, filteredKeys, keys]);
 
   // checkbox selections
 
@@ -51,17 +79,20 @@ const useTable = (data, columns) => {
 
   // tableData
   const tableData = useMemo(() => {
-    return sort(data, order, orderBy);
-  }, [data, order, orderBy]);
+    const filteredData = toggleColumns(data, filteredKeys);
+    return sort(filteredData, order, orderBy);
+  }, [toggleColumns, data, filteredKeys, order, orderBy]);
 
   return {
     headers,
     keys,
+    filteredKeys,
     rows,
     tableData,
     order,
     orderBy,
     handleSort,
+    handleFilteredKeys,
     // rows,
   };
 };

@@ -65,10 +65,16 @@ const NewListTable = ({
   ...props
 }) => {
   const classes = useStyles();
-  const { headers, keys, tableData, order, orderBy, handleSort } = useTable(
-    data,
-    columns
-  );
+  const {
+    headers,
+    keys,
+    filteredKeys,
+    tableData,
+    order,
+    orderBy,
+    handleSort,
+    handleFilteredKeys,
+  } = useTable(data, columns);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [columnTogglesVisible, setColumnTogglesVisible] = useState(false);
 
@@ -140,8 +146,10 @@ const NewListTable = ({
         </div>
         <Filters filters={filters} visible={filtersVisible} />
         <ColumnToggles
-          columnToggles={columnToggles}
+          columns={columns}
+          selections={filteredKeys}
           visible={columnTogglesVisible}
+          handleToggle={handleFilteredKeys}
         />
         <Divider className={classes.divider} />
         <Table aria-label="Table" {...props}>
