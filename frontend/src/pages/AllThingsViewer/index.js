@@ -93,7 +93,7 @@ const AllThingsViewer = ({ history }) => {
       setDailyDataFilters(
         keys.map(key => ({
           accessor: key,
-          enabled: true,
+          enabled: false,
         }))
       );
     }

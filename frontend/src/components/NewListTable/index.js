@@ -105,7 +105,7 @@ const NewListTable = ({
           </Typography>
         )}
         <div className={classes.controlsBar}>
-          {filters && (
+          {filters.filter(col => col.enabled).length > 0 && (
             <div onClick={handleFiltersVisibility}>
               <Tooltip title="Filter Records">
                 <IconButton aria-label="Filter Records">
@@ -124,7 +124,7 @@ const NewListTable = ({
               </Typography>
             </div>
           )}
-          {columnToggles && (
+          {columnToggles.filter(col => col.enabled).length > 0 && (
             <div onClick={handleColumnTogglesVisibility}>
               <Tooltip title="Toggle Columns">
                 <IconButton aria-label="Toggle Columns">
