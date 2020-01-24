@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -9,7 +9,12 @@ import {
   TableSortLabel,
   Typography,
   TableHead,
+  IconButton,
+  Tooltip,
+  Divider,
 } from "@material-ui/core";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import ColumnsIcon from "@material-ui/icons/ViewColumn";
 import useTable from "../../hooks/useTable";
 import Filters from "./Filters";
 import ColumnToggles from "./ColumnToggles";
@@ -34,6 +39,20 @@ const useStyles = makeStyles(theme => ({
   stickyHeader: {
     backgroundColor: "#ffffff",
   },
+  controlsBar: {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: theme.spacing(1),
+    "&:hover": {
+      cursor: "pointer",
+    },
+    "& div": {
+      marginRight: theme.spacing(2),
+    },
+  },
+  divider: {
+    margin: theme.spacing(2, 0),
+  },
 }));
 
 const NewListTable = ({
@@ -50,6 +69,8 @@ const NewListTable = ({
     data,
     columns
   );
+  const [filtersVisible, setFiltersVisible] = useState(false);
+  const [columnTogglesVisible, setColumnTogglesVisible] = useState(false);
 
   const setStyles = () => {
     if (height) {
@@ -61,18 +82,68 @@ const NewListTable = ({
     return {};
   };
 
+  const handleColumnTogglesVisibility = () => {
+    setColumnTogglesVisible(state => !state);
+  };
+
+  const handleFiltersVisibility = () => {
+    setFiltersVisible(state => !state);
+  };
+
   return (
     <div className={classes.root}>
       <div style={setStyles()}>
         {title && (
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" color="textPrimary" gutterBottom>
             {title}
           </Typography>
         )}
-
-        {filters && <Filters filters={filters} />}
-        {columnToggles && <ColumnToggles columnToggles={columnToggles} />}
-
+        <div className={classes.controlsBar}>
+          {filters && (
+            <div onClick={handleFiltersVisibility}>
+              <Tooltip title="Filter Records">
+                <IconButton aria-label="Filter Records">
+                  <FilterListIcon
+                    color={filtersVisible ? "primary" : "default"}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Typography
+                variant="button"
+                display="inline"
+                className={classes.controlText}
+                color={filtersVisible ? "primary" : "default"}
+              >
+                Filter Records
+              </Typography>
+            </div>
+          )}
+          {columnToggles && (
+            <div onClick={handleColumnTogglesVisibility}>
+              <Tooltip title="Toggle Columns">
+                <IconButton aria-label="Toggle Columns">
+                  <ColumnsIcon
+                    color={columnTogglesVisible ? "primary" : "default"}
+                  />
+                </IconButton>
+              </Tooltip>
+              <Typography
+                variant="button"
+                display="inline"
+                color={columnTogglesVisible ? "primary" : "default"}
+                className={classes.controlText}
+              >
+                Toggle Columns
+              </Typography>
+            </div>
+          )}
+        </div>
+        <Filters filters={filters} visible={filtersVisible} />
+        <ColumnToggles
+          columnToggles={columnToggles}
+          visible={columnTogglesVisible}
+        />
+        <Divider className={classes.divider} />
         <Table aria-label="Table" {...props}>
           <TableHead>
             <TableRow>

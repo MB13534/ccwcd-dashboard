@@ -36,6 +36,7 @@ const AllThingsViewer = ({ history }) => {
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [dailyDataColumnToggles, setDailyDataColumnToggles] = useState([]);
+  const [dailyDataFilters, setDailyDataFilters] = useState([]);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
@@ -89,6 +90,12 @@ const AllThingsViewer = ({ history }) => {
           enabled: true,
         }))
       );
+      setDailyDataFilters(
+        keys.map(key => ({
+          accessor: key,
+          enabled: true,
+        }))
+      );
     }
   }, [DailyData]);
 
@@ -137,7 +144,7 @@ const AllThingsViewer = ({ history }) => {
               <DailyDataTable
                 data={DailyData}
                 columns={dailyDataColumns}
-                // filters={dailyDataFilters}
+                filters={dailyDataFilters}
                 columnToggles={dailyDataColumnToggles}
               />
             </Paper>

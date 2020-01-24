@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Filters = props => {
+const Filters = ({ filters, visible }) => {
   const classes = useStyles();
 
   const data = [
@@ -43,7 +43,7 @@ const Filters = props => {
 
   const handleFilter = () => {};
 
-  // if (filtersData.length === 0) return null;
+  if (!visible) return null;
   return (
     <div className={classes.filters}>
       <Typography variant="h6" gutterBottom>
