@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import MultiSelectFilter from "../Filters/MultiSelectFilter";
 
 const useStyles = makeStyles(theme => ({
@@ -34,18 +34,21 @@ const ColumnToggles = ({
   if (!visible) return null;
   return (
     <div className={classes.filters}>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" display="inline" gutterBottom>
         Toggle Columns
       </Typography>
-      <MultiSelectFilter
-        name="columns"
-        label="Columns"
-        valueField="label"
-        displayField="accessor"
-        data={columns}
-        selected={selections}
-        onChange={handleFilter}
-      />
+      <Button onClick={visibilityHandler}>Hide</Button>
+      <div>
+        <MultiSelectFilter
+          name="columns"
+          label="Columns"
+          valueField="label"
+          displayField="accessor"
+          data={columns}
+          selected={selections}
+          onChange={handleFilter}
+        />
+      </div>
     </div>
   );
 };

@@ -149,6 +149,7 @@ const NewListTable = ({
           columns={columns}
           selections={filteredKeys}
           visible={columnTogglesVisible}
+          visibilityHandler={handleColumnTogglesVisibility}
           handleToggle={handleFilteredKeys}
         />
         <Divider className={classes.divider} />
