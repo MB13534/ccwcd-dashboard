@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Collapse, TextField } from "@material-ui/core";
+import { Typography, Collapse, TextField, Button } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   filters: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Filters = ({ filters, visible, handleFilter }) => {
+const Filters = ({ filters, visible, visibilityHandler, handleFilter }) => {
   const classes = useStyles();
 
   const constructFilter = filter => {
@@ -64,9 +64,10 @@ const Filters = ({ filters, visible, handleFilter }) => {
   return (
     <Collapse in={visible}>
       <div className={classes.filters}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom display="inline">
           Table Filters
         </Typography>
+        <Button onClick={visibilityHandler}>Hide</Button>
         <form>
           {filters.map(filter => (
             <div key={filter.accessor}>{constructFilter(filter)}</div>

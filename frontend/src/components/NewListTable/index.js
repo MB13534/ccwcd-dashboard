@@ -142,6 +142,7 @@ const NewListTable = ({ data, columns, title, height, ...props }) => {
         <Filters
           filters={filters}
           visible={filtersVisible}
+          visibilityHandler={handleFiltersVisibility}
           handleFilter={handleFilteredValues}
         />
         <ColumnToggles
