@@ -47,7 +47,11 @@ const crosstab = (data, categoryField, seriesField, valueField) => {
 
   const records = categories.map(category => {
     const record = {};
-    record[categoryField] = category;
+    if (category instanceof Date) {
+      record[categoryField] = new Date(category);
+    } else {
+      record[categoryField] = category;
+    }
     series.forEach(s => {
       record[s] = null;
     });
@@ -113,7 +117,7 @@ const generateDailyData = count => {
     return {
       Date: baseDate,
       measurement_abbrev: Measurements[i % 6],
-      value: (Math.random() * 6).toFixed(2),
+      value: +(Math.random() * 6).toFixed(2),
     };
   });
   return records;

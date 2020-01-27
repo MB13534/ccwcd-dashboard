@@ -33,7 +33,7 @@ export const desc = (a, b, orderBy) => {
     return 1;
   }
   return 0;
-}
+};
 
 /**
  * Utility function used to sort data
@@ -48,7 +48,7 @@ export const stableSort = (array, cmp) => {
     return a[1] - b[1];
   });
   return stabilizedThis.map(el => el[0]);
-}
+};
 
 /**
  * Utility function used to return the current sort
@@ -59,4 +59,26 @@ export const getSorting = (order, orderBy) => {
   return order === "desc"
     ? (a, b) => desc(a, b, orderBy)
     : (a, b) => -desc(a, b, orderBy);
-}
+};
+
+/**
+ * Utility method for extracting the date in "YYYY-MM-DD" format
+ * Ideal for extracting the date for a Material-UI date picker
+ * @param {*} date
+ */
+export const extractDate = date => {
+  if (date) {
+    const properDate = new Date(date);
+    const year = properDate.getFullYear();
+    const month =
+      properDate.getMonth() + 1 < 10
+        ? `0${properDate.getMonth() + 1}`
+        : properDate.getMonth() + 1;
+    const day =
+      properDate.getDate() < 10
+        ? `0${properDate.getDate()}`
+        : properDate.getDate();
+    return `${year}-${month}-${day}`;
+  }
+  return "";
+};

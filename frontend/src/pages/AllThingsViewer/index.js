@@ -6,7 +6,7 @@ import FilterBar from "../../components/Filters/FilterBar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
-import DailyDataTable from "./DailyDataTable";
+import NewListTable from "../../components/NewListTable";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,8 +35,6 @@ const AllThingsViewer = ({ history }) => {
     autoselect: false,
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
-  const [dailyDataColumnToggles, setDailyDataColumnToggles] = useState([]);
-  const [dailyDataFilters, setDailyDataFilters] = useState([]);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
@@ -78,23 +76,31 @@ const AllThingsViewer = ({ history }) => {
       const keys = Object.keys(DailyData[0]);
       setDailyDataColumns(
         keys.map(key => {
+          if (key === "Date") {
+            return {
+              label: key,
+              accessor: key,
+              filter: {
+                enabled: true,
+                type: "date",
+              },
+              columnToggle: {
+                enabled: true,
+              },
+            };
+          }
           return {
             label: key,
             accessor: key,
+            filter: {
+              enabled: false,
+              type: "number",
+            },
+            columnToggle: {
+              enabled: true,
+            },
           };
         })
-      );
-      setDailyDataColumnToggles(
-        keys.map(key => ({
-          accessor: key,
-          enabled: true,
-        }))
-      );
-      setDailyDataFilters(
-        keys.map(key => ({
-          accessor: key,
-          enabled: false,
-        }))
       );
     }
   }, [DailyData]);
@@ -141,11 +147,13 @@ const AllThingsViewer = ({ history }) => {
         <Grid container spacing={3} className={classes.mainContent}>
           <Grid xs={12} md={9} item>
             <Paper className={classes.paper}>
-              <DailyDataTable
+              <NewListTable
                 data={DailyData}
                 columns={dailyDataColumns}
-                filters={dailyDataFilters}
-                columnToggles={dailyDataColumnToggles}
+                title="Daily Data Crosstab"
+                size="small"
+                stickyHeader={true}
+                height={650}
               />
             </Paper>
           </Grid>

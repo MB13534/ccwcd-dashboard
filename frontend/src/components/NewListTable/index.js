@@ -55,25 +55,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NewListTable = ({
-  data,
-  columns,
-  filters,
-  columnToggles,
-  title,
-  height,
-  ...props
-}) => {
+const NewListTable = ({ data, columns, title, height, ...props }) => {
   const classes = useStyles();
   const {
     headers,
     keys,
+    filters,
+    columnToggles,
     filteredKeys,
     tableData,
     order,
     orderBy,
     handleSort,
     handleFilteredKeys,
+    handleFilteredValues,
   } = useTable(data, columns);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [columnTogglesVisible, setColumnTogglesVisible] = useState(false);
@@ -105,12 +100,12 @@ const NewListTable = ({
           </Typography>
         )}
         <div className={classes.controlsBar}>
-          {filters.filter(col => col.enabled).length > 0 && (
+          {filters.filter(col => col.filter.enabled).length > 0 && (
             <div onClick={handleFiltersVisibility}>
               <Tooltip title="Filter Records">
                 <IconButton aria-label="Filter Records">
                   <FilterListIcon
-                    color={filtersVisible ? "primary" : "default"}
+                    color={filtersVisible ? "primary" : "inherit"}
                   />
                 </IconButton>
               </Tooltip>
@@ -118,25 +113,25 @@ const NewListTable = ({
                 variant="button"
                 display="inline"
                 className={classes.controlText}
-                color={filtersVisible ? "primary" : "default"}
+                color={filtersVisible ? "primary" : "initial"}
               >
                 Filter Records
               </Typography>
             </div>
           )}
-          {columnToggles.filter(col => col.enabled).length > 0 && (
+          {columnToggles.filter(col => col.columnToggle.enabled).length > 0 && (
             <div onClick={handleColumnTogglesVisibility}>
               <Tooltip title="Toggle Columns">
                 <IconButton aria-label="Toggle Columns">
                   <ColumnsIcon
-                    color={columnTogglesVisible ? "primary" : "default"}
+                    color={columnTogglesVisible ? "primary" : "inherit"}
                   />
                 </IconButton>
               </Tooltip>
               <Typography
                 variant="button"
                 display="inline"
-                color={columnTogglesVisible ? "primary" : "default"}
+                color={columnTogglesVisible ? "primary" : "initial"}
                 className={classes.controlText}
               >
                 Toggle Columns
@@ -144,7 +139,11 @@ const NewListTable = ({
             </div>
           )}
         </div>
-        <Filters filters={filters} visible={filtersVisible} />
+        <Filters
+          filters={filters}
+          visible={filtersVisible}
+          handleFilter={handleFilteredValues}
+        />
         <ColumnToggles
           columns={columns}
           selections={filteredKeys}
