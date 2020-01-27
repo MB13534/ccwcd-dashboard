@@ -7,7 +7,10 @@ const useTable = (data, columns) => {
   const [filteredKeys, setFilteredKeys] = useState([]);
   const [filters, setFilters] = useState([]);
 
-  // headers
+  /**
+   * Return an array of the header labels
+   * Updates whenever the columns or filtered columns change
+   */
   const headers = useMemo(() => {
     if (columns.length > 0) {
       return columns
@@ -17,7 +20,10 @@ const useTable = (data, columns) => {
     return [];
   }, [columns, filteredKeys]);
 
-  // keys
+  /**
+   * Return an array of the column keys
+   * Updates whenever the columns or filtered columns change
+   */
   const keys = useMemo(() => {
     if (columns.length > 0) {
       return columns
@@ -27,19 +33,30 @@ const useTable = (data, columns) => {
     return [];
   }, [columns, filteredKeys]);
 
-  // sort
+  /**
+   * Utility function used to sort the data by a specified field and direction
+   * @param {array} data array of objects to sort
+   * @param {*} order direction to sort i.e. asc or desc
+   * @param {*} orderBy field to order the data by
+   */
   const sort = (data, order, orderBy) => {
     const sorted = stableSort(data, getSorting(order, orderBy));
     return sorted;
   };
 
+  /**
+   * Event handler that can be attached to trigger a sort
+   * @param {string} property the name of object property to sort by
+   */
   const handleSort = property => {
     const isDesc = orderBy === property && order === "desc";
     setOrder(isDesc ? "asc" : "desc");
     setOrderBy(property);
   };
 
-  // toggle columns
+  /**
+   * Initialize the columns so that are all toggled on initially
+   */
   const initFilteredColumns = useCallback(() => {
     const columnKeys = columns
       .filter(col => col.columnToggle.enabled)
@@ -47,30 +64,36 @@ const useTable = (data, columns) => {
     setFilteredKeys(columnKeys);
   }, [columns]);
 
+  /**
+   * Run the initFilteredColumns useCallback hook
+   */
   useEffect(() => {
     initFilteredColumns();
   }, [initFilteredColumns]);
 
+  /**
+   * Event handler that can be attached to a component to trigger
+   * toggling columns on and off
+   * @param {*} keys
+   */
   const handleFilteredKeys = keys => {
     setFilteredKeys(keys);
   };
 
+  /**
+   * Return an array of the columns that are toggled on
+   */
   const columnToggles = useMemo(() => {
     return columns.filter(col => col.columnToggle.enabled);
   }, [columns]);
 
-  // const toggleColumns = useCallback(() => {
-  //   return data.map(d => {
-  //     let record = {};
-  //     keys.forEach(key => {
-  //       if (filteredKeys.includes(key)) {
-  //         record[key] = d[key];
-  //       }
-  //     });
-  //     return record;
-  //   });
-  // }, [data, filteredKeys, keys]);
-
+  /**
+   * Utility function used to add/remove columns that are toggled on/off
+   * from the data table
+   * @param {array} data array of objects to affect
+   * @param {array} keys full list of fields present in the dataset
+   * @param {array} filteredKeys filtered list of fields for the columns that are toggled on
+   */
   const toggleColumns = (data, keys, filteredKeys) => {
     return data.map(d => {
       let record = {};
@@ -83,7 +106,9 @@ const useTable = (data, columns) => {
     });
   };
 
-  // filter
+  /**
+   * Utility function used to configure the table filters
+   */
   const setInitFilters = useCallback(() => {
     if (data.length > 0) {
       const initialFilters = columns
@@ -110,10 +135,18 @@ const useTable = (data, columns) => {
     }
   }, [data, columns]);
 
+  /**
+   * Run the setInitFilters useCallback hook
+   */
   useEffect(() => {
     setInitFilters();
   }, [setInitFilters]);
 
+  /**
+   * Function used to filter the data to match the user's current selections
+   * @param {array} data array of objects to affect
+   * @param {array} filters filters to apply to the data
+   */
   const filterData = (data, filters) => {
     let filteredData = [...data];
     filters.forEach(filter => {
@@ -131,6 +164,10 @@ const useTable = (data, columns) => {
     return filteredData;
   };
 
+  /**
+   * Event handler that can be attached to a component to handle filter changes
+   * @param {object} event JavaScript event object
+   */
   const handleFilteredValues = event => {
     const { name, value } = event.target;
     setFilters(prevState => {
@@ -148,7 +185,12 @@ const useTable = (data, columns) => {
     });
   };
 
-  // tableData
+  /**
+   * Logic surrounding updating the tableData value
+   * The toggle column selections are applied first,
+   * then the data is filterd,
+   * and lastly the data is sorted
+   */
   const tableData = useMemo(() => {
     const selectedColumnsData = toggleColumns(data, keys, filteredKeys);
     const filteredData = filterData(selectedColumnsData, filters);
