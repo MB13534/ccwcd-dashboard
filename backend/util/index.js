@@ -123,7 +123,38 @@ const generateDailyData = count => {
   return records;
 };
 
+/**
+ * Utility function used to generate a stacked dataset
+ * @param {number} count number of crosstabbed records to generate
+ */
+const generateDailyDataWithNulls = count => {
+  const Measurements = [
+    "West Stage (ft)",
+    "Oster Stage (ft)",
+    "FIDCO Stage (ft)",
+    "West Flow (CFS)",
+    "Oster Flow (CFS)",
+    "FIDCO Flow (CFS)",
+  ];
+
+  const recordCount = count * Measurements.length;
+  let baseDate = new Date();
+
+  const records = Array.apply(null, Array(recordCount)).map((d, i) => {
+    if (i % 6 === 0) {
+      baseDate = new Date(baseDate.setDate(baseDate.getDate() - 1));
+    }
+    return {
+      Date: baseDate,
+      measurement_abbrev: Measurements[i % 6],
+      value: i > 19 ? null : +(Math.random() * 6).toFixed(2),
+    };
+  });
+  return records;
+};
+
 exports.unique = unique;
 exports.crosstab = crosstab;
 exports.generateDailyData = generateDailyData;
+exports.generateDailyDataWithNulls = generateDailyDataWithNulls;
 exports.generateCrosstabbedDailyData = generateCrosstabbedDailyData;

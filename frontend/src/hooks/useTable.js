@@ -6,6 +6,7 @@ const useTable = (data, columns) => {
   const [orderBy, setOrderBy] = useState("Date");
   const [filteredKeys, setFilteredKeys] = useState([]);
   const [filters, setFilters] = useState([]);
+  const [excludeNulls, setExcludeNulls] = useState(true);
 
   /**
    * Return an array of the header labels
@@ -186,20 +187,73 @@ const useTable = (data, columns) => {
   };
 
   /**
+   * Function used to exclude nulls from dataset if the
+   * exclude nulls option is true
+   * @param {array} data array of objects to be filtered
+   * @param {array} columns array of column configs
+   * @param {array} filteredKeys array of column keys that are currently toggled on
+   * @param {boolean} excludeNulls boolean indicating if nulls should be excluded
+   */
+  const excludeNullData = (data, columns, filteredKeys, excludeNulls) => {
+    if (excludeNulls) {
+      const seriesFields = columns
+        .filter(
+          col => col.type === "series" && filteredKeys.includes(col.accessor)
+        )
+        .map(col => col.accessor);
+      return data.filter(d => {
+        let nullCount = 0;
+        seriesFields.forEach(field => {
+          if (d[field] === null || d[field] === "") {
+            nullCount = nullCount + 1;
+          }
+        });
+        return nullCount !== seriesFields.length;
+      });
+    }
+    return data;
+  };
+
+  /**
+   * Handler for updating the exclude nulls state that can be
+   * attached to a component
+   */
+  const handleExcludeNulls = () => {
+    setExcludeNulls(state => !state);
+  };
+
+  /**
    * Logic surrounding updating the tableData value
    * The toggle column selections are applied first,
    * then the data is filterd,
+   * next if nulls are set to be excluded they are removed,
    * and lastly the data is sorted
    */
   const tableData = useMemo(() => {
     const selectedColumnsData = toggleColumns(data, keys, filteredKeys);
     const filteredData = filterData(selectedColumnsData, filters);
-    return sort(filteredData, order, orderBy);
-  }, [data, keys, filteredKeys, filters, order, orderBy]);
+    const excludedNullsData = excludeNullData(
+      filteredData,
+      columns,
+      filteredKeys,
+      excludeNulls
+    );
+    return sort(excludedNullsData, order, orderBy);
+  }, [
+    data,
+    keys,
+    filteredKeys,
+    filters,
+    columns,
+    excludeNulls,
+    order,
+    orderBy,
+  ]);
 
   return {
     headers,
     keys,
+    excludeNulls,
     filters,
     columnToggles,
     filteredKeys,
@@ -209,6 +263,7 @@ const useTable = (data, columns) => {
     handleSort,
     handleFilteredKeys,
     handleFilteredValues,
+    handleExcludeNulls,
   };
 };
 

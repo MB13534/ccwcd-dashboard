@@ -3,6 +3,7 @@ const { checkAccessToken, checkPermission } = require("../middleware/auth.js");
 const {
   generateCrosstabbedDailyData,
   generateDailyData,
+  generateDailyDataWithNulls,
   crosstab,
 } = require("../util");
 
@@ -66,6 +67,18 @@ router.get(
   checkPermission(["read:users"]),
   (req, res, next) => {
     const data = generateDailyData(31);
+    const crosstabbed = crosstab(data, "Date", "measurement_abbrev", "value");
+    res.json(crosstabbed);
+  }
+);
+
+// GET /api/dummy/atv/daily-data/with-nulls
+// Route for returning atv daily data with null dummy values
+router.get(
+  "/atv/daily-data/with-nulls",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    const data = generateDailyDataWithNulls(31);
     const crosstabbed = crosstab(data, "Date", "measurement_abbrev", "value");
     res.json(crosstabbed);
   }

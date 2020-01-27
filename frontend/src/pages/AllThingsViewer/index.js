@@ -40,7 +40,7 @@ const AllThingsViewer = ({ history }) => {
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
   const [Structures] = useFetchData("dummy/structures", []);
   const [Measurements] = useFetchData("dummy/measurements", []);
-  const [DailyData] = useFetchData("dummy/atv/daily-data", []);
+  const [DailyData] = useFetchData("dummy/atv/daily-data/with-nulls", []);
 
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
@@ -78,6 +78,7 @@ const AllThingsViewer = ({ history }) => {
         keys.map(key => {
           if (key === "Date") {
             return {
+              type: "category",
               label: key,
               accessor: key,
               filter: {
@@ -90,6 +91,7 @@ const AllThingsViewer = ({ history }) => {
             };
           }
           return {
+            type: "series",
             label: key,
             accessor: key,
             filter: {

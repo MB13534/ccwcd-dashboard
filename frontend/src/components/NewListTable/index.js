@@ -18,6 +18,7 @@ import ColumnsIcon from "@material-ui/icons/ViewColumn";
 import useTable from "../../hooks/useTable";
 import Filters from "./Filters";
 import ColumnToggles from "./ColumnToggles";
+import SwitchFilter from "../Filters/SwitchFilter";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,6 +61,7 @@ const NewListTable = ({ data, columns, title, height, ...props }) => {
   const {
     headers,
     keys,
+    excludeNulls,
     filters,
     columnToggles,
     filteredKeys,
@@ -69,6 +71,7 @@ const NewListTable = ({ data, columns, title, height, ...props }) => {
     handleSort,
     handleFilteredKeys,
     handleFilteredValues,
+    handleExcludeNulls,
   } = useTable(data, columns);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [columnTogglesVisible, setColumnTogglesVisible] = useState(false);
@@ -138,6 +141,13 @@ const NewListTable = ({ data, columns, title, height, ...props }) => {
               </Typography>
             </div>
           )}
+          <SwitchFilter
+            name="exclude_nulls"
+            label="Exclude Nulls"
+            value="exclude_nulls"
+            checked={excludeNulls}
+            onChange={handleExcludeNulls}
+          />
         </div>
         <Filters
           filters={filters}
