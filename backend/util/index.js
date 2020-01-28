@@ -182,9 +182,75 @@ const generateDailyDataWithNulls = count => {
   return records;
 };
 
+/**
+ * Utility function used to generate a stacked dataset with that
+ * mocks the last station update info data source
+ * @param {number} count number of records to generate
+ */
+const generateLastUpdateData = count => {
+  const Measurements = [
+    "West Stage (ft)",
+    "Oster Stage (ft)",
+    "FIDCO Stage (ft)",
+    "West Flow (CFS)",
+    "Oster Flow (CFS)",
+    "FIDCO Flow (CFS)",
+  ];
+
+  let baseDate = new Date();
+
+  const records = Array.apply(null, Array(count)).map((d, i) => {
+    baseDate = new Date(baseDate.setDate(baseDate.getDate() - 1));
+    return {
+      last_update: baseDate,
+      measurement_abbrev: Measurements[i % 6],
+      last_value: +(Math.random() * 6).toFixed(2),
+      unit: Measurements[i % 6].includes("ft") ? "ft" : "cfs",
+    };
+  });
+  return records;
+};
+
+/**
+ * Utility function used to generate a stacked dataset with that
+ * mocks the last station update info data source with null values
+ * @param {number} count number of records to generate
+ */
+const generateLastUpdateDataWithNulls = count => {
+  const Measurements = [
+    "West Stage (ft)",
+    "Oster Stage (ft)",
+    "FIDCO Stage (ft)",
+    "West Flow (CFS)",
+    "Oster Flow (CFS)",
+    "FIDCO Flow (CFS)",
+  ];
+
+  let baseDate = new Date();
+
+  const records = Array.apply(null, Array(count)).map((d, i) => {
+    baseDate = new Date(baseDate.setDate(baseDate.getDate() - 1));
+    return {
+      last_update: baseDate,
+      measurement_abbrev: Measurements[i % 6],
+      last_value:
+        i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2),
+      unit:
+        i > count - count * 0.25
+          ? null
+          : Measurements[i % 6].includes("ft")
+          ? "ft"
+          : "cfs",
+    };
+  });
+  return records;
+};
+
 exports.unique = unique;
 exports.crosstab = crosstab;
 exports.generateDailyData = generateDailyData;
 exports.generateDailyDataWithNulls = generateDailyDataWithNulls;
 exports.generateCrosstabbedDailyData = generateCrosstabbedDailyData;
 exports.generateCrosstabbedDailyDataWithNulls = generateCrosstabbedDailyDataWithNulls;
+exports.generateLastUpdateData = generateLastUpdateData;
+exports.generateLastUpdateDataWithNulls = generateLastUpdateDataWithNulls;

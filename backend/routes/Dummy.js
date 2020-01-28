@@ -5,6 +5,8 @@ const {
   generateDailyData,
   generateDailyDataWithNulls,
   crosstab,
+  generateLastUpdate,
+  generateLastUpdateDataWithNulls,
 } = require("../util");
 
 // Create Express Router
@@ -91,6 +93,28 @@ router.get(
   checkPermission(["read:users"]),
   (req, res, next) => {
     const data = generateCrosstabbedDailyData(31);
+    res.json(data);
+  }
+);
+
+// GET /api/dummy/atv/last-update/
+// Route for returning atv last updates data
+router.get(
+  "/atv/last-update",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    const data = generateLastUpdateData(6);
+    res.json(data);
+  }
+);
+
+// GET /api/dummy/atv/last-update/with-nulls
+// Route for returning atv last updates data with null dummy values
+router.get(
+  "/atv/last-update/with-nulls",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    const data = generateLastUpdateDataWithNulls(6);
     res.json(data);
   }
 );

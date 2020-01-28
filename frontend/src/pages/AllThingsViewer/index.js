@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Paper, Button, Dialog, DialogTitle } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+} from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
 import Sidebar from "../../components/Sidebar";
 import FilterBar from "../../components/Filters/FilterBar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
@@ -22,9 +30,18 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
   },
+  dialog: {
+    padding: theme.spacing(2),
+  },
+  dialogClose: {
+    marginTop: theme.spacing(2),
+  },
   tableTitle: {
     display: "flex",
     justifyContent: "space-between",
+  },
+  lastUpdateBtn: {
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -39,13 +56,14 @@ const AllThingsViewer = ({ history }) => {
     autoselect: false,
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
-  const [lastUpdateVisibility, setLastUpdateVisibility] = useState(true);
+  const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
   const [Structures] = useFetchData("dummy/structures", []);
   const [Measurements] = useFetchData("dummy/measurements", []);
   const [DailyData] = useFetchData("dummy/atv/daily-data/with-nulls", []);
+  const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
 
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
@@ -58,30 +76,9 @@ const AllThingsViewer = ({ history }) => {
     "structures"
   );
 
-  const LastUpdateData = [
-    {
-      measurement_abbrev: "West Stage(ft)",
-      last_update: new Date().toString(),
-      last_value: +(Math.random() * 6).toFixed(2),
-      unit: "ft",
-    },
-    {
-      measurement_abbrev: "Oster Stage(ft)",
-      last_update: new Date().toString(),
-      last_value: +(Math.random() * 6).toFixed(2),
-      unit: "ft",
-    },
-    {
-      measurement_abbrev: "FIDCO Stage(ft)",
-      last_update: new Date().toString(),
-      last_value: +(Math.random() * 6).toFixed(2),
-      unit: "ft",
-    },
-  ];
-
   const LastUpdateColumns = [
     {
-      type: "series",
+      type: "category",
       label: "Measurement",
       accessor: "measurement_abbrev",
       filter: { enabled: false },
@@ -220,8 +217,13 @@ const AllThingsViewer = ({ history }) => {
                 title={
                   <div className={classes.tableTitle}>
                     Daily Data Crosstab
-                    <Button onClick={() => setLastUpdateVisibility(true)}>
-                      View Data Availability
+                    <Button
+                      onClick={() => setLastUpdateVisibility(true)}
+                      color="primary"
+                      className={classes.lastUpdateBtn}
+                    >
+                      <HelpIcon style={{ marginRight: 8 }} /> View Data
+                      Availability
                     </Button>
                   </div>
                 }
@@ -242,6 +244,7 @@ const AllThingsViewer = ({ history }) => {
         open={lastUpdateVisibility}
         fullWidth={true}
         maxWidth="md"
+        className={classes.dialog}
       >
         <DialogTitle>Last Station Update Info</DialogTitle>
         <DataTable
@@ -249,8 +252,18 @@ const AllThingsViewer = ({ history }) => {
           columns={LastUpdateColumns}
           stickyHeader={true}
           size="medium"
-          height={650}
+          height={500}
         />
+        <DialogActions>
+          <Button
+            onClick={() => setLastUpdateVisibility(false)}
+            color="secondary"
+            variant="contained"
+            className={classes.dialogClose}
+          >
+            Close
+          </Button>
+        </DialogActions>
         >
       </Dialog>
     </div>
