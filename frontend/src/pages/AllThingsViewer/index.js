@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Button, Dialog, DialogTitle } from "@material-ui/core";
 import Sidebar from "../../components/Sidebar";
 import FilterBar from "../../components/Filters/FilterBar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
-import NewListTable from "../../components/DataTable";
+import DataTable from "../../components/DataTable";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +22,10 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
   },
+  tableTitle: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
 }));
 
 const AllThingsViewer = ({ history }) => {
@@ -35,6 +39,7 @@ const AllThingsViewer = ({ history }) => {
     autoselect: false,
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
+  const [lastUpdateVisibility, setLastUpdateVisibility] = useState(true);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
@@ -52,6 +57,66 @@ const AllThingsViewer = ({ history }) => {
     Measurements,
     "structures"
   );
+
+  const LastUpdateData = [
+    {
+      measurement_abbrev: "West Stage(ft)",
+      last_update: new Date().toString(),
+      last_value: +(Math.random() * 6).toFixed(2),
+      unit: "ft",
+    },
+    {
+      measurement_abbrev: "Oster Stage(ft)",
+      last_update: new Date().toString(),
+      last_value: +(Math.random() * 6).toFixed(2),
+      unit: "ft",
+    },
+    {
+      measurement_abbrev: "FIDCO Stage(ft)",
+      last_update: new Date().toString(),
+      last_value: +(Math.random() * 6).toFixed(2),
+      unit: "ft",
+    },
+  ];
+
+  const LastUpdateColumns = [
+    {
+      type: "series",
+      label: "Measurement",
+      accessor: "measurement_abbrev",
+      filter: { enabled: false },
+      columnToggle: {
+        enabled: true,
+      },
+    },
+    {
+      type: "category",
+      label: "Last Update",
+      accessor: "last_update",
+      filter: { enabled: true, type: "date" },
+      columnToggle: {
+        enabled: true,
+      },
+    },
+    {
+      type: "series",
+      label: "Value",
+      accessor: "last_value",
+      filter: { enabled: false },
+      columnToggle: {
+        enabled: true,
+      },
+    },
+    {
+      type: "series",
+      label: "Unit",
+      accessor: "unit",
+      filter: { enabled: false },
+      columnToggle: {
+        enabled: true,
+      },
+    },
+  ];
 
   /**
    * Event handler for the filters bar
@@ -149,10 +214,17 @@ const AllThingsViewer = ({ history }) => {
         <Grid container spacing={3} className={classes.mainContent}>
           <Grid xs={12} md={9} item>
             <Paper className={classes.paper}>
-              <NewListTable
+              <DataTable
                 data={DailyData}
                 columns={dailyDataColumns}
-                title="Daily Data Crosstab"
+                title={
+                  <div className={classes.tableTitle}>
+                    Daily Data Crosstab
+                    <Button onClick={() => setLastUpdateVisibility(true)}>
+                      View Data Availability
+                    </Button>
+                  </div>
+                }
                 size="small"
                 stickyHeader={true}
                 height={650}
@@ -164,6 +236,23 @@ const AllThingsViewer = ({ history }) => {
           </Grid>
         </Grid>
       </div>
+      <Dialog
+        onClose={() => setLastUpdateVisibility(false)}
+        aria-labelledby="simple-dialog-title"
+        open={lastUpdateVisibility}
+        fullWidth={true}
+        maxWidth="md"
+      >
+        <DialogTitle>Last Station Update Info</DialogTitle>
+        <DataTable
+          data={LastUpdateData}
+          columns={LastUpdateColumns}
+          stickyHeader={true}
+          size="medium"
+          height={650}
+        />
+        >
+      </Dialog>
     </div>
   );
 };

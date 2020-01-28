@@ -153,7 +153,7 @@ const generateDailyData = count => {
 };
 
 /**
- * Utility function used to generate a stacked dataset
+ * Utility function used to generate a stacked dataset with nulls
  * @param {number} count number of crosstabbed records to generate
  */
 const generateDailyDataWithNulls = count => {

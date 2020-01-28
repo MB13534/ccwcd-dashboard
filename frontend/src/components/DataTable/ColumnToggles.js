@@ -42,8 +42,8 @@ const ColumnToggles = ({
           <MultiSelectFilter
             name="columns"
             label="Columns"
-            valueField="label"
-            displayField="accessor"
+            valueField="accessor"
+            displayField="label"
             data={columns}
             selected={selections}
             onChange={handleFilter}
