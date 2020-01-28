@@ -17,6 +17,7 @@ import HelpIcon from "@material-ui/icons/Help";
 import LinkIcon from "@material-ui/icons/Link";
 import Sidebar from "../../components/Sidebar";
 import FilterBar from "../../components/Filters/FilterBar";
+import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
@@ -71,8 +72,7 @@ const AllThingsViewer = ({ history }) => {
     station_types: [],
     structures: [],
     measurements: [],
-    aggregation: "",
-    autoselect: false,
+    aggregation_level: "",
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
@@ -84,6 +84,10 @@ const AllThingsViewer = ({ history }) => {
   const [Measurements] = useFetchData("dummy/measurements", []);
   const [DailyData] = useFetchData("dummy/atv/daily-data/with-nulls", []);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
+  const AggregationData = [
+    { aggregation_ndx: 1, aggregation_desc: "Daily" },
+    { aggregation_ndx: 2, aggregation_desc: "15 Minute" },
+  ];
 
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
@@ -230,6 +234,17 @@ const AllThingsViewer = ({ history }) => {
             displayField="measure_type_desc"
             data={filteredMeasurements}
             selected={filterValues.measurements}
+            onChange={handleFilter}
+          />
+
+          {/* Aggregation Level Filter */}
+          <SingleSelectFilter
+            name="aggregation_level"
+            label="Aggregation Level"
+            valueField="aggregation_ndx"
+            displayField="aggregation_desc"
+            data={AggregationData}
+            selected={filterValues.aggregation_level}
             onChange={handleFilter}
           />
         </FilterBar>
