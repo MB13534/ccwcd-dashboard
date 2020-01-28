@@ -6,7 +6,7 @@ import FilterBar from "../../components/Filters/FilterBar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
-import NewListTable from "../../components/NewListTable";
+import NewListTable from "../../components/DataTable";
 
 const useStyles = makeStyles(theme => ({
   root: {
