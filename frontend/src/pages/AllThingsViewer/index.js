@@ -8,8 +8,13 @@ import {
   DialogTitle,
   DialogActions,
   Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
+import LinkIcon from "@material-ui/icons/Link";
 import Sidebar from "../../components/Sidebar";
 import FilterBar from "../../components/Filters/FilterBar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
@@ -17,6 +22,7 @@ import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
 import DataTable from "../../components/DataTable";
 import DownloadIllustration from "../../images/undraw_server_q2pb.svg";
+import RelatedPagesIllustration from "../../images/undraw_researching_22gp.svg";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,6 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
   dialog: {
     padding: theme.spacing(2),
@@ -69,6 +76,7 @@ const AllThingsViewer = ({ history }) => {
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
+  const [dataDownloadVisibility, setDataDownloadVisibility] = useState(false);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
@@ -143,6 +151,12 @@ const AllThingsViewer = ({ history }) => {
       }
       return newValues;
     });
+  };
+
+  // function for naviating to a specific page in the app
+  const goTo = route => {
+    history.push(`/${route}`);
+    localStorage.setItem("last_url", history.location.pathname);
   };
 
   useEffect(() => {
@@ -261,10 +275,37 @@ const AllThingsViewer = ({ history }) => {
                 className={classes.marginTop}
                 color="secondary"
                 variant="contained"
+                onClick={() => setDataDownloadVisibility(true)}
                 fullWidth
               >
                 Download Data
               </Button>
+            </Paper>
+            <Paper className={classes.paper}>
+              <Typography variant="h6" gutterBottom>
+                Related Pages
+              </Typography>
+              <div className={classes.imgWrapper}>
+                <img
+                  src={RelatedPagesIllustration}
+                  alt="Related Pages"
+                  className={classes.img}
+                />
+              </div>
+              <List component="nav" dense aria-label="related-pages">
+                <ListItem onClick={() => goTo("page-1")} button>
+                  <ListItemIcon>
+                    <LinkIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Example Page 1" />
+                </ListItem>
+                <ListItem onClick={() => goTo("page-2")} button>
+                  <ListItemIcon>
+                    <LinkIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText primary="Example Page 2" />
+                </ListItem>
+              </List>
             </Paper>
           </Grid>
         </Grid>
@@ -297,7 +338,28 @@ const AllThingsViewer = ({ history }) => {
             Close
           </Button>
         </DialogActions>
-        >
+      </Dialog>
+
+      {/* Data Download Dialog */}
+      <Dialog
+        onClose={() => setDataDownloadVisibility(false)}
+        aria-labelledby="simple-dialog-title"
+        open={dataDownloadVisibility}
+        fullWidth={true}
+        maxWidth="sm"
+        className={classes.dialog}
+      >
+        <DialogTitle>Data Download</DialogTitle>
+        <DialogActions>
+          <Button
+            onClick={() => setDataDownloadVisibility(false)}
+            color="secondary"
+            variant="contained"
+            className={classes.marginTop}
+          >
+            Close
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
