@@ -56,6 +56,10 @@ const ColumnToggles = ({
 
 ColumnToggles.propTypes = {
   columns: PropTypes.array.isRequired,
+  visible: PropTypes.bool.isRequired,
+  selections: PropTypes.array.isRequired,
+  visibilityHandler: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func.isRequired,
 };
 
 export default ColumnToggles;

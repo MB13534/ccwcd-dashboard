@@ -80,6 +80,9 @@ const Filters = ({ filters, visible, visibilityHandler, handleFilter }) => {
 
 Filters.propTypes = {
   filters: PropTypes.array.isRequired,
+  visible: PropTypes.bool.isRequired,
+  visibilityHandler: PropTypes.func.isRequired,
+  handleFilter: PropTypes.func.isRequired,
 };
 
 export default Filters;
