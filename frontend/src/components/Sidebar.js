@@ -75,7 +75,7 @@ const styles = theme => ({
 const Sidebar = props => {
   const { history, classes, theme, container } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -118,6 +118,7 @@ const Sidebar = props => {
       activePath: "docs",
       icon: DocsIcon,
       loginRequired: true,
+      rolesRequired: "LRE Admin",
     },
     {
       link: "all-things-viewer",
@@ -128,44 +129,44 @@ const Sidebar = props => {
     },
   ];
 
+  const returnMenuItem = (item, isAuthenticated, user) => {
+    const li = (
+      <ListItem
+        button
+        onClick={() => goTo(item.link)}
+        selected={setActive(item.activePath)}
+        key={item.title}
+      >
+        <ListItemIcon className={classes.navIcon}>
+          <item.icon />
+        </ListItemIcon>
+        <ListItemText className={classes.navText} primary={item.title} />
+      </ListItem>
+    );
+
+    if (item.loginRequired && item.rolesRequired) {
+      if (
+        isAuthenticated &&
+        user["https://ccwcd2.org/roles"].includes(item.rolesRequired)
+      ) {
+        return li;
+      }
+    } else if (item.loginRequired) {
+      if (isAuthenticated) {
+        return li;
+      }
+    } else {
+      return li;
+    }
+  };
+
   const drawer = (
     <div id="sidebar">
       <div className={classes.toolbar}>
         <img src={logo} className={classes.logo} alt="Logo" />
       </div>
       <List className={classes.nav}>
-        {MenuItems.map(item =>
-          item.loginRequired ? (
-            isAuthenticated && (
-              <ListItem
-                button
-                onClick={() => goTo(item.link)}
-                selected={setActive(item.activePath)}
-                key={item.title}
-              >
-                <ListItemIcon className={classes.navIcon}>
-                  <item.icon />
-                </ListItemIcon>
-                <ListItemText
-                  className={classes.navText}
-                  primary={item.title}
-                />
-              </ListItem>
-            )
-          ) : (
-            <ListItem
-              button
-              onClick={() => goTo(item.link)}
-              selected={setActive(item.activePath)}
-              key={item.title}
-            >
-              <ListItemIcon className={classes.navIcon}>
-                <item.icon />
-              </ListItemIcon>
-              <ListItemText className={classes.navText} primary={item.title} />
-            </ListItem>
-          )
-        )}
+        {MenuItems.map(item => returnMenuItem(item, isAuthenticated, user))}
         {isAuthenticated ? (
           <ListItem button>
             <ListItemIcon className={classes.navIcon}>
