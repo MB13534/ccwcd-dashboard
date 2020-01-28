@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogTitle,
   DialogActions,
+  Typography,
 } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import Sidebar from "../../components/Sidebar";
@@ -15,6 +16,7 @@ import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
 import DataTable from "../../components/DataTable";
+import DownloadIllustration from "../../images/undraw_server_q2pb.svg";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,15 +35,25 @@ const useStyles = makeStyles(theme => ({
   dialog: {
     padding: theme.spacing(2),
   },
-  dialogClose: {
-    marginTop: theme.spacing(2),
-  },
   tableTitle: {
     display: "flex",
     justifyContent: "space-between",
   },
   lastUpdateBtn: {
     marginRight: theme.spacing(2),
+  },
+  imgWrapper: {
+    width: 140,
+    margin: `${theme.spacing(2)}px auto`,
+  },
+  img: {
+    maxWidth: "100%",
+  },
+  margin: {
+    margin: theme.spacing(2),
+  },
+  marginTop: {
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -234,10 +246,31 @@ const AllThingsViewer = ({ history }) => {
             </Paper>
           </Grid>
           <Grid xs={12} md={3} item>
-            <Paper className={classes.paper}></Paper>
+            <Paper className={classes.paper}>
+              <Typography variant="h6" gutterBottom>
+                Data Download
+              </Typography>
+              <div className={classes.imgWrapper}>
+                <img
+                  src={DownloadIllustration}
+                  alt="Download Data"
+                  className={classes.img}
+                />
+              </div>
+              <Button
+                className={classes.marginTop}
+                color="secondary"
+                variant="contained"
+                fullWidth
+              >
+                Download Data
+              </Button>
+            </Paper>
           </Grid>
         </Grid>
       </div>
+
+      {/* Last Update Dialog */}
       <Dialog
         onClose={() => setLastUpdateVisibility(false)}
         aria-labelledby="simple-dialog-title"
@@ -259,7 +292,7 @@ const AllThingsViewer = ({ history }) => {
             onClick={() => setLastUpdateVisibility(false)}
             color="secondary"
             variant="contained"
-            className={classes.dialogClose}
+            className={classes.marginTop}
           >
             Close
           </Button>
