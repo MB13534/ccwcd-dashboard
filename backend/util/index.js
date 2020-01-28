@@ -94,6 +94,35 @@ const generateCrosstabbedDailyData = count => {
 };
 
 /**
+ * Utility function used to generate crosstabbed data with nulls
+ * @param {number} count number of records to generate
+ */
+const generateCrosstabbedDailyDataWithNulls = count => {
+  const Measurements = [
+    "West Stage (ft)",
+    "Oster Stage (ft)",
+    "FIDCO Stage (ft)",
+    "West Flow (CFS)",
+    "Oster Flow (CFS)",
+    "FIDCO Flow (CFS)",
+  ];
+
+  const baseDate = new Date();
+
+  const records = Array.apply(null, Array(count)).map((d, i) => {
+    let record = {
+      Date: new Date(baseDate.setDate(baseDate.getDate() - i)),
+    };
+    Measurements.forEach(m => {
+      record[m] =
+        i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2);
+    });
+    return record;
+  });
+  return records;
+};
+
+/**
  * Utility function used to generate a stacked dataset
  * @param {number} count number of crosstabbed records to generate
  */
@@ -147,7 +176,7 @@ const generateDailyDataWithNulls = count => {
     return {
       Date: baseDate,
       measurement_abbrev: Measurements[i % 6],
-      value: i > 19 ? null : +(Math.random() * 6).toFixed(2),
+      value: i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2),
     };
   });
   return records;
@@ -158,3 +187,4 @@ exports.crosstab = crosstab;
 exports.generateDailyData = generateDailyData;
 exports.generateDailyDataWithNulls = generateDailyDataWithNulls;
 exports.generateCrosstabbedDailyData = generateCrosstabbedDailyData;
+exports.generateCrosstabbedDailyDataWithNulls = generateCrosstabbedDailyDataWithNulls;
