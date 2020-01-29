@@ -17,7 +17,7 @@ import {
 import HelpIcon from "@material-ui/icons/Help";
 import LinkIcon from "@material-ui/icons/Link";
 import { CSVLink } from "react-csv";
-import Sidebar from "../../components/Sidebar";
+import Layout from "../../components/Layout";
 import FilterBar from "../../components/Filters/FilterBar";
 import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
@@ -241,131 +241,128 @@ const AllThingsViewer = ({ history }) => {
   }, [DailyData]);
 
   return (
-    <div className={classes.root}>
-      <Sidebar history={history} />
-      <div className={classes.content}>
-        <FilterBar onSubmit={() => {}}>
-          {/* Structure Types filter */}
-          <MultiSelectFilter
-            name="station_types"
-            label="Station Types"
-            valueField="structure_type_ndx"
-            displayField="structure_type_desc"
-            data={StructureTypes}
-            selected={filterValues.station_types}
-            onChange={handleFilter}
-          />
+    <Layout history={history}>
+      <FilterBar onSubmit={() => {}}>
+        {/* Structure Types filter */}
+        <MultiSelectFilter
+          name="station_types"
+          label="Station Types"
+          valueField="structure_type_ndx"
+          displayField="structure_type_desc"
+          data={StructureTypes}
+          selected={filterValues.station_types}
+          onChange={handleFilter}
+        />
 
-          {/* Structures filter */}
-          <MultiSelectFilter
-            name="structures"
-            label="Structures"
-            valueField="structure_ndx"
-            displayField="structure_desc"
-            data={filteredStructures}
-            selected={filterValues.structures}
-            onChange={handleFilter}
-          />
+        {/* Structures filter */}
+        <MultiSelectFilter
+          name="structures"
+          label="Structures"
+          valueField="structure_ndx"
+          displayField="structure_desc"
+          data={filteredStructures}
+          selected={filterValues.structures}
+          onChange={handleFilter}
+        />
 
-          {/* Measurements Filter */}
-          <MultiSelectFilter
-            name="measurements"
-            label="Measurements Types"
-            valueField="measure_type_ndx"
-            displayField="measure_type_desc"
-            data={filteredMeasurements}
-            selected={filterValues.measurements}
-            onChange={handleFilter}
-          />
+        {/* Measurements Filter */}
+        <MultiSelectFilter
+          name="measurements"
+          label="Measurements Types"
+          valueField="measure_type_ndx"
+          displayField="measure_type_desc"
+          data={filteredMeasurements}
+          selected={filterValues.measurements}
+          onChange={handleFilter}
+        />
 
-          {/* Aggregation Level Filter */}
-          <SingleSelectFilter
-            name="aggregation_level"
-            label="Aggregation Level"
-            valueField="aggregation_ndx"
-            displayField="aggregation_desc"
-            data={AggregationData}
-            selected={filterValues.aggregation_level}
-            onChange={handleFilter}
-          />
-        </FilterBar>
+        {/* Aggregation Level Filter */}
+        <SingleSelectFilter
+          name="aggregation_level"
+          label="Aggregation Level"
+          valueField="aggregation_ndx"
+          displayField="aggregation_desc"
+          data={AggregationData}
+          selected={filterValues.aggregation_level}
+          onChange={handleFilter}
+        />
+      </FilterBar>
 
-        <Grid container spacing={3} className={classes.mainContent}>
-          <Grid xs={12} md={9} item>
-            <Paper className={classes.paper}>
-              <DataTable
-                data={DailyData}
-                columns={dailyDataColumns}
-                title={
-                  <div className={classes.tableTitle}>
-                    Daily Data Crosstab
-                    <Button
-                      onClick={() => setLastUpdateVisibility(true)}
-                      color="primary"
-                      className={classes.lastUpdateBtn}
-                    >
-                      <HelpIcon style={{ marginRight: 8 }} /> View Data
-                      Availability
-                    </Button>
-                  </div>
-                }
-                size="small"
-                stickyHeader={true}
-                height={650}
-              />
-            </Paper>
-          </Grid>
-          <Grid xs={12} md={3} item>
-            <Paper className={classes.paper}>
-              <Typography variant="h6" gutterBottom>
-                Data Download
-              </Typography>
-              <div className={classes.imgWrapper}>
-                <img
-                  src={DownloadIllustration}
-                  alt="Download Data"
-                  className={classes.img}
-                />
-              </div>
-              <Button
-                className={classes.marginTop}
-                color="secondary"
-                variant="contained"
-                onClick={() => setDataDownloadVisibility(true)}
-                fullWidth
-              >
-                Download Data
-              </Button>
-            </Paper>
-            <Paper className={classes.paper}>
-              <Typography variant="h6" gutterBottom>
-                Related Pages
-              </Typography>
-              <div className={classes.imgWrapper}>
-                <img
-                  src={RelatedPagesIllustration}
-                  alt="Related Pages"
-                  className={classes.img}
-                />
-              </div>
-              <List component="nav" dense aria-label="related-pages">
-                <ListItem onClick={() => goTo("page-1")} button>
-                  <ListItemIcon>
-                    <LinkIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Example Page 1" />
-                </ListItem>
-                <ListItem onClick={() => goTo("page-2")} button>
-                  <ListItemIcon>
-                    <LinkIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="Example Page 2" />
-                </ListItem>
-              </List>
-            </Paper>
-          </Grid>
+      <Grid container spacing={3} className={classes.mainContent}>
+        <Grid xs={12} md={9} item>
+          <Paper className={classes.paper}>
+            <DataTable
+              data={DailyData}
+              columns={dailyDataColumns}
+              title={
+                <div className={classes.tableTitle}>
+                  Daily Data Crosstab
+                  <Button
+                    onClick={() => setLastUpdateVisibility(true)}
+                    color="primary"
+                    className={classes.lastUpdateBtn}
+                  >
+                    <HelpIcon style={{ marginRight: 8 }} /> View Data
+                    Availability
+                  </Button>
+                </div>
+              }
+              size="small"
+              stickyHeader={true}
+              height={650}
+            />
+          </Paper>
         </Grid>
-      </div>
+        <Grid xs={12} md={3} item>
+          <Paper className={classes.paper}>
+            <Typography variant="h6" gutterBottom>
+              Data Download
+            </Typography>
+            <div className={classes.imgWrapper}>
+              <img
+                src={DownloadIllustration}
+                alt="Download Data"
+                className={classes.img}
+              />
+            </div>
+            <Button
+              className={classes.marginTop}
+              color="secondary"
+              variant="contained"
+              onClick={() => setDataDownloadVisibility(true)}
+              fullWidth
+            >
+              Download Data
+            </Button>
+          </Paper>
+          <Paper className={classes.paper}>
+            <Typography variant="h6" gutterBottom>
+              Related Pages
+            </Typography>
+            <div className={classes.imgWrapper}>
+              <img
+                src={RelatedPagesIllustration}
+                alt="Related Pages"
+                className={classes.img}
+              />
+            </div>
+            <List component="nav" dense aria-label="related-pages">
+              <ListItem onClick={() => goTo("page-1")} button>
+                <ListItemIcon>
+                  <LinkIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText primary="Example Page 1" />
+              </ListItem>
+              <ListItem onClick={() => goTo("page-2")} button>
+                <ListItemIcon>
+                  <LinkIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText primary="Example Page 2" />
+              </ListItem>
+            </List>
+          </Paper>
+        </Grid>
+      </Grid>
 
       {/* Last Update Dialog */}
       <Dialog
@@ -441,7 +438,7 @@ const AllThingsViewer = ({ history }) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Layout>
   );
 };
 

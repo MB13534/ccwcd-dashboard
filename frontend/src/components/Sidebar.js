@@ -127,6 +127,13 @@ const Sidebar = props => {
       icon: DashboardIcon,
       loginRequired: true,
     },
+    {
+      link: "auth0-sync",
+      title: "User Management",
+      activePath: "auth0-sync",
+      icon: DashboardIcon,
+      loginRequired: true,
+    },
   ];
 
   const returnMenuItem = (item, isAuthenticated, user) => {
