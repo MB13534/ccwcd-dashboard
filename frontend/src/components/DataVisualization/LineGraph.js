@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import "../../../node_modules/react-vis/dist/style.css";
 import { Typography } from "@material-ui/core";
@@ -8,33 +8,24 @@ import {
   YAxis,
   HorizontalGridLines,
   LineSeries,
-  LineMarkSeries,
   Crosshair,
   DiscreteColorLegend,
 } from "react-vis";
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    padding: theme.spacing(2),
-  },
   tooltip: {
-    width: 180,
-    backgroundColor: "#252526",
+    width: 300,
+    backgroundColor: theme.palette.primary.dark,
     color: "#ffffff",
     padding: theme.spacing(1),
     borderRadius: 4,
-  },
-  legend: {
-    "& span": {
-      color: "#ffffff",
-    },
   },
 }));
 
 const LineGraph = ({ data, columns, title }) => {
   const classes = useStyles();
   const theme = useTheme();
-  // const [crosshairValues, setCrosshairValues] = useState([]);
+  const [crosshairValues, setCrosshairValues] = useState([]);
   const graphData = useMemo(() => {
     const series = columns.filter(d => d.type === "series");
     const category = columns.filter(d => d.type === "category")[0];
@@ -42,26 +33,21 @@ const LineGraph = ({ data, columns, title }) => {
       const seriesRecords = data.map(dd => [
         dd[category.accessor],
         dd[d.accessor],
+        d.accessor,
       ]);
       return seriesRecords.map(rec => ({
         x: new Date(rec[0]),
         y: +rec[1],
+        seriesLabel: rec[2],
       }));
     });
     return seriesData;
   }, [data, columns]);
 
-  // const LegendItems = ["Modeled Flow", "Forecasted Flow"];
-
-  // const LegendColors = [
-  //   theme.palette.primary.main,
-  //   theme.palette.secondary.main,
-  // ];
-
-  // const onMouseLeave = () => setCrosshairValues([]);
-  // const onNearestX = (value, { index }) => {
-  //   setCrosshairValues(data.map(d => d[index].y !== null && d[index]));
-  // };
+  const onMouseLeave = () => setCrosshairValues([]);
+  const onNearestX = (value, { index }) => {
+    setCrosshairValues(graphData.map(d => d[index].y !== null && d[index]));
+  };
 
   if (graphData.length === 0) return null;
   return (
@@ -74,7 +60,7 @@ const LineGraph = ({ data, columns, title }) => {
       <FlexibleWidthXYPlot
         height={400}
         xType="time"
-        // onMouseLeave={onMouseLeave}
+        onMouseLeave={onMouseLeave}
       >
         <HorizontalGridLines />
         {graphData.map(d => (
@@ -82,8 +68,7 @@ const LineGraph = ({ data, columns, title }) => {
             key={Math.random() * 9999999}
             data={d}
             getNull={d => d.y !== null}
-            // onNearestX={onNearestX}
-            // color={theme.palette.primary.main}
+            onNearestX={onNearestX}
           />
         ))}
         {/* <LineMarkSeries
@@ -95,37 +80,36 @@ const LineGraph = ({ data, columns, title }) => {
         /> */}
         <XAxis tickTotal={8} tickLabelAngle={-45} title="Time" />
         <YAxis title="Change in Flow (CFS)" />
-        {/* {crosshairValues.length > 0 && (
+        {crosshairValues.length > 0 && (
           <Crosshair values={crosshairValues}>
             <div className={classes.tooltip}>
               {crosshairValues.map(
-                val =>
+                (val, index) =>
                   val && (
-                    <React.Fragment>
-                      <Typography
-                        variant="body1"
-                        key={Math.random() * 999999}
-                        gutterBottom
-                      >
-                        {
-                          // moment(val.ts_timestamp)
-                          //   .format('MM/DD/YY @ hh:mm A')
-                        }
+                    <div key={Math.random() * 999999}>
+                      {index === 0 && (
+                        <Typography variant="body1" gutterBottom>
+                          {val.x.toString()}
+                        </Typography>
+                      )}
+                      <Typography variant="body1" gutterBottom>
+                        {val.seriesLabel}: {val.y}
                       </Typography>
-                      <Typography
-                        variant="body1"
-                        key={Math.random() * 999999}
-                        gutterBottom
-                      >
-                        {val.y} CFS
-                      </Typography>
-                    </React.Fragment>
+                    </div>
                   )
               )}
             </div>
           </Crosshair>
-        )} */}
+        )}
       </FlexibleWidthXYPlot>
+      <DiscreteColorLegend
+        className={classes.legend}
+        orientation="horizontal"
+        width={900}
+        items={columns
+          .filter(col => col.type === "series")
+          .map(col => col.label)}
+      />
     </div>
   );
 };
