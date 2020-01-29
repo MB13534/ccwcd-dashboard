@@ -24,6 +24,7 @@ import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
 import DataTable from "../../components/DataTable";
+import LineGraph from "../../components/DataVisualization/LineGraph";
 import DownloadIllustration from "../../images/undraw_server_q2pb.svg";
 import RelatedPagesIllustration from "../../images/undraw_researching_22gp.svg";
 
@@ -118,12 +119,13 @@ const AllThingsViewer = ({ history }) => {
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
   const [dataDownloadVisibility, setDataDownloadVisibility] = useState(false);
+  const [visualizationType, setVisualizationType] = useState("table");
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
   const [Structures] = useFetchData("dummy/structures", []);
   const [Measurements] = useFetchData("dummy/measurements", []);
-  const [DailyData] = useFetchData("dummy/atv/daily-data/with-nulls", []);
+  const [DailyData] = useFetchData("dummy/atv/daily-data", []);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
   const AggregationData = [
     { aggregation_ndx: 1, aggregation_desc: "Daily" },
@@ -202,6 +204,10 @@ const AllThingsViewer = ({ history }) => {
   const goTo = route => {
     history.push(`/${route}`);
     localStorage.setItem("last_url", history.location.pathname);
+  };
+
+  const handleVisualizationType = () => {
+    setVisualizationType(state => (state === "table" ? "graph" : "table"));
   };
 
   useEffect(() => {
@@ -291,26 +297,70 @@ const AllThingsViewer = ({ history }) => {
       <Grid container spacing={3} className={classes.mainContent}>
         <Grid xs={12} md={9} item>
           <Paper className={classes.paper}>
-            <DataTable
-              data={DailyData}
-              columns={dailyDataColumns}
-              title={
-                <div className={classes.tableTitle}>
-                  Daily Data Crosstab
-                  <Button
-                    onClick={() => setLastUpdateVisibility(true)}
-                    color="primary"
-                    className={classes.lastUpdateBtn}
-                  >
-                    <HelpIcon style={{ marginRight: 8 }} /> View Data
-                    Availability
-                  </Button>
-                </div>
-              }
-              size="small"
-              stickyHeader={true}
-              height={650}
-            />
+            {visualizationType === "table" && (
+              <DataTable
+                data={DailyData}
+                columns={dailyDataColumns}
+                title={
+                  <div className={classes.tableTitle}>
+                    <div>
+                      Daily Data Crosstab
+                      <Button
+                        style={{ marginLeft: 16 }}
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleVisualizationType}
+                      >
+                        View As{" "}
+                        {visualizationType === "graph" ? "Table" : "Graph"}
+                      </Button>
+                    </div>
+                    <Button
+                      onClick={() => setLastUpdateVisibility(true)}
+                      color="primary"
+                      className={classes.lastUpdateBtn}
+                    >
+                      <HelpIcon style={{ marginRight: 8 }} /> View Data
+                      Availability
+                    </Button>
+                  </div>
+                }
+                size="small"
+                stickyHeader={true}
+                height={650}
+              />
+            )}
+
+            {visualizationType === "graph" && (
+              <LineGraph
+                data={DailyData}
+                columns={dailyDataColumns}
+                title={
+                  <div className={classes.tableTitle}>
+                    <div>
+                      Daily Data Crosstab
+                      <Button
+                        style={{ marginLeft: 16 }}
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleVisualizationType}
+                      >
+                        View As{" "}
+                        {visualizationType === "graph" ? "Table" : "Graph"}
+                      </Button>
+                    </div>
+                    <Button
+                      onClick={() => setLastUpdateVisibility(true)}
+                      color="primary"
+                      className={classes.lastUpdateBtn}
+                    >
+                      <HelpIcon style={{ marginRight: 8 }} /> View Data
+                      Availability
+                    </Button>
+                  </div>
+                }
+              />
+            )}
           </Paper>
         </Grid>
         <Grid xs={12} md={3} item>
