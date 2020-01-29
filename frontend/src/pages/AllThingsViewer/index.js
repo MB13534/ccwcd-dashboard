@@ -12,9 +12,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
 } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import LinkIcon from "@material-ui/icons/Link";
+import { CSVLink } from "react-csv";
 import Sidebar from "../../components/Sidebar";
 import FilterBar from "../../components/Filters/FilterBar";
 import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
@@ -43,6 +45,11 @@ const useStyles = makeStyles(theme => ({
   dialog: {
     padding: theme.spacing(2),
   },
+  dialogActions: {
+    justifyContent: "flex-start",
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+  },
   tableTitle: {
     display: "flex",
     justifyContent: "space-between",
@@ -57,11 +64,44 @@ const useStyles = makeStyles(theme => ({
   img: {
     maxWidth: "100%",
   },
+  dialogWrapper: {
+    padding: theme.spacing(0, 3),
+  },
   margin: {
     margin: theme.spacing(2),
   },
   marginTop: {
     marginTop: theme.spacing(2),
+  },
+  marginBottom: {
+    marginBottom: theme.spacing(2),
+  },
+  fileName: {
+    marginBottom: theme.spacing(1),
+    width: 500,
+  },
+  downloadBtn: {
+    boxShadow: `0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)`,
+    backgroundColor: theme.palette.secondary.main,
+    color: "#ffffff",
+    textDecoration: "none",
+    padding: "6px 16px",
+    fontSize: "0.875rem",
+    minWidth: 64,
+    boxSizing: "border-box",
+    transition:
+      "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    fontWeight: 500,
+    lineHeight: 1.75,
+    borderRadius: 4,
+    letterSpacing: "0.02857em",
+    textTransform: "uppercase",
+    marginTop: theme.spacing(2),
+    "&:hover": {
+      boxShadow:
+        "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+      backgroundColor: "#388e3c",
+    },
   },
 }));
 
@@ -73,10 +113,11 @@ const AllThingsViewer = ({ history }) => {
     structures: [],
     measurements: [],
     aggregation_level: "",
+    file_name: "",
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
-  const [dataDownloadVisibility, setDataDownloadVisibility] = useState(false);
+  const [dataDownloadVisibility, setDataDownloadVisibility] = useState(true);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
@@ -365,14 +406,38 @@ const AllThingsViewer = ({ history }) => {
         className={classes.dialog}
       >
         <DialogTitle>Data Download</DialogTitle>
-        <DialogActions>
+        <div className={classes.dialogWrapper}>
+          <Typography variant="body1" paragraph>
+            INSTRUCTIONS HERE
+          </Typography>
+          <form>
+            <TextField
+              id="file_name"
+              className={classes.fileName}
+              name="file_name"
+              label="File Name"
+              variant="outlined"
+              onChange={handleFilter}
+              value={filterValues.file_name}
+              required
+            />
+          </form>
+        </div>
+        <DialogActions classes={{ root: classes.dialogActions }}>
+          <CSVLink
+            data={DailyData}
+            className={classes.downloadBtn}
+            filename={`${filterValues.file_name}.csv`}
+            target="_blank"
+          >
+            Download
+          </CSVLink>
           <Button
             onClick={() => setDataDownloadVisibility(false)}
-            color="secondary"
             variant="contained"
             className={classes.marginTop}
           >
-            Close
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
