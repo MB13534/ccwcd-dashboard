@@ -117,7 +117,7 @@ const AllThingsViewer = ({ history }) => {
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
-  const [dataDownloadVisibility, setDataDownloadVisibility] = useState(true);
+  const [dataDownloadVisibility, setDataDownloadVisibility] = useState(false);
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("dummy/structure-types", []);
