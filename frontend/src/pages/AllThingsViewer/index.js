@@ -304,7 +304,8 @@ const AllThingsViewer = ({ history }) => {
                 title={
                   <div className={classes.tableTitle}>
                     <div>
-                      Daily Data Crosstab
+                      Daily Data{" "}
+                      {visualizationType === "table" ? " Crosstab" : " Graph"}
                       <Button
                         style={{ marginLeft: 16 }}
                         variant="outlined"
@@ -338,7 +339,8 @@ const AllThingsViewer = ({ history }) => {
                 title={
                   <div className={classes.tableTitle}>
                     <div>
-                      Daily Data Crosstab
+                      Daily Data{" "}
+                      {visualizationType === "table" ? " Crosstab" : " Graph"}
                       <Button
                         style={{ marginLeft: 16 }}
                         variant="outlined"
