@@ -7,6 +7,9 @@
  */
 export const getAssociations = (associations, data, assocField) => {
   return data.filter(d => {
+    if (typeof d[assocField] !== "object") {
+      return associations.includes(d[assocField]);
+    }
     return d[assocField].filter(dd => associations.includes(dd)).length > 0;
   });
 };

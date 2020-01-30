@@ -2,13 +2,9 @@ module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(
     "list_users",
     {
-      user_ndx: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
       auth0_user_id: {
         type: DataTypes.STRING,
+        primaryKey: true,
       },
       auth0_email: {
         type: DataTypes.STRING,

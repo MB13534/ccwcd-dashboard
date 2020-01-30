@@ -79,6 +79,9 @@ db.sequelize = sequelize;
 // db.AlertLanding = require('./AlertLanding')(sequelize, Sequelize);
 // db.AlertView = require('./AlertView')(sequelize, Sequelize);
 
+db.StructuresView = require("./StructuresView")(sequelize, Sequelize);
+db.StructureTypesView = require("./StructureTypesView")(sequelize, Sequelize);
+
 db.Users = require("./Users")(sequelize, Sequelize);
 db.UsersLanding = require("./UsersLanding")(sequelize, Sequelize);
 db.UserRoles = require("./UserRoles")(sequelize, Sequelize);

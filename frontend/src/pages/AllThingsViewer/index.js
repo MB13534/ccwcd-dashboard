@@ -122,8 +122,8 @@ const AllThingsViewer = ({ history }) => {
   const [visualizationType, setVisualizationType] = useState("table");
 
   // Request data for the filters
-  const [StructureTypes] = useFetchData("dummy/structure-types", []);
-  const [Structures] = useFetchData("dummy/structures", []);
+  const [StructureTypes] = useFetchData("structure-types", []);
+  const [Structures] = useFetchData("structures", []);
   const [Measurements] = useFetchData("dummy/measurements", []);
   const [DailyData] = useFetchData("dummy/atv/daily-data", []);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
@@ -135,13 +135,14 @@ const AllThingsViewer = ({ history }) => {
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
     Structures,
-    "structure_types"
+    "structure_type_ndx"
   );
-  const filteredMeasurements = useFilterAssoc(
-    filterValues.structures,
-    Measurements,
-    "structures"
-  );
+  // const filteredMeasurements = useFilterAssoc(
+  //   filterValues.structures,
+  //   Measurements,
+  //   "structures"
+  // );
+  const filteredMeasurements = [];
 
   const LastUpdateColumns = [
     {

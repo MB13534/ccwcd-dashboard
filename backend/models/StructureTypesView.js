@@ -1,27 +1,28 @@
 module.exports = (sequelize, DataTypes) => {
-  const StructureTypesView = sequelize.define('list_types_structures', {
-    structure_type_ndx: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+  const { INTEGER, STRING, BOOLEAN } = DataTypes;
+  const StructureTypesView = sequelize.define(
+    "list_structure_types",
+    {
+      structure_type_ndx: {
+        type: INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      structure_type_desc: {
+        type: DataTypes.STRING,
+      },
+      remark: {
+        type: DataTypes.STRING,
+      },
+      sort_order: {
+        type: INTEGER,
+      },
     },
-    structure_type_name: {
-      type: DataTypes.STRING,
-    },
-    ui: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    notes: {
-      type: DataTypes.STRING,
-    },
-    delete_flag: {
-      type: DataTypes.BOOLEAN,
+    {
+      timestamps: false,
+      schema: "data",
+      freezeTableName: true,
     }
-  }, {
-    timestamps: false,
-    schema: 'data_management',
-    freezeTableName: true,
-  });
+  );
   return StructureTypesView;
 };

@@ -3,7 +3,6 @@ const dotenv = require("dotenv").config();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 // const StructuresRoutes = require("./routes/Structures");
-// const StructureTypesRoutes = require("./routes/StructureTypes");
 // const StructureGroupsRoutes = require("./routes/StructureGroups");
 // const UnitsRoutes = require("./routes/Units");
 // const MeasurementTypesRoutes = require("./routes/MeasurementTypes");
@@ -15,6 +14,9 @@ const cors = require("cors");
 // const AlertTypesRoutes = require("./routes/AlertTypes");
 // const AlertSubFunctionRoutes = require("./routes/AlertSubFunctions");
 // const AlertGroupRoutes = require("./routes/AlertGroups");
+
+const StructuresRoutes = require("./routes/Structures");
+const StructureTypesRoutes = require("./routes/StructureTypes");
 const UserManagementRoutes = require("./routes/UserManagement");
 const DummyRoutes = require("./routes/Dummy");
 
@@ -44,6 +46,9 @@ app.use(setHeaders);
 // app.use("/api/alert-types", AlertTypesRoutes);
 // app.use("/api/alert-sub-functions", AlertSubFunctionRoutes);
 // app.use("/api/alert-groups", AlertGroupRoutes);
+
+app.use("/api/structures", StructuresRoutes);
+app.use("/api/structure-types", StructureTypesRoutes);
 app.use("/api/user-management", UserManagementRoutes);
 app.use("/api/dummy", DummyRoutes);
 

@@ -7,9 +7,6 @@ const useFilterAssoc = (associations, data, assocField) => {
   useEffect(() => {
     const filtered = getAssociations(associations, data, assocField);
     setFilteredValues(filtered);
-    // return () => {
-    //   setFilteredValues([]);
-    // };
   }, [associations, data, assocField]);
 
   return filteredValues;

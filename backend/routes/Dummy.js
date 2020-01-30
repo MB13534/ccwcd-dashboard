@@ -37,7 +37,7 @@ router.get("/structures", checkPermission(["read:users"]), (req, res, next) => {
     {
       structure_ndx: 12,
       structure_desc: "PVIC - Oster Clock",
-      structure_types: [1],
+      structure_types: [1, 3],
     },
     {
       structure_ndx: 2,
