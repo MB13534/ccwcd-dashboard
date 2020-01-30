@@ -128,6 +128,13 @@ const Sidebar = props => {
       loginRequired: true,
     },
     {
+      link: "reports",
+      title: "Reports",
+      activePath: "reports",
+      icon: DashboardIcon,
+      loginRequired: true,
+    },
+    {
       link: "auth0-sync",
       title: "User Management",
       activePath: "auth0-sync",

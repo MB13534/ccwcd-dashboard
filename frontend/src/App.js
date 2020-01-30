@@ -11,6 +11,7 @@ import theme from "./theme";
 
 import Home from "./pages/Home";
 import AllThingsViewer from "./pages/AllThingsViewer";
+import ReportsHome from "./pages/Reports/ReportsHome";
 import Auth0Sync from "./pages/DataAdmin/UserManagement/Auth0Sync";
 
 import Doc from "./pages/Docs";
@@ -68,6 +69,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/all-things-viewer" exact component={AllThingsViewer} />
+          <Route path="/reports" exact component={ReportsHome} />
           <Route path="/auth0-sync" exact component={Auth0Sync} />
           <Route
             path="/docs"
