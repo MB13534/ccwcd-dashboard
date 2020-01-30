@@ -19,7 +19,7 @@ import { withStyles } from "@material-ui/core/styles";
 import logo from "../images/ccwcd_logo.png";
 import { useAuth0 } from "../hooks/auth";
 
-const drawerWidth = 300;
+const drawerWidth = 270;
 
 const styles = theme => ({
   drawer: {

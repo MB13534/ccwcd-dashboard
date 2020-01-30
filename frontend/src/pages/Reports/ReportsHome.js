@@ -7,7 +7,17 @@ import {
   CardContent,
   CardActions,
   Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import FolderIcon from "@material-ui/icons/Folder";
 import Layout from "../../components/Layout";
 import CustomDrawer from "../../components/CustomDrawer";
 import ReportIllustration from "../../images/undraw_data_trends_b0wg.svg";
@@ -117,7 +127,7 @@ const ReportsHome = ({ history }) => {
         </div>
         <CustomDrawer history={history}>
           <div className={classes.reportDrawer}>
-            <Typography
+            {/* <Typography
               variant="h5"
               color="primary"
               align="center"
@@ -134,7 +144,62 @@ const ReportsHome = ({ history }) => {
             </div>
             <Typography variant="body1" align="center">
               Select a report from the grid to see more details.
+            </Typography> */}
+
+            <Typography variant="h5" color="primary" gutterBottom>
+              Report Details
             </Typography>
+            <Typography variant="body1" paragraph>
+              Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday
+              carry, meggings tbh shoreditch tote bag salvia migas.
+            </Typography>
+            <Typography variant="h6" color="primary" gutterBottom>
+              Saved Views
+            </Typography>
+            <List>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>S</Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Single-line item" />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="delete">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>S</Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Single-line item" />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="delete">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>S</Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Single-line item" />
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="delete">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            </List>
           </div>
         </CustomDrawer>
       </section>
