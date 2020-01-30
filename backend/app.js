@@ -17,6 +17,7 @@ const cors = require("cors");
 
 const StructuresRoutes = require("./routes/Structures");
 const StructureTypesRoutes = require("./routes/StructureTypes");
+const MeasurementTypesRoutes = require("./routes/MeasurementTypes");
 const UserManagementRoutes = require("./routes/UserManagement");
 const DummyRoutes = require("./routes/Dummy");
 
@@ -49,6 +50,7 @@ app.use(setHeaders);
 
 app.use("/api/structures", StructuresRoutes);
 app.use("/api/structure-types", StructureTypesRoutes);
+app.use("/api/measurement-types", MeasurementTypesRoutes);
 app.use("/api/user-management", UserManagementRoutes);
 app.use("/api/dummy", DummyRoutes);
 

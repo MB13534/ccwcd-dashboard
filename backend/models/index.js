@@ -81,6 +81,10 @@ db.sequelize = sequelize;
 
 db.StructuresView = require("./StructuresView")(sequelize, Sequelize);
 db.StructureTypesView = require("./StructureTypesView")(sequelize, Sequelize);
+db.MeasurementTypesView = require("./MeasurementTypesView")(
+  sequelize,
+  Sequelize
+);
 
 db.Users = require("./Users")(sequelize, Sequelize);
 db.UsersLanding = require("./UsersLanding")(sequelize, Sequelize);

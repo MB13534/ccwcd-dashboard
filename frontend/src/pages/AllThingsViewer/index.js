@@ -112,7 +112,7 @@ const AllThingsViewer = ({ history }) => {
   const [filterValues, setFilterValues] = useState({
     station_types: [],
     structures: [],
-    measurements: [],
+    measurement_types: [],
     aggregation_level: "",
     file_name: "",
   });
@@ -124,7 +124,7 @@ const AllThingsViewer = ({ history }) => {
   // Request data for the filters
   const [StructureTypes] = useFetchData("structure-types", []);
   const [Structures] = useFetchData("structures", []);
-  const [Measurements] = useFetchData("dummy/measurements", []);
+  const [MeasurementTypes] = useFetchData("measurement-types", []);
   const [DailyData] = useFetchData("dummy/atv/daily-data", []);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
   const AggregationData = [
@@ -135,14 +135,13 @@ const AllThingsViewer = ({ history }) => {
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
     Structures,
-    "structure_type_ndx"
+    "assoc_structure_type_ndx"
   );
-  // const filteredMeasurements = useFilterAssoc(
-  //   filterValues.structures,
-  //   Measurements,
-  //   "structures"
-  // );
-  const filteredMeasurements = [];
+  const filteredMeasurementTypes = useFilterAssoc(
+    filterValues.structures,
+    MeasurementTypes,
+    "assoc_structure_ndx"
+  );
 
   const LastUpdateColumns = [
     {
@@ -272,14 +271,14 @@ const AllThingsViewer = ({ history }) => {
           onChange={handleFilter}
         />
 
-        {/* Measurements Filter */}
+        {/* Measurement Types Filter */}
         <MultiSelectFilter
-          name="measurements"
+          name="measurement_types"
           label="Measurements Types"
           valueField="measure_type_ndx"
           displayField="measure_type_desc"
-          data={filteredMeasurements}
-          selected={filterValues.measurements}
+          data={filteredMeasurementTypes}
+          selected={filterValues.measurement_types}
           onChange={handleFilter}
         />
 
