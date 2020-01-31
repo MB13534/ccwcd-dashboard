@@ -35,6 +35,10 @@ import ViewUnits from "./pages/DataAdmin/Units/View";
 import AddUnits from "./pages/DataAdmin/Units/Add";
 import EditUnits from "./pages/DataAdmin/Units/Edit";
 
+import ViewSources from "./pages/DataAdmin/Sources/View";
+import AddSources from "./pages/DataAdmin/Sources/Add";
+import EditSources from "./pages/DataAdmin/Sources/Edit";
+
 import ViewMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/View";
 import AddMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/Add";
 import EditMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/Edit";

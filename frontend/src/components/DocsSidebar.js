@@ -126,6 +126,7 @@ const DocsSidebar = (props) => {
     { link: 'docs/api/structure-types', title: 'Structure Types' },
     { link: 'docs/api/structure-groups', title: 'Structure Groups' },
     { link: 'docs/api/units', title: 'Units' },
+    { link: 'docs/api/sources', title: 'Data Sources' },
     { link: 'docs/api/measurement-types', title: 'Measurement Types' },
     { link: 'docs/api/contacts', title: 'Contacts' },
     { link: 'docs/api/contact-groups', title: 'Contact Groups' },

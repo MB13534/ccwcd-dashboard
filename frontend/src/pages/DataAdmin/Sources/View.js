@@ -7,7 +7,7 @@ const View = ({ history }) => {
   const endpoint = "data-management/sources";
 
   // table title
-  const title = "Data Sources";
+  const title = "Sources";
 
   // name of primary key field
   const keyField = "source_ndx";
