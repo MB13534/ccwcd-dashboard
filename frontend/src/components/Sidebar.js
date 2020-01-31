@@ -113,6 +113,7 @@ const Sidebar = props => {
       activePath: "admin/data",
       icon: DashboardIcon,
       loginRequired: true,
+      rolesRequired: ["LRE Admin"],
     },
     {
       link: "docs/overview",
@@ -120,7 +121,7 @@ const Sidebar = props => {
       activePath: "docs",
       icon: DocsIcon,
       loginRequired: true,
-      rolesRequired: "LRE Admin",
+      rolesRequired: ["LRE Admin"],
     },
     {
       link: "all-things-viewer",
@@ -128,6 +129,7 @@ const Sidebar = props => {
       activePath: "all-things-viewer",
       icon: ATVIcon,
       loginRequired: true,
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
       link: "reports",
@@ -135,6 +137,7 @@ const Sidebar = props => {
       activePath: "reports",
       icon: ReportsIcon,
       loginRequired: true,
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
       link: "auth0-sync",
@@ -142,6 +145,7 @@ const Sidebar = props => {
       activePath: "auth0-sync",
       icon: AccountIcon,
       loginRequired: true,
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
   ];
 
@@ -161,10 +165,13 @@ const Sidebar = props => {
     );
 
     if (item.loginRequired && item.rolesRequired) {
-      if (
-        isAuthenticated &&
-        user["https://ccwcd2.org/roles"].includes(item.rolesRequired)
-      ) {
+      let roleSwitch = false;
+      item.rolesRequired.forEach(role => {
+        if (user["https://ccwcd2.org/roles"].includes(role)) {
+          roleSwitch = true;
+        }
+      });
+      if (isAuthenticated && roleSwitch) {
         return li;
       }
     } else if (item.loginRequired) {

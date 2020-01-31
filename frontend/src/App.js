@@ -54,9 +54,24 @@ const App = () => {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/all-things-viewer" exact component={AllThingsViewer} />
-          <Route path="/reports" exact component={ReportsHome} />
-          <Route path="/auth0-sync" exact component={Auth0Sync} />
+          <PrivateRouteWithRoles
+            path="/all-things-viewer"
+            exact
+            roles={AdminRoles}
+            component={AllThingsViewer}
+          />
+          <PrivateRouteWithRoles
+            path="/reports"
+            exact
+            roles={AdminRoles}
+            component={ReportsHome}
+          />
+          <PrivateRouteWithRoles
+            path="/auth0-sync"
+            exact
+            roles={AdminRoles}
+            component={Auth0Sync}
+          />
           <Route
             path="/docs"
             exact
