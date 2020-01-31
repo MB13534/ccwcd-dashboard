@@ -42,6 +42,8 @@ import EditMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/Edit";
 const App = () => {
   const { loading } = useAuth0();
 
+  const AdminRoles = ["LRE Admin", "CCWCD Admin"];
+
   if (loading) {
     return <Loading />;
   }
@@ -65,7 +67,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/overview"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc path="Overview" nextLink="docs/main-concepts" {...props} />
             )}
@@ -73,7 +75,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/main-concepts"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="MainConcepts"
@@ -86,7 +88,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/getting-started"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="GettingStarted"
@@ -99,7 +101,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/authentication"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="Authentication"
@@ -112,7 +114,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/environment-variables"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="EnvironmentVariables"
@@ -125,7 +127,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/database-setup"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="DatabaseSetup"
@@ -138,7 +140,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/application-startup"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="ApplicationStartup"
@@ -151,7 +153,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/deploying"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="Deploying"
@@ -165,7 +167,7 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/api/overview"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             render={props => (
               <Doc
                 path="APIOverview"
@@ -179,107 +181,123 @@ const App = () => {
           <PrivateRouteWithRoles
             path="/docs/api/structures"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             component={StructuresAPI}
           />
           <PrivateRouteWithRoles
             path="/docs/api/structure-types"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             component={StructureTypesAPI}
           />
           <PrivateRouteWithRoles
             path="/docs/api/structure-groups"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             component={StructureGroupsAPI}
           />
           <PrivateRouteWithRoles
             path="/docs/api/units"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             component={UnitsAPI}
           />
           <PrivateRouteWithRoles
             path="/docs/api/measurement-types"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             component={MeasurementTypesAPI}
           />
           <PrivateRouteWithRoles
             path="/docs/api/contacts"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             component={ContactsAPI}
           />
           <PrivateRouteWithRoles
             path="/docs/api/contact-groups"
             exact
-            roles="LRE Admin"
+            roles={AdminRoles}
             component={ContactGroupsAPI}
           />
 
           {/* Structures Routes */}
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/structures"
             exact
+            roles={AdminRoles}
             component={ViewStructures}
           />
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/structures/edit/:id"
             exact
+            roles={AdminRoles}
             component={EditStructures}
           />
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/structures/new"
             exact
+            roles={AdminRoles}
             component={AddStructures}
           />
 
           {/* Structure Types Routes */}
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/structure-types"
             exact
+            roles={AdminRoles}
             component={ViewStructureTypes}
           />
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/structure-types/edit/:id"
             exact
+            roles={AdminRoles}
             component={EditStructureTypes}
           />
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/structure-types/new"
             exact
+            roles={AdminRoles}
             component={AddStructureTypes}
           />
 
           {/* Units Routes */}
-          <PrivateRoute path="/admin/data/units" exact component={ViewUnits} />
-          <PrivateRoute
+          <PrivateRouteWithRoles
+            path="/admin/data/units"
+            exact
+            roles={AdminRoles}
+            component={ViewUnits}
+          />
+          <PrivateRouteWithRoles
             path="/admin/data/units/edit/:id"
             exact
+            roles={AdminRoles}
             component={EditUnits}
           />
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/units/new"
             exact
+            roles={AdminRoles}
             component={AddUnits}
           />
 
           {/* Measurement Types Routes */}
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/measurement-types"
             exact
+            roles={AdminRoles}
             component={ViewMeasurementTypes}
           />
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/measurement-types/edit/:id"
             exact
+            roles={AdminRoles}
             component={EditMeasurementTypes}
           />
-          <PrivateRoute
+          <PrivateRouteWithRoles
             path="/admin/data/measurement-types/new"
             exact
+            roles={AdminRoles}
             component={AddMeasurementTypes}
           />
 

@@ -4,7 +4,12 @@ import { Route } from "react-router-dom";
 import { useAuth0 } from "../hooks/auth";
 import NotFound from "./NotFound";
 
-const PrivateRouteWithRoles = ({ component: Component, path, roles, ...rest }) => {
+const PrivateRouteWithRoles = ({
+  component: Component,
+  path,
+  roles,
+  ...rest
+}) => {
   const { isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [admin, setAdmin] = useState(false);
 
@@ -12,7 +17,7 @@ const PrivateRouteWithRoles = ({ component: Component, path, roles, ...rest }) =
     const fn = async () => {
       if (!isAuthenticated) {
         await loginWithRedirect({
-          appState: { targetUrl: path }
+          appState: { targetUrl: path },
         });
       }
     };
@@ -21,11 +26,13 @@ const PrivateRouteWithRoles = ({ component: Component, path, roles, ...rest }) =
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      if (user['https://ccwcd2.org/roles'].includes(roles)) {
-        setAdmin(true);
-      } else {
-        setAdmin(false);
-      }
+      let authSwitch = false;
+      roles.forEach(role => {
+        if (user["https://ccwcd2.org/roles"].includes(role)) {
+          authSwitch = true;
+        }
+      });
+      setAdmin(authSwitch);
     }
   }, [isAuthenticated, user, roles]);
 
@@ -40,8 +47,8 @@ PrivateRouteWithRoles.propTypes = {
   //   .isRequired,
   path: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string)
-  ]).isRequired
+    PropTypes.arrayOf(PropTypes.string),
+  ]).isRequired,
 };
 
 export default PrivateRouteWithRoles;
