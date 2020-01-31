@@ -18,7 +18,7 @@ const View = ({ history }) => {
       id: "source_desc",
       numeric: false,
       disablePadding: true,
-      label: "Name",
+      label: "Source Name",
       chip: false,
     },
     {
@@ -32,7 +32,7 @@ const View = ({ history }) => {
 
   // columns to include in the active list item sidebar
   const sidebarColumns = [
-    { id: "source_desc", label: "Name" },
+    { id: "source_desc", label: "Source Name" },
     { id: "remark", label: "Notes" },
   ];
 

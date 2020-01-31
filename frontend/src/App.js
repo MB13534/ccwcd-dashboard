@@ -31,6 +31,8 @@ import ViewStructureTypes from "./pages/DataAdmin/StructureTypes/View";
 import AddStructureTypes from "./pages/DataAdmin/StructureTypes/Add";
 import EditStructureTypes from "./pages/DataAdmin/StructureTypes/Edit";
 
+import ViewSources from "./pages/DataAdmin/Sources/View";
+
 import ViewUnits from "./pages/DataAdmin/Units/View";
 import AddUnits from "./pages/DataAdmin/Units/Add";
 import EditUnits from "./pages/DataAdmin/Units/Edit";
@@ -283,6 +285,15 @@ const App = () => {
             roles={AdminRoles}
             component={ViewUnits}
           />
+
+          {/* Sources Routes */}
+          <PrivateRouteWithRoles
+            path="/admin/data/sources"
+            exact
+            roles={AdminRoles}
+            component={ViewSources}
+          />
+
           <PrivateRouteWithRoles
             path="/admin/data/units/edit/:id"
             exact
