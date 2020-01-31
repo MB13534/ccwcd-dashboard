@@ -1,7 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER } = DataTypes;
-  const StructureTypesView = sequelize.define(
-    "atv_list_structure_types",
+  const StructureTypesView = sequelize.define("list_structure_types",
     {
       structure_type_ndx: {
         type: INTEGER,
@@ -11,10 +10,16 @@ module.exports = (sequelize, DataTypes) => {
       structure_type_desc: {
         type: DataTypes.STRING,
       },
+      remark: {
+        type: DataTypes.STRING,
+      },
+      sort_order: {
+        type: DataTypes.INTEGER,
+      },
     },
     {
       timestamps: false,
-      schema: "web",
+      schema: "data",
       freezeTableName: true,
     }
   );

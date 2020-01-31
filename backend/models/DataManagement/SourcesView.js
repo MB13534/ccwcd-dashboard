@@ -1,4 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
+  
     const SourcesView = sequelize.define("list_sources",
       {
         source_ndx: {
