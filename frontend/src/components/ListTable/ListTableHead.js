@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
     },
   },
   stickyHeader: {
-    backgroundColor: '#ffffff',
-  }
+    backgroundColor: "#ffffff",
+  },
 }));
 
 const EnhancedTableHead = props => {
@@ -33,14 +33,17 @@ const EnhancedTableHead = props => {
   const classes = useStyles();
 
   const createSortHandler = property => event => {
-    onRequestSort(event, property);
+    onRequestSort(property);
   };
 
   return (
     <TableHead>
       <TableRow>
-        {selectionsEnabled &&
-          <TableCell padding="checkbox" classes={{stickyHeader: classes.stickyHeader}}>
+        {selectionsEnabled && (
+          <TableCell
+            padding="checkbox"
+            classes={{ stickyHeader: classes.stickyHeader }}
+          >
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -49,13 +52,16 @@ const EnhancedTableHead = props => {
               inputProps={{ "aria-label": "Select all desserts" }}
             />
           </TableCell>
-        }
+        )}
         {columns.map(row => (
           <TableCell
             key={row.id}
             align={row.numeric ? "center" : "left"}
             sortDirection={orderBy === row.id ? order : false}
-            classes={{ root: classes.tableHeader, stickyHeader: classes.stickyHeader }}
+            classes={{
+              root: classes.tableHeader,
+              stickyHeader: classes.stickyHeader,
+            }}
           >
             <TableSortLabel
               active={orderBy === row.id}

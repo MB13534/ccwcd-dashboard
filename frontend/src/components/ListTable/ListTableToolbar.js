@@ -8,12 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import ColumnIcon from "@material-ui/icons/ViewColumn";
-
-import ListTableFilters from "./ListTableFilters";
-import ListTableColumnToggle from "./ListTableColumnToggle";
 import DeleteDialog from "../DeleteDialog";
-import { ButtonGroup } from "@material-ui/core";
+import ListTableFilters from "./ListTableFilters";
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
@@ -52,41 +48,15 @@ const useToolbarStyles = makeStyles(theme => ({
   },
 }));
 
-const FilterButtons = ({ filters, columns, filtersHandler, columnsHandler }) => {
-  console.log(filters, columns)
-  if (filters && columns) {
-    return (
-      <ButtonGroup>
-        <Tooltip title="Filter Records">
-          <IconButton aria-label="Filter list" onClick={filtersHandler}>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Toggle Columns">
-          <IconButton aria-label="Filter list" onClick={columnsHandler}>
-            <ColumnIcon />
-          </IconButton>
-        </Tooltip>
-      </ButtonGroup>
-    )
-  } else if (!filters && columns) {
-    return (
-      <Tooltip title="Filter Records">
-        <IconButton aria-label="Filter list" onClick={columnsHandler}>
-          <ColumnIcon />
-        </IconButton>
-      </Tooltip>
-    )
-  } else {
-    return (
-      <Tooltip title="Filter Records">
-        <IconButton aria-label="Filter list" onClick={filtersHandler}>
-          <FilterListIcon />
-        </IconButton>
-      </Tooltip>
-    )
-  }
-}
+const FilterButtons = ({ filters, filtersHandler }) => {
+  return (
+    <Tooltip title="Filter Records">
+      <IconButton aria-label="Filter list" onClick={filtersHandler}>
+        <FilterListIcon />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 const ListTableToolbar = props => {
   const classes = useToolbarStyles();
@@ -99,18 +69,12 @@ const ListTableToolbar = props => {
     handleDelete,
     handleFilterChange,
     handleClearSelected,
-    toggleColumns,
   } = props;
   const [filtersVisible, setFiltersVisible] = useState(false);
-  const [toggleColumnsVisible, setToggleColumnsVisible] = useState(false);
   const [filtersEnabled, setFiltersEnabled] = useState(true);
 
   const displayFilters = () => {
     setFiltersVisible(prev => !prev);
-  };
-
-  const displayToggleColumns = () => {
-    setToggleColumnsVisible(prev => !prev);
   };
 
   const handleDeleted = selected => {
@@ -150,7 +114,10 @@ const ListTableToolbar = props => {
           {numSelected > 0 ? (
             <DeleteDialog handleDelete={() => handleDeleted(selected)} />
           ) : (
-            <FilterButtons filters={filtersEnabled} columns={toggleColumns} filtersHandler={displayFilters} columnsHandler={displayToggleColumns} />
+            <FilterButtons
+              filters={filtersEnabled}
+              filtersHandler={displayFilters}
+            />
           )}
         </div>
       </Toolbar>
@@ -159,17 +126,7 @@ const ListTableToolbar = props => {
           data={data}
           columns={columns}
           handleFilterChange={handleFilterChange}
-          toggleColumns={toggleColumns}
         />
-      </Collapse>
-      <Collapse in={toggleColumnsVisible}>
-        <ListTableColumnToggle />
-        {/* <ListTableFilters
-          data={data}
-          columns={columns}
-          handleFilterChange={handleFilterChange}
-          toggleColumns={toggleColumns}
-        /> */}
       </Collapse>
     </div>
   );

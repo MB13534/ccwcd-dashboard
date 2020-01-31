@@ -5,7 +5,7 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 345;
 
@@ -41,9 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CustomDrawer = props => {
-  const { history, container, children } = props;
-  const theme = useTheme();
+const CustomDrawer = ({ history, children }) => {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -68,7 +66,6 @@ const CustomDrawer = props => {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
             anchor="right"
             open={mobileOpen}
@@ -98,9 +95,7 @@ const CustomDrawer = props => {
 };
 
 CustomDrawer.propTypes = {
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  container: PropTypes.object,
+  history: PropTypes.object.isRequired,
 };
 
 export default CustomDrawer;

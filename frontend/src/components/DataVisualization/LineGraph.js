@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import "../../../node_modules/react-vis/dist/style.css";
 import { Typography } from "@material-ui/core";
 import {
@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
 
 const LineGraph = ({ data, columns, title }) => {
   const classes = useStyles();
-  const theme = useTheme();
   const [crosshairValues, setCrosshairValues] = useState([]);
   const graphData = useMemo(() => {
     const series = columns.filter(d => d.type === "series");

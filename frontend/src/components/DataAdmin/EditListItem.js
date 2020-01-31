@@ -222,6 +222,7 @@ const EditListItem = props => {
             </FormControl>
           );
         }
+        return null;
       });
       return elements;
     }

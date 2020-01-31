@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import ListItemText from "@material-ui/core/ListItemText";
+import Select from "@material-ui/core/Select";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -37,15 +37,17 @@ const useFilterStyles = makeStyles(theme => ({
 
 const ListTableFilters = props => {
   const classes = useFilterStyles();
-  const { data, columns, handleFilterChange, toggleColumns } = props;
+  const { data, columns, handleFilterChange } = props;
   const [filtersData, setFiltersData] = useState([]);
 
-  const getFilterValues = (data, column) => [...new Set(data.map(d => d[column]))];
+  const getFilterValues = (data, column) => [
+    ...new Set(data.map(d => d[column])),
+  ];
 
   const handleChange = (e, id) => {
     const value = e.target.value;
     setFiltersData(prevState => {
-      return prevState.map((d) => {
+      return prevState.map(d => {
         if (d.id === id) {
           return Object.assign(d, { active: value });
         }
@@ -53,35 +55,43 @@ const ListTableFilters = props => {
       });
     });
     handleFilterChange(filtersData);
-  }
+  };
 
   useEffect(() => {
     const filters = columns
       .filter(col => col.filterEnabled !== false)
-      .map((col) => ({
+      .map(col => ({
         id: col.id,
         label: col.label,
         values: getFilterValues(data, col.id),
         active: getFilterValues(data, col.id),
       }));
-      setFiltersData(filters);
-  }, [data, columns])
+    setFiltersData(filters);
+  }, [data, columns]);
 
   if (filtersData.length === 0) return null;
   return (
     <div className={classes.filters}>
       <Typography variant="h6">Filters</Typography>
-      {filtersData.map((filter) => (
-        <FormControl key={filter.id} id={filter.id} className={classes.formControl}>
+      {filtersData.map(filter => (
+        <FormControl
+          key={filter.id}
+          id={filter.id}
+          className={classes.formControl}
+        >
           <InputLabel htmlFor={filter.id}>{filter.label}</InputLabel>
           <Select
             multiple
             value={filter.active}
-            onChange={(e) => handleChange(e, filter.id)}
-            input={<Input id="filter" classes={{underline: classes.input}} />}
-            renderValue={selected => selected.join(', ')}
+            onChange={e => handleChange(e, filter.id)}
+            input={<Input id="filter" classes={{ underline: classes.input }} />}
+            renderValue={selected => selected.join(", ")}
             MenuProps={MenuProps}
-            classes={{root: classes.multiSelect, select: classes.select, icon: classes.inputIcon}}
+            classes={{
+              root: classes.multiSelect,
+              select: classes.select,
+              icon: classes.inputIcon,
+            }}
             className={classes.multiSelect}
           >
             {filter.values.map(val => (
@@ -100,7 +110,7 @@ const ListTableFilters = props => {
 ListTableFilters.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
-  handleFilterChange: PropTypes.func
+  handleFilterChange: PropTypes.func,
 };
 
 export default ListTableFilters;

@@ -17,10 +17,9 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import FolderIcon from "@material-ui/icons/Folder";
 import Layout from "../../components/Layout";
 import CustomDrawer from "../../components/CustomDrawer";
-import ReportIllustration from "../../images/undraw_data_trends_b0wg.svg";
+// import ReportIllustration from "../../images/undraw_data_trends_b0wg.svg";
 
 const useStyles = makeStyles(theme => ({
   root: {

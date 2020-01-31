@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 const Auth0Sync = ({ history }) => {
   const classes = useStyles();
   const [Users] = useFetchData("user-management/users", []);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); //eslint-disable-line
   const { getTokenSilently } = useAuth0();
 
   useEffect(() => {

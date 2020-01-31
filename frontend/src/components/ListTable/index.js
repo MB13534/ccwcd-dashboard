@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   tableWrapper: {
     overflowX: "auto",
     maxHeight: 700,
-  }
+  },
 }));
 
 const ListTable = props => {
@@ -35,7 +35,6 @@ const ListTable = props => {
     handleDelete = function() {},
     stickyHeader = false,
     selectionsEnabled = true,
-    toggleColumns = false,
   } = props;
   const classes = useStyles();
 
@@ -46,13 +45,13 @@ const ListTable = props => {
   const [tableData, setTableData] = useState([]);
   const [chipColorAssignments, setChipColorAssignments] = useState(null);
 
-  const handleRequestSort = (property) => {
+  const handleRequestSort = property => {
     const isDesc = orderBy === property && order === "desc";
     setOrder(isDesc ? "asc" : "desc");
     setOrderBy(property);
-  }
+  };
 
-  const handleSelectAllClick = (event) => {
+  const handleSelectAllClick = event => {
     const keys = Object.keys(tableData[0]);
     if (event.target.checked) {
       const newSelecteds = tableData.map(n => n[keys[0]]);
@@ -60,11 +59,11 @@ const ListTable = props => {
       return;
     }
     setSelected([]);
-  }
+  };
 
   const handleClearSelected = () => {
     setSelected([]);
-  }
+  };
 
   const handleClick = (event, row) => {
     const targetType = event.target.type;
@@ -75,7 +74,7 @@ const ListTable = props => {
     } else {
       handleRowClick(row);
     }
-  }
+  };
 
   const handleCheckboxClick = (event, row) => {
     const keys = Object.keys(row);
@@ -98,7 +97,7 @@ const ListTable = props => {
     }
 
     setSelected(newSelected);
-  }
+  };
 
   const handleFilterChange = filters => {
     let filteredData = originalData;
@@ -122,7 +121,15 @@ const ListTable = props => {
 
   // handle chip color assignments
   useEffect(() => {
-    const chipColors = ["#4074DC", "#47ab67", "#39a5db", "#ca3b76", "#109c9e","#380a6e", "#9e6502"];
+    const chipColors = [
+      "#4074DC",
+      "#47ab67",
+      "#39a5db",
+      "#ca3b76",
+      "#109c9e",
+      "#380a6e",
+      "#9e6502",
+    ];
 
     const assignChipColors = () => {
       const chipColumns = columns.filter(col => col.chip);
@@ -158,7 +165,6 @@ const ListTable = props => {
         handleFilterChange={handleFilterChange}
         handleDelete={handleDelete}
         handleClearSelected={handleClearSelected}
-        toggleColumns={toggleColumns}
       />
       <div className={classes.tableWrapper}>
         <Table
@@ -178,8 +184,8 @@ const ListTable = props => {
             selectionsEnabled={selectionsEnabled}
           />
           <TableBody>
-            {stableSort(tableData, getSorting(order, orderBy))
-              .map((row, index) => {
+            {stableSort(tableData, getSorting(order, orderBy)).map(
+              (row, index) => {
                 const isItemSelected = isSelected(row);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -193,57 +199,58 @@ const ListTable = props => {
                     key={Math.random() * 99999999}
                     selected={isItemSelected}
                   >
-                  {selectionsEnabled &&
-                    <React.Fragment>
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                          />
-                      </TableCell>
-                    </React.Fragment>
-                  }
-                  <TableCell component="th" id={labelId} scope="row">
-                    {row[columns[0].id]}
-                  </TableCell>
-                  {columns.map((col, index) => {
-                    // eslint-disable-line
-                    if (index !== 0 && !col.chip) {
-                      return (
-                        <TableCell
-                          key={Math.floor(Math.random() * 9999999)}
-                          align={col.numeric ? "center" : "left"}
-                        >
-                          {typeof row[col.id] === "boolean"
-                            ? row[col.id].toString()
-                            : row[col.id]}
-                        </TableCell>
-                      );
-                    } else if (index !== 0 && col.chip) {
-                      const chipColor =
-                        chipColorAssignments !== null
-                          ? chipColorAssignments.assignments[row[col.id]]
-                          : `#dddddd`;
-                      return (
-                        <TableCell
-                          key={Math.floor(Math.random() * 9999999)}
-                          align={col.numeric ? "center" : "left"}
-                        >
-                          <Chip
-                            label={row[col.id]}
-                            style={{
-                              backgroundColor: chipColor,
-                              color: `#ffffff`,
-                            }}
+                    {selectionsEnabled && (
+                      <React.Fragment>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{ "aria-labelledby": labelId }}
                           />
                         </TableCell>
-                      );
-                    }
-                  })}
+                      </React.Fragment>
+                    )}
+                    <TableCell component="th" id={labelId} scope="row">
+                      {row[columns[0].id]}
+                    </TableCell>
+                    {columns.map((col, index) => {
+                      if (index !== 0 && !col.chip) {
+                        return (
+                          <TableCell
+                            key={Math.floor(Math.random() * 9999999)}
+                            align={col.numeric ? "center" : "left"}
+                          >
+                            {typeof row[col.id] === "boolean"
+                              ? row[col.id].toString()
+                              : row[col.id]}
+                          </TableCell>
+                        );
+                      } else if (index !== 0 && col.chip) {
+                        const chipColor =
+                          chipColorAssignments !== null
+                            ? chipColorAssignments.assignments[row[col.id]]
+                            : `#dddddd`;
+                        return (
+                          <TableCell
+                            key={Math.floor(Math.random() * 9999999)}
+                            align={col.numeric ? "center" : "left"}
+                          >
+                            <Chip
+                              label={row[col.id]}
+                              style={{
+                                backgroundColor: chipColor,
+                                color: `#ffffff`,
+                              }}
+                            />
+                          </TableCell>
+                        );
+                      }
+                      return null;
+                    })}
                   </TableRow>
                 );
-              })}
+              }
+            )}
           </TableBody>
         </Table>
       </div>
