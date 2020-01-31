@@ -12,6 +12,8 @@ import DocsIcon from "@material-ui/icons/Book";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountIcon from "@material-ui/icons/AccountCircle";
+import ATVIcon from "@material-ui/icons/DataUsage";
+import ReportsIcon from "@material-ui/icons/Assignment";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
@@ -124,21 +126,21 @@ const Sidebar = props => {
       link: "all-things-viewer",
       title: "All Things Viewer",
       activePath: "all-things-viewer",
-      icon: DashboardIcon,
+      icon: ATVIcon,
       loginRequired: true,
     },
     {
       link: "reports",
       title: "Reports",
       activePath: "reports",
-      icon: DashboardIcon,
+      icon: ReportsIcon,
       loginRequired: true,
     },
     {
       link: "auth0-sync",
       title: "User Management",
       activePath: "auth0-sync",
-      icon: DashboardIcon,
+      icon: AccountIcon,
       loginRequired: true,
     },
   ];
