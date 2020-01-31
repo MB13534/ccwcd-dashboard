@@ -4,13 +4,13 @@ import ViewListItems from "../../../components/DataAdmin/ViewListItems";
 
 const View = ({ history }) => {
   // API endpoint for retrieving/deleting data
-  const endpoint = "structures";
+  const endpoint = "data-managenent/structures";
 
   // table title
   const title = "Structures";
 
   // name of primary key field
-  const keyField = "structure_desc";
+  const keyField = "structure_ndx";
 
   // Columns to include in the table
   const columns = [

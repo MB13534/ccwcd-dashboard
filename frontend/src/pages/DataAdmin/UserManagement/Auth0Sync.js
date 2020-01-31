@@ -36,7 +36,7 @@ const Auth0Sync = ({ history }) => {
         const headers = { Authorization: `Bearer ${token}` };
 
         await axios.post(
-          `${process.env.REACT_APP_ENDPOINT}/api/user-management/auth0-sync`,
+          `${process.env.REACT_APP_ENDPOINT}/api/data-management/user-management/auth0-sync`,
           {},
           { headers }
         );

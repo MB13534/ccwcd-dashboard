@@ -2,23 +2,9 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-// const StructuresRoutes = require("./routes/Structures");
-// const StructureGroupsRoutes = require("./routes/StructureGroups");
-// const UnitsRoutes = require("./routes/Units");
-// const MeasurementTypesRoutes = require("./routes/MeasurementTypes");
-// const ContactsRoutes = require("./routes/Contacts");
-// const ContactGroupsRoutes = require("./routes/ContactGroups");
-// const StatusRoutes = require("./routes/Status");
-// const MeasurementsRoutes = require("./routes/Measurements");
-// const AlertsRoutes = require("./routes/Alerts");
-// const AlertTypesRoutes = require("./routes/AlertTypes");
-// const AlertSubFunctionRoutes = require("./routes/AlertSubFunctions");
-// const AlertGroupRoutes = require("./routes/AlertGroups");
 
-const StructuresRoutes = require("./routes/Structures");
-const StructureTypesRoutes = require("./routes/StructureTypes");
-const MeasurementTypesRoutes = require("./routes/MeasurementTypes");
-const UserManagementRoutes = require("./routes/UserManagement");
+const AllThingsViewerRoutes = require("./routes/ATV");
+const DataManagementRoutes = require("./routes/DataManagement");
 const DummyRoutes = require("./routes/Dummy");
 
 const { setHeaders } = require("./middleware");
@@ -34,24 +20,8 @@ app.use(cors());
 app.use(setHeaders);
 
 // Set routes
-// app.use("/api/structures", StructuresRoutes);
-// app.use("/api/structure-types", StructureTypesRoutes);
-// app.use("/api/structure-groups", StructureGroupsRoutes);
-// app.use("/api/units", UnitsRoutes);
-// app.use("/api/measurement-types", MeasurementTypesRoutes);
-// app.use("/api/contacts", ContactsRoutes);
-// app.use("/api/contact-groups", ContactGroupsRoutes);
-// app.use("/api/status", StatusRoutes);
-// app.use("/api/measurements", MeasurementsRoutes);
-// app.use("/api/alerts", AlertsRoutes);
-// app.use("/api/alert-types", AlertTypesRoutes);
-// app.use("/api/alert-sub-functions", AlertSubFunctionRoutes);
-// app.use("/api/alert-groups", AlertGroupRoutes);
-
-app.use("/api/structures", StructuresRoutes);
-app.use("/api/structure-types", StructureTypesRoutes);
-app.use("/api/measurement-types", MeasurementTypesRoutes);
-app.use("/api/user-management", UserManagementRoutes);
+app.use("/api/data-management", DataManagementRoutes);
+app.use("/api/atv", AllThingsViewerRoutes);
 app.use("/api/dummy", DummyRoutes);
 
 // send 404 if no other route matched

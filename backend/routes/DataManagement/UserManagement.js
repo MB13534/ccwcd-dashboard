@@ -4,12 +4,15 @@ const {
   checkAccessToken,
   checkPermission,
   getAuth0APIToken,
-} = require("../middleware/auth.js");
+} = require("../../middleware/auth.js");
 
-const { Users, UsersLanding, UserRolesLanding } = require("../models");
+const { Users, UsersLanding, UserRolesLanding } = require("../../models");
 
 // Create Express Router
 const router = express.Router();
+
+// Attach middleware to ensure that user is authenticated
+router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 
 /**
  * This function is used to retrieve the roles associated
@@ -58,10 +61,7 @@ async function getRoles(access_token) {
   return data;
 }
 
-// Attach middleware to ensure that user is authenticated
-router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
-
-// GET /api/user-management/users
+// GET /api/data-management/user-management/users
 // Route for returning all users
 router.get("/users", checkPermission(["read:users"]), (req, res, next) => {
   Users.findAll()
@@ -73,7 +73,7 @@ router.get("/users", checkPermission(["read:users"]), (req, res, next) => {
     });
 });
 
-// POST /api/user-management/users
+// POST /api/data-management/user-management/users
 // Route for writing all users from Auth0 to
 router.post(
   "/auth0-sync",

@@ -79,17 +79,29 @@ db.sequelize = sequelize;
 // db.AlertLanding = require('./AlertLanding')(sequelize, Sequelize);
 // db.AlertView = require('./AlertView')(sequelize, Sequelize);
 
-db.StructuresView = require("./StructuresView")(sequelize, Sequelize);
-db.StructureTypesView = require("./StructureTypesView")(sequelize, Sequelize);
-db.MeasurementTypesView = require("./MeasurementTypesView")(
+/**
+ * All Things Viewer Models
+ */
+db.ATV_Structures = require("./ATV/Structures")(sequelize, Sequelize);
+db.ATV_Structure_Types = require("./ATV/StructureTypes")(sequelize, Sequelize);
+db.ATV_Measurement_Types = require("./ATV/MeasurementTypes")(
   sequelize,
   Sequelize
 );
 
-db.Users = require("./Users")(sequelize, Sequelize);
-db.UsersLanding = require("./UsersLanding")(sequelize, Sequelize);
-db.UserRoles = require("./UserRoles")(sequelize, Sequelize);
-db.UserRolesLanding = require("./UserRolesLanding")(sequelize, Sequelize);
+/**
+ * Data Management Models
+ */
+db.Users = require("./DataManagement/Users")(sequelize, Sequelize);
+db.UsersLanding = require("./DataManagement/UsersLanding")(
+  sequelize,
+  Sequelize
+);
+db.UserRoles = require("./DataManagement/UserRoles")(sequelize, Sequelize);
+db.UserRolesLanding = require("./DataManagement/UserRolesLanding")(
+  sequelize,
+  Sequelize
+);
 
 Sequelize.postgres.DECIMAL.parse = function(value) {
   return parseFloat(value);

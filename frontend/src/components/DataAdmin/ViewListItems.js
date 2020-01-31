@@ -204,13 +204,13 @@ const ViewListItems = props => {
       <Sidebar history={history} />
       <div className={classes.content}>
         <div className={classes.pageTitleBar}>
-          <Typography variant="h5" color="secondary" className={classes.title}>
+          <Typography variant="h5" color="primary" className={classes.title}>
             Data Management
           </Typography>
           <Button
             variant="contained"
             size="small"
-            color="secondary"
+            color="primary"
             style={{ marginLeft: 15 }}
             component={AdapterLink}
             to={`/admin/data/${endpoint}/new`}

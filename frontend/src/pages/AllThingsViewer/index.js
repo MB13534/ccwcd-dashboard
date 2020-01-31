@@ -122,9 +122,9 @@ const AllThingsViewer = ({ history }) => {
   const [visualizationType, setVisualizationType] = useState("table");
 
   // Request data for the filters
-  const [StructureTypes] = useFetchData("structure-types", []);
-  const [Structures] = useFetchData("structures", []);
-  const [MeasurementTypes] = useFetchData("measurement-types", []);
+  const [StructureTypes] = useFetchData("atv/structure-types", []);
+  const [Structures] = useFetchData("atv/structures", []);
+  const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
   const [DailyData] = useFetchData("dummy/atv/daily-data", []);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
   const AggregationData = [

@@ -31,10 +31,6 @@ import ViewStructureTypes from "./pages/DataAdmin/StructureTypes/View";
 import AddStructureTypes from "./pages/DataAdmin/StructureTypes/Add";
 import EditStructureTypes from "./pages/DataAdmin/StructureTypes/Edit";
 
-import ViewStructureGroups from "./pages/DataAdmin/StructureGroups/View";
-import AddStructureGroups from "./pages/DataAdmin/StructureGroups/Add";
-import EditStructureGroups from "./pages/DataAdmin/StructureGroups/Edit";
-
 import ViewUnits from "./pages/DataAdmin/Units/View";
 import AddUnits from "./pages/DataAdmin/Units/Add";
 import EditUnits from "./pages/DataAdmin/Units/Edit";
@@ -42,18 +38,6 @@ import EditUnits from "./pages/DataAdmin/Units/Edit";
 import ViewMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/View";
 import AddMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/Add";
 import EditMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/Edit";
-
-import ViewContacts from "./pages/DataAdmin/Contacts/View";
-import AddContacts from "./pages/DataAdmin/Contacts/Add";
-import EditContacts from "./pages/DataAdmin/Contacts/Edit";
-
-import ViewContactGroups from "./pages/DataAdmin/ContactGroups/View";
-import AddContactGroups from "./pages/DataAdmin/ContactGroups/Add";
-import EditContactGroups from "./pages/DataAdmin/ContactGroups/Edit";
-
-import ViewAlerts from "./pages/DataAdmin/Alerts/View";
-import AddAlerts from "./pages/DataAdmin/Alerts/Add";
-import EditAlerts from "./pages/DataAdmin/Alerts/Edit";
 
 const App = () => {
   const { loading } = useAuth0();
@@ -269,23 +253,6 @@ const App = () => {
             component={AddStructureTypes}
           />
 
-          {/* Structure Groups Routes */}
-          <PrivateRoute
-            path="/admin/data/structure-groups"
-            exact
-            component={ViewStructureGroups}
-          />
-          <PrivateRoute
-            path="/admin/data/structure-groups/edit/:id"
-            exact
-            component={EditStructureGroups}
-          />
-          <PrivateRoute
-            path="/admin/data/structure-groups/new"
-            exact
-            component={AddStructureGroups}
-          />
-
           {/* Units Routes */}
           <PrivateRoute path="/admin/data/units" exact component={ViewUnits} />
           <PrivateRoute
@@ -316,56 +283,6 @@ const App = () => {
             component={AddMeasurementTypes}
           />
 
-          {/* Contacts Routes */}
-          <PrivateRoute
-            path="/admin/data/contacts"
-            exact
-            component={ViewContacts}
-          />
-          <PrivateRoute
-            path="/admin/data/contacts/edit/:id"
-            exact
-            component={EditContacts}
-          />
-          <PrivateRoute
-            path="/admin/data/contacts/new"
-            exact
-            component={AddContacts}
-          />
-
-          {/* Contact Groups Routes */}
-          <PrivateRoute
-            path="/admin/data/contact-groups"
-            exact
-            component={ViewContactGroups}
-          />
-          <PrivateRoute
-            path="/admin/data/contact-groups/edit/:id"
-            exact
-            component={EditContactGroups}
-          />
-          <PrivateRoute
-            path="/admin/data/contact-groups/new"
-            exact
-            component={AddContactGroups}
-          />
-
-          {/* Alerts Routes */}
-          <PrivateRoute
-            path="/admin/data/alerts"
-            exact
-            component={ViewAlerts}
-          />
-          <PrivateRoute
-            path="/admin/data/alerts/edit/:id"
-            exact
-            component={EditAlerts}
-          />
-          <PrivateRoute
-            path="/admin/data/alerts/new"
-            exact
-            component={AddAlerts}
-          />
           <Route path="*">
             <NotFound />
           </Route>
