@@ -50,35 +50,6 @@ sequelize
 
 db.sequelize = sequelize;
 
-// db.StructuresLanding = require('./StructuresLanding')(sequelize, Sequelize);
-// db.StructuresView = require('./StructuresView')(sequelize, Sequelize);
-// db.StructuresToMeasureTypesLanding = require('./StructuresToMeasureTypesLanding')(sequelize, Sequelize);
-// db.StructuresToContactsLanding = require('./StructuresToContactsLanding')(sequelize, Sequelize);
-// db.StructureTypesLanding = require('./StructureTypesLanding')(sequelize, Sequelize);
-// db.StructureTypesView = require('./StructureTypesView')(sequelize, Sequelize);
-// db.StructureGroupsLanding = require('./StructureGroupsLanding')(sequelize, Sequelize);
-// db.StructureGroupsView = require('./StructureGroupsView')(sequelize, Sequelize);
-// db.UnitsLanding = require('./UnitsLanding')(sequelize, Sequelize);
-// db.UnitsView = require('./UnitsView')(sequelize, Sequelize);
-// db.MeasurementsView = require('./MeasurementsView')(sequelize, Sequelize);
-// db.MeasurementTypesLanding = require('./MeasurementTypesLanding')(sequelize, Sequelize);
-// db.MeasurementTypesView = require('./MeasurementTypesView')(sequelize, Sequelize);
-// db.ContactsLanding = require('./ContactsLanding')(sequelize, Sequelize);
-// db.ContactsView = require('./ContactsView')(sequelize, Sequelize);
-// db.ContactGroupsLanding = require('./ContactGroupsLanding')(sequelize, Sequelize);
-// db.ContactGroupsView = require('./ContactGroupsView')(sequelize, Sequelize);
-// db.StatusView = require('./StatusView')(sequelize, Sequelize);
-// db.AssocContactsGroupsLanding = require('./AssocContactsGroupsLanding')(sequelize, Sequelize);
-// db.AssocContactsGroupsView = require('./AssocContactsGroupsView')(sequelize, Sequelize);
-// db.AssocMeasurementTypesUnitsLanding = require('./AssocMeasurementTypesUnitsLanding')(sequelize, Sequelize);
-// db.AssocMeasurementTypesUnitsView = require('./AssocMeasurementTypesUnitsView')(sequelize, Sequelize);
-// db.AssocStructuresContactsView = require('./AssocStructuresContactsView')(sequelize, Sequelize);
-// db.AlertTypesView = require('./AlertTypesView')(sequelize, Sequelize);
-// db.AlertSubFunctionsView = require('./AlertSubFunctionsView')(sequelize, Sequelize);
-// db.AlertGroupsView = require('./AlertGroupsView')(sequelize, Sequelize);
-// db.AlertLanding = require('./AlertLanding')(sequelize, Sequelize);
-// db.AlertView = require('./AlertView')(sequelize, Sequelize);
-
 /**
  * All Things Viewer Models
  */
@@ -92,6 +63,7 @@ db.ATV_Measurement_Types = require("./ATV/MeasurementTypes")(
 /**
  * Data Management Models
  */
+db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
 db.Users = require("./DataManagement/Users")(sequelize, Sequelize);
 db.UsersLanding = require("./DataManagement/UsersLanding")(
   sequelize,

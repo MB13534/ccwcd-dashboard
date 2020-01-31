@@ -233,7 +233,7 @@ const ViewListItems = props => {
                     <div className="map-container">
                       <div className={classes.map} ref={mapContainer}></div>
                     </div>
-                    <Avatar className={classes.avatar} color="secondary">
+                    <Avatar className={classes.avatar} color="primary">
                       <LocationIcon className={classes.avatarIcon} />
                     </Avatar>
                   </React.Fragment>
@@ -241,7 +241,7 @@ const ViewListItems = props => {
                 <div className={classes.itemDetails}>
                   {sidebarColumns.map(col => (
                     <div className={classes.itemDetail} key={col.id}>
-                      <Typography variant="body1" color="secondary">
+                      <Typography variant="body1" color="primary">
                         {col.label}
                       </Typography>
                       {typeof col.type !== "undefined" &&
@@ -267,7 +267,7 @@ const ViewListItems = props => {
                   <Button
                     variant="contained"
                     size="small"
-                    color="secondary"
+                    color="primary"
                     style={{ marginTop: 15 }}
                     component={AdapterLink}
                     to={`/admin/data/${endpoint}/edit/${activeListItem[keyField]}`}
