@@ -164,9 +164,10 @@ const Sidebar = props => {
       </ListItem>
     );
 
-    if (item.loginRequired && item.rolesRequired) {
+    if (item.loginRequired && item.rolesRequired && user) {
       let roleSwitch = false;
-      item.rolesRequired.forEach(role => {
+      const roles = [...item.rolesRequired];
+      roles.forEach(role => {
         if (user["https://ccwcd2.org/roles"].includes(role)) {
           roleSwitch = true;
         }
