@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -18,11 +19,14 @@ import HelpIcon from "@material-ui/icons/Help";
 import LinkIcon from "@material-ui/icons/Link";
 import { CSVLink } from "react-csv";
 import Layout from "../../components/Layout";
+import FormSnackbar from "../../components/DataAdmin/FormSnackbar";
 import FilterBar from "../../components/Filters/FilterBar";
 import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
+import { useAuth0 } from "../../hooks/auth";
+import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import DataTable from "../../components/DataTable";
 import LineGraph from "../../components/DataVisualization/LineGraph";
 import DownloadIllustration from "../../images/undraw_server_q2pb.svg";
@@ -109,10 +113,16 @@ const useStyles = makeStyles(theme => ({
 const AllThingsViewer = ({ history }) => {
   const classes = useStyles();
 
+  const {
+    setWaitingState,
+    snackbarOpen,
+    snackbarError,
+    handleSnackbarClose,
+  } = useFormSubmitStatus();
   const [filterValues, setFilterValues] = useState({
-    station_types: [],
-    structures: [],
-    measurement_types: [],
+    station_types: [4],
+    structures: [1, 3],
+    measurement_types: [8],
     aggregation_level: "",
     file_name: "",
   });
@@ -120,12 +130,13 @@ const AllThingsViewer = ({ history }) => {
   const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
   const [dataDownloadVisibility, setDataDownloadVisibility] = useState(false);
   const [visualizationType, setVisualizationType] = useState("table");
+  const { getTokenSilently } = useAuth0();
 
   // Request data for the filters
   const [StructureTypes] = useFetchData("atv/structure-types", []);
   const [Structures] = useFetchData("atv/structures", []);
   const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
-  const [DailyData] = useFetchData("dummy/atv/daily-data", []);
+  const [DailyData, setDailyData] = useState([]);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
   const AggregationData = [
     { aggregation_ndx: 1, aggregation_desc: "Daily" },
@@ -200,6 +211,29 @@ const AllThingsViewer = ({ history }) => {
     });
   };
 
+  /**
+   * Handle form submit
+   * @param {Object} event
+   */
+  const handleSubmit = async event => {
+    event.preventDefault();
+    setWaitingState("in progress");
+    try {
+      const token = await getTokenSilently();
+      const headers = { Authorization: `Bearer ${token}` };
+      const response = await axios.get(
+        `${process.env.REACT_APP_ENDPOINT}/api/atv/daily-averages/${filterValues.structures}/${filterValues.measurement_types}`,
+        { headers }
+      );
+      setWaitingState("complete", "no error");
+      setDailyData(response.data);
+    } catch (err) {
+      console.error(err);
+      setWaitingState("complete", "error");
+      setDailyData([]);
+    }
+  };
+
   // function for naviating to a specific page in the app
   const goTo = route => {
     history.push(`/${route}`);
@@ -211,14 +245,31 @@ const AllThingsViewer = ({ history }) => {
   };
 
   useEffect(() => {
+    (async () => {
+      try {
+        const token = await getTokenSilently();
+        const headers = { Authorization: `Bearer ${token}` };
+        const response = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT}/api/atv/daily-averages/${filterValues.structures}/${filterValues.measurement_types}`,
+          { headers }
+        );
+        setDailyData(response.data);
+      } catch (err) {
+        console.error(err);
+        setDailyData([]);
+      }
+    })();
+  }, []); //eslint-disable-line
+
+  useEffect(() => {
     if (DailyData.length > 0) {
       const keys = Object.keys(DailyData[0]);
       setDailyDataColumns(
         keys.map(key => {
-          if (key === "Date") {
+          if (key === "collect_timestamp") {
             return {
               type: "category",
-              label: key,
+              label: "Date",
               accessor: key,
               filter: {
                 enabled: true,
@@ -248,7 +299,7 @@ const AllThingsViewer = ({ history }) => {
 
   return (
     <Layout history={history}>
-      <FilterBar onSubmit={() => {}}>
+      <FilterBar onSubmit={handleSubmit}>
         {/* Structure Types filter */}
         <MultiSelectFilter
           name="station_types"
@@ -490,6 +541,12 @@ const AllThingsViewer = ({ history }) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <FormSnackbar
+        open={snackbarOpen}
+        error={snackbarError}
+        handleClose={handleSnackbarClose}
+      />
     </Layout>
   );
 };

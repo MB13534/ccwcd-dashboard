@@ -246,6 +246,28 @@ const generateLastUpdateDataWithNulls = count => {
   return records;
 };
 
+/**
+ * Utility method for extracting the date in "YYYY-MM-DD" format
+ * Ideal for extracting the date for a Material-UI date picker
+ * @param {*} date
+ */
+const extractDate = date => {
+  if (date) {
+    const properDate = new Date(date);
+    const year = properDate.getFullYear();
+    const month =
+      properDate.getMonth() + 1 < 10
+        ? `0${properDate.getMonth() + 1}`
+        : properDate.getMonth() + 1;
+    const day =
+      properDate.getDate() < 10
+        ? `0${properDate.getDate()}`
+        : properDate.getDate();
+    return `${year}-${month}-${day}`;
+  }
+  return "";
+};
+
 exports.unique = unique;
 exports.crosstab = crosstab;
 exports.generateDailyData = generateDailyData;
@@ -254,3 +276,4 @@ exports.generateCrosstabbedDailyData = generateCrosstabbedDailyData;
 exports.generateCrosstabbedDailyDataWithNulls = generateCrosstabbedDailyDataWithNulls;
 exports.generateLastUpdateData = generateLastUpdateData;
 exports.generateLastUpdateDataWithNulls = generateLastUpdateDataWithNulls;
+exports.extractDate = extractDate;

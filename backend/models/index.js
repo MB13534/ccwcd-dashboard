@@ -59,6 +59,7 @@ db.ATV_Measurement_Types = require("./ATV/MeasurementTypes")(
   sequelize,
   Sequelize
 );
+db.ATV_Daily_Average = require("./ATV/DailyAverage")(sequelize, Sequelize);
 
 /**
  * Data Management Models

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, STRING, ARRAY, DOUBLE, BOOLEAN } = DataTypes;
+  const { INTEGER, STRING, ARRAY } = DataTypes;
   const StructuresView = sequelize.define(
     "atv_list_structures",
     {

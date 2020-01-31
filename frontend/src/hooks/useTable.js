@@ -6,7 +6,7 @@ const useTable = (data, columns) => {
   const [orderBy, setOrderBy] = useState("Date");
   const [filteredKeys, setFilteredKeys] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [excludeNulls, setExcludeNulls] = useState(false);
+  const [excludeNulls, setExcludeNulls] = useState(true);
 
   /**
    * Return an array of the header labels
