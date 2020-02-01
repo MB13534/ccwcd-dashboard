@@ -67,6 +67,8 @@ db.ATV_Daily_Average = require("./ATV/DailyAverage")(sequelize, Sequelize);
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
 db.DM_Sources = require("./DataManagement/SourcesView")(sequelize, Sequelize);
 db.DM_StructureTypes = require("./DataManagement/StructureTypesView")(sequelize, Sequelize);
+db.DM_MeasurementTypes = require("./DataManagement/MeasurementTypesView")(sequelize, Sequelize);
+db.DM_MeasurementStations = require("./DataManagement/MeasurementStationsView")(sequelize, Sequelize);
 db.Users = require("./DataManagement/Users")(sequelize, Sequelize);
 db.UsersLanding = require("./DataManagement/UsersLanding")(
   sequelize,

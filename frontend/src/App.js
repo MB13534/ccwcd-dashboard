@@ -41,6 +41,8 @@ import ViewMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/View";
 import AddMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/Add";
 import EditMeasurementTypes from "./pages/DataAdmin/MeasurementTypes/Edit";
 
+import ViewMeasurementStations from "./pages/DataAdmin/MeasurementStations/View";
+
 const App = () => {
   const { loading } = useAuth0();
 
@@ -285,15 +287,6 @@ const App = () => {
             roles={AdminRoles}
             component={ViewUnits}
           />
-
-          {/* Sources Routes */}
-          <PrivateRouteWithRoles
-            path="/admin/data/sources"
-            exact
-            roles={AdminRoles}
-            component={ViewSources}
-          />
-
           <PrivateRouteWithRoles
             path="/admin/data/units/edit/:id"
             exact
@@ -305,6 +298,14 @@ const App = () => {
             exact
             roles={AdminRoles}
             component={AddUnits}
+          />
+
+          {/* Sources Routes */}
+          <PrivateRouteWithRoles
+            path="/admin/data/sources"
+            exact
+            roles={AdminRoles}
+            component={ViewSources}
           />
 
           {/* Measurement Types Routes */}
@@ -325,6 +326,14 @@ const App = () => {
             exact
             roles={AdminRoles}
             component={AddMeasurementTypes}
+          />
+
+          {/* Measurement Stations Routes */}
+          <PrivateRouteWithRoles
+            path="/admin/data/measurement-stations"
+            exact
+            roles={AdminRoles}
+            component={ViewMeasurementStations}
           />
 
           <Route path="*">

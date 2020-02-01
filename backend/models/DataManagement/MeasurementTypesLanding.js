@@ -1,4 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
+  const { STRING, INTEGER, BOOLEAN } = DataTypes;
   const MeasurementTypesLanding = sequelize.define('landing_types_measurements', {
     measure_type_ndx: {
       type: DataTypes.INTEGER,
