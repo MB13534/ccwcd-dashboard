@@ -33,15 +33,12 @@ import DownloadIllustration from "../../images/undraw_server_q2pb.svg";
 import RelatedPagesIllustration from "../../images/undraw_researching_22gp.svg";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    overflow: "hidden",
-  },
   content: {
-    flexGrow: 1,
+    maxWidth: "100%!important",
   },
   mainContent: {
     padding: theme.spacing(3),
+    maxWidth: "100%",
   },
   paper: {
     padding: theme.spacing(2),
@@ -120,9 +117,9 @@ const AllThingsViewer = ({ history }) => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
   const [filterValues, setFilterValues] = useState({
-    station_types: [4],
-    structures: [1, 3],
-    measurement_types: [8],
+    station_types: [1],
+    structures: [37, 52, 53, 55, 62, 63, 35, 31, 20, 12, 13, 14],
+    measurement_types: [3],
     aggregation_level: "",
     file_name: "",
   });
