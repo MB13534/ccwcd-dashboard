@@ -20,7 +20,7 @@ const styles = theme => ({
     marginRight: 5,
     cursor: `pointer`,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.dark,
       color: `#ffffff`,
     },
   },
