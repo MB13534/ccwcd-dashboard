@@ -140,6 +140,14 @@ const AllThingsViewer = ({ history }) => {
     { aggregation_ndx: 2, aggregation_desc: "15 Minute" },
   ];
 
+  /**
+   * TODO
+   * Need to figure out a way to remove active filter values
+   * when an associated filter is changed and as a result
+   * the active values are no longer present in the
+   * dependent dropdown menu
+   */
+
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
     Structures,
@@ -199,6 +207,66 @@ const AllThingsViewer = ({ history }) => {
     const { name, value, type, checked } = event.target;
     setFilterValues(prevState => {
       let newValues = { ...prevState };
+
+      /**
+       * TODO Document Properly
+       * gnarly logic surrounding removing users selected structures
+       * and measurement types associated with a structure type
+       * when they remove that structure type selection
+       */
+      if (name === "station_types") {
+        if (newValues[name].length > value.length) {
+          const structuresWithAssoc = Structures.filter(d =>
+            value.includes(d.assoc_structure_type_ndx[0])
+          ).map(d => d.structure_ndx);
+
+          const updatedStructureSelections = newValues.structures.filter(d =>
+            structuresWithAssoc.includes(d)
+          );
+
+          const measurementTypesWithAssoc = MeasurementTypes.filter(d => {
+            let counter = 0;
+            d.assoc_structure_ndx.forEach(dd => {
+              if (updatedStructureSelections.includes(dd)) {
+                counter++;
+              }
+            });
+            return counter > 0;
+          }).map(d => d.measure_type_ndx);
+
+          const updatedMeasurementTypeSelections = newValues.measurement_types.filter(
+            d => measurementTypesWithAssoc.includes(d)
+          );
+
+          newValues.structures = updatedStructureSelections;
+          newValues.measurement_types = updatedMeasurementTypeSelections;
+        }
+      }
+
+      /**
+       * TODO Document Properly
+       * gnarly logic surrounding removing users selected measurement types
+       * associated with a structure when they remove that structures selection
+       */
+      if (name === "structures") {
+        if (newValues[name].length > value.length) {
+          const measurementTypesWithAssoc = MeasurementTypes.filter(d => {
+            let counter = 0;
+            d.assoc_structure_ndx.forEach(dd => {
+              if (value.includes(dd)) {
+                counter++;
+              }
+            });
+            return counter > 0;
+          }).map(d => d.measure_type_ndx);
+
+          const updatedMeasurementTypeSelections = newValues.measurement_types.filter(
+            d => measurementTypesWithAssoc.includes(d)
+          );
+          newValues.measurement_types = updatedMeasurementTypeSelections;
+        }
+      }
+
       if (type === "checkbox") {
         newValues[name] = checked;
       } else {
