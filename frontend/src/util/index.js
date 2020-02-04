@@ -128,3 +128,12 @@ export const validateDependentSelections = ({
   }
   return previousChildSelections;
 };
+
+/**
+ * Utility function used to programatically navigate to a new route
+ * @param {object} history React Router history
+ * @param {string} route path to navigate to
+ */
+export const goTo = (history, route) => {
+  history.push(`/${route}`);
+};

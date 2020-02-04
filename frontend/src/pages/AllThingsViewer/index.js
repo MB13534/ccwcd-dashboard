@@ -31,7 +31,7 @@ import DataTable from "../../components/DataTable";
 import LineGraph from "../../components/DataVisualization/LineGraph";
 import DownloadIllustration from "../../images/undraw_server_q2pb.svg";
 import RelatedPagesIllustration from "../../images/undraw_researching_22gp.svg";
-import { validateDependentSelections } from "../../util";
+import { validateDependentSelections, goTo } from "../../util";
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -113,6 +113,7 @@ const AllThingsViewer = ({ history }) => {
 
   const {
     setWaitingState,
+    formSubmitting,
     snackbarOpen,
     snackbarError,
     handleSnackbarClose,
@@ -142,24 +143,30 @@ const AllThingsViewer = ({ history }) => {
   ];
 
   /**
-   * TODO
-   * Need to figure out a way to remove active filter values
-   * when an associated filter is changed and as a result
-   * the active values are no longer present in the
-   * dependent dropdown menu
+   * Use the useFilterAssoc hook to populate the structures dropdown
+   * Returns structures data associated with the user's selected
+   * structure types
    */
-
   const filteredStructures = useFilterAssoc(
     filterValues.station_types,
     Structures,
     "assoc_structure_type_ndx"
   );
+
+  /**
+   * Use the useFilterAssoc hook to populate the measurement types dropdown
+   * Returns measurement types data associated with the user's selected
+   * structures
+   */
   const filteredMeasurementTypes = useFilterAssoc(
     filterValues.structures,
     MeasurementTypes,
     "assoc_structure_ndx"
   );
 
+  /**
+   * Configure the columns for the Last Update Table
+   */
   const LastUpdateColumns = [
     {
       type: "category",
@@ -209,6 +216,8 @@ const AllThingsViewer = ({ history }) => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
 
+      // logic that clears selections for structures and measurement types
+      // that should no longer show up if a structure type is removed
       if (name === "station_types") {
         const newStructureSelections = validateDependentSelections({
           previousParentSelections: newValues[name],
@@ -232,6 +241,8 @@ const AllThingsViewer = ({ history }) => {
         newValues.measurement_types = newMeasurementTypeSelections;
       }
 
+      // logic that clears selections for measurement types
+      // that should no longer show up if a structure is removed
       if (name === "structures") {
         newValues.measurement_types = validateDependentSelections({
           previousParentSelections: newValues[name],
@@ -275,16 +286,15 @@ const AllThingsViewer = ({ history }) => {
     }
   };
 
-  // function for naviating to a specific page in the app
-  const goTo = route => {
-    history.push(`/${route}`);
-    localStorage.setItem("last_url", history.location.pathname);
-  };
-
   const handleVisualizationType = () => {
     setVisualizationType(state => (state === "table" ? "graph" : "table"));
   };
 
+  /**
+   * Fetch the daily data crosstab data on page load
+   * Passing an empty array to the useEffect hook
+   * ensures that the data is only fetched once
+   */
   useEffect(() => {
     (async () => {
       try {
@@ -302,6 +312,11 @@ const AllThingsViewer = ({ history }) => {
     })();
   }, []); //eslint-disable-line
 
+  /**
+   * Logic used to programatically set the column configs for the
+   * Daily Data crosstab table
+   * Logic runs whenever the DailyData is updated
+   */
   useEffect(() => {
     if (DailyData.length > 0) {
       const keys = Object.keys(DailyData[0]);
@@ -391,6 +406,7 @@ const AllThingsViewer = ({ history }) => {
           <Paper className={classes.paper}>
             {visualizationType === "table" && (
               <DataTable
+                loading={formSubmitting}
                 data={DailyData}
                 columns={dailyDataColumns}
                 title={
@@ -587,6 +603,8 @@ const AllThingsViewer = ({ history }) => {
         open={snackbarOpen}
         error={snackbarError}
         handleClose={handleSnackbarClose}
+        successMessage="Filters submitted successfully"
+        errorMessage="Filters could not be submitted"
       />
     </Layout>
   );
