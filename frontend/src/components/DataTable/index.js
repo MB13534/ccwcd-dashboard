@@ -216,7 +216,6 @@ const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
                   <Typography
                     variant="button"
                     display="inline"
-                    className={classes.controlText}
                     color={filtersVisible ? "primary" : "initial"}
                   >
                     Filter Records
@@ -237,7 +236,6 @@ const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
                     variant="button"
                     display="inline"
                     color={columnTogglesVisible ? "primary" : "initial"}
-                    className={classes.controlText}
                   >
                     Toggle Columns
                   </Typography>

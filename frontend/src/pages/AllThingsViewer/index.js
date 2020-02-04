@@ -24,7 +24,7 @@ import { validateDependentSelections } from "../../util";
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
-    margin: theme.spacing(3),
+    margin: theme.spacing(5),
     maxWidth: "100%",
   },
   paper: {
