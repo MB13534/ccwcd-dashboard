@@ -20,6 +20,7 @@ import Filters from "./Filters";
 import ColumnToggles from "./ColumnToggles";
 import SwitchFilter from "../Filters/SwitchFilter";
 import NoDataIllustration from "../../images/undraw_towing_6yy4.svg";
+import LoadingIcon from "../../images/loading.svg";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,9 +63,15 @@ const useStyles = makeStyles(theme => ({
   img: {
     maxWidth: "100%",
   },
+  loadingWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: 300,
+  },
 }));
 
-const NewListTable = ({ data, columns, title, height, ...props }) => {
+const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
   const classes = useStyles();
   const {
     headers,
@@ -101,6 +108,14 @@ const NewListTable = ({ data, columns, title, height, ...props }) => {
   const handleFiltersVisibility = () => {
     setFiltersVisible(state => !state);
   };
+
+  if (loading) {
+    return (
+      <div className={classes.loadingWrapper}>
+        <img src={LoadingIcon} alt="loading" />
+      </div>
+    );
+  }
 
   return (
     <div className={classes.root}>

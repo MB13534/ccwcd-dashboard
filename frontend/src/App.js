@@ -3,7 +3,7 @@ import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useAuth0 } from "./hooks/auth";
-import PrivateRoute from "./components/PrivateRoute";
+// import PrivateRoute from "./components/PrivateRoute";
 import PrivateRouteWithRoles from "./components/PrivateRouteWithRoles";
 import NotFound from "./components/NotFound";
 import Loading from "./components/Loading";
