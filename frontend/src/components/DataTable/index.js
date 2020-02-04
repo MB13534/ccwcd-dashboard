@@ -12,9 +12,16 @@ import {
   IconButton,
   Tooltip,
   Divider,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  TextField,
 } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import ColumnsIcon from "@material-ui/icons/ViewColumn";
+import DownloadIcon from "@material-ui/icons/CloudDownload";
+import { CSVLink } from "react-csv";
 import useTable from "../../hooks/useTable";
 import Filters from "./Filters";
 import ColumnToggles from "./ColumnToggles";
@@ -31,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   tableWrapper: {
     overflowX: "auto",
-    maxHeight: 700,
+    maxHeight: 800,
   },
   tableHeader: {
     color: theme.palette.primary.dark,
@@ -69,6 +76,53 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     minHeight: 300,
   },
+  dialog: {
+    padding: theme.spacing(2),
+  },
+  dialogActions: {
+    justifyContent: "flex-start",
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+  },
+  dialogWrapper: {
+    padding: theme.spacing(0, 3),
+  },
+  margin: {
+    margin: theme.spacing(2),
+  },
+  marginTop: {
+    marginTop: theme.spacing(2),
+  },
+  marginBottom: {
+    marginBottom: theme.spacing(2),
+  },
+  fileName: {
+    marginBottom: theme.spacing(1),
+    width: 500,
+  },
+  downloadBtn: {
+    boxShadow: `0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)`,
+    backgroundColor: theme.palette.secondary.main,
+    color: "#ffffff",
+    textDecoration: "none",
+    padding: "6px 16px",
+    fontSize: "0.875rem",
+    minWidth: 64,
+    boxSizing: "border-box",
+    transition:
+      "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    fontWeight: 500,
+    lineHeight: 1.75,
+    borderRadius: 4,
+    letterSpacing: "0.02857em",
+    textTransform: "uppercase",
+    marginTop: theme.spacing(2),
+    "&:hover": {
+      boxShadow:
+        "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+      backgroundColor: "#388e3c",
+    },
+  },
 }));
 
 const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
@@ -90,6 +144,8 @@ const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
   } = useTable(data, columns);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [columnTogglesVisible, setColumnTogglesVisible] = useState(false);
+  const [dataDownloadVisible, setDataDownloadVisibile] = useState(false);
+  const [fileName, setFileName] = useState("");
 
   const setStyles = () => {
     if (height) {
@@ -107,6 +163,10 @@ const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
 
   const handleFiltersVisibility = () => {
     setFiltersVisible(state => !state);
+  };
+
+  const handleDataDownloadVisibility = () => {
+    setDataDownloadVisibile(state => !state);
   };
 
   if (loading) {
@@ -190,6 +250,20 @@ const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
                 checked={excludeNulls}
                 onChange={handleExcludeNulls}
               />
+              <div onClick={handleDataDownloadVisibility}>
+                <Tooltip title="Download Data">
+                  <IconButton aria-label="Download Data">
+                    <DownloadIcon />
+                  </IconButton>
+                </Tooltip>
+                <Typography
+                  variant="button"
+                  display="inline"
+                  className={classes.controlText}
+                >
+                  Download Data
+                </Typography>
+              </div>
             </div>
             <Filters
               filters={filters}
@@ -243,6 +317,52 @@ const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
           </React.Fragment>
         )}
       </div>
+      {/* Data Download Dialog */}
+      <Dialog
+        onClose={handleDataDownloadVisibility}
+        aria-labelledby="simple-dialog-title"
+        open={dataDownloadVisible}
+        fullWidth={true}
+        maxWidth="sm"
+        className={classes.dialog}
+      >
+        <DialogTitle>Data Download</DialogTitle>
+        <div className={classes.dialogWrapper}>
+          <Typography variant="body1" paragraph>
+            INSTRUCTIONS HERE
+          </Typography>
+          <form>
+            <TextField
+              id="file_name"
+              className={classes.fileName}
+              name="file_name"
+              label="File Name"
+              variant="outlined"
+              onChange={e => setFileName(e.target.value)}
+              value={fileName}
+              required
+            />
+          </form>
+        </div>
+        <DialogActions classes={{ root: classes.dialogActions }}>
+          <CSVLink
+            data={tableData}
+            className={classes.downloadBtn}
+            filename={`${fileName}.csv`}
+            target="_blank"
+            onClick={handleDataDownloadVisibility}
+          >
+            Download
+          </CSVLink>
+          <Button
+            onClick={handleDataDownloadVisibility}
+            variant="contained"
+            className={classes.marginTop}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

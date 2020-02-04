@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    width: "calc(100% - 248px)",
+    width: "calc(100% - 340px)",
     flexShrink: 0,
   },
 }));
