@@ -85,3 +85,46 @@ export const extractDate = date => {
   }
   return "";
 };
+
+/**
+ * Function used to determine if a users active selections
+ * should be cleared based on if a selection in a parent
+ * has been removed
+ *
+ * i.e. There are two dropdowns, the options in the second dropdown
+ * are tied to the first dropdown. If the user removes a selection from
+ * the first dropdown, any selections that the user has that are tied to
+ * the removed value from the first dropdown should be cleared
+ *
+ * @param {object} config configuration options
+ * @param {array} config.previousParentSelections previsouly active selections for parent
+ * @param {array} config.newParentSelections new selections for parent
+ * @param {array} config.childData array of data associated with the child
+ * @param {array} config.previousChildSelections current selections for child
+ * @param {string} config.assocField name of the field containing the parent associations
+ * @param {string} config.valueField name of the field containing the child values
+ */
+export const validateDependentSelections = ({
+  previousParentSelections,
+  newParentSelections,
+  childData,
+  previousChildSelections,
+  assocField,
+  valueField,
+}) => {
+  // checks if a selection has been removed
+  if (previousParentSelections.length > newParentSelections.length) {
+    // get a list of values that match the users new selections
+    const filteredSelections = childData
+      .filter(d => {
+        return (
+          d[assocField].filter(dd => newParentSelections.includes(dd)).length >
+          0
+        );
+      })
+      .map(d => d[valueField]);
+
+    return filteredSelections;
+  }
+  return previousChildSelections;
+};

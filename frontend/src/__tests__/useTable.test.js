@@ -1,6 +1,9 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 import useTable from "../hooks/useTable";
-import { generateCrosstabbedDailyDataWithNulls } from "../../../backend/util";
+import {
+  generateCrosstabbedDailyDataWithNulls,
+  extractDate,
+} from "../../../backend/util";
 
 let result;
 
@@ -100,7 +103,7 @@ test("useTable() returns expected tableData", () => {
     "FIDCO Flow (CFS)",
   ];
 
-  expect(tableData.length).toBe(10);
+  expect(tableData.length).toBe(8);
   expect(Object.keys(tableData[0])).toEqual(expect.arrayContaining(keys));
 });
 
@@ -132,22 +135,30 @@ test("useTable() toggle columns works", () => {
 
 test("useTable() filter config works", () => {
   const { filters } = result.current;
+  const baseStartDate = new Date();
+  const baseEndDate = new Date();
+  const startDate = extractDate(
+    new Date(baseStartDate.setDate(baseStartDate.getDate() - 10))
+  );
+  const endDate = extractDate(
+    new Date(baseEndDate.setDate(baseEndDate.getDate() - 1))
+  );
 
-  expect(filters[0].filter.value[0]).toBe("2019-12-13");
-  expect(filters[0].filter.value[1]).toBe("2020-01-27");
+  expect(filters[0].filter.value[0]).toBe(startDate);
+  expect(filters[0].filter.value[1]).toBe(endDate);
 });
 
 test("useTable() exclude null values works", () => {
   const { handleExcludeNulls } = result.current;
-  expect(result.current.tableData.length).toBe(10);
-  act(() => {
-    handleExcludeNulls();
-  });
-  expect(result.current.excludeNulls).toBe(true);
   expect(result.current.tableData.length).toBe(8);
   act(() => {
     handleExcludeNulls();
   });
   expect(result.current.excludeNulls).toBe(false);
   expect(result.current.tableData.length).toBe(10);
+  act(() => {
+    handleExcludeNulls();
+  });
+  expect(result.current.excludeNulls).toBe(true);
+  expect(result.current.tableData.length).toBe(8);
 });

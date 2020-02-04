@@ -31,6 +31,7 @@ import DataTable from "../../components/DataTable";
 import LineGraph from "../../components/DataVisualization/LineGraph";
 import DownloadIllustration from "../../images/undraw_server_q2pb.svg";
 import RelatedPagesIllustration from "../../images/undraw_researching_22gp.svg";
+import { validateDependentSelections } from "../../util";
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -208,63 +209,38 @@ const AllThingsViewer = ({ history }) => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
 
-      /**
-       * TODO Document Properly
-       * gnarly logic surrounding removing users selected structures
-       * and measurement types associated with a structure type
-       * when they remove that structure type selection
-       */
       if (name === "station_types") {
-        if (newValues[name].length > value.length) {
-          const structuresWithAssoc = Structures.filter(d =>
-            value.includes(d.assoc_structure_type_ndx[0])
-          ).map(d => d.structure_ndx);
+        const newStructureSelections = validateDependentSelections({
+          previousParentSelections: newValues[name],
+          newParentSelections: value,
+          childData: Structures,
+          previousChildSelections: filterValues.structures,
+          assocField: "assoc_structure_type_ndx",
+          valueField: "structure_ndx",
+        });
 
-          const updatedStructureSelections = newValues.structures.filter(d =>
-            structuresWithAssoc.includes(d)
-          );
+        const newMeasurementTypeSelections = validateDependentSelections({
+          previousParentSelections: newValues.structures,
+          newParentSelections: newStructureSelections,
+          childData: MeasurementTypes,
+          previousChildSelections: filterValues.measurement_types,
+          assocField: "assoc_structure_ndx",
+          valueField: "measure_type_ndx",
+        });
 
-          const measurementTypesWithAssoc = MeasurementTypes.filter(d => {
-            let counter = 0;
-            d.assoc_structure_ndx.forEach(dd => {
-              if (updatedStructureSelections.includes(dd)) {
-                counter++;
-              }
-            });
-            return counter > 0;
-          }).map(d => d.measure_type_ndx);
-
-          const updatedMeasurementTypeSelections = newValues.measurement_types.filter(
-            d => measurementTypesWithAssoc.includes(d)
-          );
-
-          newValues.structures = updatedStructureSelections;
-          newValues.measurement_types = updatedMeasurementTypeSelections;
-        }
+        newValues.structures = newStructureSelections;
+        newValues.measurement_types = newMeasurementTypeSelections;
       }
 
-      /**
-       * TODO Document Properly
-       * gnarly logic surrounding removing users selected measurement types
-       * associated with a structure when they remove that structures selection
-       */
       if (name === "structures") {
-        if (newValues[name].length > value.length) {
-          const measurementTypesWithAssoc = MeasurementTypes.filter(d => {
-            let counter = 0;
-            d.assoc_structure_ndx.forEach(dd => {
-              if (value.includes(dd)) {
-                counter++;
-              }
-            });
-            return counter > 0;
-          }).map(d => d.measure_type_ndx);
-
-          const updatedMeasurementTypeSelections = newValues.measurement_types.filter(
-            d => measurementTypesWithAssoc.includes(d)
-          );
-          newValues.measurement_types = updatedMeasurementTypeSelections;
-        }
+        newValues.measurement_types = validateDependentSelections({
+          previousParentSelections: newValues[name],
+          newParentSelections: value,
+          childData: MeasurementTypes,
+          previousChildSelections: filterValues.measurement_types,
+          assocField: "assoc_structure_ndx",
+          valueField: "measure_type_ndx",
+        });
       }
 
       if (type === "checkbox") {

@@ -83,7 +83,7 @@ const generateCrosstabbedDailyData = count => {
 
   const records = Array.apply(null, Array(count)).map((d, i) => {
     let record = {
-      Date: new Date(baseDate.setDate(baseDate.getDate() - i)),
+      Date: new Date(baseDate.setDate(baseDate.getDate() - 1)),
     };
     Measurements.forEach(m => {
       record[m] = (Math.random() * 6).toFixed(2);
@@ -111,7 +111,7 @@ const generateCrosstabbedDailyDataWithNulls = count => {
 
   const records = Array.apply(null, Array(count)).map((d, i) => {
     let record = {
-      Date: new Date(baseDate.setDate(baseDate.getDate() - i)),
+      Date: new Date(baseDate.setDate(baseDate.getDate() - 1)),
     };
     Measurements.forEach(m => {
       record[m] =
