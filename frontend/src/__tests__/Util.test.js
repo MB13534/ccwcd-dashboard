@@ -20,27 +20,64 @@ test("getAssociations()", () => {
   );
 });
 
-test("validateDependentSelections()", () => {
-  const previousParentSelections = [1, 2];
-  const newParentSelections = [1];
-  const childData = [
-    { ndx: 8, display: "option 1", assoc_ndx: [1] },
-    { ndx: 9, display: "option 2", assoc_ndx: [1] },
-    { ndx: 4, display: "option 3", assoc_ndx: [2] },
-    { ndx: 5, display: "option 4", assoc_ndx: [2] },
-  ];
-  const previousChildSelections = [8, 9, 4, 5];
-  const assocField = "assoc_ndx";
-  const valueField = "ndx";
+describe("validateDependentSelections()", () => {
+  test("validateDependentSelections() remove selection", () => {
+    const previousParentSelections = [1, 2];
+    const newParentSelections = [1];
+    const childData = [
+      { ndx: 8, display: "option 1", assoc_ndx: [1] },
+      { ndx: 9, display: "option 2", assoc_ndx: [1] },
+      { ndx: 4, display: "option 3", assoc_ndx: [2] },
+      { ndx: 5, display: "option 4", assoc_ndx: [2] },
+    ];
+    const previousChildSelections = [8, 9, 4, 5];
+    const assocField = "assoc_ndx";
+    const valueField = "ndx";
 
-  const updatedSelections = validateDependentSelections({
-    previousParentSelections,
-    newParentSelections,
-    childData,
-    previousChildSelections,
-    assocField,
-    valueField,
+    const updatedSelections = validateDependentSelections({
+      previousParentSelections,
+      newParentSelections,
+      childData,
+      previousChildSelections,
+      assocField,
+      valueField,
+    });
+    expect(updatedSelections.length).toBe(2);
+    expect(updatedSelections).toEqual(expect.arrayContaining([8, 9]));
   });
-  expect(updatedSelections.length).toBe(2);
-  expect(updatedSelections).toEqual(expect.arrayContaining([8, 9]));
+
+  test("validateDependentSelections() add and then remove selection", () => {
+    const childData = [
+      { ndx: 8, display: "option 1", assoc_ndx: [1] },
+      { ndx: 9, display: "option 2", assoc_ndx: [1] },
+      { ndx: 4, display: "option 3", assoc_ndx: [2] },
+      { ndx: 5, display: "option 4", assoc_ndx: [2] },
+    ];
+    const assocField = "assoc_ndx";
+    const valueField = "ndx";
+
+    const initSelections = validateDependentSelections({
+      previousParentSelections: [1],
+      newParentSelections: [1, 2],
+      childData,
+      previousChildSelections: [8, 9],
+      assocField,
+      valueField,
+    });
+
+    expect(initSelections.length).toBe(2);
+    expect(initSelections).toEqual(expect.arrayContaining([8, 9]));
+
+    const updatedSelections = validateDependentSelections({
+      previousParentSelections: [1, 2],
+      newParentSelections: [2],
+      childData,
+      previousChildSelections: [8, 9],
+      assocField,
+      valueField,
+    });
+
+    expect(updatedSelections.length).toBe(0);
+    expect(initSelections).toEqual(expect.arrayContaining([8, 9]));
+  });
 });

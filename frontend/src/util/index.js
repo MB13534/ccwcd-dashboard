@@ -124,7 +124,7 @@ export const validateDependentSelections = ({
       })
       .map(d => d[valueField]);
 
-    return filteredSelections;
+    return previousChildSelections.filter(d => filteredSelections.includes(d));
   }
   return previousChildSelections;
 };

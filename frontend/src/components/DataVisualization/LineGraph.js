@@ -15,10 +15,15 @@ import {
 const useStyles = makeStyles(theme => ({
   tooltip: {
     width: 300,
-    backgroundColor: theme.palette.primary.dark,
+    // backgroundColor: "#fafafa",
+    backgroundColor: "#444444",
+    // color: "rgba(0,0,0,0.87)",
+    // backgroundColor: theme.palette.primary.dark,
     color: "#ffffff",
     padding: theme.spacing(1),
     borderRadius: 4,
+    // boxShadow:
+    //   "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
   },
 }));
 
@@ -62,6 +67,8 @@ const LineGraph = ({ data, columns, title }) => {
         onMouseLeave={onMouseLeave}
       >
         <HorizontalGridLines />
+        <XAxis tickTotal={8} tickLabelAngle={-45} title="Time" />
+        <YAxis title="Change in Flow (CFS)" />
         {graphData.map(d => (
           <LineSeries
             key={Math.random() * 9999999}
@@ -77,8 +84,6 @@ const LineGraph = ({ data, columns, title }) => {
           color={theme.palette.secondary.main}
           size={2.5}
         /> */}
-        <XAxis tickTotal={8} tickLabelAngle={-45} title="Time" />
-        <YAxis title="Change in Flow (CFS)" />
         {crosshairValues.length > 0 && (
           <Crosshair values={crosshairValues}>
             <div className={classes.tooltip}>
