@@ -10,6 +10,7 @@ import {
   Collapse,
   Divider,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import TuneIcon from "@material-ui/icons/Tune";
@@ -457,6 +458,14 @@ const AllThingsViewer = ({ history }) => {
               value={filterValues.end_date}
               onChange={handleFilter}
             />
+
+            <Typography
+              variant="body1"
+              display="inline"
+              className={classes.marginLeft}
+            >
+              Note: INSTRUCTIONS HERE
+            </Typography>
           </div>
         </Collapse>
       </FilterBar>
