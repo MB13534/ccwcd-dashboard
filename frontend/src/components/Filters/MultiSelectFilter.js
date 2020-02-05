@@ -98,7 +98,7 @@ const MultiSelectFilter = props => {
             <Button onClick={() => onSelectNone(name)}>Select None</Button>
           </MenuItem>
         )}
-        <Divider />
+        {data.length > 0 && <Divider />}
         {data.map(val => (
           <MenuItem key={val[valueField]} value={val[valueField]}>
             <Checkbox

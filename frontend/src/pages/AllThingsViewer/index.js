@@ -76,7 +76,7 @@ const AllThingsViewer = ({ history }) => {
   } = useFormSubmitStatus();
   const [filterValues, setFilterValues] = useState({
     station_types: [1],
-    structures: [12],
+    structures: [12, 13, 14],
     measurement_types: [3],
     aggregation_level: "daily-averages",
     file_name: "",
