@@ -10,20 +10,34 @@ import {
   LineSeries,
   Crosshair,
   DiscreteColorLegend,
+  ScaleUtils,
 } from "react-vis";
 
 const useStyles = makeStyles(theme => ({
   tooltip: {
     width: 300,
-    // backgroundColor: "#fafafa",
-    backgroundColor: "#444444",
-    // color: "rgba(0,0,0,0.87)",
+    border: "1px solid #dddddd",
+    backgroundColor: "#fafafa",
+    // backgroundColor: "#444444",
+    color: "rgba(0,0,0,0.87)",
     // backgroundColor: theme.palette.primary.dark,
-    color: "#ffffff",
+    // color: "#ffffff",
     padding: theme.spacing(1),
     borderRadius: 4,
-    // boxShadow:
-    //   "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
+    boxShadow:
+      "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
+  },
+  tooltipValue: {
+    margin: theme.spacing(1, 0),
+  },
+  seriesLegend: {
+    width: 15,
+    height: 5,
+    display: "inline-block",
+    marginRight: theme.spacing(1),
+  },
+  seriesText: {
+    fontSize: 13,
   },
 }));
 
@@ -48,8 +62,17 @@ const LineGraph = ({ data, columns, title }) => {
     return seriesData;
   }, [data, columns]);
 
+  const DISCRETE_COLOR_RANGE = [
+    "#12939A",
+    "#79C7E3",
+    "#1A3177",
+    "#FF9833",
+    "#EF5D28",
+  ];
+
   const onMouseLeave = () => setCrosshairValues([]);
   const onNearestX = (value, { index }) => {
+    console.log(ScaleUtils);
     setCrosshairValues(graphData.map(d => d[index].y !== null && d[index]));
   };
 
@@ -92,13 +115,21 @@ const LineGraph = ({ data, columns, title }) => {
                   val && (
                     <div key={Math.random() * 999999}>
                       {index === 0 && (
-                        <Typography variant="body1" gutterBottom>
+                        <Typography variant="body2" gutterBottom>
                           {val.x.toString()}
                         </Typography>
                       )}
-                      <Typography variant="body1" gutterBottom>
-                        {val.seriesLabel}: {val.y}
-                      </Typography>
+                      <div className={classes.tooltipValue}>
+                        <span
+                          className={classes.seriesLegend}
+                          style={{
+                            backgroundColor: DISCRETE_COLOR_RANGE[index],
+                          }}
+                        ></span>
+                        <span className={classes.seriesText}>
+                          {val.seriesLabel}: {val.y}
+                        </span>
+                      </div>
                     </div>
                   )
               )}
@@ -107,7 +138,6 @@ const LineGraph = ({ data, columns, title }) => {
         )}
       </FlexibleWidthXYPlot>
       <DiscreteColorLegend
-        className={classes.legend}
         orientation="horizontal"
         width={900}
         items={columns

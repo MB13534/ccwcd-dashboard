@@ -75,8 +75,8 @@ const AllThingsViewer = ({ history }) => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
   const [filterValues, setFilterValues] = useState({
-    station_types: [1],
-    structures: [12, 13, 14],
+    station_types: [6],
+    structures: [18, 28, 29],
     measurement_types: [3],
     aggregation_level: "daily-averages",
     file_name: "",
