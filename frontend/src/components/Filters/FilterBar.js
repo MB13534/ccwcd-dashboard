@@ -13,10 +13,11 @@ const useStyles = makeStyles(theme => ({
   filters: {
     display: "flex",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   submit: {
     marginLeft: theme.spacing(1),
-  }
+  },
 }));
 
 const FilterBar = ({ onSubmit, children }) => {
@@ -30,14 +31,6 @@ const FilterBar = ({ onSubmit, children }) => {
         onSubmit={onSubmit}
       >
         {children}
-        <Button
-          type="submit"
-          color="secondary"
-          variant="contained"
-          className={classes.submit}
-        >
-          Submit
-        </Button>
       </form>
     </Box>
   );

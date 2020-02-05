@@ -7,8 +7,12 @@ import {
   Dialog,
   DialogTitle,
   DialogActions,
+  Collapse,
+  Divider,
+  TextField,
 } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
+import TuneIcon from "@material-ui/icons/Tune";
 import Layout from "../../components/Layout";
 import FormSnackbar from "../../components/DataAdmin/FormSnackbar";
 import FilterBar from "../../components/Filters/FilterBar";
@@ -20,7 +24,8 @@ import { useAuth0 } from "../../hooks/auth";
 import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import DataTable from "../../components/DataTable";
 import LineGraph from "../../components/DataVisualization/LineGraph";
-import { validateDependentSelections } from "../../util";
+import { validateDependentSelections, extractDate } from "../../util";
+import DateFilter from "../../components/Filters/DateFilter";
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -53,6 +58,12 @@ const useStyles = makeStyles(theme => ({
   img: {
     maxWidth: "100%",
   },
+  moreFilters: {
+    width: "100%",
+  },
+  moreFiltersContent: {
+    padding: theme.spacing(2, 0),
+  },
   margin: {
     margin: theme.spacing(2),
   },
@@ -61,6 +72,12 @@ const useStyles = makeStyles(theme => ({
   },
   marginBottom: {
     marginBottom: theme.spacing(2),
+  },
+  marginLeft: {
+    marginLeft: theme.spacing(2),
+  },
+  marginRight: {
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -79,8 +96,10 @@ const AllThingsViewer = ({ history }) => {
     structures: [18, 28, 29],
     measurement_types: [3],
     aggregation_level: "daily-averages",
+    end_date: extractDate(new Date()),
     file_name: "",
   });
+  const [moreFiltersVisibility, setMoreFiltersVisibility] = useState(false);
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
   const [visualizationType, setVisualizationType] = useState("table");
@@ -286,6 +305,10 @@ const AllThingsViewer = ({ history }) => {
     }
   };
 
+  const handleMoreFiltersVisibility = () => {
+    setMoreFiltersVisibility(state => !state);
+  };
+
   const handleVisualizationType = () => {
     setVisualizationType(state => (state === "table" ? "graph" : "table"));
   };
@@ -395,16 +418,47 @@ const AllThingsViewer = ({ history }) => {
           onSelectNone={handleSelectNone}
         />
 
-        {/* Aggregation Level Filter */}
-        <SingleSelectFilter
-          name="aggregation_level"
-          label="Aggregation Level"
-          valueField="aggregation_ndx"
-          displayField="aggregation_desc"
-          data={AggregationData}
-          selected={filterValues.aggregation_level}
-          onChange={handleFilter}
-        />
+        {/* More Filters */}
+        <Button
+          color="primary"
+          className={classes.margin}
+          onClick={handleMoreFiltersVisibility}
+        >
+          <TuneIcon style={{ marginRight: 5 }} />
+          {moreFiltersVisibility ? "Less Filters" : "More Filters"}
+        </Button>
+        <Button
+          type="submit"
+          color="secondary"
+          variant="contained"
+          className={classes.submit}
+        >
+          Submit
+        </Button>
+        <Collapse in={moreFiltersVisibility} className={classes.moreFilters}>
+          <Divider className={classes.marginTop} />
+
+          <div className={classes.moreFiltersContent}>
+            {/* Aggregation Level Filter */}
+            <SingleSelectFilter
+              name="aggregation_level"
+              label="Aggregation Level"
+              valueField="aggregation_ndx"
+              displayField="aggregation_desc"
+              data={AggregationData}
+              selected={filterValues.aggregation_level}
+              onChange={handleFilter}
+            />
+
+            {/* End Date */}
+            <DateFilter
+              name="end_date"
+              label="End Date"
+              value={filterValues.end_date}
+              onChange={handleFilter}
+            />
+          </div>
+        </Collapse>
       </FilterBar>
 
       <div className={classes.mainContent}>

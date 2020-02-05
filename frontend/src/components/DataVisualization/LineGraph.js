@@ -10,7 +10,6 @@ import {
   LineSeries,
   Crosshair,
   DiscreteColorLegend,
-  ScaleUtils,
 } from "react-vis";
 
 const useStyles = makeStyles(theme => ({
@@ -72,7 +71,6 @@ const LineGraph = ({ data, columns, title }) => {
 
   const onMouseLeave = () => setCrosshairValues([]);
   const onNearestX = (value, { index }) => {
-    console.log(ScaleUtils);
     setCrosshairValues(graphData.map(d => d[index].y !== null && d[index]));
   };
 
