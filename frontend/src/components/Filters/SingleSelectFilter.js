@@ -17,6 +17,8 @@ const useStyles = makeStyles(theme => ({
   },
   outlined: {
     border: `1.5px solid ${theme.palette.primary.main}`,
+    fontSize: 14,
+    padding: theme.spacing(2),
   },
   outlinedLabel: {
     color: theme.palette.primary.main,

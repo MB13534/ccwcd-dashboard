@@ -16,11 +16,13 @@ import {
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 200,
-    maxWidth: 250,
+    minWidth: 160,
+    maxWidth: 200,
   },
   outlined: {
     border: `1.5px solid ${theme.palette.primary.main}`,
+    fontSize: 14,
+    padding: theme.spacing(2),
   },
   outlinedLabel: {
     color: theme.palette.primary.main,
