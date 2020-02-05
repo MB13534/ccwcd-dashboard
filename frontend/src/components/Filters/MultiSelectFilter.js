@@ -9,6 +9,8 @@ import {
   Checkbox,
   ListItemText,
   OutlinedInput,
+  Button,
+  Divider,
 } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -23,6 +25,10 @@ const useStyles = makeStyles(theme => ({
   outlinedLabel: {
     color: theme.palette.primary.main,
     backgroundColor: "#ffffff",
+  },
+  controls: {
+    position: "absolute",
+    bottom: 0,
   },
 }));
 
@@ -46,6 +52,8 @@ const MultiSelectFilter = props => {
     data,
     selected,
     onChange,
+    onSelectAll = () => {},
+    onSelectNone = () => {},
   } = props;
   const classes = useStyles();
 
@@ -84,6 +92,13 @@ const MultiSelectFilter = props => {
         renderValue={selections => setSelectedText(selections)}
         MenuProps={MenuProps}
       >
+        {data.length > 0 && (
+          <MenuItem value="all/none">
+            <Button onClick={() => onSelectAll(name)}>Select All</Button>
+            <Button onClick={() => onSelectNone(name)}>Select None</Button>
+          </MenuItem>
+        )}
+        <Divider />
         {data.map(val => (
           <MenuItem key={val[valueField]} value={val[valueField]}>
             <Checkbox

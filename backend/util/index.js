@@ -4,7 +4,20 @@
  * @param {array} data array of objects to parse
  * @param {string} field property name to return unique values for
  */
-const unique = (data, field) => [...new Set(data.map(d => d[field]))];
+const unique = (data, field, type) => {
+  if (type === "timestamp") {
+    return [
+      ...new Set(
+        data.map(d =>
+          d[field].toLocaleString("en-US", {
+            timeZone: "America/Denver",
+          })
+        )
+      ),
+    ];
+  }
+  return [...new Set(data.map(d => d[field]))];
+};
 
 const formatDate = date => {
   return `${date.getMonth() +
@@ -268,6 +281,28 @@ const extractDate = date => {
   return "";
 };
 
+/**
+ * Utility function for subtracting days from a date
+ * Defaults to subtracting 30 days from today
+ * @param {*} date
+ * @param {*} days
+ */
+const subtractDays = (date, days = 30) => {
+  return new Date(date.setDate(date.getDate() - days));
+};
+
+/**
+ * Utility function for setting a start/end date for API date filters
+ * @param {*} days
+ */
+const setAPIDate = (days = 0) => {
+  return extractDate(
+    subtractDays(new Date(), days).toLocaleString("en-US", {
+      timeZone: "America/Denver",
+    })
+  );
+};
+
 exports.unique = unique;
 exports.crosstab = crosstab;
 exports.generateDailyData = generateDailyData;
@@ -277,3 +312,5 @@ exports.generateCrosstabbedDailyDataWithNulls = generateCrosstabbedDailyDataWith
 exports.generateLastUpdateData = generateLastUpdateData;
 exports.generateLastUpdateDataWithNulls = generateLastUpdateDataWithNulls;
 exports.extractDate = extractDate;
+exports.subtractDays = subtractDays;
+exports.setAPIDate = setAPIDate;

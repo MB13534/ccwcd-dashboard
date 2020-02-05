@@ -76,9 +76,9 @@ const AllThingsViewer = ({ history }) => {
   } = useFormSubmitStatus();
   const [filterValues, setFilterValues] = useState({
     station_types: [1],
-    structures: [37, 52, 53, 55, 62, 63, 35, 31, 20, 12, 13, 14],
+    structures: [12],
     measurement_types: [3],
-    aggregation_level: "",
+    aggregation_level: "daily-averages",
     file_name: "",
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
@@ -93,8 +93,12 @@ const AllThingsViewer = ({ history }) => {
   const [DailyData, setDailyData] = useState([]);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
   const AggregationData = [
-    { aggregation_ndx: 1, aggregation_desc: "Daily" },
-    { aggregation_ndx: 2, aggregation_desc: "15 Minute" },
+    { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
+    {
+      aggregation_ndx: "daily-end-of-day",
+      aggregation_desc: "Daily - End of Day",
+    },
+    { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
   ];
 
   /**
@@ -161,6 +165,34 @@ const AllThingsViewer = ({ history }) => {
     },
   ];
 
+  const handleSelectAll = name => {
+    setFilterValues(prevState => {
+      let newValues = { ...prevState };
+      if (name === "station_types") {
+        newValues[name] = StructureTypes.map(d => d.structure_type_ndx);
+      } else if (name === "structures") {
+        newValues[name] = filteredStructures.map(d => d.structure_ndx);
+      } else if (name === "measurement_types") {
+        newValues[name] = filteredMeasurementTypes.map(d => d.measure_type_ndx);
+      }
+      return newValues;
+    });
+  };
+
+  const handleSelectNone = name => {
+    setFilterValues(prevState => {
+      let newValues = { ...prevState };
+      if (name === "station_types") {
+        newValues[name] = [];
+      } else if (name === "structures") {
+        newValues[name] = [];
+      } else if (name === "measurement_types") {
+        newValues[name] = [];
+      }
+      return newValues;
+    });
+  };
+
   /**
    * Event handler for the filters bar
    * The values state is updated whenever a filter changes
@@ -171,48 +203,50 @@ const AllThingsViewer = ({ history }) => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
 
-      // logic that clears selections for structures and measurement types
-      // that should no longer show up if a structure type is removed
-      if (name === "station_types") {
-        const newStructureSelections = validateDependentSelections({
-          previousParentSelections: newValues[name],
-          newParentSelections: value,
-          childData: Structures,
-          previousChildSelections: filterValues.structures,
-          assocField: "assoc_structure_type_ndx",
-          valueField: "structure_ndx",
-        });
+      if (!value.includes("all/none")) {
+        // logic that clears selections for structures and measurement types
+        // that should no longer show up if a structure type is removed
+        if (name === "station_types") {
+          const newStructureSelections = validateDependentSelections({
+            previousParentSelections: newValues[name],
+            newParentSelections: value,
+            childData: Structures,
+            previousChildSelections: filterValues.structures,
+            assocField: "assoc_structure_type_ndx",
+            valueField: "structure_ndx",
+          });
 
-        const newMeasurementTypeSelections = validateDependentSelections({
-          previousParentSelections: newValues.structures,
-          newParentSelections: newStructureSelections,
-          childData: MeasurementTypes,
-          previousChildSelections: filterValues.measurement_types,
-          assocField: "assoc_structure_ndx",
-          valueField: "measure_type_ndx",
-        });
+          const newMeasurementTypeSelections = validateDependentSelections({
+            previousParentSelections: newValues.structures,
+            newParentSelections: newStructureSelections,
+            childData: MeasurementTypes,
+            previousChildSelections: filterValues.measurement_types,
+            assocField: "assoc_structure_ndx",
+            valueField: "measure_type_ndx",
+          });
 
-        newValues.structures = newStructureSelections;
-        newValues.measurement_types = newMeasurementTypeSelections;
-      }
+          newValues.structures = newStructureSelections;
+          newValues.measurement_types = newMeasurementTypeSelections;
+        }
 
-      // logic that clears selections for measurement types
-      // that should no longer show up if a structure is removed
-      if (name === "structures") {
-        newValues.measurement_types = validateDependentSelections({
-          previousParentSelections: newValues[name],
-          newParentSelections: value,
-          childData: MeasurementTypes,
-          previousChildSelections: filterValues.measurement_types,
-          assocField: "assoc_structure_ndx",
-          valueField: "measure_type_ndx",
-        });
-      }
+        // logic that clears selections for measurement types
+        // that should no longer show up if a structure is removed
+        if (name === "structures") {
+          newValues.measurement_types = validateDependentSelections({
+            previousParentSelections: newValues[name],
+            newParentSelections: value,
+            childData: MeasurementTypes,
+            previousChildSelections: filterValues.measurement_types,
+            assocField: "assoc_structure_ndx",
+            valueField: "measure_type_ndx",
+          });
+        }
 
-      if (type === "checkbox") {
-        newValues[name] = checked;
-      } else {
-        newValues[name] = value;
+        if (type === "checkbox") {
+          newValues[name] = checked;
+        } else {
+          newValues[name] = value;
+        }
       }
       return newValues;
     });
@@ -229,7 +263,7 @@ const AllThingsViewer = ({ history }) => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(
-        `${process.env.REACT_APP_ENDPOINT}/api/atv/daily-averages/${filterValues.structures}/${filterValues.measurement_types}`,
+        `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}`,
         { headers }
       );
       setWaitingState("complete", "no error");
@@ -256,7 +290,7 @@ const AllThingsViewer = ({ history }) => {
         const token = await getTokenSilently();
         const headers = { Authorization: `Bearer ${token}` };
         const response = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/atv/daily-averages/${filterValues.structures}/${filterValues.measurement_types}`,
+          `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}`,
           { headers }
         );
         setDailyData(response.data);
@@ -320,6 +354,8 @@ const AllThingsViewer = ({ history }) => {
           data={StructureTypes}
           selected={filterValues.station_types}
           onChange={handleFilter}
+          onSelectAll={handleSelectAll}
+          onSelectNone={handleSelectNone}
         />
 
         {/* Structures filter */}
@@ -331,6 +367,8 @@ const AllThingsViewer = ({ history }) => {
           data={filteredStructures}
           selected={filterValues.structures}
           onChange={handleFilter}
+          onSelectAll={handleSelectAll}
+          onSelectNone={handleSelectNone}
         />
 
         {/* Measurement Types Filter */}
@@ -342,6 +380,8 @@ const AllThingsViewer = ({ history }) => {
           data={filteredMeasurementTypes}
           selected={filterValues.measurement_types}
           onChange={handleFilter}
+          onSelectAll={handleSelectAll}
+          onSelectNone={handleSelectNone}
         />
 
         {/* Aggregation Level Filter */}
