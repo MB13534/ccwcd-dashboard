@@ -184,8 +184,11 @@ const AllThingsViewer = ({ history }) => {
       let newValues = { ...prevState };
       if (name === "station_types") {
         newValues[name] = [];
+        newValues.structures = [];
+        newValues.measurement_types = [];
       } else if (name === "structures") {
         newValues[name] = [];
+        newValues.measurement_types = [];
       } else if (name === "measurement_types") {
         newValues[name] = [];
       }
