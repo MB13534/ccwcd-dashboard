@@ -315,6 +315,41 @@ const AllThingsViewer = ({ history }) => {
   };
 
   /**
+   * Utility function to automatically update the DataTable title
+   * whenever the aggregation level or visualization types change
+   */
+  const setTableTitle = () => {
+    const text = {
+      "daily-averages": "Daily Averages",
+      "daily-end-of-day": "Daily End of Day",
+      "daily-15-min": "15 Minute",
+    };
+    return (
+      <div className={classes.tableTitle}>
+        <div>
+          {text[filterValues.aggregation_level]}{" "}
+          {visualizationType === "table" ? " Crosstab" : " Graph"}
+          <Button
+            style={{ marginLeft: 16 }}
+            variant="outlined"
+            color="primary"
+            onClick={handleVisualizationType}
+          >
+            View As {visualizationType === "graph" ? "Table" : "Graph"}
+          </Button>
+        </div>
+        <Button
+          onClick={() => setLastUpdateVisibility(true)}
+          color="primary"
+          className={classes.lastUpdateBtn}
+        >
+          <HelpIcon style={{ marginRight: 8 }} /> View Data Availability
+        </Button>
+      </div>
+    );
+  };
+
+  /**
    * Fetch the daily data crosstab data on page load
    * Passing an empty array to the useEffect hook
    * ensures that the data is only fetched once
@@ -477,31 +512,7 @@ const AllThingsViewer = ({ history }) => {
               data={DailyData}
               columns={dailyDataColumns}
               loading={formSubmitting}
-              title={
-                <div className={classes.tableTitle}>
-                  <div>
-                    Daily Data{" "}
-                    {visualizationType === "table" ? " Crosstab" : " Graph"}
-                    <Button
-                      style={{ marginLeft: 16 }}
-                      variant="outlined"
-                      color="primary"
-                      onClick={handleVisualizationType}
-                    >
-                      View As{" "}
-                      {visualizationType === "graph" ? "Table" : "Graph"}
-                    </Button>
-                  </div>
-                  <Button
-                    onClick={() => setLastUpdateVisibility(true)}
-                    color="primary"
-                    className={classes.lastUpdateBtn}
-                  >
-                    <HelpIcon style={{ marginRight: 8 }} /> View Data
-                    Availability
-                  </Button>
-                </div>
-              }
+              title={setTableTitle()}
               size="small"
               stickyHeader={true}
               height={750}
