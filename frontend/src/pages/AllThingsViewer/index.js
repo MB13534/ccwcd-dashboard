@@ -165,6 +165,10 @@ const AllThingsViewer = ({ history }) => {
     },
   ];
 
+  /**
+   * Event handler for multi-select select all functionality
+   * @param {string} name name of active mulit-select
+   */
   const handleSelectAll = name => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
@@ -179,6 +183,10 @@ const AllThingsViewer = ({ history }) => {
     });
   };
 
+  /**
+   * Event handler for multi-select select none functionality
+   * @param {string} name name of active mulit-select
+   */
   const handleSelectNone = name => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };

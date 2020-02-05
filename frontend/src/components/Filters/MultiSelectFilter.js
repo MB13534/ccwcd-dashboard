@@ -94,8 +94,12 @@ const MultiSelectFilter = props => {
       >
         {data.length > 0 && (
           <MenuItem value="all/none">
-            <Button onClick={() => onSelectAll(name)}>Select All</Button>
-            <Button onClick={() => onSelectNone(name)}>Select None</Button>
+            <Button color="primary" onClick={() => onSelectAll(name)}>
+              Select All
+            </Button>
+            <Button color="primary" onClick={() => onSelectNone(name)}>
+              Select None
+            </Button>
           </MenuItem>
         )}
         {data.length > 0 && <Divider />}
