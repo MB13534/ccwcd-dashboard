@@ -294,7 +294,7 @@ const AllThingsViewer = ({ history }) => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(
-        `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}`,
+        `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
         { headers }
       );
       setWaitingState("complete", "no error");
@@ -325,7 +325,7 @@ const AllThingsViewer = ({ history }) => {
         const token = await getTokenSilently();
         const headers = { Authorization: `Bearer ${token}` };
         const response = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}`,
+          `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
           { headers }
         );
         setDailyData(response.data);

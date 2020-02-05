@@ -56,98 +56,107 @@ router.get("/measurement-types", (req, res, next) => {
 
 // GET /api/atv/daily-averages/:structures/:measure_types
 // Route for returning daily data averages
-router.get("/daily-averages/:structures/:measure_types", (req, res, next) => {
-  const StartDate = setAPIDate(45);
-  const EndDate = setAPIDate();
-  ATV_Daily_Average.findAll({
-    where: {
-      structure_ndx: {
-        [Op.in]: req.params.structures.split(","),
+router.get(
+  "/daily-averages/:structures/:measure_types/:end_date",
+  (req, res, next) => {
+    const StartDate = setAPIDate(45, req.params.end_date);
+    const EndDate = setAPIDate(0, req.params.end_date);
+    ATV_Daily_Average.findAll({
+      where: {
+        structure_ndx: {
+          [Op.in]: req.params.structures.split(","),
+        },
+        measure_type_ndx: {
+          [Op.in]: req.params.measure_types.split(","),
+        },
+        collect_timestamp: {
+          [Op.between]: [StartDate, EndDate],
+        },
       },
-      measure_type_ndx: {
-        [Op.in]: req.params.measure_types.split(","),
-      },
-      collect_timestamp: {
-        [Op.between]: [StartDate, EndDate],
-      },
-    },
-  })
-    .then(data => {
-      const crosstabbed = crosstab(
-        data,
-        "collect_timestamp",
-        "station_name",
-        "avg_daily_value"
-      );
-      res.json(crosstabbed);
     })
-    .catch(err => {
-      next(err);
-    });
-});
+      .then(data => {
+        const crosstabbed = crosstab(
+          data,
+          "collect_timestamp",
+          "station_name",
+          "avg_daily_value"
+        );
+        res.json(crosstabbed);
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+);
 
 // GET /api/atv/daily-end-of-day/:structures/:measure_types
 // Route for returning daily end of day values
-router.get("/daily-end-of-day/:structures/:measure_types", (req, res, next) => {
-  const StartDate = setAPIDate(45);
-  const EndDate = setAPIDate();
-  ATV_Daily_End_of_Day.findAll({
-    where: {
-      structure_ndx: {
-        [Op.in]: req.params.structures.split(","),
+router.get(
+  "/daily-end-of-day/:structures/:measure_types/:end_date",
+  (req, res, next) => {
+    const StartDate = setAPIDate(45, req.params.end_date);
+    const EndDate = setAPIDate(0, req.params.end_date);
+    ATV_Daily_End_of_Day.findAll({
+      where: {
+        structure_ndx: {
+          [Op.in]: req.params.structures.split(","),
+        },
+        measure_type_ndx: {
+          [Op.in]: req.params.measure_types.split(","),
+        },
+        collect_timestamp: {
+          [Op.between]: [StartDate, EndDate],
+        },
       },
-      measure_type_ndx: {
-        [Op.in]: req.params.measure_types.split(","),
-      },
-      collect_timestamp: {
-        [Op.between]: [StartDate, EndDate],
-      },
-    },
-  })
-    .then(data => {
-      const crosstabbed = crosstab(
-        data,
-        "collect_timestamp",
-        "station_name",
-        "endofday_value"
-      );
-      res.json(crosstabbed);
     })
-    .catch(err => {
-      next(err);
-    });
-});
+      .then(data => {
+        const crosstabbed = crosstab(
+          data,
+          "collect_timestamp",
+          "station_name",
+          "endofday_value"
+        );
+        res.json(crosstabbed);
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+);
 
 // GET /api/atv/daily-15-min/:structures/:measure_types
 // Route for returning 15 minute data
-router.get("/daily-15-min/:structures/:measure_types", (req, res, next) => {
-  const StartDate = setAPIDate(2);
-  const EndDate = setAPIDate();
-  ATV_Daily_15_min.findAll({
-    where: {
-      structure_ndx: {
-        [Op.in]: req.params.structures.split(","),
+router.get(
+  "/daily-15-min/:structures/:measure_types/:end_date",
+  (req, res, next) => {
+    const StartDate = setAPIDate(3, req.params.end_date);
+    const EndDate = setAPIDate(0, req.params.end_date);
+    ATV_Daily_15_min.findAll({
+      where: {
+        structure_ndx: {
+          [Op.in]: req.params.structures.split(","),
+        },
+        measure_type_ndx: {
+          [Op.in]: req.params.measure_types.split(","),
+        },
+        collect_timestamp: {
+          [Op.between]: [StartDate, EndDate],
+        },
       },
-      measure_type_ndx: {
-        [Op.in]: req.params.measure_types.split(","),
-      },
-      collect_timestamp: {
-        [Op.between]: [StartDate, EndDate],
-      },
-    },
-  })
-    .then(data => {
-      const crosstabbed = crosstab(
-        data,
-        "collect_timestamp",
-        "station_name",
-        "measured_value"
-      );
-      res.json(crosstabbed);
     })
-    .catch(err => {
-      next(err);
-    });
-});
+      .then(data => {
+        const crosstabbed = crosstab(
+          data,
+          "collect_timestamp",
+          "station_name",
+          "measured_value"
+        );
+        res.json(crosstabbed);
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+);
 
 module.exports = router;

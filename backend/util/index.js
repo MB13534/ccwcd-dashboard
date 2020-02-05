@@ -295,9 +295,10 @@ const subtractDays = (date, days = 30) => {
  * Utility function for setting a start/end date for API date filters
  * @param {*} days
  */
-const setAPIDate = (days = 0) => {
+const setAPIDate = (days, date = new Date()) => {
+  const initDate = new Date(`${date} 00:00:00`) || new Date();
   return extractDate(
-    subtractDays(new Date(), days).toLocaleString("en-US", {
+    subtractDays(initDate, days).toLocaleString("en-US", {
       timeZone: "America/Denver",
     })
   );
