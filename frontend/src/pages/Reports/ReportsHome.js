@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -19,7 +19,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import Layout from "../../components/Layout";
 import CustomDrawer from "../../components/CustomDrawer";
-// import ReportIllustration from "../../images/undraw_data_trends_b0wg.svg";
+import ReportIllustration from "../../images/undraw_data_trends_b0wg.svg";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportCard = ({ report }) => {
+const ReportCard = ({ report, handleReportSelection }) => {
   const classes = useStyles();
   return (
     <Card>
@@ -62,14 +62,16 @@ const ReportCard = ({ report }) => {
         style={{ backgroundColor: report.color }}
       >
         <Typography variant="h6" className={classes.cardTitle}>
-          {report.title}
+          {report.report_name}
         </Typography>
       </div>
       <CardContent>
-        <Typography variant="body2">{report.description}</Typography>
+        <Typography variant="body2">{report.report_description}</Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Details</Button>
+        <Button size="small" onClick={() => handleReportSelection(report)}>
+          Details
+        </Button>
         <Button size="small">Jump To</Button>
       </CardActions>
     </Card>
@@ -78,36 +80,60 @@ const ReportCard = ({ report }) => {
 
 const ReportsHome = ({ history }) => {
   const classes = useStyles();
+  const [selectedReport, setSelectedReport] = useState(null);
   const Reports = [
     {
-      title: "Reservoirs",
+      report_ndx: 1,
+      report_name: "Reservoirs",
       path: "reports/reservoirs",
       color: "#529fe2",
-      description:
+      report_description:
         "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
     },
     {
-      title: "Recharge",
+      report_ndx: 2,
+      report_name: "Recharge",
       path: "reports/reservoirs",
       color: "#4CAF50",
-      description:
+      report_description:
         "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
     },
     {
-      title: "Meter Readings",
+      report_ndx: 3,
+      report_name: "Meter Readings",
       path: "reports/reservoirs",
       color: "#CF6B94",
-      description:
+      report_description:
         "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
     },
     {
-      title: "All Things Viewer",
+      report_ndx: 4,
+      report_name: "All Things Viewer",
       path: "reports/reservoirs",
       color: "#529fe2",
-      description:
+      report_description:
         "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
     },
   ];
+
+  const SavedViews = [
+    { view_ndx: 1, view_name: "View 1", assoc_report_ndx: 2 },
+    { view_ndx: 2, view_name: "View 2", assoc_report_ndx: 1 },
+    { view_ndx: 3, view_name: "View 3", assoc_report_ndx: 3 },
+    { view_ndx: 4, view_name: "View 4", assoc_report_ndx: 4 },
+    { view_ndx: 5, view_name: "View 5", assoc_report_ndx: 1 },
+    { view_ndx: 6, view_name: "View 6", assoc_report_ndx: 1 },
+    { view_ndx: 7, view_name: "View 7", assoc_report_ndx: 2 },
+    { view_ndx: 8, view_name: "View 8", assoc_report_ndx: 3 },
+    { view_ndx: 9, view_name: "View 9", assoc_report_ndx: 4 },
+    { view_ndx: 10, view_name: "View 10", assoc_report_ndx: 1 },
+    { view_ndx: 11, view_name: "View 11", assoc_report_ndx: 3 },
+    { view_ndx: 12, view_name: "View 12", assoc_report_ndx: 3 },
+  ];
+
+  const handleReportSelection = report => {
+    setSelectedReport(report);
+  };
 
   return (
     <Layout history={history}>
@@ -118,87 +144,73 @@ const ReportsHome = ({ history }) => {
           </Typography>
           <Grid container spacing={3} className={classes.reportsGrid}>
             {Reports.map(report => (
-              <Grid item xs={12} sm={4} key={report.title}>
-                <ReportCard report={report} />
+              <Grid item xs={12} sm={4} key={report.report_name}>
+                <ReportCard
+                  report={report}
+                  handleReportSelection={handleReportSelection}
+                />
               </Grid>
             ))}
           </Grid>
         </div>
         <CustomDrawer history={history}>
           <div className={classes.reportDrawer}>
-            {/* <Typography
-              variant="h5"
-              color="primary"
-              align="center"
-              gutterBottom
-            >
-              Report Details
-            </Typography>
-            <div className={classes.imgWrapper}>
-              <img
-                className={classes.img}
-                src={ReportIllustration}
-                alt="Reports"
-              />
-            </div>
-            <Typography variant="body1" align="center">
-              Select a report from the grid to see more details.
-            </Typography> */}
+            {!selectedReport && (
+              <React.Fragment>
+                <Typography
+                  variant="h5"
+                  color="primary"
+                  align="center"
+                  gutterBottom
+                >
+                  Report Details
+                </Typography>
+                <div className={classes.imgWrapper}>
+                  <img
+                    className={classes.img}
+                    src={ReportIllustration}
+                    alt="Reports"
+                  />
+                </div>
+                <Typography variant="body1" align="center">
+                  Select a report from the grid to see more details.
+                </Typography>
+              </React.Fragment>
+            )}
 
-            <Typography variant="h5" color="primary" gutterBottom>
-              Report Details
-            </Typography>
-            <Typography variant="body1" paragraph>
-              Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday
-              carry, meggings tbh shoreditch tote bag salvia migas.
-            </Typography>
-            <Typography variant="h6" color="primary" gutterBottom>
-              Saved Views
-            </Typography>
-            <List>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>S</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Single-line item" />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>S</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Single-line item" />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>S</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Single-line item" />
-                <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            </List>
+            {selectedReport && (
+              <React.Fragment>
+                <Typography variant="h5" color="primary" gutterBottom>
+                  {selectedReport.report_name}
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  {selectedReport.report_description}
+                </Typography>
+                <Typography variant="h6" color="primary" gutterBottom>
+                  Saved Views
+                </Typography>
+                <List>
+                  {SavedViews.filter(
+                    view => view.assoc_report_ndx === selectedReport.report_ndx
+                  ).map(view => (
+                    <ListItem key={view.view_ndx}>
+                      <ListItemAvatar>
+                        <Avatar>{view.view_name.substring(0, 1)}</Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={view.view_name} />
+                      <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="delete">
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton edge="end" aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
+                </List>
+              </React.Fragment>
+            )}
           </div>
         </CustomDrawer>
       </section>
