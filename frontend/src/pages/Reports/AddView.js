@@ -263,7 +263,7 @@ const AddView = ({ history }) => {
                 <form>
                   <Stepper activeStep={activeStep} orientation="vertical">
                     <Step>
-                      <StepLabel>View Details</StepLabel>
+                      <StepLabel>Details</StepLabel>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -337,7 +337,7 @@ const AddView = ({ history }) => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepLabel>View Measurements</StepLabel>
+                      <StepLabel>Measurements</StepLabel>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -407,7 +407,7 @@ const AddView = ({ history }) => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepLabel>Misc</StepLabel>
+                      <StepLabel>Period of Record</StepLabel>
                       <StepContent>
                         <Typography
                           variant="body1"
