@@ -87,6 +87,31 @@ export const extractDate = date => {
 };
 
 /**
+ * Utility function for subtracting days from a date
+ * Defaults to subtracting 30 days from today
+ * @param {*} date
+ * @param {*} days
+ */
+export const subtractDays = (date, days = 30) => {
+  return new Date(date.setDate(date.getDate() - days));
+};
+
+/**
+ * Utility function for calculating a start date based on an
+ * end date and # of days
+ * @param {*} days
+ * @param {*} day s
+ */
+export const calculateStartDate = (days, date = new Date()) => {
+  const initDate = new Date(`${date} 00:00:00`) || new Date();
+  return extractDate(
+    subtractDays(initDate, days).toLocaleString("en-US", {
+      timeZone: "America/Denver",
+    })
+  );
+};
+
+/**
  * Function used to determine if a users active selections
  * should be cleared based on if a selection in a parent
  * has been removed

@@ -12,6 +12,7 @@ import theme from "./theme";
 import Home from "./pages/Home";
 import AllThingsViewer from "./pages/AllThingsViewer";
 import ReportsHome from "./pages/Reports/ReportsHome";
+import AddView from "./pages/Reports/AddView";
 import Auth0Sync from "./pages/DataAdmin/UserManagement/Auth0Sync";
 
 import Doc from "./pages/Docs";
@@ -69,6 +70,12 @@ const App = () => {
             exact
             roles={AdminRoles}
             component={ReportsHome}
+          />
+          <PrivateRouteWithRoles
+            path="/reports/add-view"
+            exact
+            roles={AdminRoles}
+            component={AddView}
           />
           <PrivateRouteWithRoles
             path="/auth0-sync"
