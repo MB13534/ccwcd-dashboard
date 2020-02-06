@@ -258,7 +258,7 @@ const AddView = ({ history }) => {
             Add New View
           </Typography>
           <Paper className={classes.paper}>
-            <Grid container spacing={2}>
+            <Grid container>
               <Grid item xs={12} md={7}>
                 <form>
                   <Stepper activeStep={activeStep} orientation="vertical">
