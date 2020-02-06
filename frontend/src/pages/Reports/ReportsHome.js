@@ -51,6 +51,11 @@ const useStyles = makeStyles(theme => ({
   img: {
     maxWidth: "100%",
   },
+  titleRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 }));
 
 const ReportCard = ({ report, handleReportSelection }) => {
@@ -186,9 +191,14 @@ const ReportsHome = ({ history }) => {
                 <Typography variant="body1" paragraph>
                   {selectedReport.report_description}
                 </Typography>
-                <Typography variant="h6" color="primary" gutterBottom>
-                  Saved Views
-                </Typography>
+                <div className={classes.titleRow}>
+                  <Typography variant="h6" gutterBottom>
+                    Saved Views
+                  </Typography>
+                  <Button variant="contained" size="small" color="secondary">
+                    + Create View
+                  </Button>
+                </div>
                 <List>
                   {SavedViews.filter(
                     view => view.assoc_report_ndx === selectedReport.report_ndx
