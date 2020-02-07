@@ -1,5 +1,5 @@
 const express = require("express");
-const { checkAccessToken } = require("../middleware/auth.js");
+const { checkAccessToken, getRoles } = require("../middleware/auth.js");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const { Reports } = require("../models");
@@ -13,7 +13,14 @@ router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 // GET /api/reports
 // Route for returning all reports
 router.get("/", (req, res, next) => {
-  Reports.findAll()
+  const roles = req.user["https://ccwcd2.org/role_ids"];
+  Reports.findAll({
+    where: {
+      assoc_role_id: {
+        [Op.contains]: roles,
+      },
+    },
+  })
     .then(data => {
       res.json(data);
     })

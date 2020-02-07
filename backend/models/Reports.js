@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, STRING, ARRAY } = DataTypes;
+  const { INTEGER, STRING, ARRAY, TEXT } = DataTypes;
   const ReportsView = sequelize.define(
     "list_reports",
     {
@@ -9,16 +9,16 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       report_name: {
-        type: STRING,
+        type: TEXT,
       },
       report_description: {
-        type: STRING,
+        type: TEXT,
       },
       path: {
-        type: STRING,
+        type: TEXT,
       },
       assoc_role_id: {
-        type: ARRAY(STRING),
+        type: ARRAY(TEXT),
       },
     },
     {

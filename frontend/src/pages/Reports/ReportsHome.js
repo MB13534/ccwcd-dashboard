@@ -85,40 +85,6 @@ const ReportsHome = ({ history }) => {
   const classes = useStyles();
   const [selectedReport, setSelectedReport] = useState(null);
   const [Reports] = useFetchData("reports", []);
-  // const Reports = [
-  //   {
-  //     report_ndx: 1,
-  //     report_name: "Reservoirs",
-  //     path: "reports/reservoirs",
-  //     color: "#529fe2",
-  //     report_description:
-  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-  //   },
-  //   {
-  //     report_ndx: 2,
-  //     report_name: "Recharge",
-  //     path: "reports/reservoirs",
-  //     color: "#4CAF50",
-  //     report_description:
-  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-  //   },
-  //   {
-  //     report_ndx: 3,
-  //     report_name: "Meter Readings",
-  //     path: "reports/reservoirs",
-  //     color: "#CF6B94",
-  //     report_description:
-  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-  //   },
-  //   {
-  //     report_ndx: 4,
-  //     report_name: "All Things Viewer",
-  //     path: "reports/reservoirs",
-  //     color: "#529fe2",
-  //     report_description:
-  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-  //   },
-  // ];
 
   const colors = ["#529fe2", "#4CAF50", "#CF6B94"];
 
