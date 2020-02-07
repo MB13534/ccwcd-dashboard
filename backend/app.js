@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const AllThingsViewerRoutes = require("./routes/ATV");
+const ReportRoutes = require("./routes/Reports");
 const DataManagementRoutes = require("./routes/DataManagement");
 const DummyRoutes = require("./routes/Dummy");
 
@@ -22,6 +23,7 @@ app.use(setHeaders);
 // Set routes
 app.use("/api/data-management", DataManagementRoutes);
 app.use("/api/atv", AllThingsViewerRoutes);
+app.use("/api/reports", ReportRoutes);
 app.use("/api/dummy", DummyRoutes);
 
 // send 404 if no other route matched

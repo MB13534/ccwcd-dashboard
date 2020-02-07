@@ -20,6 +20,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Layout from "../../components/Layout";
 import CustomDrawer from "../../components/CustomDrawer";
 import ReportIllustration from "../../images/undraw_data_trends_b0wg.svg";
+import useFetchData from "../../hooks/useFetchData";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,14 +59,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportCard = ({ report, handleReportSelection }) => {
+const ReportCard = ({ report, color, handleReportSelection }) => {
   const classes = useStyles();
   return (
     <Card>
-      <div
-        className={classes.cardHeader}
-        style={{ backgroundColor: report.color }}
-      >
+      <div className={classes.cardHeader} style={{ backgroundColor: color }}>
         <Typography variant="h6" className={classes.cardTitle}>
           {report.report_name}
         </Typography>
@@ -86,40 +84,43 @@ const ReportCard = ({ report, handleReportSelection }) => {
 const ReportsHome = ({ history }) => {
   const classes = useStyles();
   const [selectedReport, setSelectedReport] = useState(null);
-  const Reports = [
-    {
-      report_ndx: 1,
-      report_name: "Reservoirs",
-      path: "reports/reservoirs",
-      color: "#529fe2",
-      report_description:
-        "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-    },
-    {
-      report_ndx: 2,
-      report_name: "Recharge",
-      path: "reports/reservoirs",
-      color: "#4CAF50",
-      report_description:
-        "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-    },
-    {
-      report_ndx: 3,
-      report_name: "Meter Readings",
-      path: "reports/reservoirs",
-      color: "#CF6B94",
-      report_description:
-        "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-    },
-    {
-      report_ndx: 4,
-      report_name: "All Things Viewer",
-      path: "reports/reservoirs",
-      color: "#529fe2",
-      report_description:
-        "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
-    },
-  ];
+  const [Reports] = useFetchData("reports", []);
+  // const Reports = [
+  //   {
+  //     report_ndx: 1,
+  //     report_name: "Reservoirs",
+  //     path: "reports/reservoirs",
+  //     color: "#529fe2",
+  //     report_description:
+  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
+  //   },
+  //   {
+  //     report_ndx: 2,
+  //     report_name: "Recharge",
+  //     path: "reports/reservoirs",
+  //     color: "#4CAF50",
+  //     report_description:
+  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
+  //   },
+  //   {
+  //     report_ndx: 3,
+  //     report_name: "Meter Readings",
+  //     path: "reports/reservoirs",
+  //     color: "#CF6B94",
+  //     report_description:
+  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
+  //   },
+  //   {
+  //     report_ndx: 4,
+  //     report_name: "All Things Viewer",
+  //     path: "reports/reservoirs",
+  //     color: "#529fe2",
+  //     report_description:
+  //       "Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday carry, meggings tbh shoreditch tote bag salvia migas. ",
+  //   },
+  // ];
+
+  const colors = ["#529fe2", "#4CAF50", "#CF6B94"];
 
   const SavedViews = [
     { view_ndx: 1, view_name: "View 1", assoc_report_ndx: 2 },
@@ -148,9 +149,10 @@ const ReportsHome = ({ history }) => {
             Reports Explorer
           </Typography>
           <Grid container spacing={3} className={classes.reportsGrid}>
-            {Reports.map(report => (
+            {Reports.map((report, index) => (
               <Grid item xs={12} sm={4} key={report.report_name}>
                 <ReportCard
+                  color={colors[index % 3]}
                   report={report}
                   handleReportSelection={handleReportSelection}
                 />

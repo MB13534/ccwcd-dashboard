@@ -50,6 +50,8 @@ sequelize
 
 db.sequelize = sequelize;
 
+db.Reports = require("./Reports")(sequelize, Sequelize);
+
 /**
  * All Things Viewer Models
  */
