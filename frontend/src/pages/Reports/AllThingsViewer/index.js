@@ -107,7 +107,7 @@ const AllThingsViewer = ({ history }) => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
   const [filterValues, setFilterValues] = useState({
-    station_types: [6],
+    structure_types: [6],
     structures: [18, 28, 29],
     measurement_types: [3],
     aggregation_level: "daily-averages",
@@ -142,7 +142,7 @@ const AllThingsViewer = ({ history }) => {
    * structure types
    */
   const filteredStructures = useFilterAssoc(
-    filterValues.station_types,
+    filterValues.structure_types,
     Structures,
     "assoc_structure_type_ndx"
   );
@@ -207,7 +207,7 @@ const AllThingsViewer = ({ history }) => {
   const handleSelectAll = name => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
-      if (name === "station_types") {
+      if (name === "structure_types") {
         newValues[name] = StructureTypes.map(d => d.structure_type_ndx);
       } else if (name === "structures") {
         newValues[name] = filteredStructures.map(d => d.structure_ndx);
@@ -225,7 +225,7 @@ const AllThingsViewer = ({ history }) => {
   const handleSelectNone = name => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
-      if (name === "station_types") {
+      if (name === "structure_types") {
         newValues[name] = [];
         newValues.structures = [];
         newValues.measurement_types = [];
@@ -252,7 +252,7 @@ const AllThingsViewer = ({ history }) => {
       if (!value.includes("all/none")) {
         // logic that clears selections for structures and measurement types
         // that should no longer show up if a structure type is removed
-        if (name === "station_types") {
+        if (name === "structure_types") {
           const newStructureSelections = validateDependentSelections({
             previousParentSelections: newValues[name],
             newParentSelections: value,
@@ -364,6 +364,18 @@ const AllThingsViewer = ({ history }) => {
     );
   };
 
+  const handleSelectView = view => {
+    setFilterValues(prevState => {
+      let newValues = { ...prevState };
+      newValues.structure_types = view.structure_types;
+      newValues.structures = view.structures;
+      newValues.measurement_types = view.measurement_types;
+      newValues.aggregation_level = view.aggregation_level;
+      newValues.end_date = view.end_date;
+      return newValues;
+    });
+  };
+
   /**
    * Fetch the daily data crosstab data on page load
    * Passing an empty array to the useEffect hook
@@ -432,12 +444,12 @@ const AllThingsViewer = ({ history }) => {
       <FilterBar onSubmit={handleSubmit}>
         {/* Structure Types filter */}
         <MultiSelectFilter
-          name="station_types"
-          label="Station Types"
+          name="structure_types"
+          label="Structure Types"
           valueField="structure_type_ndx"
           displayField="structure_type_desc"
           data={StructureTypes}
-          selected={filterValues.station_types}
+          selected={filterValues.structure_types}
           onChange={handleFilter}
           onSelectAll={handleSelectAll}
           onSelectNone={handleSelectNone}
@@ -533,6 +545,7 @@ const AllThingsViewer = ({ history }) => {
                     key={chip.view_ndx}
                     label={chip.view_name}
                     className={classes.chip}
+                    onClick={() => handleSelectView(chip)}
                   />
                 ))}
               </div>
