@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
     minWidth: 215,
-    maxWidth: 250,
+    maxWidth: 230,
   },
   outlined: {
     border: `1.5px solid ${theme.palette.primary.main}`,

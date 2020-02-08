@@ -85,6 +85,7 @@ const LineGraph = ({ data, columns, title }) => {
       <FlexibleWidthXYPlot
         height={400}
         xType="time"
+        margin={{ left: 60, right: 10, top: 10, bottom: 40 }}
         onMouseLeave={onMouseLeave}
       >
         <HorizontalGridLines />
