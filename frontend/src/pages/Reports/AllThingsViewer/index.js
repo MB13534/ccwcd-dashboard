@@ -10,22 +10,23 @@ import {
   Collapse,
   Divider,
   Typography,
+  Chip,
 } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import TuneIcon from "@material-ui/icons/Tune";
-import Layout from "../../components/Layout";
-import FormSnackbar from "../../components/DataAdmin/FormSnackbar";
-import FilterBar from "../../components/Filters/FilterBar";
-import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
-import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
-import useFetchData from "../../hooks/useFetchData";
-import useFilterAssoc from "../../hooks/useFilterAssoc";
-import { useAuth0 } from "../../hooks/auth";
-import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
-import DataTable from "../../components/DataTable";
-import LineGraph from "../../components/DataVisualization/LineGraph";
-import { validateDependentSelections, extractDate } from "../../util";
-import DateFilter from "../../components/Filters/DateFilter";
+import Layout from "../../../components/Layout";
+import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FilterBar from "../../../components/Filters/FilterBar";
+import SingleSelectFilter from "../../../components/Filters/SingleSelectFilter";
+import MultiSelectFilter from "../../../components/Filters/MultiSelectFilter";
+import useFetchData from "../../../hooks/useFetchData";
+import useFilterAssoc from "../../../hooks/useFilterAssoc";
+import { useAuth0 } from "../../../hooks/auth";
+import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
+import DataTable from "../../../components/DataTable";
+import LineGraph from "../../../components/DataVisualization/LineGraph";
+import { validateDependentSelections, extractDate } from "../../../util";
+import DateFilter from "../../../components/Filters/DateFilter";
 
 const useStyles = makeStyles(theme => ({
   mainContent: {
@@ -63,6 +64,20 @@ const useStyles = makeStyles(theme => ({
   },
   moreFiltersContent: {
     padding: theme.spacing(2, 0),
+  },
+  savedViews: {
+    padding: theme.spacing(2, 1),
+  },
+  chipCloud: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  chip: {
+    marginBottom: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  btn: {
+    marginRight: theme.spacing(1),
   },
   margin: {
     margin: theme.spacing(2),
@@ -111,6 +126,7 @@ const AllThingsViewer = ({ history }) => {
   const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
   const [DailyData, setDailyData] = useState([]);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
+  const [savedViews] = useFetchData("atv/views", []);
   const AggregationData = [
     { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
     {
@@ -466,9 +482,12 @@ const AllThingsViewer = ({ history }) => {
           type="submit"
           color="secondary"
           variant="contained"
-          className={classes.submit}
+          className={classes.btn}
         >
           Submit
+        </Button>
+        <Button variant="contained" color="primary" className={classes.btn}>
+          Save as View
         </Button>
         <Collapse in={moreFiltersVisibility} className={classes.moreFilters}>
           <Divider className={classes.marginTop} />
@@ -500,6 +519,24 @@ const AllThingsViewer = ({ history }) => {
             >
               Note: INSTRUCTIONS HERE
             </Typography>
+
+            <Divider className={classes.marginTop} />
+
+            <div className={classes.savedViews}>
+              <Typography variant="h6" gutterBottom>
+                Saved Views
+              </Typography>
+              <div className={classes.chipCloud}>
+                {savedViews.length === 0 && "None"}
+                {savedViews.map(chip => (
+                  <Chip
+                    key={chip.view_ndx}
+                    label={chip.view_name}
+                    className={classes.chip}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </Collapse>
       </FilterBar>
