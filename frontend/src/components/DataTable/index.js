@@ -125,7 +125,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
+const DataTable = ({ data, columns, title, height, loading, ...props }) => {
   const classes = useStyles();
   const {
     headers,
@@ -365,9 +365,9 @@ const NewListTable = ({ data, columns, title, height, loading, ...props }) => {
   );
 };
 
-NewListTable.propTypes = {
+DataTable.propTypes = {
   data: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
 };
 
-export default NewListTable;
+export default DataTable;

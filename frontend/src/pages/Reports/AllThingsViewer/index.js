@@ -21,6 +21,7 @@ import SingleSelectFilter from "../../../components/Filters/SingleSelectFilter";
 import MultiSelectFilter from "../../../components/Filters/MultiSelectFilter";
 import useFetchData from "../../../hooks/useFetchData";
 import useFilterAssoc from "../../../hooks/useFilterAssoc";
+import useVisibility from "../../../hooks/useVisibility";
 import { useAuth0 } from "../../../hooks/auth";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import DataTable from "../../../components/DataTable";
@@ -114,9 +115,11 @@ const AllThingsViewer = ({ history }) => {
     end_date: extractDate(new Date()),
     file_name: "",
   });
-  const [moreFiltersVisibility, setMoreFiltersVisibility] = useState(false);
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
-  const [lastUpdateVisibility, setLastUpdateVisibility] = useState(false);
+  const [moreFiltersVisibility, handleMoreFiltersVisibility] = useVisibility();
+  const [lastUpdateVisibility, handleLastUpdateVisibility] = useVisibility(
+    false
+  );
   const [visualizationType, setVisualizationType] = useState("table");
   const { getTokenSilently } = useAuth0();
 
@@ -321,10 +324,10 @@ const AllThingsViewer = ({ history }) => {
     }
   };
 
-  const handleMoreFiltersVisibility = () => {
-    setMoreFiltersVisibility(state => !state);
-  };
-
+  /**
+   * Handler for setting the active visualization type
+   * i.e. graph or table
+   */
   const handleVisualizationType = () => {
     setVisualizationType(state => (state === "table" ? "graph" : "table"));
   };
@@ -354,7 +357,7 @@ const AllThingsViewer = ({ history }) => {
           </Button>
         </div>
         <Button
-          onClick={() => setLastUpdateVisibility(true)}
+          onClick={handleLastUpdateVisibility}
           color="primary"
           className={classes.lastUpdateBtn}
         >
@@ -364,6 +367,11 @@ const AllThingsViewer = ({ history }) => {
     );
   };
 
+  /**
+   * Handler for updating the filter values when a user selects
+   * a view from the more filters menu
+   * @param {*} view
+   */
   const handleSelectView = view => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
@@ -588,7 +596,7 @@ const AllThingsViewer = ({ history }) => {
                     </Button>
                   </div>
                   <Button
-                    onClick={() => setLastUpdateVisibility(true)}
+                    onClick={handleLastUpdateVisibility}
                     color="primary"
                     className={classes.lastUpdateBtn}
                   >
@@ -604,7 +612,7 @@ const AllThingsViewer = ({ history }) => {
 
       {/* Last Update Dialog */}
       <Dialog
-        onClose={() => setLastUpdateVisibility(false)}
+        onClose={handleLastUpdateVisibility}
         aria-labelledby="simple-dialog-title"
         open={lastUpdateVisibility}
         fullWidth={true}
@@ -621,7 +629,7 @@ const AllThingsViewer = ({ history }) => {
         />
         <DialogActions>
           <Button
-            onClick={() => setLastUpdateVisibility(false)}
+            onClick={handleLastUpdateVisibility}
             color="secondary"
             variant="contained"
             className={classes.marginTop}
