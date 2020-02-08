@@ -10,6 +10,7 @@ const {
   ATV_Daily_Average,
   ATV_Daily_End_of_Day,
   ATV_Daily_15_min,
+  ATV_Views,
 } = require("../../models");
 
 // Create Express Router
@@ -158,5 +159,35 @@ router.get(
       });
   }
 );
+
+// GET /api/atv/views
+// Route for retrieving all views
+router.get("/views", (req, res, next) => {
+  ATV_Views.findAll({
+    where: {
+      assoc_user_id: {
+        [Op.contains]: [req.user.sub],
+      },
+    },
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+// POST /api/atv/views
+// Route for creating a new view
+router.post("/views", (req, res, next) => {
+  ATV_Views.create(req.body)
+    .then(data => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
 
 module.exports = router;

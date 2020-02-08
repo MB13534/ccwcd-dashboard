@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -17,6 +18,8 @@ import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
 import useFilterAssoc from "../../hooks/useFilterAssoc";
+import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
+import { useAuth0 } from "../../hooks/auth";
 import {
   validateDependentSelections,
   extractDate,
@@ -86,9 +89,17 @@ const useStyles = makeStyles(theme => ({
 
 const AddView = ({ history }) => {
   const classes = useStyles();
+  const {
+    setWaitingState,
+    formSubmitting,
+    snackbarOpen,
+    snackbarError,
+    handleSnackbarClose,
+  } = useFormSubmitStatus();
+  const { getTokenSilently } = useAuth0();
   const [activeStep, setActiveStep] = useState(0);
   const [filterValues, setFilterValues] = useState({
-    station_types: [],
+    structure_types: [],
     structures: [],
     measurement_types: [],
     aggregation_level: "daily-averages",
@@ -115,7 +126,7 @@ const AddView = ({ history }) => {
    * structure types
    */
   const filteredStructures = useFilterAssoc(
-    filterValues.station_types,
+    filterValues.structure_types,
     Structures,
     "assoc_structure_type_ndx"
   );
@@ -138,7 +149,7 @@ const AddView = ({ history }) => {
   const handleSelectAll = name => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
-      if (name === "station_types") {
+      if (name === "structure_types") {
         newValues[name] = StructureTypes.map(d => d.structure_type_ndx);
       } else if (name === "structures") {
         newValues[name] = filteredStructures.map(d => d.structure_ndx);
@@ -156,7 +167,7 @@ const AddView = ({ history }) => {
   const handleSelectNone = name => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
-      if (name === "station_types") {
+      if (name === "structure_types") {
         newValues[name] = [];
         newValues.structures = [];
         newValues.measurement_types = [];
@@ -183,7 +194,7 @@ const AddView = ({ history }) => {
       if (!value.includes("all/none")) {
         // logic that clears selections for structures and measurement types
         // that should no longer show up if a structure type is removed
-        if (name === "station_types") {
+        if (name === "structure_types") {
           const newStructureSelections = validateDependentSelections({
             previousParentSelections: newValues[name],
             newParentSelections: value,
@@ -250,6 +261,52 @@ const AddView = ({ history }) => {
     return extractDate(calculateStartDate(days, endDate));
   };
 
+  const prepFormValues = values => {
+    const {
+      view_name,
+      view_description,
+      structure_types,
+      structures,
+      measurement_types,
+      aggregation_level,
+      end_date,
+    } = values;
+    return {
+      view_name,
+      view_description,
+      assoc_report_ndx: 1,
+      assoc_user_id: ["auth0|5de990ad3085dd0db4e9a46b"],
+      structure_types,
+      structures,
+      measurement_types,
+      aggregation_level,
+      end_date,
+    };
+  };
+
+  /**
+   * Handle form submit
+   * @param {Object} event
+   */
+  const handleSubmit = async event => {
+    event.preventDefault();
+    setWaitingState("in progress");
+    try {
+      const token = await getTokenSilently();
+      const headers = { Authorization: `Bearer ${token}` };
+      await axios.post(
+        `${process.env.REACT_APP_ENDPOINT}/api/atv/views`,
+        prepFormValues(filterValues),
+        { headers }
+      );
+      // resetForm();
+      setWaitingState("complete", "no error");
+    } catch (err) {
+      console.error(err);
+      setWaitingState("complete", "error");
+    }
+  };
+
   return (
     <Layout history={history}>
       <section className={classes.root}>
@@ -260,7 +317,7 @@ const AddView = ({ history }) => {
           <Paper className={classes.paper}>
             <Grid container>
               <Grid item xs={12} md={7}>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <Stepper activeStep={activeStep} orientation="vertical">
                     <Step>
                       <StepLabel>Details</StepLabel>
@@ -349,12 +406,12 @@ const AddView = ({ history }) => {
                         </Typography>
                         {/* Structure Types filter */}
                         <MultiSelectFilter
-                          name="station_types"
+                          name="structure_types"
                           label="Station Types"
                           valueField="structure_type_ndx"
                           displayField="structure_type_desc"
                           data={StructureTypes}
-                          selected={filterValues.station_types}
+                          selected={filterValues.structure_types}
                           onChange={handleFilter}
                           onSelectAll={handleSelectAll}
                           onSelectNone={handleSelectNone}
@@ -495,9 +552,11 @@ const AddView = ({ history }) => {
                     Structure Types
                   </Typography>
                   <div className={classes.chipCloud}>
-                    {filterValues.station_types.length === 0 && "None"}
+                    {filterValues.structure_types.length === 0 && "None"}
                     {StructureTypes.filter(d =>
-                      filterValues.station_types.includes(d.structure_type_ndx)
+                      filterValues.structure_types.includes(
+                        d.structure_type_ndx
+                      )
                     ).map(chip => (
                       <Chip
                         key={chip.structure_type_ndx}

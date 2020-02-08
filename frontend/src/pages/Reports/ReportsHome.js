@@ -59,6 +59,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+/**
+ * Card component for previewing an individual report
+ */
 const ReportCard = ({ report, color, handleReportSelection }) => {
   const classes = useStyles();
   return (
@@ -85,23 +88,9 @@ const ReportsHome = ({ history }) => {
   const classes = useStyles();
   const [selectedReport, setSelectedReport] = useState(null);
   const [Reports] = useFetchData("reports", []);
+  const [SavedViews] = useFetchData("atv/views", []);
 
   const colors = ["#529fe2", "#4CAF50", "#CF6B94"];
-
-  const SavedViews = [
-    { view_ndx: 1, view_name: "View 1", assoc_report_ndx: 2 },
-    { view_ndx: 2, view_name: "View 2", assoc_report_ndx: 1 },
-    { view_ndx: 3, view_name: "View 3", assoc_report_ndx: 3 },
-    { view_ndx: 4, view_name: "View 4", assoc_report_ndx: 4 },
-    { view_ndx: 5, view_name: "View 5", assoc_report_ndx: 1 },
-    { view_ndx: 6, view_name: "View 6", assoc_report_ndx: 1 },
-    { view_ndx: 7, view_name: "View 7", assoc_report_ndx: 2 },
-    { view_ndx: 8, view_name: "View 8", assoc_report_ndx: 3 },
-    { view_ndx: 9, view_name: "View 9", assoc_report_ndx: 4 },
-    { view_ndx: 10, view_name: "View 10", assoc_report_ndx: 1 },
-    { view_ndx: 11, view_name: "View 11", assoc_report_ndx: 3 },
-    { view_ndx: 12, view_name: "View 12", assoc_report_ndx: 3 },
-  ];
 
   const handleReportSelection = report => {
     setSelectedReport(report);

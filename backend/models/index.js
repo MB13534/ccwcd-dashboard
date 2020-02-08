@@ -55,6 +55,7 @@ db.Reports = require("./Reports")(sequelize, Sequelize);
 /**
  * All Things Viewer Models
  */
+db.ATV_Views = require("./ATV/Views")(sequelize, Sequelize);
 db.ATV_Structures = require("./ATV/Structures")(sequelize, Sequelize);
 db.ATV_Structure_Types = require("./ATV/StructureTypes")(sequelize, Sequelize);
 db.ATV_Measurement_Types = require("./ATV/MeasurementTypes")(
