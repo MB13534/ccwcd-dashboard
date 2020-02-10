@@ -89,13 +89,16 @@ const Sidebar = props => {
     localStorage.setItem("last_url", history.location.pathname);
   };
 
-  const setActive = route => {
-    if (history.location.pathname.includes(route) && route !== "/") {
-      return true;
-    } else if (route === "/" && history.location.pathname === "/") {
-      return true;
+  /**
+   * Utility function used to determine if a menu link is active
+   * @param {*} item
+   */
+  const setActive = item => {
+    if (item.exact) {
+      return history.location.pathname === `/${item.activePath}`;
+    } else {
+      return history.location.pathname.includes(item.activePath);
     }
-    return false;
   };
 
   // Configure sidebar menu items
@@ -103,7 +106,8 @@ const Sidebar = props => {
     {
       link: "",
       title: "Home",
-      activePath: "/",
+      activePath: "",
+      exact: true,
       icon: HomeIcon,
       loginRequired: false,
     },
@@ -124,9 +128,10 @@ const Sidebar = props => {
       rolesRequired: ["LRE Admin"],
     },
     {
-      link: "all-things-viewer",
+      link: "reports/all-things-viewer",
       title: "All Things Viewer",
-      activePath: "all-things-viewer",
+      activePath: "reports/all-things-viewer",
+      exact: true,
       icon: ATVIcon,
       loginRequired: true,
       rolesRequired: ["LRE Admin", "CCWCD Admin"],
@@ -154,7 +159,7 @@ const Sidebar = props => {
       <ListItem
         button
         onClick={() => goTo(item.link)}
-        selected={setActive(item.activePath)}
+        selected={setActive(item)}
         key={item.title}
       >
         <ListItemIcon className={classes.navIcon}>

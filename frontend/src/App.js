@@ -14,7 +14,9 @@ const AllThingsViewer = React.lazy(() =>
   import("./pages/Reports/AllThingsViewer")
 );
 const ReportsHome = React.lazy(() => import("./pages/Reports/ReportsHome"));
-const AddView = React.lazy(() => import("./pages/Reports/AddView"));
+const AtvViewManagement = React.lazy(() =>
+  import("./pages/Reports/AllThingsViewer/ManageView")
+);
 const Auth0Sync = React.lazy(() =>
   import("./pages/DataAdmin/UserManagement/Auth0Sync")
 );
@@ -76,7 +78,7 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={Home} />
             <PrivateRouteWithRoles
-              path="/all-things-viewer"
+              path="/reports/all-things-viewer"
               exact
               roles={AdminRoles}
               component={AllThingsViewer}
@@ -88,10 +90,10 @@ const App = () => {
               component={ReportsHome}
             />
             <PrivateRouteWithRoles
-              path="/reports/add-view"
+              path="/reports/all-things-viewer/view/:id"
               exact
               roles={AdminRoles}
-              component={AddView}
+              component={AtvViewManagement}
             />
             <PrivateRouteWithRoles
               path="/auth0-sync"

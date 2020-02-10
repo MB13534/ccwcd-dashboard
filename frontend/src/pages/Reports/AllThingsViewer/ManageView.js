@@ -13,20 +13,20 @@ import {
   Grid,
   Chip,
 } from "@material-ui/core";
-import Layout from "../../components/Layout";
-import FormSnackbar from "../../components/DataAdmin/FormSnackbar";
-import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
-import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
-import useFetchData from "../../hooks/useFetchData";
-import useFilterAssoc from "../../hooks/useFilterAssoc";
-import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
-import { useAuth0 } from "../../hooks/auth";
+import Layout from "../../../components/Layout";
+import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import MultiSelectFilter from "../../../components/Filters/MultiSelectFilter";
+import SingleSelectFilter from "../../../components/Filters/SingleSelectFilter";
+import useFetchData from "../../../hooks/useFetchData";
+import useFilterAssoc from "../../../hooks/useFilterAssoc";
+import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
+import { useAuth0 } from "../../../hooks/auth";
 import {
   validateDependentSelections,
   extractDate,
   calculateStartDate,
-} from "../../util";
-import DateFilter from "../../components/Filters/DateFilter";
+} from "../../../util";
+import DateFilter from "../../../components/Filters/DateFilter";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -328,7 +328,7 @@ const AddView = ({ history }) => {
       <section className={classes.root}>
         <div className={classes.content}>
           <Typography variant="h5" gutterBottom>
-            Add New View
+            Add New View - All Things Viewer
           </Typography>
           <Paper className={classes.paper}>
             <Grid container>
