@@ -146,7 +146,7 @@ const AllThingsViewer = props => {
   const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
   const [DailyData, setDailyData] = useState([]);
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
-  const [savedViews] = useFetchData("atv/views", []);
+  const [savedViews] = useFetchData("atv/views", [saveViewFormSubmitting]);
   const AggregationData = [
     { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
     {
