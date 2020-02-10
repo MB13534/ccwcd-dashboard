@@ -761,61 +761,56 @@ const AllThingsViewer = props => {
             Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday
             carry, meggings tbh shoreditch tote bag salvia migas.
           </Typography>
-          <TextField
-            id="view_name"
-            variant="outlined"
-            label="View Name"
-            fullWidth
-            type="text"
-            name="view_name"
-            value={filterValues.view_name}
-            className={classes.textField}
-            onChange={handleFilter}
-            placeholder="Name"
-            InputProps={{
-              color: "primary",
-              classes: { root: classes.outlined },
-            }}
-            InputLabelProps={{
-              shrink: true,
-              classes: { root: classes.outlinedLabel },
-            }}
-          />
-          <TextField
-            id="view_description"
-            multiline
-            fullWidth
-            rows="4"
-            variant="outlined"
-            label="View Description"
-            type="text"
-            name="view_description"
-            value={filterValues.view_description}
-            className={classes.textField}
-            onChange={handleFilter}
-            placeholder="Description"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          <form onSubmit={handleSaveViewSubmit}>
+            <TextField
+              id="view_name"
+              variant="outlined"
+              label="View Name"
+              fullWidth
+              type="text"
+              name="view_name"
+              required
+              value={filterValues.view_name}
+              className={classes.textField}
+              onChange={handleFilter}
+              placeholder="Name"
+            />
+            <TextField
+              id="view_description"
+              multiline
+              fullWidth
+              rows="4"
+              variant="outlined"
+              label="View Description"
+              type="text"
+              name="view_description"
+              value={filterValues.view_description}
+              className={classes.textField}
+              onChange={handleFilter}
+              placeholder="Description"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <DialogActions>
+              <Button
+                type="submit"
+                color="secondary"
+                variant="contained"
+                className={classes.marginTop}
+              >
+                Save
+              </Button>
+              <Button
+                onClick={handleSaveViewVisibility}
+                variant="contained"
+                className={classes.marginTop}
+              >
+                Cancel
+              </Button>
+            </DialogActions>
+          </form>
         </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleSaveViewSubmit}
-            color="secondary"
-            variant="contained"
-            className={classes.marginTop}
-          >
-            Save
-          </Button>
-          <Button
-            onClick={handleSaveViewVisibility}
-            variant="contained"
-            className={classes.marginTop}
-          >
-            Cancel
-          </Button>
-        </DialogActions>
       </Dialog>
 
       <FormSnackbar
