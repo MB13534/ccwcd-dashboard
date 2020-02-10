@@ -14,6 +14,7 @@ import {
   Chip,
 } from "@material-ui/core";
 import Layout from "../../components/Layout";
+import FormSnackbar from "../../components/DataAdmin/FormSnackbar";
 import MultiSelectFilter from "../../components/Filters/MultiSelectFilter";
 import SingleSelectFilter from "../../components/Filters/SingleSelectFilter";
 import useFetchData from "../../hooks/useFetchData";
@@ -37,7 +38,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3),
   },
   paper: {
-    // padding: theme.spacing(2),
     marginTop: theme.spacing(2),
   },
   textField: {
@@ -46,7 +46,6 @@ const useStyles = makeStyles(theme => ({
   outlined: {
     border: `1.5px solid ${theme.palette.primary.main}`,
     fontSize: 14,
-    // padding: theme.spacing(2),
   },
   outlinedLabel: {
     color: theme.palette.primary.main,
@@ -67,7 +66,6 @@ const useStyles = makeStyles(theme => ({
   },
   viewSummary: {
     padding: theme.spacing(2),
-    // backgroundColor: "#f6f7ff",
     backgroundColor: "#222434",
     color: "#b7b7b7",
     borderLeft: "1px solid #dddddd",
@@ -91,7 +89,6 @@ const AddView = ({ history }) => {
   const classes = useStyles();
   const {
     setWaitingState,
-    formSubmitting,
     snackbarOpen,
     snackbarError,
     handleSnackbarClose,
@@ -107,6 +104,7 @@ const AddView = ({ history }) => {
     view_name: "",
     view_description: "",
   });
+
   // Request data for the filters
   const [StructureTypes] = useFetchData("atv/structure-types", []);
   const [Structures] = useFetchData("atv/structures", []);
@@ -240,14 +238,27 @@ const AddView = ({ history }) => {
     });
   };
 
+  /**
+   * Handler for advancing to the next step
+   */
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
+  /**
+   * Handler for returning to the previous step
+   */
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
+  /**
+   * Utility function used to calculate the start date for a period
+   * of record based on the aggregation level.
+   * Returns a date in "YYYY-MM-DD" format
+   * @param {string} endDate current PoR end date
+   * @param {*} aggregationLevel i.e. daily averages, daily end of day values, 15 min
+   */
   const handleStartDate = (endDate, aggregationLevel) => {
     let days = 0;
     if (
@@ -261,6 +272,11 @@ const AddView = ({ history }) => {
     return extractDate(calculateStartDate(days, endDate));
   };
 
+  /**
+   * Utility function used to prepare form values
+   * for submission to the database
+   * @param {object} values
+   */
   const prepFormValues = values => {
     const {
       view_name,
@@ -639,6 +655,11 @@ const AddView = ({ history }) => {
           </Paper>
         </div>
       </section>
+      <FormSnackbar
+        open={snackbarOpen}
+        error={snackbarError}
+        handleClose={handleSnackbarClose}
+      />
     </Layout>
   );
 };
