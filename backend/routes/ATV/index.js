@@ -204,7 +204,7 @@ router.post("/views", (req, res, next) => {
   data.assoc_user_id = [req.user.sub];
   ATV_Views.create(data)
     .then(data => {
-      res.sendStatus(200);
+      res.json(data.dataValues);
     })
     .catch(err => {
       next(err);

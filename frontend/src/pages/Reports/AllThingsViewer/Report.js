@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -12,6 +12,8 @@ import {
   Divider,
   Typography,
   Chip,
+  DialogContent,
+  TextField,
 } from "@material-ui/core";
 import HelpIcon from "@material-ui/icons/Help";
 import TuneIcon from "@material-ui/icons/Tune";
@@ -27,7 +29,7 @@ import { useAuth0 } from "../../../hooks/auth";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import DataTable from "../../../components/DataTable";
 import LineGraph from "../../../components/DataVisualization/LineGraph";
-import { validateDependentSelections, extractDate } from "../../../util";
+import { validateDependentSelections, extractDate, goTo } from "../../../util";
 import DateFilter from "../../../components/Filters/DateFilter";
 
 const useStyles = makeStyles(theme => ({
@@ -70,6 +72,9 @@ const useStyles = makeStyles(theme => ({
   savedViews: {
     padding: theme.spacing(2, 1),
   },
+  textField: {
+    margin: theme.spacing(2, 0),
+  },
   chipCloud: {
     display: "flex",
     flexWrap: "wrap",
@@ -100,6 +105,7 @@ const useStyles = makeStyles(theme => ({
 
 const AllThingsViewer = props => {
   const classes = useStyles();
+  let history = useHistory();
   let { viewNdx } = useParams();
   const {
     setWaitingState,
@@ -108,6 +114,13 @@ const AllThingsViewer = props => {
     snackbarError,
     handleSnackbarClose,
   } = useFormSubmitStatus();
+  const saveViewSnackbar = useFormSubmitStatus();
+  const setSaveViewWaitingState = saveViewSnackbar.setWaitingState;
+  const saveViewFormSubmitting = saveViewSnackbar.formSubmitting;
+  const saveViewSnackbarOpen = saveViewSnackbar.snackbarOpen;
+  const saveViewSnackbarError = saveViewSnackbar.snackbarError;
+  const handlesaveViewSnackbarClose = saveViewSnackbar.handleSnackbarClose;
+
   const [filterValues, setFilterValues] = useState({
     structure_types: [6],
     structures: [18, 28, 29],
@@ -115,12 +128,15 @@ const AllThingsViewer = props => {
     aggregation_level: "daily-averages",
     end_date: extractDate(new Date()),
     file_name: "",
+    view_name: "",
+    view_description: "",
   });
   const [dailyDataColumns, setDailyDataColumns] = useState([]);
   const [moreFiltersVisibility, handleMoreFiltersVisibility] = useVisibility();
   const [lastUpdateVisibility, handleLastUpdateVisibility] = useVisibility(
     false
   );
+  const [saveViewVisibility, handleSaveViewVisibility] = useVisibility(false);
   const [visualizationType, setVisualizationType] = useState("table");
   const { getTokenSilently } = useAuth0();
 
@@ -329,6 +345,64 @@ const AllThingsViewer = props => {
   };
 
   /**
+   * Utility function used to prepare form values
+   * for submission to the database
+   * @param {object} values
+   */
+  const prepViewFormValues = values => {
+    const {
+      view_name,
+      view_description,
+      structure_types,
+      structures,
+      measurement_types,
+      aggregation_level,
+      end_date,
+    } = values;
+    return {
+      view_name,
+      view_description,
+      assoc_report_ndx: 1,
+      structure_types,
+      structures,
+      measurement_types,
+      aggregation_level,
+      end_date,
+    };
+  };
+
+  /**
+   * Handle form submit
+   * @param {Object} event
+   */
+  const handleSaveViewSubmit = async event => {
+    event.preventDefault();
+    setSaveViewWaitingState("in progress");
+    try {
+      const token = await getTokenSilently();
+      const headers = { Authorization: `Bearer ${token}` };
+      const view = await axios.post(
+        `${process.env.REACT_APP_ENDPOINT}/api/atv/views`,
+        prepViewFormValues(filterValues),
+        { headers }
+      );
+      // resetForm();
+      handleSaveViewVisibility();
+      setSaveViewWaitingState("complete", "no error");
+      setFilterValues(prevState => {
+        let newValues = { ...prevState };
+        newValues.view_name = "";
+        newValues.view_description = "";
+        return newValues;
+      });
+      goTo(history, `reports/all-things-viewer/${view.data.view_ndx}`);
+    } catch (err) {
+      console.error(err);
+      setSaveViewWaitingState("complete", "error");
+    }
+  };
+
+  /**
    * Handler for setting the active visualization type
    * i.e. graph or table
    */
@@ -372,20 +446,12 @@ const AllThingsViewer = props => {
   };
 
   /**
-   * Handler for updating the filter values when a user selects
-   * a view from the more filters menu
+   * Handler for navigating to the correct path when a user
+   * selects a saved view from the more filters menu
    * @param {*} view
    */
   const handleSelectView = view => {
-    setFilterValues(prevState => {
-      let newValues = { ...prevState };
-      newValues.structure_types = view.structure_types;
-      newValues.structures = view.structures;
-      newValues.measurement_types = view.measurement_types;
-      newValues.aggregation_level = view.aggregation_level;
-      newValues.end_date = view.end_date;
-      return newValues;
-    });
+    goTo(history, `reports/all-things-viewer/${view.view_ndx}`);
   };
 
   /**
@@ -459,8 +525,6 @@ const AllThingsViewer = props => {
     if (view && view.length !== 0) {
       setFilterValues(prevState => {
         let newValues = { ...prevState };
-        newValues.view_name = view.view_name;
-        newValues.view_description = view.view_description;
         newValues.structure_types = view.structure_types;
         newValues.structures = view.structures;
         newValues.measurement_types = view.measurement_types;
@@ -544,7 +608,12 @@ const AllThingsViewer = props => {
         >
           Submit
         </Button>
-        <Button variant="contained" color="primary" className={classes.btn}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.btn}
+          onClick={handleSaveViewVisibility}
+        >
           Save as View
         </Button>
         <Collapse in={moreFiltersVisibility} className={classes.moreFilters}>
@@ -677,12 +746,92 @@ const AllThingsViewer = props => {
         </DialogActions>
       </Dialog>
 
+      {/* Save As View Dialog */}
+      <Dialog
+        onClose={handleLastUpdateVisibility}
+        aria-labelledby="simple-dialog-title"
+        open={saveViewVisibility}
+        fullWidth={true}
+        maxWidth="md"
+        className={classes.dialog}
+      >
+        <DialogTitle>Save as New View</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1" className={classes.helpText}>
+            Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday
+            carry, meggings tbh shoreditch tote bag salvia migas.
+          </Typography>
+          <TextField
+            id="view_name"
+            variant="outlined"
+            label="View Name"
+            fullWidth
+            type="text"
+            name="view_name"
+            value={filterValues.view_name}
+            className={classes.textField}
+            onChange={handleFilter}
+            placeholder="Name"
+            InputProps={{
+              color: "primary",
+              classes: { root: classes.outlined },
+            }}
+            InputLabelProps={{
+              shrink: true,
+              classes: { root: classes.outlinedLabel },
+            }}
+          />
+          <TextField
+            id="view_description"
+            multiline
+            fullWidth
+            rows="4"
+            variant="outlined"
+            label="View Description"
+            type="text"
+            name="view_description"
+            value={filterValues.view_description}
+            className={classes.textField}
+            onChange={handleFilter}
+            placeholder="Description"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleSaveViewSubmit}
+            color="secondary"
+            variant="contained"
+            className={classes.marginTop}
+          >
+            Save
+          </Button>
+          <Button
+            onClick={handleSaveViewVisibility}
+            variant="contained"
+            className={classes.marginTop}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <FormSnackbar
         open={snackbarOpen}
         error={snackbarError}
         handleClose={handleSnackbarClose}
         successMessage="Filters submitted successfully"
         errorMessage="Filters could not be submitted"
+      />
+
+      <FormSnackbar
+        open={saveViewSnackbarOpen}
+        error={saveViewSnackbarError}
+        handleClose={handlesaveViewSnackbarClose}
+        successMessage="New view saved successfully"
+        errorMessage="New view could not be saved"
       />
     </Layout>
   );
