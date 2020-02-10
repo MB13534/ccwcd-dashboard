@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Auth0Sync = ({ history }) => {
+const Auth0Sync = props => {
   const classes = useStyles();
   const [Users] = useFetchData("user-management/users", []);
   const [isLoading, setIsLoading] = useState(false); //eslint-disable-line
@@ -61,7 +61,7 @@ const Auth0Sync = ({ history }) => {
   };
 
   return (
-    <Layout history={history}>
+    <Layout>
       <Paper className={classes.root}>
         <Button variant="contained" color="primary" onClick={handleSync}>
           Sync

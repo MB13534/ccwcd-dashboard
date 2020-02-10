@@ -35,11 +35,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportDetails = ({ history, views, selectedReport }) => {
+const ReportDetails = ({ views, selectedReport }) => {
   const classes = useStyles();
 
   return (
-    <CustomDrawer history={history}>
+    <CustomDrawer>
       <div className={classes.reportDrawer}>
         {!selectedReport && (
           <React.Fragment>
@@ -81,7 +81,7 @@ const ReportDetails = ({ history, views, selectedReport }) => {
                 size="small"
                 color="secondary"
                 component={RouterLink}
-                to="/reports/all-things-viewer/view/new"
+                to="/reports/all-things-viewer/view"
               >
                 + Create View
               </Button>
@@ -98,7 +98,12 @@ const ReportDetails = ({ history, views, selectedReport }) => {
                     </ListItemAvatar>
                     <ListItemText primary={view.view_name} />
                     <ListItemSecondaryAction>
-                      <IconButton edge="end" aria-label="delete">
+                      <IconButton
+                        edge="end"
+                        aria-label="edit"
+                        component={RouterLink}
+                        to={`/reports/all-things-viewer/view/${view.view_ndx}`}
+                      >
                         <EditIcon />
                       </IconButton>
                       <IconButton edge="end" aria-label="delete">

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -85,8 +86,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AddView = ({ history }) => {
+const AddView = props => {
   const classes = useStyles();
+  const { viewNdx } = useParams();
+
   const {
     setWaitingState,
     snackbarOpen,
@@ -117,6 +120,9 @@ const AddView = ({ history }) => {
     },
     { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
   ];
+  const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
+    viewNdx,
+  ]);
 
   /**
    * Use the useFilterAssoc hook to populate the structures dropdown
@@ -291,7 +297,6 @@ const AddView = ({ history }) => {
       view_name,
       view_description,
       assoc_report_ndx: 1,
-      assoc_user_id: ["auth0|5de990ad3085dd0db4e9a46b"],
       structure_types,
       structures,
       measurement_types,
@@ -323,12 +328,30 @@ const AddView = ({ history }) => {
     }
   };
 
+  /**
+   * Logic used to handle setting the filter values
+   * if the user is editing an existing view
+   */
+  useEffect(() => {
+    if (view && view.length !== 0) {
+      setFilterValues({
+        view_name: view.view_name,
+        view_description: view.view_description,
+        structure_types: view.structure_types,
+        structures: view.structures,
+        measurement_types: view.measurement_types,
+        aggregation_level: view.aggregation_level,
+        end_date: view.end_date,
+      });
+    }
+  }, [view]);
+
   return (
-    <Layout history={history}>
+    <Layout>
       <section className={classes.root}>
         <div className={classes.content}>
           <Typography variant="h5" gutterBottom>
-            Add New View - All Things Viewer
+            Manage View - All Things Viewer
           </Typography>
           <Paper className={classes.paper}>
             <Grid container>

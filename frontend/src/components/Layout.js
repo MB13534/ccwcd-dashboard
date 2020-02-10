@@ -16,11 +16,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Layout = ({ children, history }) => {
+const Layout = ({ children }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Sidebar history={history} />
+      <Sidebar />
       <div className={classes.content}>{children}</div>
     </div>
   );

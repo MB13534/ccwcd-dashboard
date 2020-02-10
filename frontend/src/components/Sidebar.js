@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
@@ -16,14 +16,14 @@ import ATVIcon from "@material-ui/icons/DataUsage";
 import ReportsIcon from "@material-ui/icons/Assignment";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import logo from "../images/ccwcd_logo.png";
 import { useAuth0 } from "../hooks/auth";
 
 const drawerWidth = 270;
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
@@ -72,10 +72,11 @@ const styles = theme => ({
       fontSize: `18px!important`,
     },
   },
-});
+}));
 
 const Sidebar = props => {
-  const { history, classes, theme, container } = props;
+  const classes = useStyles();
+  let history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
 
@@ -240,9 +241,8 @@ const Sidebar = props => {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
+            anchor="left"
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -268,12 +268,4 @@ const Sidebar = props => {
   );
 };
 
-Sidebar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  container: PropTypes.object,
-  theme: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles, { withTheme: true })(Sidebar);
+export default Sidebar;

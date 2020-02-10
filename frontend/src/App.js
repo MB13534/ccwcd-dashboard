@@ -11,7 +11,7 @@ import theme from "./theme";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const AllThingsViewer = React.lazy(() =>
-  import("./pages/Reports/AllThingsViewer")
+  import("./pages/Reports/AllThingsViewer/Report")
 );
 const ReportsHome = React.lazy(() => import("./pages/Reports/ReportsHome"));
 const AtvViewManagement = React.lazy(() =>
@@ -84,13 +84,25 @@ const App = () => {
               component={AllThingsViewer}
             />
             <PrivateRouteWithRoles
+              path="/reports/all-things-viewer/:viewNdx"
+              exact
+              roles={AdminRoles}
+              component={AllThingsViewer}
+            />
+            <PrivateRouteWithRoles
               path="/reports"
               exact
               roles={AdminRoles}
               component={ReportsHome}
             />
             <PrivateRouteWithRoles
-              path="/reports/all-things-viewer/view/:id"
+              path="/reports/all-things-viewer/view"
+              exact
+              roles={AdminRoles}
+              component={AtvViewManagement}
+            />
+            <PrivateRouteWithRoles
+              path="/reports/all-things-viewer/view/:viewNdx"
               exact
               roles={AdminRoles}
               component={AtvViewManagement}

@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportsHome = ({ history }) => {
+const ReportsHome = () => {
   const classes = useStyles();
   const [selectedReport, setSelectedReport] = useState(null);
   const [Reports] = useFetchData("reports", []);
@@ -33,7 +33,7 @@ const ReportsHome = ({ history }) => {
   };
 
   return (
-    <Layout history={history}>
+    <Layout>
       <section className={classes.root}>
         <div className={classes.content}>
           <Typography variant="h5" gutterBottom>
@@ -51,11 +51,7 @@ const ReportsHome = ({ history }) => {
             ))}
           </Grid>
         </div>
-        <ReportDetails
-          history={history}
-          selectedReport={selectedReport}
-          views={SavedViews}
-        />
+        <ReportDetails selectedReport={selectedReport} views={SavedViews} />
       </section>
     </Layout>
   );

@@ -178,10 +178,31 @@ router.get("/views", (req, res, next) => {
     });
 });
 
+// GET /api/atv/views/:id
+// Route for retrieving a specific view
+router.get("/views/:id", (req, res, next) => {
+  ATV_Views.findOne({
+    where: {
+      assoc_user_id: {
+        [Op.contains]: [req.user.sub],
+      },
+      view_ndx: req.params.id,
+    },
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 // POST /api/atv/views
 // Route for creating a new view
 router.post("/views", (req, res, next) => {
-  ATV_Views.create(req.body)
+  let data = { ...req.body };
+  data.assoc_user_id = [req.user.sub];
+  ATV_Views.create(data)
     .then(data => {
       res.sendStatus(200);
     })

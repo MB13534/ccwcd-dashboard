@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
@@ -41,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CustomDrawer = ({ history, children }) => {
+const CustomDrawer = ({ children }) => {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -92,10 +91,6 @@ const CustomDrawer = ({ history, children }) => {
       </nav>
     </div>
   );
-};
-
-CustomDrawer.propTypes = {
-  history: PropTypes.object.isRequired,
 };
 
 export default CustomDrawer;

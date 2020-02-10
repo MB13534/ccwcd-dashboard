@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
@@ -97,9 +98,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AllThingsViewer = ({ history }) => {
+const AllThingsViewer = props => {
   const classes = useStyles();
-
+  let { viewNdx } = useParams();
   const {
     setWaitingState,
     formSubmitting,
@@ -138,6 +139,9 @@ const AllThingsViewer = ({ history }) => {
     },
     { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
   ];
+  const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
+    viewNdx,
+  ]);
 
   /**
    * Use the useFilterAssoc hook to populate the structures dropdown
@@ -447,8 +451,42 @@ const AllThingsViewer = ({ history }) => {
     }
   }, [DailyData]);
 
+  /**
+   * Logic used to handle setting the filter values
+   * if the user is editing an existing view
+   */
+  useEffect(() => {
+    if (view && view.length !== 0) {
+      setFilterValues(prevState => {
+        let newValues = { ...prevState };
+        newValues.view_name = view.view_name;
+        newValues.view_description = view.view_description;
+        newValues.structure_types = view.structure_types;
+        newValues.structures = view.structures;
+        newValues.measurement_types = view.measurement_types;
+        newValues.aggregation_level = view.aggregation_level;
+        newValues.end_date = view.end_date;
+        return newValues;
+      });
+      (async () => {
+        try {
+          const token = await getTokenSilently();
+          const headers = { Authorization: `Bearer ${token}` };
+          const response = await axios.get(
+            `${process.env.REACT_APP_ENDPOINT}/api/atv/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${view.end_date}`,
+            { headers }
+          );
+          setDailyData(response.data);
+        } catch (err) {
+          console.error(err);
+          setDailyData([]);
+        }
+      })();
+    }
+  }, [getTokenSilently, view]);
+
   return (
-    <Layout history={history}>
+    <Layout>
       <FilterBar onSubmit={handleSubmit}>
         {/* Structure Types filter */}
         <MultiSelectFilter
