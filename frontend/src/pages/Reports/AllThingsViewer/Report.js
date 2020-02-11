@@ -248,14 +248,7 @@ const AllThingsViewer = props => {
         setData([]);
       }
     })();
-  }, [
-    filterValues.aggregation_level,
-    filterValues.end_date,
-    filterValues.measurement_types,
-    filterValues.structures,
-    getTokenSilently,
-    view,
-  ]);
+  }, [view]); //eslint-disable-line
 
   return (
     <Report>
