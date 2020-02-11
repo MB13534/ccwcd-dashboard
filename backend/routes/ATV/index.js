@@ -202,6 +202,7 @@ router.get("/views/:id", (req, res, next) => {
 router.post("/views", (req, res, next) => {
   let data = { ...req.body };
   data.assoc_user_id = [req.user.sub];
+  data.assoc_report_ndx = 1;
   ATV_Views.create(data)
     .then(data => {
       res.json(data.dataValues);

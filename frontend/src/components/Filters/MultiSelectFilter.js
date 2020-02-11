@@ -54,8 +54,6 @@ const MultiSelectFilter = props => {
     data,
     selected,
     onChange,
-    onSelectAll = () => {},
-    onSelectNone = () => {},
   } = props;
   const classes = useStyles();
 
@@ -70,6 +68,14 @@ const MultiSelectFilter = props => {
       .filter(d => selections.includes(d[valueField]))
       .map(d => d[displayField]);
     return textValues.join(", ");
+  };
+
+  const handleSelectAll = name => {
+    onChange({ target: { name, value: data.map(d => d[valueField]) } });
+  };
+
+  const handleSelectNone = name => {
+    onChange({ target: { name, value: [] } });
   };
 
   return (
@@ -96,10 +102,10 @@ const MultiSelectFilter = props => {
       >
         {data.length > 0 && (
           <MenuItem value="all/none">
-            <Button color="primary" onClick={() => onSelectAll(name)}>
+            <Button color="primary" onClick={() => handleSelectAll(name)}>
               Select All
             </Button>
-            <Button color="primary" onClick={() => onSelectNone(name)}>
+            <Button color="primary" onClick={() => handleSelectNone(name)}>
               Select None
             </Button>
           </MenuItem>
