@@ -61,6 +61,7 @@ const LineGraph = ({ data, columns, title }) => {
     return seriesData;
   }, [data, columns]);
 
+  // Color scale used for 5 or less series
   const DISCRETE_COLOR_RANGE = [
     "#12939A",
     "#79C7E3",
@@ -69,9 +70,50 @@ const LineGraph = ({ data, columns, title }) => {
     "#EF5D28",
   ];
 
+  // Color scale used for 6 or more series
+  const EXTENDED_DISCRETE_COLOR_RANGE = [
+    "#19CDD7",
+    "#DDB27C",
+    "#88572C",
+    "#FF991F",
+    "#F15C17",
+    "#223F9A",
+    "#DA70BF",
+    "#125C77",
+    "#4DC19C",
+    "#776E57",
+    "#12939A",
+    "#17B8BE",
+    "#F6D18A",
+    "#B7885E",
+    "#FFCB99",
+    "#F89570",
+    "#829AE3",
+    "#E79FD5",
+    "#1E96BE",
+    "#89DAC1",
+    "#B3AD9E",
+  ];
+
+  /**
+   * Event handlers for graph mouseover/mouseleave
+   */
   const onMouseLeave = () => setCrosshairValues([]);
   const onNearestX = (value, { index }) => {
     setCrosshairValues(graphData.map(d => d[index].y !== null && d[index]));
+  };
+
+  /**
+   * Utility function that determines whether the descrete or
+   * extended discrete color range should be used in setting
+   * the background color for the tooltip legend item
+   * @param {number} index index of the legend item
+   */
+  const setLegendColor = index => {
+    if (index >= DISCRETE_COLOR_RANGE.length) {
+      return EXTENDED_DISCRETE_COLOR_RANGE[index];
+    }
+    return DISCRETE_COLOR_RANGE[index];
   };
 
   if (graphData.length === 0) return null;
@@ -122,7 +164,7 @@ const LineGraph = ({ data, columns, title }) => {
                         <span
                           className={classes.seriesLegend}
                           style={{
-                            backgroundColor: DISCRETE_COLOR_RANGE[index],
+                            backgroundColor: setLegendColor(index),
                           }}
                         ></span>
                         <span className={classes.seriesText}>
