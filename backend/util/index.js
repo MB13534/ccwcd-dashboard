@@ -4,8 +4,10 @@
  * @param {array} data array of objects to parse
  * @param {string} field property name to return unique values for
  */
-const unique = (data, field, type) => {
-  if (type === "timestamp") {
+const unique = (data, field) => {
+  if (data.length === 0) return [];
+
+  if (data[0][field] instanceof Date) {
     return [
       ...new Set(
         data.map(d =>
@@ -60,7 +62,7 @@ const crosstab = (data, categoryField, seriesField, valueField) => {
 
   const records = categories.map(category => {
     const record = {};
-    if (category instanceof Date) {
+    if (data[0][categoryField] instanceof Date) {
       record[categoryField] = new Date(category);
     } else {
       record[categoryField] = category;
@@ -69,8 +71,18 @@ const crosstab = (data, categoryField, seriesField, valueField) => {
       record[s] = null;
     });
     data.forEach(d => {
-      if (d[categoryField] === category) {
-        record[d[seriesField]] = d[valueField];
+      if (data[0][categoryField] instanceof Date) {
+        if (
+          d[categoryField].toLocaleString("en-US", {
+            timeZone: "America/Denver",
+          }) === category
+        ) {
+          record[d[seriesField]] = d[valueField];
+        }
+      } else {
+        if (d[categoryField] === category) {
+          record[d[seriesField]] = d[valueField];
+        }
       }
     });
     return record;

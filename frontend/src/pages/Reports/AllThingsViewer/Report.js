@@ -163,28 +163,6 @@ const AllThingsViewer = props => {
   };
 
   /**
-   * Fetch the daily data crosstab data on page load
-   * Passing an empty array to the useEffect hook
-   * ensures that the data is only fetched once
-   */
-  useEffect(() => {
-    (async () => {
-      try {
-        const token = await getTokenSilently();
-        const headers = { Authorization: `Bearer ${token}` };
-        const response = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
-          { headers }
-        );
-        setData(response.data);
-      } catch (err) {
-        console.error(err);
-        setData([]);
-      }
-    })();
-  }, []); //eslint-disable-line
-
-  /**
    * Logic used to programatically set the column configs for the
    * Daily Data crosstab table
    * Logic runs whenever the DailyData is updated
@@ -228,6 +206,7 @@ const AllThingsViewer = props => {
   /**
    * Logic used to handle setting the filter values
    * if the user is editing an existing view
+   * TODO potentially refactor this into a useCallback
    */
   useEffect(() => {
     if (view && view.length !== 0) {
@@ -255,10 +234,31 @@ const AllThingsViewer = props => {
         }
       })();
     }
-  }, [getTokenSilently, view]);
+    (async () => {
+      try {
+        const token = await getTokenSilently();
+        const headers = { Authorization: `Bearer ${token}` };
+        const response = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
+          { headers }
+        );
+        setData(response.data);
+      } catch (err) {
+        console.error(err);
+        setData([]);
+      }
+    })();
+  }, [
+    filterValues.aggregation_level,
+    filterValues.end_date,
+    filterValues.measurement_types,
+    filterValues.structures,
+    getTokenSilently,
+    view,
+  ]);
 
   return (
-    <Report type="all-things-viewer">
+    <Report>
       <FilterBar onSubmit={handleSubmit}>
         <StructureTypesFilter
           data={StructureTypes}
