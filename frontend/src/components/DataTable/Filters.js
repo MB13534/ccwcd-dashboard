@@ -28,6 +28,11 @@ const Filters = ({ filters, visible, visibilityHandler, handleFilter }) => {
 
   const constructFilter = filter => {
     if (filter.filter.type === "date") {
+      const error =
+        filter.filter.value[0] > filter.filter.max ||
+        filter.filter.value[0] < filter.filter.min ||
+        filter.filter.value[1] > filter.filter.max ||
+        filter.filter.value[1] < filter.filter.min;
       return (
         <React.Fragment>
           <TextField
@@ -35,6 +40,10 @@ const Filters = ({ filters, visible, visibilityHandler, handleFilter }) => {
             variant="outlined"
             label="Start Date"
             type="date"
+            error={error}
+            helperText={error ? "Out of range date." : ""}
+            min={filter.filter.min}
+            max={filter.filter.max}
             name={`${filter.accessor}_start`}
             value={filter.filter.value[0]}
             className={classes.textField}
@@ -49,6 +58,10 @@ const Filters = ({ filters, visible, visibilityHandler, handleFilter }) => {
             label="End Date"
             type="date"
             name={`${filter.accessor}_end`}
+            error={error}
+            helperText={error ? "Out of range date." : ""}
+            min={filter.filter.min}
+            max={filter.filter.max}
             value={filter.filter.value[1]}
             className={classes.textField}
             onChange={handleFilter}

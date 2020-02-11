@@ -127,6 +127,8 @@ const useTable = (data, columns) => {
             filter.filter.value.push(
               extractDate(dates.reduce((a, b) => (a > b ? a : b)))
             );
+            filter.filter.min = filter.filter.value[0];
+            filter.filter.max = filter.filter.value[1];
           }
           return filter;
         });
