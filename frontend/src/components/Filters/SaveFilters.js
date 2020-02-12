@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -15,6 +16,7 @@ import FormSnackbar from "../DataAdmin/FormSnackbar";
 import useVisibility from "../../hooks/useVisibility";
 import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../hooks/auth";
+import { goTo } from "../../util";
 
 const useStyles = makeStyles(theme => ({
   btn: {
@@ -35,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 const FilterActions = ({ endpoint, filterValues }) => {
   const classes = useStyles();
+  let history = useHistory();
   const [saveViewVisibility, handleSaveViewVisibility] = useVisibility(false);
   const { getTokenSilently } = useAuth0();
   const [formValues, setFormValues] = useState({
@@ -82,13 +85,8 @@ const FilterActions = ({ endpoint, filterValues }) => {
       // resetForm();
       handleSaveViewVisibility();
       setWaitingState("complete", "no error");
-      // setFilterValues(prevState => {
-      //   let newValues = { ...prevState };
-      //   newValues.view_name = "";
-      //   newValues.view_description = "";
-      //   return newValues;
-      // });
-      // goTo(history, `reports/all-things-viewer/${view.data.view_ndx}`);
+      setFormValues({ view_name: "", view_description: "" });
+      goTo(history, `reports/all-things-viewer/${view.data.view_ndx}`);
     } catch (err) {
       console.error(err);
       setWaitingState("complete", "error");

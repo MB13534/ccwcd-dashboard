@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
   chipCloud: {
     width: "100%",
   },
+  chip: {
+    margin: theme.spacing(0, 1, 1, 0),
+  },
   divider: {
     margin: theme.spacing(2, 0),
   },
@@ -21,7 +24,7 @@ const SavedViews = props => {
   const classes = useStyles();
   let history = useHistory();
   let match = useRouteMatch();
-  const [savedViews] = useFetchData("atv/views", []);
+  const [savedViews] = useFetchData("atv/views", [match]);
 
   const handleSelectView = chip => {
     const pathSplit = match.path.split("/:viewNdx")[0];

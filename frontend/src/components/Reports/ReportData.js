@@ -158,6 +158,7 @@ const ReportData = ({ data, columns, loading }) => {
         <div>
           {/* {text[filterValues.aggregation_level]}{" "}
           {visualizationType === "table" ? " Crosstab" : " Graph"} */}
+          Data Viewer
           <Button
             style={{ marginLeft: 16 }}
             variant="outlined"
@@ -195,35 +196,7 @@ const ReportData = ({ data, columns, loading }) => {
           )}
 
           {visualizationType === "graph" && (
-            <LineGraph
-              data={data}
-              columns={columns}
-              title={
-                <div className={classes.tableTitle}>
-                  <div>
-                    Daily Data{" "}
-                    {visualizationType === "table" ? " Crosstab" : " Graph"}
-                    <Button
-                      style={{ marginLeft: 16 }}
-                      variant="outlined"
-                      color="primary"
-                      onClick={handleVisualizationType}
-                    >
-                      View As{" "}
-                      {visualizationType === "graph" ? "Table" : "Graph"}
-                    </Button>
-                  </div>
-                  <Button
-                    onClick={handleLastUpdateVisibility}
-                    color="primary"
-                    className={classes.lastUpdateBtn}
-                  >
-                    <HelpIcon style={{ marginRight: 8 }} /> View Data
-                    Availability
-                  </Button>
-                </div>
-              }
-            />
+            <LineGraph data={data} columns={columns} title={setTableTitle()} />
           )}
         </Paper>
       </div>

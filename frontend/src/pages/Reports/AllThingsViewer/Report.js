@@ -233,21 +233,22 @@ const AllThingsViewer = props => {
           setData([]);
         }
       })();
+    } else {
+      (async () => {
+        try {
+          const token = await getTokenSilently();
+          const headers = { Authorization: `Bearer ${token}` };
+          const response = await axios.get(
+            `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
+            { headers }
+          );
+          setData(response.data);
+        } catch (err) {
+          console.error(err);
+          setData([]);
+        }
+      })();
     }
-    (async () => {
-      try {
-        const token = await getTokenSilently();
-        const headers = { Authorization: `Bearer ${token}` };
-        const response = await axios.get(
-          `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
-          { headers }
-        );
-        setData(response.data);
-      } catch (err) {
-        console.error(err);
-        setData([]);
-      }
-    })();
   }, [view]); //eslint-disable-line
 
   return (
