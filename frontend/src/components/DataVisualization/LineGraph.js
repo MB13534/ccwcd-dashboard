@@ -17,10 +17,7 @@ const useStyles = makeStyles(theme => ({
     width: 300,
     border: "1px solid #dddddd",
     backgroundColor: "#fafafa",
-    // backgroundColor: "#444444",
     color: "rgba(0,0,0,0.87)",
-    // backgroundColor: theme.palette.primary.dark,
-    // color: "#ffffff",
     padding: theme.spacing(1),
     borderRadius: 4,
     boxShadow:
@@ -141,13 +138,6 @@ const LineGraph = ({ data, columns, title }) => {
             onNearestX={onNearestX}
           />
         ))}
-        {/* <LineMarkSeries
-          data={data[1]}
-          getNull={d => d.y !== null}
-          onNearestX={onNearestX}
-          color={theme.palette.secondary.main}
-          size={2.5}
-        /> */}
         {crosshairValues.length > 0 && (
           <Crosshair values={crosshairValues}>
             <div className={classes.tooltip}>
