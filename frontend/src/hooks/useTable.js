@@ -121,12 +121,8 @@ const useTable = (data, columns) => {
           if (type === "date") {
             const dates = data.map(d => d[col.accessor]);
             filter.filter.value = [];
-            filter.filter.value.push(
-              extractDate(dates.reduce((a, b) => (a < b ? a : b)))
-            );
-            filter.filter.value.push(
-              extractDate(dates.reduce((a, b) => (a > b ? a : b)))
-            );
+            filter.filter.value.push(dates.reduce((a, b) => (a < b ? a : b)));
+            filter.filter.value.push(dates.reduce((a, b) => (a > b ? a : b)));
             filter.filter.min = filter.filter.value[0];
             filter.filter.max = filter.filter.value[1];
           }
@@ -156,8 +152,8 @@ const useTable = (data, columns) => {
       filteredData = filteredData.filter(d => {
         if (filter.filter.type === "date") {
           return (
-            extractDate(d[filter.accessor]) >= filter.filter.value[0] &&
-            extractDate(d[filter.accessor]) <= filter.filter.value[1]
+            d[filter.accessor] >= filter.filter.value[0] &&
+            d[filter.accessor] <= filter.filter.value[1]
           );
         } else {
           return filter.filter.value.includes(d[filter.accessor]);
