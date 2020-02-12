@@ -104,6 +104,7 @@ const AddView = props => {
     measurement_types: [],
     aggregation_level: "daily-averages",
     end_date: extractDate(new Date()),
+    view_ndx: null,
     view_name: "",
     view_description: "",
   });
@@ -285,6 +286,7 @@ const AddView = props => {
    */
   const prepFormValues = values => {
     const {
+      view_ndx,
       view_name,
       view_description,
       structure_types,
@@ -294,9 +296,9 @@ const AddView = props => {
       end_date,
     } = values;
     return {
+      view_ndx,
       view_name,
       view_description,
-      assoc_report_ndx: 1,
       structure_types,
       structures,
       measurement_types,
@@ -335,6 +337,7 @@ const AddView = props => {
   useEffect(() => {
     if (view && view.length !== 0) {
       setFilterValues({
+        view_ndx: view.view_ndx,
         view_name: view.view_name,
         view_description: view.view_description,
         structure_types: view.structure_types,
@@ -544,7 +547,7 @@ const AddView = props => {
                               type="submit"
                               variant="contained"
                               color="primary"
-                              onClick={handleNext}
+                              onClick={() => { }}
                               className={classes.button}
                             >
                               Finish
@@ -601,7 +604,7 @@ const AddView = props => {
                         key={chip.structure_type_ndx}
                         label={chip.structure_type_desc}
                         className={classes.chip}
-                        onDelete={() => {}}
+                        onDelete={() => { }}
                       />
                     ))}
                   </div>
@@ -620,7 +623,7 @@ const AddView = props => {
                         key={chip.structure_ndx}
                         label={chip.structure_desc}
                         className={classes.chip}
-                        onDelete={() => {}}
+                        onDelete={() => { }}
                       />
                     ))}
                   </div>
@@ -641,7 +644,7 @@ const AddView = props => {
                         key={chip.measure_type_ndx}
                         label={chip.measure_type_desc}
                         className={classes.chip}
-                        onDelete={() => {}}
+                        onDelete={() => { }}
                       />
                     ))}
                   </div>

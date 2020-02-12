@@ -129,9 +129,9 @@ const Sidebar = props => {
       rolesRequired: ["LRE Admin"],
     },
     {
-      link: "reports/all-things-viewer",
+      link: "all-things-viewer",
       title: "All Things Viewer",
-      activePath: "reports/all-things-viewer",
+      activePath: "all-things-viewer",
       exact: true,
       icon: ATVIcon,
       loginRequired: true,
@@ -209,17 +209,17 @@ const Sidebar = props => {
             />
           </ListItem>
         ) : (
-          <ListItem button>
-            <ListItemIcon className={classes.navIcon}>
-              <AccountIcon />
-            </ListItemIcon>
-            <ListItemText
-              className={classes.navText}
-              primary="Login"
-              onClick={() => loginWithRedirect()}
-            />
-          </ListItem>
-        )}
+            <ListItem button>
+              <ListItemIcon className={classes.navIcon}>
+                <AccountIcon />
+              </ListItemIcon>
+              <ListItemText
+                className={classes.navText}
+                primary="Login"
+                onClick={() => loginWithRedirect()}
+              />
+            </ListItem>
+          )}
       </List>
     </div>
   );

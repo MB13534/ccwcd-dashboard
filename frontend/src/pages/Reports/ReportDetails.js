@@ -5,8 +5,6 @@ import {
   Button,
   List,
   ListItem,
-  ListItemAvatar,
-  Avatar,
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
@@ -33,9 +31,19 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  listItemText: {
+    wordWrap: "normal",
+    maxWidth: 200,
+  },
 }));
 
-const ReportDetails = ({ views, selectedReport }) => {
+const ReportDetails = ({
+  views,
+  selectedReport,
+  handleJumpToView,
+  handleEditView,
+  handleDeleteView,
+}) => {
   const classes = useStyles();
 
   return (
@@ -92,21 +100,25 @@ const ReportDetails = ({ views, selectedReport }) => {
                   view => view.assoc_report_ndx === selectedReport.report_ndx
                 )
                 .map(view => (
-                  <ListItem key={view.view_ndx}>
-                    <ListItemAvatar>
-                      <Avatar>{view.view_name.substring(0, 1)}</Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={view.view_name} />
+                  <ListItem key={view.view_ndx} button>
+                    <ListItemText
+                      className={classes.listItemText}
+                      primary={view.view_name}
+                      onClick={e => handleJumpToView(e, view)}
+                    />
                     <ListItemSecondaryAction>
                       <IconButton
                         edge="end"
                         aria-label="edit"
-                        component={RouterLink}
-                        to={`/reports/all-things-viewer/view/${view.view_ndx}`}
+                        onClick={e => handleEditView(e, view)}
                       >
                         <EditIcon />
                       </IconButton>
-                      <IconButton edge="end" aria-label="delete">
+                      <IconButton
+                        onClick={e => handleDeleteView(e, view)}
+                        edge="end"
+                        aria-label="delete"
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </ListItemSecondaryAction>

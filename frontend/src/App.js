@@ -78,13 +78,13 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={Home} />
             <PrivateRouteWithRoles
-              path="/reports/all-things-viewer"
+              path="/all-things-viewer"
               exact
               roles={AdminRoles}
               component={AllThingsViewer}
             />
             <PrivateRouteWithRoles
-              path="/reports/all-things-viewer/:viewNdx"
+              path="/all-things-viewer/:viewNdx"
               exact
               roles={AdminRoles}
               component={AllThingsViewer}

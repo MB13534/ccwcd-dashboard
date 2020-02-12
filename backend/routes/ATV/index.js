@@ -203,9 +203,28 @@ router.post("/views", (req, res, next) => {
   let data = { ...req.body };
   data.assoc_user_id = [req.user.sub];
   data.assoc_report_ndx = 1;
-  ATV_Views.create(data)
+  ATV_Views.upsert(data, { returning: true })
     .then(data => {
-      res.json(data.dataValues);
+      res.json(data[0].dataValues);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+// DELETE /api/atv/views
+// Route for creating a new view
+router.delete("/views/:view_ndx", (req, res, next) => {
+  ATV_Views.destroy({
+    where: {
+      view_ndx: req.params.view_ndx,
+      assoc_user_id: {
+        [Op.contains]: [req.user.sub],
+      }
+    }
+  })
+    .then(data => {
+      res.sendStatus(200);
     })
     .catch(err => {
       next(err);
