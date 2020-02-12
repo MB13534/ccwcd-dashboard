@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { stableSort, getSorting, extractDate } from "../util";
+import { stableSort, getSorting } from "../util";
 
 const useTable = (data, columns) => {
   const [order, setOrder] = useState("desc");
@@ -113,7 +113,9 @@ const useTable = (data, columns) => {
   const setInitFilters = useCallback(() => {
     if (data.length > 0) {
       const initialFilters = columns
-        .filter(col => col.filter.enabled)
+        .filter(
+          col => col.filter.enabled && filteredKeys.includes(col.accessor)
+        )
         .map(col => {
           let filter = { ...col };
           const { type } = filter.filter;
@@ -132,7 +134,7 @@ const useTable = (data, columns) => {
     } else {
       setFilters([]);
     }
-  }, [data, columns]);
+  }, [data, columns, filteredKeys]);
 
   /**
    * Run the setInitFilters useCallback hook
@@ -145,19 +147,23 @@ const useTable = (data, columns) => {
    * Function used to filter the data to match the user's current selections
    * @param {array} data array of objects to affect
    * @param {array} filters filters to apply to the data
+   * @param {array} filteredKeys filters to apply to the data
    */
-  const filterData = (data, filters) => {
+  const filterData = (data, filters, filteredKeys) => {
     let filteredData = [...data];
     filters.forEach(filter => {
       filteredData = filteredData.filter(d => {
-        if (filter.filter.type === "date") {
-          return (
-            d[filter.accessor] >= filter.filter.value[0] &&
-            d[filter.accessor] <= filter.filter.value[1]
-          );
-        } else {
-          return filter.filter.value.includes(d[filter.accessor]);
+        if (filteredKeys.includes(filter.accessor)) {
+          if (filter.filter.type === "date") {
+            return (
+              d[filter.accessor] >= filter.filter.value[0] &&
+              d[filter.accessor] <= filter.filter.value[1]
+            );
+          } else {
+            return filter.filter.value.includes(d[filter.accessor]);
+          }
         }
+        return true;
       });
     });
     return filteredData;
@@ -229,7 +235,7 @@ const useTable = (data, columns) => {
    */
   const tableData = useMemo(() => {
     const selectedColumnsData = toggleColumns(data, keys, filteredKeys);
-    const filteredData = filterData(selectedColumnsData, filters);
+    const filteredData = filterData(selectedColumnsData, filters, filteredKeys);
     const excludedNullsData = excludeNullData(
       filteredData,
       columns,
