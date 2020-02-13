@@ -79,14 +79,25 @@ ListboxComponent.propTypes = {
   children: PropTypes.node,
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+  root: {
+    margin: theme.spacing(1),
+    width: 350,
+  },
   listbox: {
     "& ul": {
       padding: 0,
       margin: 0,
     },
   },
-});
+  inputRoot: {
+    border: `1px solid ${theme.palette.primary.main}`,
+  },
+  outlinedLabel: {
+    color: theme.palette.primary.main,
+    backgroundColor: "#ffffff",
+  },
+}));
 
 const AutocompleteMultiple = props => {
   const classes = useStyles();
@@ -95,9 +106,9 @@ const AutocompleteMultiple = props => {
   const handleChange = (event, value) => {
     const values = value.map(d => d[valueField]);
     const newEvent = { ...event };
-    event.target.name = name;
-    event.target.value = values;
-    onChange(event, values);
+    newEvent.target.name = name;
+    newEvent.target.value = values;
+    onChange(newEvent, values);
   };
 
   return (
@@ -120,7 +131,6 @@ const AutocompleteMultiple = props => {
           {option[displayField]}
         </React.Fragment>
       )}
-      style={{ width: 300 }}
       renderInput={params => (
         <TextField
           {...params}
@@ -128,6 +138,9 @@ const AutocompleteMultiple = props => {
           label={label}
           placeholder={label}
           fullWidth
+          InputLabelProps={{
+            classes: { root: classes.outlinedLabel },
+          }}
         />
       )}
     />
