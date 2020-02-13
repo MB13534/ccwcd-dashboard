@@ -101,10 +101,24 @@ const useStyles = makeStyles(theme => ({
 
 const AutocompleteMultiple = props => {
   const classes = useStyles();
-  const { name, label, valueField, displayField, data, onChange } = props;
+  const {
+    name,
+    label,
+    valueField,
+    displayField,
+    data,
+    selected,
+    onChange,
+  } = props;
 
   const handleChange = (event, value) => {
-    const values = value.map(d => d[valueField]);
+    const values = value.map(d => {
+      if (typeof d === "object") {
+        return d[valueField];
+      }
+      return d;
+    });
+    // console.log(values);
     const newEvent = { ...event };
     newEvent.target.name = name;
     newEvent.target.value = values;
@@ -115,22 +129,40 @@ const AutocompleteMultiple = props => {
     <Autocomplete
       multiple
       id={name}
-      classes={classes}
+      classes={{
+        root: classes.root,
+        listbox: classes.listbox,
+        inputRoot: classes.inputRoot,
+      }}
       ListboxComponent={ListboxComponent}
       options={data}
       disableCloseOnSelect
       onChange={handleChange}
       getOptionLabel={option => option[displayField]}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-          <Checkbox
-            style={{ marginRight: 8 }}
-            color="primary"
-            checked={selected}
-          />
-          {option[displayField]}
-        </React.Fragment>
-      )}
+      value={selected}
+      renderOption={(option, { selected }) => {
+        // let selectedSwitch = false;
+        // const filterSelections = selected;
+        // if (val.selected) {
+        //   selectedSwitch = true;
+        // } else if (filterSelections.includes(option[valueField])) {
+        //   selectedSwitch = true;
+        // }
+
+        return (
+          <React.Fragment>
+            <Checkbox
+              style={{ marginRight: 8 }}
+              color="primary"
+              checked={selected}
+            />
+            {option[displayField]}
+          </React.Fragment>
+        );
+      }}
+      getOptionSelected={(option, value) => {
+        return option[valueField] === value[valueField];
+      }}
       renderInput={params => (
         <TextField
           {...params}

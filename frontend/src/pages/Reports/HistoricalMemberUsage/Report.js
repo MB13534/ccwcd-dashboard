@@ -11,6 +11,8 @@ import AdvancedFilters from "../../../components/Filters/AdvancedFilters";
 import FilterActions from "../../../components/Filters/FilterActions";
 import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
+import EndMonthFilter from "../../../components/Filters/EndMonthFilter";
+import EndYearFilter from "../../../components/Filters/EndYearFilter";
 import AggregationLevelFilter from "../../../components/Filters/AggregationLevelFilter";
 import DateFilter from "../../../components/Filters/DateFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
@@ -30,9 +32,9 @@ const HistoricalMemberUsageReport = props => {
   } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
   const [filterValues, setFilterValues] = useState({
-    wdids: [],
-    // structures: [18, 28, 29],
-    // measurement_types: [3],
+    wdid: [26155, 207383],
+    end_month: 1,
+    end_year: 2020,
     aggregation_level: "daily-averages",
     end_date: extractDate(new Date()),
   });
@@ -43,6 +45,29 @@ const HistoricalMemberUsageReport = props => {
   const [WDIDs] = useFetchData("dummy/historical-member-usage/wdid", []);
   const [Structures] = useFetchData("atv/structures", []);
   const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
+  const MonthData = [
+    { month_ndx: 1, month_desc: "January" },
+    { month_ndx: 2, month_desc: "February" },
+    { month_ndx: 3, month_desc: "March" },
+    { month_ndx: 4, month_desc: "April" },
+    { month_ndx: 5, month_desc: "May" },
+    { month_ndx: 6, month_desc: "June" },
+    { month_ndx: 7, month_desc: "July" },
+    { month_ndx: 8, month_desc: "August" },
+    { month_ndx: 9, month_desc: "September" },
+    { month_ndx: 10, month_desc: "October" },
+    { month_ndx: 11, month_desc: "November" },
+    { month_ndx: 12, month_desc: "December" },
+  ];
+  const YearData = [
+    { year_ndx: 2014, year_desc: 2014 },
+    { year_ndx: 2015, year_desc: 2015 },
+    { year_ndx: 2016, year_desc: 2016 },
+    { year_ndx: 2017, year_desc: 2017 },
+    { year_ndx: 2018, year_desc: 2018 },
+    { year_ndx: 2019, year_desc: 2019 },
+    { year_ndx: 2020, year_desc: 2020 },
+  ];
   const AggregationData = [
     { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
     {
@@ -68,7 +93,6 @@ const HistoricalMemberUsageReport = props => {
     const { name, value, type, checked } = event.target;
     setFilterValues(prevState => {
       let newValues = { ...prevState };
-      console.log(name);
 
       if (name === "wdid") {
         newValues[name] = values;
@@ -198,7 +222,21 @@ const HistoricalMemberUsageReport = props => {
   return (
     <Report>
       <FilterBar onSubmit={handleSubmit}>
-        <WdidFilter data={WDIDs} selected={[]} onChange={handleFilter} />
+        <WdidFilter
+          data={WDIDs}
+          selected={filterValues.wdid}
+          onChange={handleFilter}
+        />
+        <EndMonthFilter
+          data={MonthData}
+          selected={filterValues.end_month}
+          onChange={handleFilter}
+        />
+        <EndYearFilter
+          data={YearData}
+          selected={filterValues.end_year}
+          onChange={handleFilter}
+        />
 
         <FilterActions>
           <Submit />
