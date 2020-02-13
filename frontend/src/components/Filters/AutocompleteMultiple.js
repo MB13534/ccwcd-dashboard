@@ -118,7 +118,6 @@ const AutocompleteMultiple = props => {
       }
       return d;
     });
-    // console.log(values);
     const newEvent = { ...event };
     newEvent.target.name = name;
     newEvent.target.value = values;
@@ -141,14 +140,6 @@ const AutocompleteMultiple = props => {
       getOptionLabel={option => option[displayField]}
       value={selected}
       renderOption={(option, { selected }) => {
-        // let selectedSwitch = false;
-        // const filterSelections = selected;
-        // if (val.selected) {
-        //   selectedSwitch = true;
-        // } else if (filterSelections.includes(option[valueField])) {
-        //   selectedSwitch = true;
-        // }
-
         return (
           <React.Fragment>
             <Checkbox
