@@ -12,7 +12,8 @@ import DocsIcon from "@material-ui/icons/Book";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountIcon from "@material-ui/icons/AccountCircle";
-import ATVIcon from "@material-ui/icons/DataUsage";
+import EcoIcon from "@material-ui/icons/Eco";
+import UsageIcon from "@material-ui/icons/DataUsage";
 import ReportsIcon from "@material-ui/icons/Assignment";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -132,8 +133,15 @@ const Sidebar = props => {
       link: "all-things-viewer",
       title: "All Things Viewer",
       activePath: "all-things-viewer",
-      exact: true,
-      icon: ATVIcon,
+      icon: EcoIcon,
+      loginRequired: true,
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+    },
+    {
+      link: "historical-member-usage",
+      title: "Historical Member Usage",
+      activePath: "historical-member-usage",
+      icon: UsageIcon,
       loginRequired: true,
       rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
@@ -209,17 +217,17 @@ const Sidebar = props => {
             />
           </ListItem>
         ) : (
-            <ListItem button>
-              <ListItemIcon className={classes.navIcon}>
-                <AccountIcon />
-              </ListItemIcon>
-              <ListItemText
-                className={classes.navText}
-                primary="Login"
-                onClick={() => loginWithRedirect()}
-              />
-            </ListItem>
-          )}
+          <ListItem button>
+            <ListItemIcon className={classes.navIcon}>
+              <AccountIcon />
+            </ListItemIcon>
+            <ListItemText
+              className={classes.navText}
+              primary="Login"
+              onClick={() => loginWithRedirect()}
+            />
+          </ListItem>
+        )}
       </List>
     </div>
   );

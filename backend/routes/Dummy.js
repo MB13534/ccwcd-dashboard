@@ -1,5 +1,6 @@
 const express = require("express");
 const { checkAccessToken, checkPermission } = require("../middleware/auth.js");
+const fs = require("fs");
 const {
   generateCrosstabbedDailyData,
   generateDailyData,
@@ -116,6 +117,42 @@ router.get(
   (req, res, next) => {
     const data = generateLastUpdateDataWithNulls(6);
     res.json(data);
+  }
+);
+
+// GET /api/dummy/historical-member-usage/meter-readings
+// Route for returning historical member usage meter readings
+// in time series format
+router.get(
+  "/historical-member-usage/meter-readings",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    try {
+      const data = fs.readFileSync(
+        "./dummy-data/historical_usage_meter_readings.json"
+      );
+      let parsedData = JSON.parse(data);
+      res.json(parsedData);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// GET /api/dummy/historical-member-usage/wdid
+// Route for returning historical member usage wdids list
+router.get(
+  "/historical-member-usage/wdid",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    try {
+      const data = fs.readFileSync("./dummy-data/historical_usage_wdid.json");
+      let parsedData = JSON.parse(data);
+      const limitedData = parsedData.slice(0, 10);
+      res.json(parsedData);
+    } catch (error) {
+      next(error);
+    }
   }
 );
 

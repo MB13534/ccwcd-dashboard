@@ -4,8 +4,9 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.2.0",
-    "@material-ui/core": "^4.1.1",
+    "@material-ui/core": "^4.9.2",
     "@material-ui/icons": "^4.2.0",
+    "@material-ui/lab": "^4.0.0-alpha.42",
     "@sentry/browser": "^5.4.0",
     "auth0-js": "^9.10.4",
     "axios": "^0.19.0",
@@ -19,6 +20,7 @@
     "react-scripts": "^3.3.0",
     "react-syntax-highlighter": "^11.0.2",
     "react-vis": "^1.11.7",
+    "react-window": "^1.8.5",
     "source-map-explorer": "^2.2.2"
   },
   "scripts": {

@@ -13,6 +13,9 @@ const Home = React.lazy(() => import("./pages/Home"));
 const AllThingsViewer = React.lazy(() =>
   import("./pages/Reports/AllThingsViewer/Report")
 );
+const HistoricalMemberUsage = React.lazy(() =>
+  import("./pages/Reports/HistoricalMemberUsage/Report")
+);
 const ReportsHome = React.lazy(() => import("./pages/Reports/ReportsHome"));
 const AtvViewManagement = React.lazy(() =>
   import("./pages/Reports/AllThingsViewer/ManageView")
@@ -88,6 +91,18 @@ const App = () => {
               exact
               roles={AdminRoles}
               component={AllThingsViewer}
+            />
+            <PrivateRouteWithRoles
+              path="/historical-member-usage"
+              exact
+              roles={AdminRoles}
+              component={HistoricalMemberUsage}
+            />
+            <PrivateRouteWithRoles
+              path="/historical-member-usage/:viewNdx"
+              exact
+              roles={AdminRoles}
+              component={HistoricalMemberUsage}
             />
             <PrivateRouteWithRoles
               path="/reports"
