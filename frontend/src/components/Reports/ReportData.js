@@ -148,11 +148,6 @@ const ReportData = ({ data, columns, loading }) => {
    * whenever the aggregation level or visualization types change
    */
   const setTableTitle = () => {
-    const text = {
-      "daily-averages": "Daily Averages",
-      "daily-end-of-day": "Daily End of Day",
-      "daily-15-min": "15 Minute",
-    };
     return (
       <div className={classes.tableTitle}>
         <div>

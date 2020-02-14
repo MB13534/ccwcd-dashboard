@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import AutocompleteMultiple from "./AutocompleteMultiple";
 import { unique } from "../../util";

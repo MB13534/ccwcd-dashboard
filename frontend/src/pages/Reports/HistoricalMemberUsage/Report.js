@@ -16,7 +16,6 @@ import EndYearFilter from "../../../components/Filters/EndYearFilter";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
 import DisplayTypeFilter from "../../../components/Filters/DisplayTypeFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
-import { extractDate, validateDependentSelections } from "../../../util";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import ReportData from "../../../components/Reports/ReportData";
 import WdidFilter from "../../../components/Filters/WdidFilter";
@@ -81,9 +80,10 @@ const HistoricalMemberUsageReport = props => {
       display_type_desc: "Crosstab",
     },
   ];
-  const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
-    viewNdx,
-  ]);
+  const [view] = useFetchData(
+    `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
+    [viewNdx]
+  );
 
   /**
    * Event handler for the filters bar
@@ -119,7 +119,7 @@ const HistoricalMemberUsageReport = props => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(
-        `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
+        `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
         { headers }
       );
       setWaitingState("complete", "no error");
@@ -271,7 +271,7 @@ const HistoricalMemberUsageReport = props => {
 
           <Divider style={{ margin: "16px 0" }} />
 
-          {/* <SavedViews /> */}
+          <SavedViews />
         </AdvancedFilters>
       </FilterBar>
 

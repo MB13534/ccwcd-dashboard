@@ -19,11 +19,6 @@ import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
-import {
-  validateDependentSelections,
-  extractDate,
-  calculateStartDate,
-} from "../../../util";
 import EndMonthFilter from "../../../components/Filters/EndMonthFilter";
 import EndYearFilter from "../../../components/Filters/EndYearFilter";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
