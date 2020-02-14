@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -38,8 +38,31 @@ const ReportsHome = () => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
   const [selectedReport, setSelectedReport] = useState(null);
+  const viewPath = useMemo(() => {
+    if (selectedReport) {
+      const paths = {
+        "1": "all-things-viewer",
+        "5": "historical-member-usage",
+      };
+      return paths[selectedReport.report_ndx];
+    }
+    return "";
+  }, [selectedReport]);
+  const viewAPIPath = useMemo(() => {
+    if (selectedReport) {
+      const paths = {
+        "1": "atv",
+        "5": "historical-member-usage",
+      };
+      return paths[selectedReport.report_ndx];
+    }
+    return "";
+  }, [selectedReport]);
   const [Reports] = useFetchData("reports", []);
-  const [SavedViews] = useFetchData("atv/views", [formSubmitting]);
+  const [SavedViews] = useFetchData(`${viewAPIPath || "atv"}/views`, [
+    formSubmitting,
+    viewAPIPath,
+  ]);
 
   const colors = ["#529fe2", "#4CAF50", "#CF6B94"];
 
@@ -47,12 +70,16 @@ const ReportsHome = () => {
     setSelectedReport(report);
   };
 
+  const handleCreateView = () => {
+    goTo(history, `reports/${viewPath}/view/`);
+  };
+
   const handleEditView = (event, view) => {
-    goTo(history, `reports/all-things-viewer/view/${view.view_ndx}`);
+    goTo(history, `reports/${viewPath}/view/${view.view_ndx}`);
   };
 
   const handleJumpToView = (event, view) => {
-    goTo(history, `all-things-viewer/${view.view_ndx}`);
+    goTo(history, `${viewPath}/${view.view_ndx}`);
   };
 
   const handleDeleteView = async (event, view) => {
@@ -66,7 +93,7 @@ const ReportsHome = () => {
 
       const { view_ndx } = view;
       await axios.delete(
-        `${process.env.REACT_APP_ENDPOINT}/api/atv/views/${view_ndx}`,
+        `${process.env.REACT_APP_ENDPOINT}/api/${viewAPIPath}/views/${view_ndx}`,
         { headers }
       );
       setWaitingState("complete", "no error");
@@ -98,6 +125,7 @@ const ReportsHome = () => {
         <ReportDetails
           selectedReport={selectedReport}
           views={SavedViews}
+          handleCreateView={handleCreateView}
           handleJumpToView={handleJumpToView}
           handleEditView={handleEditView}
           handleDeleteView={handleDeleteView}

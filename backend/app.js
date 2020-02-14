@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const AllThingsViewerRoutes = require("./routes/ATV");
+const HistoricalMemberUsageRoutes = require("./routes/HistoricalMemberUsage");
 const ReportRoutes = require("./routes/Reports");
 const DataManagementRoutes = require("./routes/DataManagement");
 const DummyRoutes = require("./routes/Dummy");
@@ -23,6 +24,7 @@ app.use(setHeaders);
 // Set routes
 app.use("/api/data-management", DataManagementRoutes);
 app.use("/api/atv", AllThingsViewerRoutes);
+app.use("/api/historical-member-usage", HistoricalMemberUsageRoutes);
 app.use("/api/reports", ReportRoutes);
 app.use("/api/dummy", DummyRoutes);
 

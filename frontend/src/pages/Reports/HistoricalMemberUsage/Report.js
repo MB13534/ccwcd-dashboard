@@ -13,8 +13,8 @@ import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
 import EndMonthFilter from "../../../components/Filters/EndMonthFilter";
 import EndYearFilter from "../../../components/Filters/EndYearFilter";
-import AggregationLevelFilter from "../../../components/Filters/AggregationLevelFilter";
-import DateFilter from "../../../components/Filters/DateFilter";
+import DatasetFilter from "../../../components/Filters/DatasetFilter";
+import DisplayTypeFilter from "../../../components/Filters/DisplayTypeFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
 import { extractDate, validateDependentSelections } from "../../../util";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
@@ -35,16 +35,14 @@ const HistoricalMemberUsageReport = props => {
     wdid: [26155, 207383],
     end_month: 1,
     end_year: 2020,
-    aggregation_level: "daily-averages",
-    end_date: extractDate(new Date()),
+    dataset: "meter-readings",
+    display_type: "time-series",
   });
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
 
   // Request data for the filters
   const [WDIDs] = useFetchData("dummy/historical-member-usage/wdid", []);
-  const [Structures] = useFetchData("atv/structures", []);
-  const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
   const MonthData = [
     { month_ndx: 1, month_desc: "January" },
     { month_ndx: 2, month_desc: "February" },
@@ -68,21 +66,24 @@ const HistoricalMemberUsageReport = props => {
     { year_ndx: 2019, year_desc: 2019 },
     { year_ndx: 2020, year_desc: 2020 },
   ];
-  const AggregationData = [
-    { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
+  const DatasetData = [
+    { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
     {
-      aggregation_ndx: "daily-end-of-day",
-      aggregation_desc: "Daily - End of Day",
+      dataset_ndx: "pumping",
+      dataset_desc: "Pumping",
     },
-    { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
+    { dataset_ndx: "depletions", dataset_desc: "Depletions" },
+  ];
+  const DisplayTypeData = [
+    { display_type_ndx: "time-series", display_type_desc: "Time Series" },
+    {
+      display_type_ndx: "crosstab",
+      display_type_desc: "Crosstab",
+    },
   ];
   const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
     viewNdx,
   ]);
-  const [dummyData] = useFetchData(
-    "dummy/historical-member-usage/meter-readings",
-    []
-  );
 
   /**
    * Event handler for the filters bar
@@ -135,89 +136,93 @@ const HistoricalMemberUsageReport = props => {
    * Daily Data crosstab table
    * Logic runs whenever the DailyData is updated
    */
-  // useEffect(() => {
-  //   if (data.length > 0) {
-  //     const keys = Object.keys(data[0]);
-  //     setColumns(
-  //       keys.map(key => {
-  //         if (key === "collect_timestamp") {
-  //           return {
-  //             type: "category",
-  //             label: "Date",
-  //             accessor: key,
-  //             filter: {
-  //               enabled: true,
-  //               type: "date",
-  //             },
-  //             columnToggle: {
-  //               enabled: true,
-  //             },
-  //           };
-  //         }
-  //         return {
-  //           type: "series",
-  //           label: key,
-  //           accessor: key,
-  //           filter: {
-  //             enabled: false,
-  //             type: "number",
-  //           },
-  //           columnToggle: {
-  //             enabled: true,
-  //           },
-  //         };
-  //       })
-  //     );
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data.length > 0) {
+      const keys = Object.keys(data[0]);
+      setColumns(
+        keys.map(key => {
+          if (key === "collect_timestamp") {
+            return {
+              type: "category",
+              label: "Date",
+              accessor: key,
+              filter: {
+                enabled: true,
+                type: "date",
+              },
+              columnToggle: {
+                enabled: true,
+              },
+            };
+          }
+          return {
+            type: "series",
+            label: key,
+            accessor: key,
+            filter: {
+              enabled: false,
+              type: "number",
+            },
+            columnToggle: {
+              enabled: true,
+            },
+          };
+        })
+      );
+    }
+  }, [data]);
 
   /**
    * Logic used to handle setting the filter values
    * if the user is editing an existing view
    * TODO potentially refactor this into a useCallback
    */
-  // useEffect(() => {
-  //   if (view && view.length !== 0) {
-  //     setFilterValues(prevState => {
-  //       let newValues = { ...prevState };
-  //       newValues.structure_types = view.structure_types;
-  //       newValues.structures = view.structures;
-  //       newValues.measurement_types = view.measurement_types;
-  //       newValues.aggregation_level = view.aggregation_level;
-  //       newValues.end_date = view.end_date;
-  //       return newValues;
-  //     });
-  //     (async () => {
-  //       try {
-  //         const token = await getTokenSilently();
-  //         const headers = { Authorization: `Bearer ${token}` };
-  //         const response = await axios.get(
-  //           `${process.env.REACT_APP_ENDPOINT}/api/atv/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${view.end_date}`,
-  //           { headers }
-  //         );
-  //         setData(response.data);
-  //       } catch (err) {
-  //         console.error(err);
-  //         setData([]);
-  //       }
-  //     })();
-  //   } else {
-  //     (async () => {
-  //       try {
-  //         const token = await getTokenSilently();
-  //         const headers = { Authorization: `Bearer ${token}` };
-  //         const response = await axios.get(
-  //           `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
-  //           { headers }
-  //         );
-  //         setData(response.data);
-  //       } catch (err) {
-  //         console.error(err);
-  //         setData([]);
-  //       }
-  //     })();
-  //   }
-  // }, [view]); //eslint-disable-line
+  useEffect(() => {
+    if (view && view.length !== 0) {
+      setFilterValues(prevState => {
+        let newValues = { ...prevState };
+        newValues.structure_types = view.structure_types;
+        newValues.structures = view.structures;
+        newValues.measurement_types = view.measurement_types;
+        newValues.aggregation_level = view.aggregation_level;
+        newValues.end_date = view.end_date;
+        return newValues;
+      });
+      (async () => {
+        try {
+          const token = await getTokenSilently();
+          const headers = { Authorization: `Bearer ${token}` };
+          const response = await axios.get(
+            `${process.env.REACT_APP_ENDPOINT}/api/atv/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${view.end_date}`,
+            { headers }
+          );
+          setData(response.data);
+        } catch (err) {
+          console.error(err);
+          setData([]);
+        }
+      })();
+    } else {
+      (async () => {
+        try {
+          const token = await getTokenSilently();
+          const headers = { Authorization: `Bearer ${token}` };
+          const response = await axios.get(
+            `${process.env.REACT_APP_ENDPOINT}/api/dummy/historical-member-usage/${filterValues.dataset}`,
+            { headers }
+          );
+          // const response = await axios.get(
+          //   `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
+          //   { headers }
+          // );
+          setData(response.data);
+        } catch (err) {
+          console.error(err);
+          setData([]);
+        }
+      })();
+    }
+  }, [view]); //eslint-disable-line
 
   return (
     <Report>
@@ -244,16 +249,15 @@ const HistoricalMemberUsageReport = props => {
         </FilterActions>
 
         <AdvancedFilters>
-          <AggregationLevelFilter
-            data={AggregationData}
-            selected={filterValues.aggregation_level}
+          <DatasetFilter
+            data={DatasetData}
+            selected={filterValues.dataset}
             onChange={handleFilter}
           />
 
-          <DateFilter
-            name="end_date"
-            label="End Date"
-            value={filterValues.end_date}
+          <DisplayTypeFilter
+            data={DisplayTypeData}
+            selected={filterValues.display_type}
             onChange={handleFilter}
           />
 
@@ -267,11 +271,11 @@ const HistoricalMemberUsageReport = props => {
 
           <Divider style={{ margin: "16px 0" }} />
 
-          <SavedViews />
+          {/* <SavedViews /> */}
         </AdvancedFilters>
       </FilterBar>
 
-      {/* <ReportData data={data} columns={columns} loading={formSubmitting} /> */}
+      <ReportData data={data} columns={columns} loading={formSubmitting} />
 
       <FormSnackbar
         open={snackbarOpen}

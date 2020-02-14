@@ -132,6 +132,7 @@ router.get(
         "./dummy-data/historical_usage_meter_readings.json"
       );
       let parsedData = JSON.parse(data);
+      parsedData = parsedData.splice(0, 30);
       res.json(parsedData);
     } catch (error) {
       next(error);

@@ -67,6 +67,14 @@ db.ATV_Daily_End_of_Day = require("./ATV/DailyEndofDay")(sequelize, Sequelize);
 db.ATV_Daily_15_min = require("./ATV/Daily15Minute")(sequelize, Sequelize);
 
 /**
+ * Historical Member Usage models
+ */
+db.Historical_Member_Usage_Views = require("./HistoricalMemberUsage/Views")(
+  sequelize,
+  Sequelize
+);
+
+/**
  * Data Management Models
  */
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);

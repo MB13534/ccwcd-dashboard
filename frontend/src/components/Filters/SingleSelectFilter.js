@@ -12,7 +12,7 @@ import {
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 200,
+    // minWidth: 200,
     maxWidth: 400,
   },
   outlined: {
@@ -35,11 +35,16 @@ const SingleSelect = props => {
     data,
     selected,
     onChange,
+    width,
   } = props;
   const classes = useStyles();
 
   return (
-    <FormControl className={classes.formControl} variant="outlined">
+    <FormControl
+      className={classes.formControl}
+      variant="outlined"
+      style={{ width: width || "auto" }}
+    >
       <InputLabel
         id={name}
         variant="outlined"
@@ -56,8 +61,6 @@ const SingleSelect = props => {
         input={<OutlinedInput data-testid="multi-select" />}
         classes={{ outlined: classes.outlined }}
         variant="outlined"
-        // renderValue={selections => setSelectedText(selections)}
-        // MenuProps={MenuProps}
       >
         {data.map(val => (
           <MenuItem key={val[valueField]} value={val[valueField]}>

@@ -12,6 +12,7 @@ const EndMonthFilter = ({ data, selected, onChange }) => {
       data={data}
       selected={selected}
       onChange={onChange}
+      width={150}
     />
   );
 };

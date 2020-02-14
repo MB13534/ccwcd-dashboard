@@ -16,10 +16,7 @@ import {
 } from "@material-ui/core";
 import Layout from "../../../components/Layout";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import MultiSelectFilter from "../../../components/Filters/MultiSelectFilter";
-import SingleSelectFilter from "../../../components/Filters/SingleSelectFilter";
 import useFetchData from "../../../hooks/useFetchData";
-import useFilterAssoc from "../../../hooks/useFilterAssoc";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import {
@@ -27,7 +24,11 @@ import {
   extractDate,
   calculateStartDate,
 } from "../../../util";
-import DateFilter from "../../../components/Filters/DateFilter";
+import EndMonthFilter from "../../../components/Filters/EndMonthFilter";
+import EndYearFilter from "../../../components/Filters/EndYearFilter";
+import DatasetFilter from "../../../components/Filters/DatasetFilter";
+import DisplayTypeFilter from "../../../components/Filters/DisplayTypeFilter";
+import WdidFilter from "../../../components/Filters/WdidFilter";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -99,142 +100,73 @@ const ManageView = props => {
   const { getTokenSilently } = useAuth0();
   const [activeStep, setActiveStep] = useState(0);
   const [filterValues, setFilterValues] = useState({
-    structure_types: [],
-    structures: [],
-    measurement_types: [],
-    aggregation_level: "daily-averages",
-    end_date: extractDate(new Date()),
+    wdid: [],
+    end_month: [],
+    end_year: [],
+    dataset: "meter-readings",
+    display_type: "time-series",
     view_ndx: null,
     view_name: "",
     view_description: "",
   });
 
   // Request data for the filters
-  const [StructureTypes] = useFetchData("atv/structure-types", []);
-  const [Structures] = useFetchData("atv/structures", []);
-  const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
-  const AggregationData = [
-    { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
+  const [WDIDs] = useFetchData("dummy/historical-member-usage/wdid", []);
+  const MonthData = [
+    { month_ndx: 1, month_desc: "January" },
+    { month_ndx: 2, month_desc: "February" },
+    { month_ndx: 3, month_desc: "March" },
+    { month_ndx: 4, month_desc: "April" },
+    { month_ndx: 5, month_desc: "May" },
+    { month_ndx: 6, month_desc: "June" },
+    { month_ndx: 7, month_desc: "July" },
+    { month_ndx: 8, month_desc: "August" },
+    { month_ndx: 9, month_desc: "September" },
+    { month_ndx: 10, month_desc: "October" },
+    { month_ndx: 11, month_desc: "November" },
+    { month_ndx: 12, month_desc: "December" },
+  ];
+  const YearData = [
+    { year_ndx: 2014, year_desc: 2014 },
+    { year_ndx: 2015, year_desc: 2015 },
+    { year_ndx: 2016, year_desc: 2016 },
+    { year_ndx: 2017, year_desc: 2017 },
+    { year_ndx: 2018, year_desc: 2018 },
+    { year_ndx: 2019, year_desc: 2019 },
+    { year_ndx: 2020, year_desc: 2020 },
+  ];
+  const DatasetData = [
+    { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
     {
-      aggregation_ndx: "daily-end-of-day",
-      aggregation_desc: "Daily - End of Day",
+      dataset_ndx: "pumping",
+      dataset_desc: "Pumping",
     },
-    { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
+    { dataset_ndx: "depletions", dataset_desc: "Depletions" },
+  ];
+  const DisplayTypeData = [
+    { display_type_ndx: "time-series", display_type_desc: "Time Series" },
+    {
+      display_type_ndx: "crosstab",
+      display_type_desc: "Crosstab",
+    },
   ];
   const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
     viewNdx,
   ]);
 
   /**
-   * Use the useFilterAssoc hook to populate the structures dropdown
-   * Returns structures data associated with the user's selected
-   * structure types
-   */
-  const filteredStructures = useFilterAssoc(
-    filterValues.structure_types,
-    Structures,
-    "assoc_structure_type_ndx"
-  );
-
-  /**
-   * Use the useFilterAssoc hook to populate the measurement types dropdown
-   * Returns measurement types data associated with the user's selected
-   * structures
-   */
-  const filteredMeasurementTypes = useFilterAssoc(
-    filterValues.structures,
-    MeasurementTypes,
-    "assoc_structure_ndx"
-  );
-
-  /**
-   * Event handler for multi-select select all functionality
-   * @param {string} name name of active mulit-select
-   */
-  const handleSelectAll = name => {
-    setFilterValues(prevState => {
-      let newValues = { ...prevState };
-      if (name === "structure_types") {
-        newValues[name] = StructureTypes.map(d => d.structure_type_ndx);
-      } else if (name === "structures") {
-        newValues[name] = filteredStructures.map(d => d.structure_ndx);
-      } else if (name === "measurement_types") {
-        newValues[name] = filteredMeasurementTypes.map(d => d.measure_type_ndx);
-      }
-      return newValues;
-    });
-  };
-
-  /**
-   * Event handler for multi-select select none functionality
-   * @param {string} name name of active mulit-select
-   */
-  const handleSelectNone = name => {
-    setFilterValues(prevState => {
-      let newValues = { ...prevState };
-      if (name === "structure_types") {
-        newValues[name] = [];
-        newValues.structures = [];
-        newValues.measurement_types = [];
-      } else if (name === "structures") {
-        newValues[name] = [];
-        newValues.measurement_types = [];
-      } else if (name === "measurement_types") {
-        newValues[name] = [];
-      }
-      return newValues;
-    });
-  };
-
-  /**
    * Event handler for the filters bar
    * The values state is updated whenever a filter changes
    * @param {object} event JavaScript event object
    */
-  const handleFilter = event => {
+  const handleFilter = (event, values) => {
     const { name, value, type, checked } = event.target;
     setFilterValues(prevState => {
       let newValues = { ...prevState };
 
-      if (!value.includes("all/none")) {
-        // logic that clears selections for structures and measurement types
-        // that should no longer show up if a structure type is removed
-        if (name === "structure_types") {
-          const newStructureSelections = validateDependentSelections({
-            previousParentSelections: newValues[name],
-            newParentSelections: value,
-            childData: Structures,
-            previousChildSelections: filterValues.structures,
-            assocField: "assoc_structure_type_ndx",
-            valueField: "structure_ndx",
-          });
-
-          const newMeasurementTypeSelections = validateDependentSelections({
-            previousParentSelections: newValues.structures,
-            newParentSelections: newStructureSelections,
-            childData: MeasurementTypes,
-            previousChildSelections: filterValues.measurement_types,
-            assocField: "assoc_structure_ndx",
-            valueField: "measure_type_ndx",
-          });
-
-          newValues.structures = newStructureSelections;
-          newValues.measurement_types = newMeasurementTypeSelections;
-        }
-
-        // logic that clears selections for measurement types
-        // that should no longer show up if a structure is removed
-        if (name === "structures") {
-          newValues.measurement_types = validateDependentSelections({
-            previousParentSelections: newValues[name],
-            newParentSelections: value,
-            childData: MeasurementTypes,
-            previousChildSelections: filterValues.measurement_types,
-            assocField: "assoc_structure_ndx",
-            valueField: "measure_type_ndx",
-          });
-        }
-
+      if (name === "wdid") {
+        newValues[name] = values;
+      } else {
         if (type === "checkbox") {
           newValues[name] = checked;
         } else {
@@ -260,26 +192,6 @@ const ManageView = props => {
   };
 
   /**
-   * Utility function used to calculate the start date for a period
-   * of record based on the aggregation level.
-   * Returns a date in "YYYY-MM-DD" format
-   * @param {string} endDate current PoR end date
-   * @param {*} aggregationLevel i.e. daily averages, daily end of day values, 15 min
-   */
-  const handleStartDate = (endDate, aggregationLevel) => {
-    let days = 0;
-    if (
-      aggregationLevel === "daily-averages" ||
-      aggregationLevel === "daily-end-of-day"
-    ) {
-      days = 45;
-    } else if (aggregationLevel === "daily-15-min") {
-      days = 3;
-    }
-    return extractDate(calculateStartDate(days, endDate));
-  };
-
-  /**
    * Utility function used to prepare form values
    * for submission to the database
    * @param {object} values
@@ -289,21 +201,21 @@ const ManageView = props => {
       view_ndx,
       view_name,
       view_description,
-      structure_types,
-      structures,
-      measurement_types,
-      aggregation_level,
-      end_date,
+      wdid,
+      end_month,
+      end_year,
+      dataset,
+      display_type,
     } = values;
     return {
       view_ndx,
       view_name,
       view_description,
-      structure_types,
-      structures,
-      measurement_types,
-      aggregation_level,
-      end_date,
+      wdid,
+      end_month,
+      end_year,
+      dataset,
+      display_type,
     };
   };
 
@@ -318,7 +230,7 @@ const ManageView = props => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       await axios.post(
-        `${process.env.REACT_APP_ENDPOINT}/api/atv/views`,
+        `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/views`,
         prepFormValues(filterValues),
         { headers }
       );
@@ -340,11 +252,11 @@ const ManageView = props => {
         view_ndx: view.view_ndx,
         view_name: view.view_name,
         view_description: view.view_description,
-        structure_types: view.structure_types,
-        structures: view.structures,
-        measurement_types: view.measurement_types,
-        aggregation_level: view.aggregation_level,
-        end_date: view.end_date,
+        wdid: view.wdid,
+        end_month: view.end_month,
+        end_year: view.end_year,
+        dataset: view.dataset,
+        display_type: view.display_type,
       });
     }
   }, [view]);
@@ -447,42 +359,20 @@ const ManageView = props => {
                           tote bag salvia migas.
                         </Typography>
                         {/* Structure Types filter */}
-                        <MultiSelectFilter
-                          name="structure_types"
-                          label="Station Types"
-                          valueField="structure_type_ndx"
-                          displayField="structure_type_desc"
-                          data={StructureTypes}
-                          selected={filterValues.structure_types}
+                        <WdidFilter
+                          data={WDIDs}
+                          selected={filterValues.wdid}
                           onChange={handleFilter}
-                          onSelectAll={handleSelectAll}
-                          onSelectNone={handleSelectNone}
                         />
-
-                        {/* Structures filter */}
-                        <MultiSelectFilter
-                          name="structures"
-                          label="Structures"
-                          valueField="structure_ndx"
-                          displayField="structure_desc"
-                          data={filteredStructures}
-                          selected={filterValues.structures}
+                        <EndMonthFilter
+                          data={MonthData}
+                          selected={filterValues.end_month}
                           onChange={handleFilter}
-                          onSelectAll={handleSelectAll}
-                          onSelectNone={handleSelectNone}
                         />
-
-                        {/* Measurement Types Filter */}
-                        <MultiSelectFilter
-                          name="measurement_types"
-                          label="Measurements Types"
-                          valueField="measure_type_ndx"
-                          displayField="measure_type_desc"
-                          data={filteredMeasurementTypes}
-                          selected={filterValues.measurement_types}
+                        <EndYearFilter
+                          data={YearData}
+                          selected={filterValues.end_year}
                           onChange={handleFilter}
-                          onSelectAll={handleSelectAll}
-                          onSelectNone={handleSelectNone}
                         />
                         <div className={classes.actionsContainer}>
                           <div>
@@ -517,21 +407,15 @@ const ManageView = props => {
                           tote bag salvia migas.
                         </Typography>
                         {/* Aggregation Level Filter */}
-                        <SingleSelectFilter
-                          name="aggregation_level"
-                          label="Aggregation Level"
-                          valueField="aggregation_ndx"
-                          displayField="aggregation_desc"
-                          data={AggregationData}
-                          selected={filterValues.aggregation_level}
+                        <DatasetFilter
+                          data={DatasetData}
+                          selected={filterValues.dataset}
                           onChange={handleFilter}
                         />
 
-                        {/* End Date */}
-                        <DateFilter
-                          name="end_date"
-                          label="End Date"
-                          value={filterValues.end_date}
+                        <DisplayTypeFilter
+                          data={DisplayTypeData}
+                          selected={filterValues.display_type}
                           onChange={handleFilter}
                         />
                         <div className={classes.actionsContainer}>
@@ -594,15 +478,13 @@ const ManageView = props => {
                     Structure Types
                   </Typography>
                   <div className={classes.chipCloud}>
-                    {filterValues.structure_types.length === 0 && "None"}
-                    {StructureTypes.filter(d =>
-                      filterValues.structure_types.includes(
-                        d.structure_type_ndx
-                      )
+                    {filterValues.wdid.length === 0 && "None"}
+                    {WDIDs.filter(d =>
+                      filterValues.wdid.includes(d.wdid_ndx)
                     ).map(chip => (
                       <Chip
-                        key={chip.structure_type_ndx}
-                        label={chip.structure_type_desc}
+                        key={chip.wdid_ndx}
+                        label={chip.wdid_desc}
                         className={classes.chip}
                         onDelete={() => {}}
                       />
@@ -612,68 +494,45 @@ const ManageView = props => {
                     variant="body1"
                     className={classes.viewSummaryTitle}
                   >
-                    Structures
+                    End Month
                   </Typography>
-                  <div className={classes.chipCloud}>
-                    {filterValues.structures.length === 0 && "None"}
-                    {Structures.filter(d =>
-                      filterValues.structures.includes(d.structure_ndx)
-                    ).map(chip => (
-                      <Chip
-                        key={chip.structure_ndx}
-                        label={chip.structure_desc}
-                        className={classes.chip}
-                        onDelete={() => {}}
-                      />
-                    ))}
-                  </div>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
-                    Measurement Types
+                  <Typography variant="body1" paragraph>
+                    {filterValues.end_month}
                   </Typography>
-                  <div className={classes.chipCloud}>
-                    {filterValues.measurement_types.length === 0 && "None"}
-                    {MeasurementTypes.filter(d =>
-                      filterValues.measurement_types.includes(
-                        d.measure_type_ndx
-                      )
-                    ).map(chip => (
-                      <Chip
-                        key={chip.measure_type_ndx}
-                        label={chip.measure_type_desc}
-                        className={classes.chip}
-                        onDelete={() => {}}
-                      />
-                    ))}
-                  </div>
                   <Typography
                     variant="body1"
                     className={classes.viewSummaryTitle}
                   >
-                    Aggregation Level
+                    End Year
+                  </Typography>
+                  <Typography variant="body1" paragraph>
+                    {filterValues.end_year}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    className={classes.viewSummaryTitle}
+                  >
+                    Dataset
                   </Typography>
                   <Typography variant="body1" paragraph>
                     {
-                      AggregationData.filter(
-                        d =>
-                          filterValues.aggregation_level === d.aggregation_ndx
-                      )[0].aggregation_desc
+                      DatasetData.filter(
+                        d => filterValues.dataset === d.dataset_ndx
+                      )[0].dataset_desc
                     }
                   </Typography>
                   <Typography
                     variant="body1"
                     className={classes.viewSummaryTitle}
                   >
-                    Period of Record
+                    Display Type
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {filterValues.end_date} -{" "}
-                    {handleStartDate(
-                      filterValues.end_date,
-                      filterValues.aggregation_level
-                    )}
+                    {
+                      DisplayTypeData.filter(
+                        d => filterValues.display_type === d.display_type_ndx
+                      )[0].display_type_desc
+                    }
                   </Typography>
                 </div>
               </Grid>

@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, DATE, ARRAY, TEXT } = DataTypes;
+  const { INTEGER, ARRAY, TEXT } = DataTypes;
   const ReportsView = sequelize.define(
-    "report_views_atv",
+    "report_views_historical_member_usage",
     {
       view_ndx: {
         type: INTEGER,
@@ -23,20 +23,20 @@ module.exports = (sequelize, DataTypes) => {
       assoc_user_id: {
         type: ARRAY(TEXT),
       },
-      structure_types: {
+      wdid: {
         type: ARRAY(INTEGER),
       },
-      structures: {
-        type: ARRAY(INTEGER),
+      end_month: {
+        type: INTEGER,
       },
-      measurement_types: {
-        type: ARRAY(INTEGER),
+      end_year: {
+        type: INTEGER,
       },
-      aggregation_level: {
+      dataset: {
         type: TEXT,
       },
-      end_date: {
-        type: DATE,
+      display_type: {
+        type: TEXT,
       },
     },
     {

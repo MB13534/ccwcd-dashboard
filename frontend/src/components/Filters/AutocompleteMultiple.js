@@ -82,7 +82,7 @@ ListboxComponent.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     margin: theme.spacing(1),
-    width: 350,
+    width: 300,
   },
   listbox: {
     "& ul": {
