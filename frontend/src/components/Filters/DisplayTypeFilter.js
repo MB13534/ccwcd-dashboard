@@ -19,7 +19,7 @@ const DisplayTypeFilter = ({ data, selected, onChange }) => {
 
 DisplayTypeFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.number.isRequired,
+  selected: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

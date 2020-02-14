@@ -120,20 +120,35 @@ router.get(
   }
 );
 
-// GET /api/dummy/historical-member-usage/meter-readings
+// GET /api/dummy/historical-member-usage/meter-readings/:wdid/:end_month/:end_year/:display_type
 // Route for returning historical member usage meter readings
 // in time series format
 router.get(
-  "/historical-member-usage/meter-readings",
+  "/historical-member-usage/:dataset/:wdid/:end_month/:end_year/:display_type",
   checkPermission(["read:users"]),
   (req, res, next) => {
     try {
-      const data = fs.readFileSync(
-        "./dummy-data/historical_usage_meter_readings.json"
-      );
-      let parsedData = JSON.parse(data);
-      parsedData = parsedData.splice(0, 30);
-      res.json(parsedData);
+      const { dataset, wdid, end_month, end_year, display_type } = req.params;
+      let data = [];
+      if (dataset === "meter-readings") {
+        data = fs.readFileSync(
+          "./dummy-data/historical_usage_meter_readings.json"
+        );
+      } else if (dataset === "pumping") {
+        data = fs.readFileSync("./dummy-data/historical_usage_pumping.json");
+      } else if (dataset === "depletions") {
+        data = fs.readFileSync("./dummy-data/historical_usage_depletions.json");
+      }
+
+      const parsedData = JSON.parse(data);
+      const filteredData = parsedData.filter(d => {
+        return (
+          wdid.split(",").includes(d.wdid) &&
+          d.month <= end_month &&
+          d.year <= end_year
+        );
+      });
+      res.json(filteredData);
     } catch (error) {
       next(error);
     }

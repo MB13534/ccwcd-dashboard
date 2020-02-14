@@ -31,10 +31,10 @@ const HistoricalMemberUsageReport = props => {
   } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
   const [filterValues, setFilterValues] = useState({
-    wdid: [26155, 207383],
-    end_month: 1,
-    end_year: 2020,
-    dataset: "meter-readings",
+    wdid: ["0108260"], //0205019
+    end_month: 6,
+    end_year: 2009,
+    dataset: "pumping",
     display_type: "time-series",
   });
   const [data, setData] = useState([]);
@@ -57,6 +57,16 @@ const HistoricalMemberUsageReport = props => {
     { month_ndx: 12, month_desc: "December" },
   ];
   const YearData = [
+    { year_ndx: 2005, year_desc: 2005 },
+    { year_ndx: 2006, year_desc: 2006 },
+    { year_ndx: 2007, year_desc: 2007 },
+    { year_ndx: 2008, year_desc: 2008 },
+    { year_ndx: 2009, year_desc: 2009 },
+    { year_ndx: 2010, year_desc: 2010 },
+    { year_ndx: 2011, year_desc: 2011 },
+    { year_ndx: 2012, year_desc: 2012 },
+    { year_ndx: 2013, year_desc: 2013 },
+    { year_ndx: 2013, year_desc: 2014 },
     { year_ndx: 2014, year_desc: 2014 },
     { year_ndx: 2015, year_desc: 2015 },
     { year_ndx: 2016, year_desc: 2016 },
@@ -119,7 +129,7 @@ const HistoricalMemberUsageReport = props => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(
-        `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
+        `${process.env.REACT_APP_ENDPOINT}/api/dummy/historical-member-usage/${filterValues.dataset}/${filterValues.wdid}/${filterValues.end_month}/${filterValues.end_year}/${filterValues.display_type}`,
         { headers }
       );
       setWaitingState("complete", "no error");
@@ -181,11 +191,11 @@ const HistoricalMemberUsageReport = props => {
     if (view && view.length !== 0) {
       setFilterValues(prevState => {
         let newValues = { ...prevState };
-        newValues.structure_types = view.structure_types;
-        newValues.structures = view.structures;
-        newValues.measurement_types = view.measurement_types;
-        newValues.aggregation_level = view.aggregation_level;
-        newValues.end_date = view.end_date;
+        newValues.wdid = view.wdid;
+        newValues.end_month = view.end_month;
+        newValues.end_year = view.end_year;
+        newValues.dataset = view.dataset;
+        newValues.display_type = view.display_type;
         return newValues;
       });
       (async () => {
@@ -193,7 +203,7 @@ const HistoricalMemberUsageReport = props => {
           const token = await getTokenSilently();
           const headers = { Authorization: `Bearer ${token}` };
           const response = await axios.get(
-            `${process.env.REACT_APP_ENDPOINT}/api/atv/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${view.end_date}`,
+            `${process.env.REACT_APP_ENDPOINT}/api/dummy/historical-member-usage/${view.dataset}/${view.wdid}/${view.end_month}/${view.end_year}/${view.display_type}`,
             { headers }
           );
           setData(response.data);
@@ -208,13 +218,9 @@ const HistoricalMemberUsageReport = props => {
           const token = await getTokenSilently();
           const headers = { Authorization: `Bearer ${token}` };
           const response = await axios.get(
-            `${process.env.REACT_APP_ENDPOINT}/api/dummy/historical-member-usage/${filterValues.dataset}`,
+            `${process.env.REACT_APP_ENDPOINT}/api/dummy/historical-member-usage/${filterValues.dataset}/${filterValues.wdid}/${filterValues.end_month}/${filterValues.end_year}/${filterValues.display_type}`,
             { headers }
           );
-          // const response = await axios.get(
-          //   `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
-          //   { headers }
-          // );
           setData(response.data);
         } catch (err) {
           console.error(err);
@@ -275,7 +281,12 @@ const HistoricalMemberUsageReport = props => {
         </AdvancedFilters>
       </FilterBar>
 
-      <ReportData data={data} columns={columns} loading={formSubmitting} />
+      <ReportData
+        title="Historical Member Usage Report"
+        data={data}
+        columns={columns}
+        loading={formSubmitting}
+      />
 
       <FormSnackbar
         open={snackbarOpen}

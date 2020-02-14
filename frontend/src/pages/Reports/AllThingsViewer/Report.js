@@ -313,7 +313,12 @@ const AllThingsViewer = props => {
         </AdvancedFilters>
       </FilterBar>
 
-      <ReportData data={data} columns={columns} loading={formSubmitting} />
+      <ReportData
+        title="All Things Viewer Report"
+        data={data}
+        columns={columns}
+        loading={formSubmitting}
+      />
 
       <FormSnackbar
         open={snackbarOpen}

@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         type: ARRAY(TEXT),
       },
       wdid: {
-        type: ARRAY(INTEGER),
+        type: ARRAY(TEXT),
       },
       end_month: {
         type: INTEGER,

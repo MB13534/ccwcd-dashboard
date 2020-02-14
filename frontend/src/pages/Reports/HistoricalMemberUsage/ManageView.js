@@ -96,8 +96,8 @@ const ManageView = props => {
   const [activeStep, setActiveStep] = useState(0);
   const [filterValues, setFilterValues] = useState({
     wdid: [],
-    end_month: [],
-    end_year: [],
+    end_month: 1,
+    end_year: 2020,
     dataset: "meter-readings",
     display_type: "time-series",
     view_ndx: null,
@@ -122,6 +122,16 @@ const ManageView = props => {
     { month_ndx: 12, month_desc: "December" },
   ];
   const YearData = [
+    { year_ndx: 2005, year_desc: 2005 },
+    { year_ndx: 2006, year_desc: 2006 },
+    { year_ndx: 2007, year_desc: 2007 },
+    { year_ndx: 2008, year_desc: 2008 },
+    { year_ndx: 2009, year_desc: 2009 },
+    { year_ndx: 2010, year_desc: 2010 },
+    { year_ndx: 2011, year_desc: 2011 },
+    { year_ndx: 2012, year_desc: 2012 },
+    { year_ndx: 2013, year_desc: 2013 },
+    { year_ndx: 2013, year_desc: 2014 },
     { year_ndx: 2014, year_desc: 2014 },
     { year_ndx: 2015, year_desc: 2015 },
     { year_ndx: 2016, year_desc: 2016 },
@@ -145,9 +155,10 @@ const ManageView = props => {
       display_type_desc: "Crosstab",
     },
   ];
-  const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
-    viewNdx,
-  ]);
+  const [view] = useFetchData(
+    `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
+    [viewNdx]
+  );
 
   /**
    * Event handler for the filters bar
@@ -470,7 +481,7 @@ const ManageView = props => {
                     variant="body1"
                     className={classes.viewSummaryTitle}
                   >
-                    Structure Types
+                    WDIDs
                   </Typography>
                   <div className={classes.chipCloud}>
                     {filterValues.wdid.length === 0 && "None"}

@@ -84,7 +84,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ReportData = ({ data, columns, loading }) => {
+const ReportData = ({ title, data, columns, loading }) => {
   const classes = useStyles();
   const [lastUpdateVisibility, handleLastUpdateVisibility] = useVisibility(
     false
@@ -151,9 +151,7 @@ const ReportData = ({ data, columns, loading }) => {
     return (
       <div className={classes.tableTitle}>
         <div>
-          {/* {text[filterValues.aggregation_level]}{" "}
-          {visualizationType === "table" ? " Crosstab" : " Graph"} */}
-          Data Viewer
+          {title}
           <Button
             style={{ marginLeft: 16 }}
             variant="outlined"

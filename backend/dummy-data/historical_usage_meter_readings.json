@@ -6,6 +6,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2006-03-28",
+    "month": 3,
+    "year": 2006,
     "reading": 0,
     "read_by": "member",
     "remark": ""
@@ -17,6 +19,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2006-05-26",
+    "month": 5,
+    "year": 2006,
     "reading": 26.231,
     "read_by": "member",
     "remark": ""
@@ -28,6 +32,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2006-06-14",
+    "month": 6,
+    "year": 2006,
     "reading": 28.39,
     "read_by": "member",
     "remark": ""
@@ -39,6 +45,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2006-06-29",
+    "month": 6,
+    "year": 2006,
     "reading": 44.903,
     "read_by": "member",
     "remark": ""
@@ -50,6 +58,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2006-08-01",
+    "month": 8,
+    "year": 2006,
     "reading": 60.621,
     "read_by": "member",
     "remark": ""
@@ -61,6 +71,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2006-11-09",
+    "month": 11,
+    "year": 2006,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -72,6 +84,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-03-05",
+    "month": 3,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -83,6 +97,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-04-06",
+    "month": 4,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -94,6 +110,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-05-02",
+    "month": 5,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -105,6 +123,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-06-05",
+    "month": 6,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -116,6 +136,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-06-06",
+    "month": 6,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -127,6 +149,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-06-22",
+    "month": 6,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -138,6 +162,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-07-02",
+    "month": 7,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -149,6 +175,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-07-17",
+    "month": 7,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -160,6 +188,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-08-08",
+    "month": 8,
+    "year": 2007,
     "reading": 69.159,
     "read_by": "member",
     "remark": ""
@@ -171,6 +201,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-09-05",
+    "month": 9,
+    "year": 2007,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -182,6 +214,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-10-05",
+    "month": 10,
+    "year": 2007,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -193,6 +227,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-11-15",
+    "month": 11,
+    "year": 2007,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -204,6 +240,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2007-12-13",
+    "month": 12,
+    "year": 2007,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -215,6 +253,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-01-21",
+    "month": 1,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -226,6 +266,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-02-07",
+    "month": 2,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -237,6 +279,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-02-28",
+    "month": 2,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "ccwcd",
     "remark": ""
@@ -248,6 +292,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-03-04",
+    "month": 3,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -259,6 +305,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-04-16",
+    "month": 4,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -270,6 +318,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-05-09",
+    "month": 5,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -281,6 +331,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-06-09",
+    "month": 6,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "ccwcd",
     "remark": ""
@@ -292,6 +344,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-06-15",
+    "month": 6,
+    "year": 2008,
     "reading": 75.314,
     "read_by": "member",
     "remark": ""
@@ -303,6 +357,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-07-18",
+    "month": 7,
+    "year": 2008,
     "reading": 87.75,
     "read_by": "member",
     "remark": ""
@@ -314,6 +370,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-08-03",
+    "month": 8,
+    "year": 2008,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -325,6 +383,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-08-19",
+    "month": 8,
+    "year": 2008,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -336,6 +396,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-09-01",
+    "month": 9,
+    "year": 2008,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -347,6 +409,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-10-10",
+    "month": 10,
+    "year": 2008,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -358,6 +422,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-10-22",
+    "month": 10,
+    "year": 2008,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -369,6 +435,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-11-10",
+    "month": 11,
+    "year": 2008,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -380,6 +448,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2008-12-01",
+    "month": 12,
+    "year": 2008,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -391,6 +461,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-01-15",
+    "month": 1,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -402,6 +474,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-02-01",
+    "month": 2,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -413,6 +487,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-03-02",
+    "month": 3,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -424,6 +500,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-03-04",
+    "month": 3,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -435,6 +513,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-04-02",
+    "month": 4,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -446,6 +526,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-04-08",
+    "month": 4,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -457,6 +539,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-04-10",
+    "month": 4,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -468,6 +552,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-05-07",
+    "month": 5,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -479,6 +565,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-06-09",
+    "month": 6,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -490,6 +578,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-07-01",
+    "month": 7,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -501,6 +591,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-08-06",
+    "month": 8,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -512,6 +604,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-08-07",
+    "month": 8,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -523,6 +617,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-09-10",
+    "month": 9,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -534,6 +630,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-10-07",
+    "month": 10,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -545,6 +643,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-11-17",
+    "month": 11,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -556,6 +656,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2009-12-01",
+    "month": 12,
+    "year": 2009,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -567,6 +669,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-01-14",
+    "month": 1,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -578,6 +682,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-02-11",
+    "month": 2,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -589,6 +695,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-03-12",
+    "month": 3,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -600,6 +708,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-04-15",
+    "month": 4,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -611,6 +721,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-05-04",
+    "month": 5,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -622,6 +734,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-05-20",
+    "month": 5,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -633,6 +747,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-06-01",
+    "month": 6,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -644,6 +760,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-07-01",
+    "month": 7,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -655,6 +773,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-08-02",
+    "month": 8,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -666,6 +786,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-08-03",
+    "month": 8,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -677,6 +799,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-08-30",
+    "month": 8,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -688,6 +812,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-09-01",
+    "month": 9,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -699,6 +825,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-10-01",
+    "month": 10,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -710,6 +838,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-11-01",
+    "month": 11,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -721,6 +851,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2010-12-15",
+    "month": 12,
+    "year": 2010,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -732,6 +864,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-01-10",
+    "month": 1,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -743,6 +877,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-02-02",
+    "month": 2,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -754,6 +890,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-02-07",
+    "month": 2,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -765,6 +903,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-04-01",
+    "month": 4,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -776,6 +916,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-05-01",
+    "month": 5,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -787,6 +929,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-05-18",
+    "month": 5,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -798,6 +942,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-06-01",
+    "month": 6,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -809,6 +955,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-07-01",
+    "month": 7,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -820,6 +968,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-07-25",
+    "month": 7,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "ccwcd",
     "remark": ""
@@ -831,6 +981,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-08-01",
+    "month": 8,
+    "year": 2011,
     "reading": 100.697,
     "read_by": "member",
     "remark": ""
@@ -842,6 +994,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-09-01",
+    "month": 9,
+    "year": 2011,
     "reading": 107.829,
     "read_by": "member",
     "remark": ""
@@ -853,6 +1007,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-10-01",
+    "month": 10,
+    "year": 2011,
     "reading": 107.829,
     "read_by": "member",
     "remark": ""
@@ -864,6 +1020,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-10-17",
+    "month": 10,
+    "year": 2011,
     "reading": 107.829,
     "read_by": "ccwcd",
     "remark": ""
@@ -875,6 +1033,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2011-11-01",
+    "month": 11,
+    "year": 2011,
     "reading": 107.829,
     "read_by": "member",
     "remark": ""
@@ -886,6 +1046,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-02-01",
+    "month": 2,
+    "year": 2012,
     "reading": 107.829,
     "read_by": "ccwcd",
     "remark": ""
@@ -897,6 +1059,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-02-27",
+    "month": 2,
+    "year": 2012,
     "reading": 107.829,
     "read_by": "ccwcd",
     "remark": ""
@@ -908,6 +1072,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-04-01",
+    "month": 4,
+    "year": 2012,
     "reading": 107.829,
     "read_by": "ccwcd",
     "remark": ""
@@ -919,6 +1085,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-05-01",
+    "month": 5,
+    "year": 2012,
     "reading": 127.192,
     "read_by": "ccwcd",
     "remark": ""
@@ -930,6 +1098,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-06-01",
+    "month": 6,
+    "year": 2012,
     "reading": 127.192,
     "read_by": "ccwcd",
     "remark": ""
@@ -941,6 +1111,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-06-05",
+    "month": 6,
+    "year": 2012,
     "reading": 127.192,
     "read_by": "ccwcd",
     "remark": ""
@@ -952,6 +1124,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-07-02",
+    "month": 7,
+    "year": 2012,
     "reading": 145.36,
     "read_by": "ccwcd",
     "remark": ""
@@ -963,6 +1137,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-07-31",
+    "month": 7,
+    "year": 2012,
     "reading": 168.68,
     "read_by": "ccwcd",
     "remark": ""
@@ -974,6 +1150,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-08-31",
+    "month": 8,
+    "year": 2012,
     "reading": 188.557,
     "read_by": "ccwcd",
     "remark": ""
@@ -985,6 +1163,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-10-01",
+    "month": 10,
+    "year": 2012,
     "reading": 188.557,
     "read_by": "ccwcd",
     "remark": ""
@@ -996,6 +1176,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2012-11-01",
+    "month": 11,
+    "year": 2012,
     "reading": 188.557,
     "read_by": "ccwcd",
     "remark": ""
@@ -1007,6 +1189,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-01-14",
+    "month": 1,
+    "year": 2013,
     "reading": 188.557,
     "read_by": "member",
     "remark": ""
@@ -1018,6 +1202,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-02-20",
+    "month": 2,
+    "year": 2013,
     "reading": 188.557,
     "read_by": "ccwcd",
     "remark": ""
@@ -1029,6 +1215,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-03-05",
+    "month": 3,
+    "year": 2013,
     "reading": 188.557,
     "read_by": "ccwcd",
     "remark": ""
@@ -1040,6 +1228,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-04-01",
+    "month": 4,
+    "year": 2013,
     "reading": 188.592,
     "read_by": "ccwcd",
     "remark": ""
@@ -1051,6 +1241,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-05-01",
+    "month": 5,
+    "year": 2013,
     "reading": 188.592,
     "read_by": "ccwcd",
     "remark": ""
@@ -1062,6 +1254,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-06-01",
+    "month": 6,
+    "year": 2013,
     "reading": 188.592,
     "read_by": "ccwcd",
     "remark": ""
@@ -1073,6 +1267,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-06-11",
+    "month": 6,
+    "year": 2013,
     "reading": 188.592,
     "read_by": "ccwcd",
     "remark": ""
@@ -1084,6 +1280,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-07-01",
+    "month": 7,
+    "year": 2013,
     "reading": 188.592,
     "read_by": "ccwcd",
     "remark": ""
@@ -1095,6 +1293,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-08-01",
+    "month": 8,
+    "year": 2013,
     "reading": 188.592,
     "read_by": "ccwcd",
     "remark": ""
@@ -1106,6 +1306,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-09-01",
+    "month": 9,
+    "year": 2013,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1117,6 +1319,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-10-01",
+    "month": 10,
+    "year": 2013,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1128,6 +1332,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-10-28",
+    "month": 10,
+    "year": 2013,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1139,6 +1345,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2013-11-01",
+    "month": 11,
+    "year": 2013,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1150,6 +1358,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-02-11",
+    "month": 2,
+    "year": 2014,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1161,6 +1371,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-03-01",
+    "month": 3,
+    "year": 2014,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1172,6 +1384,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-04-01",
+    "month": 4,
+    "year": 2014,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1183,6 +1397,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-05-01",
+    "month": 5,
+    "year": 2014,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1194,6 +1410,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-06-01",
+    "month": 6,
+    "year": 2014,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1205,6 +1423,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-06-16",
+    "month": 6,
+    "year": 2014,
     "reading": 189.684,
     "read_by": "ccwcd",
     "remark": ""
@@ -1216,6 +1436,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-07-01",
+    "month": 7,
+    "year": 2014,
     "reading": 189.832,
     "read_by": "ccwcd",
     "remark": ""
@@ -1227,6 +1449,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-08-01",
+    "month": 8,
+    "year": 2014,
     "reading": 189.832,
     "read_by": "ccwcd",
     "remark": ""
@@ -1238,6 +1462,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-09-01",
+    "month": 9,
+    "year": 2014,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1249,6 +1475,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-10-01",
+    "month": 10,
+    "year": 2014,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1260,6 +1488,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-11-01",
+    "month": 11,
+    "year": 2014,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1271,6 +1501,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2014-12-13",
+    "month": 12,
+    "year": 2014,
     "reading": 197.759,
     "read_by": "member",
     "remark": ""
@@ -1282,6 +1514,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-01-14",
+    "month": 1,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "member",
     "remark": ""
@@ -1293,6 +1527,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-02-10",
+    "month": 2,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "member",
     "remark": ""
@@ -1304,6 +1540,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-02-23",
+    "month": 2,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1315,6 +1553,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-03-06",
+    "month": 3,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1326,6 +1566,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-04-01",
+    "month": 4,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1337,6 +1579,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-05-01",
+    "month": 5,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1348,6 +1592,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-06-01",
+    "month": 6,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1359,6 +1605,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-07-01",
+    "month": 7,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1370,6 +1618,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-08-01",
+    "month": 8,
+    "year": 2015,
     "reading": 197.759,
     "read_by": "ccwcd",
     "remark": ""
@@ -1381,6 +1631,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-09-01",
+    "month": 9,
+    "year": 2015,
     "reading": 202.102,
     "read_by": "ccwcd",
     "remark": ""
@@ -1392,6 +1644,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-10-01",
+    "month": 10,
+    "year": 2015,
     "reading": 206.226,
     "read_by": "ccwcd",
     "remark": ""
@@ -1403,6 +1657,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-11-01",
+    "month": 11,
+    "year": 2015,
     "reading": 206.226,
     "read_by": "ccwcd",
     "remark": ""
@@ -1414,6 +1670,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2015-12-14",
+    "month": 12,
+    "year": 2015,
     "reading": 206.226,
     "read_by": "member",
     "remark": ""
@@ -1425,6 +1683,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-01-14",
+    "month": 1,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "member",
     "remark": ""
@@ -1436,6 +1696,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-02-26",
+    "month": 2,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "ccwcd",
     "remark": ""
@@ -1447,6 +1709,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-02-28",
+    "month": 2,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "member",
     "remark": ""
@@ -1458,6 +1722,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-03-10",
+    "month": 3,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "member",
     "remark": ""
@@ -1469,6 +1735,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-04-01",
+    "month": 4,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "ccwcd",
     "remark": ""
@@ -1480,6 +1748,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-05-01",
+    "month": 5,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "ccwcd",
     "remark": ""
@@ -1491,6 +1761,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-06-01",
+    "month": 6,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "ccwcd",
     "remark": ""
@@ -1502,6 +1774,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-07-01",
+    "month": 7,
+    "year": 2016,
     "reading": 206.226,
     "read_by": "ccwcd",
     "remark": ""
@@ -1513,6 +1787,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-08-01",
+    "month": 8,
+    "year": 2016,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1524,6 +1800,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-09-01",
+    "month": 9,
+    "year": 2016,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1535,6 +1813,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-10-01",
+    "month": 10,
+    "year": 2016,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1546,6 +1826,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-11-01",
+    "month": 11,
+    "year": 2016,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1557,6 +1839,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2016-12-16",
+    "month": 12,
+    "year": 2016,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1568,6 +1852,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-01-05",
+    "month": 1,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "member",
     "remark": ""
@@ -1579,6 +1865,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-02-02",
+    "month": 2,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "member",
     "remark": ""
@@ -1590,6 +1878,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-02-27",
+    "month": 2,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1601,6 +1891,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-03-01",
+    "month": 3,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1612,6 +1904,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-04-01",
+    "month": 4,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1623,6 +1917,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-05-01",
+    "month": 5,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "member",
     "remark": ""
@@ -1634,6 +1930,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-06-01",
+    "month": 6,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1645,6 +1943,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-06-19",
+    "month": 6,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1656,6 +1956,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-07-01",
+    "month": 7,
+    "year": 2017,
     "reading": 214.377,
     "read_by": "ccwcd",
     "remark": ""
@@ -1667,6 +1969,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-08-01",
+    "month": 8,
+    "year": 2017,
     "reading": 216.392,
     "read_by": "ccwcd",
     "remark": ""
@@ -1678,6 +1982,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-09-01",
+    "month": 9,
+    "year": 2017,
     "reading": 223.852,
     "read_by": "ccwcd",
     "remark": ""
@@ -1689,6 +1995,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-09-05",
+    "month": 9,
+    "year": 2017,
     "reading": 223.852,
     "read_by": "ccwcd",
     "remark": ""
@@ -1700,6 +2008,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-10-03",
+    "month": 10,
+    "year": 2017,
     "reading": 223.852,
     "read_by": "ccwcd",
     "remark": ""
@@ -1711,6 +2021,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2017-11-02",
+    "month": 11,
+    "year": 2017,
     "reading": 223.852,
     "read_by": "ccwcd",
     "remark": ""
@@ -1722,6 +2034,8 @@
     "meter_index": 559,
     "meter_sn": "05-8-4131",
     "date_read": "2018-02-08",
+    "month": 2,
+    "year": 2018,
     "reading": 223.852,
     "read_by": "ccwcd",
     "remark": ""
@@ -1733,6 +2047,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-04-01",
+    "month": 4,
+    "year": 2008,
     "reading": 0.003,
     "read_by": "member",
     "remark": ""
@@ -1744,6 +2060,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-05-01",
+    "month": 5,
+    "year": 2008,
     "reading": 0.007,
     "read_by": "member",
     "remark": ""
@@ -1755,6 +2073,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-06-02",
+    "month": 6,
+    "year": 2008,
     "reading": 0.016,
     "read_by": "member",
     "remark": ""
@@ -1766,6 +2086,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-07-01",
+    "month": 7,
+    "year": 2008,
     "reading": 0.065,
     "read_by": "member",
     "remark": ""
@@ -1777,6 +2099,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-08-01",
+    "month": 8,
+    "year": 2008,
     "reading": 0.097,
     "read_by": "member",
     "remark": ""
@@ -1788,6 +2112,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-08-26",
+    "month": 8,
+    "year": 2008,
     "reading": 0.105,
     "read_by": "ccwcd",
     "remark": ""
@@ -1799,6 +2125,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-09-02",
+    "month": 9,
+    "year": 2008,
     "reading": 0.11,
     "read_by": "member",
     "remark": ""
@@ -1810,6 +2138,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-10-03",
+    "month": 10,
+    "year": 2008,
     "reading": 0.116,
     "read_by": "member",
     "remark": ""
@@ -1821,6 +2151,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-11-03",
+    "month": 11,
+    "year": 2008,
     "reading": 0.12,
     "read_by": "member",
     "remark": ""
@@ -1832,6 +2164,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-11-12",
+    "month": 11,
+    "year": 2008,
     "reading": 0.121,
     "read_by": "ccwcd",
     "remark": ""
@@ -1843,6 +2177,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2008-12-02",
+    "month": 12,
+    "year": 2008,
     "reading": 0.124,
     "read_by": "member",
     "remark": ""
@@ -1854,6 +2190,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-01-15",
+    "month": 1,
+    "year": 2009,
     "reading": 0.129,
     "read_by": "member",
     "remark": ""
@@ -1865,6 +2203,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-01-16",
+    "month": 1,
+    "year": 2009,
     "reading": 0.129,
     "read_by": "ccwcd",
     "remark": ""
@@ -1876,6 +2216,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-02-03",
+    "month": 2,
+    "year": 2009,
     "reading": 0.131,
     "read_by": "member",
     "remark": ""
@@ -1887,6 +2229,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-03-03",
+    "month": 3,
+    "year": 2009,
     "reading": 0.134,
     "read_by": "member",
     "remark": ""
@@ -1898,6 +2242,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-03-17",
+    "month": 3,
+    "year": 2009,
     "reading": 0.135,
     "read_by": "ccwcd",
     "remark": ""
@@ -1909,6 +2255,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-04-02",
+    "month": 4,
+    "year": 2009,
     "reading": 0.14,
     "read_by": "member",
     "remark": ""
@@ -1920,6 +2268,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-05-08",
+    "month": 5,
+    "year": 2009,
     "reading": 0.143,
     "read_by": "member",
     "remark": ""
@@ -1931,6 +2281,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-05-21",
+    "month": 5,
+    "year": 2009,
     "reading": 0.145,
     "read_by": "ccwcd",
     "remark": ""
@@ -1942,6 +2294,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-06-01",
+    "month": 6,
+    "year": 2009,
     "reading": 0.147,
     "read_by": "member",
     "remark": ""
@@ -1953,6 +2307,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-07-02",
+    "month": 7,
+    "year": 2009,
     "reading": 0.152,
     "read_by": "member",
     "remark": ""
@@ -1964,6 +2320,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-08-03",
+    "month": 8,
+    "year": 2009,
     "reading": 0.157,
     "read_by": "member",
     "remark": ""
@@ -1975,6 +2333,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-09-01",
+    "month": 9,
+    "year": 2009,
     "reading": 0.161,
     "read_by": "ccwcd",
     "remark": ""
@@ -1986,6 +2346,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-09-02",
+    "month": 9,
+    "year": 2009,
     "reading": 0.161,
     "read_by": "member",
     "remark": ""
@@ -1997,6 +2359,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-10-01",
+    "month": 10,
+    "year": 2009,
     "reading": 0.168,
     "read_by": "member",
     "remark": ""
@@ -2008,6 +2372,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-11-03",
+    "month": 11,
+    "year": 2009,
     "reading": 56000,
     "read_by": "member",
     "remark": ""
@@ -2019,6 +2385,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-12-01",
+    "month": 12,
+    "year": 2009,
     "reading": 56800,
     "read_by": "member",
     "remark": ""
@@ -2030,6 +2398,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2009-12-28",
+    "month": 12,
+    "year": 2009,
     "reading": 58100,
     "read_by": "ccwcd",
     "remark": ""
@@ -2041,6 +2411,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-01-05",
+    "month": 1,
+    "year": 2010,
     "reading": 58300,
     "read_by": "member",
     "remark": ""
@@ -2052,6 +2424,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-02-04",
+    "month": 2,
+    "year": 2010,
     "reading": 59000,
     "read_by": "member",
     "remark": ""
@@ -2063,6 +2437,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-03-03",
+    "month": 3,
+    "year": 2010,
     "reading": 59800,
     "read_by": "member",
     "remark": ""
@@ -2074,6 +2450,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-03-25",
+    "month": 3,
+    "year": 2010,
     "reading": 63000,
     "read_by": "ccwcd",
     "remark": ""
@@ -2085,6 +2463,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-04-04",
+    "month": 4,
+    "year": 2010,
     "reading": 63200,
     "read_by": "member",
     "remark": ""
@@ -2096,6 +2476,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-05-03",
+    "month": 5,
+    "year": 2010,
     "reading": 63900,
     "read_by": "member",
     "remark": ""
@@ -2107,6 +2489,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-06-01",
+    "month": 6,
+    "year": 2010,
     "reading": 64000,
     "read_by": "member",
     "remark": ""
@@ -2118,6 +2502,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-07-01",
+    "month": 7,
+    "year": 2010,
     "reading": 66200,
     "read_by": "member",
     "remark": ""
@@ -2129,6 +2515,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-07-07",
+    "month": 7,
+    "year": 2010,
     "reading": 66900,
     "read_by": "ccwcd",
     "remark": ""
@@ -2140,6 +2528,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-08-04",
+    "month": 8,
+    "year": 2010,
     "reading": 68400,
     "read_by": "member",
     "remark": ""
@@ -2151,6 +2541,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-09-03",
+    "month": 9,
+    "year": 2010,
     "reading": 71000,
     "read_by": "member",
     "remark": ""
@@ -2162,6 +2554,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-10-01",
+    "month": 10,
+    "year": 2010,
     "reading": 72000,
     "read_by": "member",
     "remark": ""
@@ -2173,6 +2567,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-10-04",
+    "month": 10,
+    "year": 2010,
     "reading": 72100,
     "read_by": "ccwcd",
     "remark": ""
@@ -2184,6 +2580,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-11-01",
+    "month": 11,
+    "year": 2010,
     "reading": 73000,
     "read_by": "ccwcd",
     "remark": ""
@@ -2195,6 +2593,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-11-02",
+    "month": 11,
+    "year": 2010,
     "reading": 73000,
     "read_by": "member",
     "remark": ""
@@ -2206,6 +2606,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2010-12-02",
+    "month": 12,
+    "year": 2010,
     "reading": 75000,
     "read_by": "member",
     "remark": ""
@@ -2217,6 +2619,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-01-04",
+    "month": 1,
+    "year": 2011,
     "reading": 76000,
     "read_by": "member",
     "remark": ""
@@ -2228,6 +2632,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-02-02",
+    "month": 2,
+    "year": 2011,
     "reading": 92200,
     "read_by": "member",
     "remark": ""
@@ -2239,6 +2645,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-03-02",
+    "month": 3,
+    "year": 2011,
     "reading": 93200,
     "read_by": "member",
     "remark": ""
@@ -2250,6 +2658,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-03-17",
+    "month": 3,
+    "year": 2011,
     "reading": 93800,
     "read_by": "ccwcd",
     "remark": ""
@@ -2261,6 +2671,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-04-01",
+    "month": 4,
+    "year": 2011,
     "reading": 98400,
     "read_by": "member",
     "remark": ""
@@ -2272,6 +2684,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-05-04",
+    "month": 5,
+    "year": 2011,
     "reading": 100800,
     "read_by": "member",
     "remark": ""
@@ -2283,6 +2697,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-06-02",
+    "month": 6,
+    "year": 2011,
     "reading": 102100,
     "read_by": "member",
     "remark": ""
@@ -2294,6 +2710,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-07-01",
+    "month": 7,
+    "year": 2011,
     "reading": 103100,
     "read_by": "member",
     "remark": ""
@@ -2305,6 +2723,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-07-14",
+    "month": 7,
+    "year": 2011,
     "reading": 103400,
     "read_by": "ccwcd",
     "remark": ""
@@ -2316,6 +2736,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-08-02",
+    "month": 8,
+    "year": 2011,
     "reading": 104100,
     "read_by": "member",
     "remark": ""
@@ -2327,6 +2749,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-08-24",
+    "month": 8,
+    "year": 2011,
     "reading": 104800,
     "read_by": "ccwcd",
     "remark": ""
@@ -2338,6 +2762,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-09-07",
+    "month": 9,
+    "year": 2011,
     "reading": 105200,
     "read_by": "member",
     "remark": ""
@@ -2349,6 +2775,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-10-03",
+    "month": 10,
+    "year": 2011,
     "reading": 106100,
     "read_by": "member",
     "remark": ""
@@ -2360,6 +2788,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-11-02",
+    "month": 11,
+    "year": 2011,
     "reading": 107100,
     "read_by": "member",
     "remark": ""
@@ -2371,6 +2801,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-11-22",
+    "month": 11,
+    "year": 2011,
     "reading": 109300,
     "read_by": "ccwcd",
     "remark": ""
@@ -2382,6 +2814,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2011-12-06",
+    "month": 12,
+    "year": 2011,
     "reading": 109700,
     "read_by": "member",
     "remark": ""
@@ -2393,6 +2827,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-01-04",
+    "month": 1,
+    "year": 2012,
     "reading": 110700,
     "read_by": "member",
     "remark": ""
@@ -2404,6 +2840,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-02-01",
+    "month": 2,
+    "year": 2012,
     "reading": 111700,
     "read_by": "member",
     "remark": ""
@@ -2415,6 +2853,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-02-27",
+    "month": 2,
+    "year": 2012,
     "reading": 112600,
     "read_by": "ccwcd",
     "remark": ""
@@ -2426,6 +2866,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-03-01",
+    "month": 3,
+    "year": 2012,
     "reading": 112700,
     "read_by": "member",
     "remark": ""
@@ -2437,6 +2879,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-04-02",
+    "month": 4,
+    "year": 2012,
     "reading": 114200,
     "read_by": "member",
     "remark": ""
@@ -2448,6 +2892,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-05-03",
+    "month": 5,
+    "year": 2012,
     "reading": 115100,
     "read_by": "member",
     "remark": ""
@@ -2459,6 +2905,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-06-01",
+    "month": 6,
+    "year": 2012,
     "reading": 120700,
     "read_by": "member",
     "remark": ""
@@ -2470,6 +2918,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-06-13",
+    "month": 6,
+    "year": 2012,
     "reading": 124800,
     "read_by": "ccwcd",
     "remark": ""
@@ -2481,6 +2931,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-07-03",
+    "month": 7,
+    "year": 2012,
     "reading": 132800,
     "read_by": "member",
     "remark": ""
@@ -2492,6 +2944,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-08-01",
+    "month": 8,
+    "year": 2012,
     "reading": 191600,
     "read_by": "member",
     "remark": ""
@@ -2503,6 +2957,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-08-14",
+    "month": 8,
+    "year": 2012,
     "reading": 195700,
     "read_by": "ccwcd",
     "remark": ""
@@ -2514,6 +2970,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-09-04",
+    "month": 9,
+    "year": 2012,
     "reading": 209000,
     "read_by": "member",
     "remark": ""
@@ -2525,6 +2983,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-10-03",
+    "month": 10,
+    "year": 2012,
     "reading": 212600,
     "read_by": "member",
     "remark": ""
@@ -2536,6 +2996,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-11-02",
+    "month": 11,
+    "year": 2012,
     "reading": 213700,
     "read_by": "member",
     "remark": ""
@@ -2547,6 +3009,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-11-28",
+    "month": 11,
+    "year": 2012,
     "reading": 214600,
     "read_by": "ccwcd",
     "remark": ""
@@ -2558,6 +3022,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2012-12-03",
+    "month": 12,
+    "year": 2012,
     "reading": 214800,
     "read_by": "member",
     "remark": ""
@@ -2569,6 +3035,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-01-07",
+    "month": 1,
+    "year": 2013,
     "reading": 215800,
     "read_by": "member",
     "remark": ""
@@ -2580,6 +3048,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-02-01",
+    "month": 2,
+    "year": 2013,
     "reading": 216800,
     "read_by": "member",
     "remark": ""
@@ -2591,6 +3061,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-03-05",
+    "month": 3,
+    "year": 2013,
     "reading": 217900,
     "read_by": "member",
     "remark": ""
@@ -2602,6 +3074,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-03-13",
+    "month": 3,
+    "year": 2013,
     "reading": 218200,
     "read_by": "ccwcd",
     "remark": ""
@@ -2613,6 +3087,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-04-01",
+    "month": 4,
+    "year": 2013,
     "reading": 219400,
     "read_by": "member",
     "remark": ""
@@ -2624,6 +3100,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-05-01",
+    "month": 5,
+    "year": 2013,
     "reading": 220600,
     "read_by": "member",
     "remark": ""
@@ -2635,6 +3113,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-06-03",
+    "month": 6,
+    "year": 2013,
     "reading": 222700,
     "read_by": "member",
     "remark": ""
@@ -2646,6 +3126,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-06-25",
+    "month": 6,
+    "year": 2013,
     "reading": 246700,
     "read_by": "ccwcd",
     "remark": ""
@@ -2657,6 +3139,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-07-01",
+    "month": 7,
+    "year": 2013,
     "reading": 255400,
     "read_by": "member",
     "remark": ""
@@ -2668,6 +3152,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-08-06",
+    "month": 8,
+    "year": 2013,
     "reading": 306200,
     "read_by": "member",
     "remark": ""
@@ -2679,6 +3165,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-08-26",
+    "month": 8,
+    "year": 2013,
     "reading": 327100,
     "read_by": "ccwcd",
     "remark": ""
@@ -2690,6 +3178,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-09-02",
+    "month": 9,
+    "year": 2013,
     "reading": 332600,
     "read_by": "member",
     "remark": ""
@@ -2701,6 +3191,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-10-01",
+    "month": 10,
+    "year": 2013,
     "reading": 339000,
     "read_by": "member",
     "remark": ""
@@ -2712,6 +3204,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-11-07",
+    "month": 11,
+    "year": 2013,
     "reading": 340300,
     "read_by": "member",
     "remark": ""
@@ -2723,6 +3217,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-11-08",
+    "month": 11,
+    "year": 2013,
     "reading": 340300,
     "read_by": "ccwcd",
     "remark": ""
@@ -2734,6 +3230,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2013-12-02",
+    "month": 12,
+    "year": 2013,
     "reading": 341000,
     "read_by": "member",
     "remark": ""
@@ -2745,6 +3243,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-01-08",
+    "month": 1,
+    "year": 2014,
     "reading": 342200,
     "read_by": "member",
     "remark": ""
@@ -2756,6 +3256,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-02-03",
+    "month": 2,
+    "year": 2014,
     "reading": 342900,
     "read_by": "member",
     "remark": ""
@@ -2767,6 +3269,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-02-25",
+    "month": 2,
+    "year": 2014,
     "reading": 343600,
     "read_by": "ccwcd",
     "remark": ""
@@ -2778,6 +3282,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-03-02",
+    "month": 3,
+    "year": 2014,
     "reading": 343700,
     "read_by": "member",
     "remark": ""
@@ -2789,6 +3295,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-04-01",
+    "month": 4,
+    "year": 2014,
     "reading": 345700,
     "read_by": "member",
     "remark": ""
@@ -2800,6 +3308,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-05-01",
+    "month": 5,
+    "year": 2014,
     "reading": 346100,
     "read_by": "member",
     "remark": ""
@@ -2811,6 +3321,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-06-03",
+    "month": 6,
+    "year": 2014,
     "reading": 348300,
     "read_by": "member",
     "remark": ""
@@ -2822,6 +3334,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-06-04",
+    "month": 6,
+    "year": 2014,
     "reading": 348300,
     "read_by": "ccwcd",
     "remark": ""
@@ -2833,6 +3347,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-07-01",
+    "month": 7,
+    "year": 2014,
     "reading": 380100,
     "read_by": "member",
     "remark": ""
@@ -2844,6 +3360,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-08-04",
+    "month": 8,
+    "year": 2014,
     "reading": 453400,
     "read_by": "member",
     "remark": ""
@@ -2855,6 +3373,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-08-20",
+    "month": 8,
+    "year": 2014,
     "reading": 460100,
     "read_by": "ccwcd",
     "remark": ""
@@ -2866,6 +3386,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-09-01",
+    "month": 9,
+    "year": 2014,
     "reading": 460600,
     "read_by": "member",
     "remark": ""
@@ -2877,6 +3399,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-10-01",
+    "month": 10,
+    "year": 2014,
     "reading": 479700,
     "read_by": "member",
     "remark": ""
@@ -2888,6 +3412,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-11-01",
+    "month": 11,
+    "year": 2014,
     "reading": 481500,
     "read_by": "member",
     "remark": ""
@@ -2899,6 +3425,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-11-06",
+    "month": 11,
+    "year": 2014,
     "reading": 481600,
     "read_by": "ccwcd",
     "remark": ""
@@ -2910,6 +3438,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2014-12-02",
+    "month": 12,
+    "year": 2014,
     "reading": 483100,
     "read_by": "member",
     "remark": ""
@@ -2921,6 +3451,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-01-02",
+    "month": 1,
+    "year": 2015,
     "reading": 484500,
     "read_by": "member",
     "remark": ""
@@ -2932,6 +3464,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-02-05",
+    "month": 2,
+    "year": 2015,
     "reading": 487600,
     "read_by": "member",
     "remark": ""
@@ -2943,6 +3477,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-03-03",
+    "month": 3,
+    "year": 2015,
     "reading": 489200,
     "read_by": "member",
     "remark": ""
@@ -2954,6 +3490,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-03-10",
+    "month": 3,
+    "year": 2015,
     "reading": 489600,
     "read_by": "ccwcd",
     "remark": ""
@@ -2965,6 +3503,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-04-01",
+    "month": 4,
+    "year": 2015,
     "reading": 490500,
     "read_by": "member",
     "remark": ""
@@ -2976,6 +3516,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-05-04",
+    "month": 5,
+    "year": 2015,
     "reading": 492000,
     "read_by": "member",
     "remark": ""
@@ -2987,6 +3529,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-06-01",
+    "month": 6,
+    "year": 2015,
     "reading": 493500,
     "read_by": "member",
     "remark": ""
@@ -2998,6 +3542,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-06-10",
+    "month": 6,
+    "year": 2015,
     "reading": 494200,
     "read_by": "ccwcd",
     "remark": ""
@@ -3009,6 +3555,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-07-01",
+    "month": 7,
+    "year": 2015,
     "reading": 495000,
     "read_by": "member",
     "remark": ""
@@ -3020,6 +3568,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-08-03",
+    "month": 8,
+    "year": 2015,
     "reading": 509100,
     "read_by": "member",
     "remark": ""
@@ -3031,6 +3581,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-09-01",
+    "month": 9,
+    "year": 2015,
     "reading": 546200,
     "read_by": "member",
     "remark": ""
@@ -3042,6 +3594,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-09-03",
+    "month": 9,
+    "year": 2015,
     "reading": 546300,
     "read_by": "ccwcd",
     "remark": ""
@@ -3053,6 +3607,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-10-03",
+    "month": 10,
+    "year": 2015,
     "reading": 593500,
     "read_by": "member",
     "remark": ""
@@ -3064,6 +3620,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-11-02",
+    "month": 11,
+    "year": 2015,
     "reading": 594600,
     "read_by": "member",
     "remark": ""
@@ -3075,6 +3633,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-12-01",
+    "month": 12,
+    "year": 2015,
     "reading": 596400,
     "read_by": "ccwcd",
     "remark": ""
@@ -3086,6 +3646,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2015-12-02",
+    "month": 12,
+    "year": 2015,
     "reading": 596400,
     "read_by": "member",
     "remark": ""
@@ -3097,6 +3659,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-01-20",
+    "month": 1,
+    "year": 2016,
     "reading": 598200,
     "read_by": "member",
     "remark": ""
@@ -3108,6 +3672,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-02-01",
+    "month": 2,
+    "year": 2016,
     "reading": 598800,
     "read_by": "member",
     "remark": ""
@@ -3119,6 +3685,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-02-25",
+    "month": 2,
+    "year": 2016,
     "reading": 599700,
     "read_by": "ccwcd",
     "remark": ""
@@ -3130,6 +3698,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-03-01",
+    "month": 3,
+    "year": 2016,
     "reading": 599800,
     "read_by": "member",
     "remark": ""
@@ -3141,6 +3711,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-04-01",
+    "month": 4,
+    "year": 2016,
     "reading": 599800,
     "read_by": "member",
     "remark": ""
@@ -3152,6 +3724,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-04-14",
+    "month": 4,
+    "year": 2016,
     "reading": 603600,
     "read_by": "member",
     "remark": ""
@@ -3163,6 +3737,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-05-01",
+    "month": 5,
+    "year": 2016,
     "reading": 604800,
     "read_by": "member",
     "remark": ""
@@ -3174,6 +3750,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-06-01",
+    "month": 6,
+    "year": 2016,
     "reading": 605600,
     "read_by": "member",
     "remark": ""
@@ -3185,6 +3763,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-06-13",
+    "month": 6,
+    "year": 2016,
     "reading": 634200,
     "read_by": "ccwcd",
     "remark": ""
@@ -3196,6 +3776,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-07-01",
+    "month": 7,
+    "year": 2016,
     "reading": 684000,
     "read_by": "member",
     "remark": ""
@@ -3207,6 +3789,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-08-15",
+    "month": 8,
+    "year": 2016,
     "reading": 843600,
     "read_by": "member",
     "remark": ""
@@ -3218,6 +3802,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-08-16",
+    "month": 8,
+    "year": 2016,
     "reading": 843600,
     "read_by": "ccwcd",
     "remark": ""
@@ -3229,6 +3815,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-09-02",
+    "month": 9,
+    "year": 2016,
     "reading": 875800,
     "read_by": "member",
     "remark": ""
@@ -3240,6 +3828,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-10-04",
+    "month": 10,
+    "year": 2016,
     "reading": 902500,
     "read_by": "member",
     "remark": ""
@@ -3251,6 +3841,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-11-01",
+    "month": 11,
+    "year": 2016,
     "reading": 904400,
     "read_by": "member",
     "remark": ""
@@ -3262,6 +3854,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-11-15",
+    "month": 11,
+    "year": 2016,
     "reading": 905300,
     "read_by": "ccwcd",
     "remark": ""
@@ -3273,6 +3867,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2016-12-01",
+    "month": 12,
+    "year": 2016,
     "reading": 906900,
     "read_by": "member",
     "remark": ""
@@ -3284,6 +3880,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-01-02",
+    "month": 1,
+    "year": 2017,
     "reading": 907000,
     "read_by": "member",
     "remark": ""
@@ -3295,6 +3893,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-02-01",
+    "month": 2,
+    "year": 2017,
     "reading": 908100,
     "read_by": "member",
     "remark": ""
@@ -3306,6 +3906,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-03-01",
+    "month": 3,
+    "year": 2017,
     "reading": 908100,
     "read_by": "member",
     "remark": ""
@@ -3317,6 +3919,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-03-30",
+    "month": 3,
+    "year": 2017,
     "reading": 910700,
     "read_by": "ccwcd",
     "remark": ""
@@ -3328,6 +3932,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-04-01",
+    "month": 4,
+    "year": 2017,
     "reading": 910700,
     "read_by": "member",
     "remark": ""
@@ -3339,6 +3945,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-05-16",
+    "month": 5,
+    "year": 2017,
     "reading": 919400,
     "read_by": "member",
     "remark": ""
@@ -3350,6 +3958,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-06-01",
+    "month": 6,
+    "year": 2017,
     "reading": 919700,
     "read_by": "member",
     "remark": ""
@@ -3361,6 +3971,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-08-16",
+    "month": 8,
+    "year": 2017,
     "reading": 942500,
     "read_by": "ccwcd",
     "remark": ""
@@ -3372,6 +3984,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-09-06",
+    "month": 9,
+    "year": 2017,
     "reading": 959600,
     "read_by": "member",
     "remark": ""
@@ -3383,6 +3997,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-10-13",
+    "month": 10,
+    "year": 2017,
     "reading": 984300,
     "read_by": "ccwcd",
     "remark": ""
@@ -3394,6 +4010,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2017-11-01",
+    "month": 11,
+    "year": 2017,
     "reading": 1012400,
     "read_by": "member",
     "remark": ""
@@ -3405,6 +4023,8 @@
     "meter_index": 1156,
     "meter_sn": 5094797,
     "date_read": "2018-02-20",
+    "month": 2,
+    "year": 2018,
     "reading": 1099500,
     "read_by": "ccwcd",
     "remark": ""
