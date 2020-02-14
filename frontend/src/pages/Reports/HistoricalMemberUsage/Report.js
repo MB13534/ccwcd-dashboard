@@ -271,7 +271,7 @@ const HistoricalMemberUsageReport = props => {
 
           <Divider style={{ margin: "16px 0" }} />
 
-          <SavedViews />
+          <SavedViews endpoint="historical-member-usage/views" />
         </AdvancedFilters>
       </FilterBar>
 

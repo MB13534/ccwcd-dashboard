@@ -309,7 +309,7 @@ const AllThingsViewer = props => {
 
           <Divider style={{ margin: "16px 0" }} />
 
-          <SavedViews />
+          <SavedViews endpoint="all-things-viewer/views" />
         </AdvancedFilters>
       </FilterBar>
 

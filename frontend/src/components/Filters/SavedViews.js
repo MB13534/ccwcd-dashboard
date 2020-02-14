@@ -20,11 +20,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SavedViews = props => {
+const SavedViews = ({ endpoint }) => {
   const classes = useStyles();
   let history = useHistory();
   let match = useRouteMatch();
-  const [savedViews] = useFetchData("atv/views", [match]);
+  const [savedViews] = useFetchData(endpoint, [match]);
 
   const handleSelectView = chip => {
     const pathSplit = match.path.split("/:viewNdx")[0];
