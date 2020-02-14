@@ -110,9 +110,15 @@ const ManageView = props => {
   });
 
   // Request data for the filters
-  const [StructureTypes] = useFetchData("atv/structure-types", []);
-  const [Structures] = useFetchData("atv/structures", []);
-  const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
+  const [StructureTypes] = useFetchData(
+    "all-things-viewer/structure-types",
+    []
+  );
+  const [Structures] = useFetchData("all-things-viewer/structures", []);
+  const [MeasurementTypes] = useFetchData(
+    "all-things-viewer/measurement-types",
+    []
+  );
   const AggregationData = [
     { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
     {
@@ -121,9 +127,10 @@ const ManageView = props => {
     },
     { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
   ];
-  const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
-    viewNdx,
-  ]);
+  const [view] = useFetchData(
+    `all-things-viewer/views/${viewNdx ? viewNdx : -9999}`,
+    [viewNdx]
+  );
 
   /**
    * Use the useFilterAssoc hook to populate the structures dropdown
@@ -318,7 +325,7 @@ const ManageView = props => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       await axios.post(
-        `${process.env.REACT_APP_ENDPOINT}/api/atv/views`,
+        `${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/views`,
         prepFormValues(filterValues),
         { headers }
       );

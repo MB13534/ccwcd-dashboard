@@ -19,7 +19,7 @@ const router = express.Router();
 // Attach middleware to ensure that user is authenticated
 router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 
-// GET /api/atv/structure-types
+// GET /api/all-things-viewer/structure-types
 // Route for returning all structure types
 router.get("/structure-types", (req, res, next) => {
   ATV_Structure_Types.findAll()
@@ -31,7 +31,7 @@ router.get("/structure-types", (req, res, next) => {
     });
 });
 
-// GET /api/atv/structures
+// GET /api/all-things-viewer/structures
 // Route for returning all structures
 router.get("/structures", (req, res, next) => {
   ATV_Structures.findAll()
@@ -43,7 +43,7 @@ router.get("/structures", (req, res, next) => {
     });
 });
 
-// GET /api/atv/measurement-types
+// GET /api/all-things-viewer/measurement-types
 // Route for returning all measurement types
 router.get("/measurement-types", (req, res, next) => {
   ATV_Measurement_Types.findAll()
@@ -55,7 +55,7 @@ router.get("/measurement-types", (req, res, next) => {
     });
 });
 
-// GET /api/atv/daily-averages/:structures/:measure_types
+// GET /api/all-things-viewer/daily-averages/:structures/:measure_types
 // Route for returning daily data averages
 router.get(
   "/daily-averages/:structures/:measure_types/:end_date",
@@ -90,7 +90,7 @@ router.get(
   }
 );
 
-// GET /api/atv/daily-end-of-day/:structures/:measure_types
+// GET /api/all-things-viewer/daily-end-of-day/:structures/:measure_types
 // Route for returning daily end of day values
 router.get(
   "/daily-end-of-day/:structures/:measure_types/:end_date",
@@ -125,7 +125,7 @@ router.get(
   }
 );
 
-// GET /api/atv/daily-15-min/:structures/:measure_types
+// GET /api/all-things-viewer/daily-15-min/:structures/:measure_types
 // Route for returning 15 minute data
 router.get(
   "/daily-15-min/:structures/:measure_types/:end_date",
@@ -160,7 +160,7 @@ router.get(
   }
 );
 
-// GET /api/atv/views
+// GET /api/all-things-viewer/views
 // Route for retrieving all views
 router.get("/views", (req, res, next) => {
   ATV_Views.findAll({
@@ -178,7 +178,7 @@ router.get("/views", (req, res, next) => {
     });
 });
 
-// GET /api/atv/views/:id
+// GET /api/all-things-viewer/views/:id
 // Route for retrieving a specific view
 router.get("/views/:id", (req, res, next) => {
   ATV_Views.findOne({
@@ -197,7 +197,7 @@ router.get("/views/:id", (req, res, next) => {
     });
 });
 
-// POST /api/atv/views
+// POST /api/all-things-viewer/views
 // Route for creating a new view
 router.post("/views", (req, res, next) => {
   let data = { ...req.body };
@@ -212,7 +212,7 @@ router.post("/views", (req, res, next) => {
     });
 });
 
-// DELETE /api/atv/views
+// DELETE /api/all-things-viewer/views
 // Route for creating a new view
 router.delete("/views/:view_ndx", (req, res, next) => {
   ATV_Views.destroy({
@@ -220,8 +220,8 @@ router.delete("/views/:view_ndx", (req, res, next) => {
       view_ndx: req.params.view_ndx,
       assoc_user_id: {
         [Op.contains]: [req.user.sub],
-      }
-    }
+      },
+    },
   })
     .then(data => {
       res.sendStatus(200);

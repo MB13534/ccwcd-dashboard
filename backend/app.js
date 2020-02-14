@@ -23,7 +23,7 @@ app.use(setHeaders);
 
 // Set routes
 app.use("/api/data-management", DataManagementRoutes);
-app.use("/api/atv", AllThingsViewerRoutes);
+app.use("/api/all-things-viewer", AllThingsViewerRoutes);
 app.use("/api/historical-member-usage", HistoricalMemberUsageRoutes);
 app.use("/api/reports", ReportRoutes);
 app.use("/api/dummy", DummyRoutes);

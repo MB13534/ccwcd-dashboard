@@ -43,9 +43,15 @@ const AllThingsViewer = props => {
   const [columns, setColumns] = useState([]);
 
   // Request data for the filters
-  const [StructureTypes] = useFetchData("atv/structure-types", []);
-  const [Structures] = useFetchData("atv/structures", []);
-  const [MeasurementTypes] = useFetchData("atv/measurement-types", []);
+  const [StructureTypes] = useFetchData(
+    "all-things-viewer/structure-types",
+    []
+  );
+  const [Structures] = useFetchData("all-things-viewer/structures", []);
+  const [MeasurementTypes] = useFetchData(
+    "all-things-viewer/measurement-types",
+    []
+  );
   const AggregationData = [
     { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
     {
@@ -54,9 +60,10 @@ const AllThingsViewer = props => {
     },
     { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
   ];
-  const [view] = useFetchData(`atv/views/${viewNdx ? viewNdx : -9999}`, [
-    viewNdx,
-  ]);
+  const [view] = useFetchData(
+    `all-things-viewer/views/${viewNdx ? viewNdx : -9999}`,
+    [viewNdx]
+  );
 
   /**
    * Use the useFilterAssoc hook to populate the structures dropdown
@@ -150,7 +157,7 @@ const AllThingsViewer = props => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       const response = await axios.get(
-        `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
+        `${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
         { headers }
       );
       setWaitingState("complete", "no error");
@@ -224,7 +231,7 @@ const AllThingsViewer = props => {
           const token = await getTokenSilently();
           const headers = { Authorization: `Bearer ${token}` };
           const response = await axios.get(
-            `${process.env.REACT_APP_ENDPOINT}/api/atv/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${view.end_date}`,
+            `${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${view.end_date}`,
             { headers }
           );
           setData(response.data);
@@ -239,7 +246,7 @@ const AllThingsViewer = props => {
           const token = await getTokenSilently();
           const headers = { Authorization: `Bearer ${token}` };
           const response = await axios.get(
-            `${process.env.REACT_APP_ENDPOINT}/api/atv/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
+            `${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/${filterValues.aggregation_level}/${filterValues.structures}/${filterValues.measurement_types}/${filterValues.end_date}`,
             { headers }
           );
           setData(response.data);
@@ -272,7 +279,10 @@ const AllThingsViewer = props => {
 
         <FilterActions>
           <Submit />
-          <SaveFilters endpoint="atv/views" filterValues={filterValues} />
+          <SaveFilters
+            endpoint="all-things-viewer/views"
+            filterValues={filterValues}
+          />
         </FilterActions>
 
         <AdvancedFilters>

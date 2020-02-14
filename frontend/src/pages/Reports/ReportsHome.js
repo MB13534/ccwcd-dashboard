@@ -48,21 +48,11 @@ const ReportsHome = () => {
     }
     return "";
   }, [selectedReport]);
-  const viewAPIPath = useMemo(() => {
-    if (selectedReport) {
-      const paths = {
-        "1": "atv",
-        "5": "historical-member-usage",
-      };
-      return paths[selectedReport.report_ndx];
-    }
-    return "";
-  }, [selectedReport]);
   const [Reports] = useFetchData("reports", []);
-  const [SavedViews] = useFetchData(`${viewAPIPath || "atv"}/views`, [
-    formSubmitting,
-    viewAPIPath,
-  ]);
+  const [SavedViews] = useFetchData(
+    `${viewPath || "all-things-viewer"}/views`,
+    [formSubmitting, viewPath]
+  );
 
   const colors = ["#529fe2", "#4CAF50", "#CF6B94"];
 
@@ -93,7 +83,7 @@ const ReportsHome = () => {
 
       const { view_ndx } = view;
       await axios.delete(
-        `${process.env.REACT_APP_ENDPOINT}/api/${viewAPIPath}/views/${view_ndx}`,
+        `${process.env.REACT_APP_ENDPOINT}/api/${viewPath}/views/${view_ndx}`,
         { headers }
       );
       setWaitingState("complete", "no error");
