@@ -31,11 +31,11 @@ const HistoricalMemberUsageReport = props => {
   } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
   const [filterValues, setFilterValues] = useState({
-    wdid: ["0108260"], //0205019
+    wdid: ["0108260", "0205019"], //0205019
     end_month: 6,
     end_year: 2009,
-    dataset: "pumping",
-    display_type: "time-series",
+    dataset: "meter-readings",
+    display_type: "crosstab",
   });
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);

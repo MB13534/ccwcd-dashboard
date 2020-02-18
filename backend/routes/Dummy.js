@@ -120,15 +120,15 @@ router.get(
   }
 );
 
-// GET /api/dummy/historical-member-usage/meter-readings/:wdid/:end_month/:end_year/:display_type
+// GET /api/dummy/historical-member-usage/meter-readings/:wdid/:end_month/:end_year/time-series
 // Route for returning historical member usage meter readings
 // in time series format
 router.get(
-  "/historical-member-usage/:dataset/:wdid/:end_month/:end_year/:display_type",
+  "/historical-member-usage/:dataset/:wdid/:end_month/:end_year/time-series",
   checkPermission(["read:users"]),
   (req, res, next) => {
     try {
-      const { dataset, wdid, end_month, end_year, display_type } = req.params;
+      const { dataset, wdid, end_month, end_year } = req.params;
       let data = [];
       if (dataset === "meter-readings") {
         data = fs.readFileSync(
@@ -149,6 +149,52 @@ router.get(
         );
       });
       res.json(filteredData);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// GET /api/dummy/historical-member-usage/meter-readings/:wdid/:end_month/:end_year/crosstab
+// Route for returning historical member usage meter readings
+// in crosstab format
+router.get(
+  "/historical-member-usage/:dataset/:wdid/:end_month/:end_year/crosstab",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    try {
+      const { dataset, wdid, end_month, end_year } = req.params;
+      let data = [];
+      if (dataset === "meter-readings") {
+        data = fs.readFileSync(
+          "./dummy-data/historical_usage_meter_readings.json"
+        );
+      } else if (dataset === "pumping") {
+        data = fs.readFileSync("./dummy-data/historical_usage_pumping.json");
+      } else if (dataset === "depletions") {
+        data = fs.readFileSync("./dummy-data/historical_usage_depletions.json");
+      }
+
+      const parsedData = JSON.parse(data);
+      const filteredData = parsedData.filter(d => {
+        return (
+          wdid.split(",").includes(d.wdid) &&
+          d.month <= end_month &&
+          d.year <= end_year
+        );
+      });
+      let crosstabbedData = [];
+
+      if (dataset === "meter-readings") {
+        crosstabbedData = crosstab(
+          filteredData,
+          "date_read",
+          "wdid",
+          "reading"
+        );
+      }
+
+      res.json(crosstabbedData);
     } catch (error) {
       next(error);
     }
