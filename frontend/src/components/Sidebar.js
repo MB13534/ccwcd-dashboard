@@ -139,15 +139,6 @@ const Sidebar = props => {
       rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
-      link: "historical-member-usage",
-      title: "Historical Member Usage",
-      activePath: "historical-member-usage",
-      icon: UsageIcon,
-      exact: true,
-      loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
-    },
-    {
       link: "reports",
       title: "Reports",
       activePath: "reports",
