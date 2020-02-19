@@ -286,6 +286,12 @@ const ManageView = props => {
     return extractDate(calculateStartDate(days, endDate));
   };
 
+  /**
+   * Utility function used to handle when the user deletes a chip
+   * selection from the View Summary section
+   * @param {string} name filter field name
+   * @param {string || number} value value associated with the deleted chip
+   */
   const handleChipFilterDelete = (name, value) => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
@@ -332,8 +338,6 @@ const ManageView = props => {
       }
 
       newValues[name] = newFilterValues;
-
-      // TODO add validate dependent dropdowns logic for structures and measurement types
       return newValues;
     });
   };
