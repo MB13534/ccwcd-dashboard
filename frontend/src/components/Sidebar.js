@@ -121,14 +121,6 @@ const Sidebar = props => {
       rolesRequired: ["LRE Admin"],
     },
     {
-      link: "docs/overview",
-      title: "Docs",
-      activePath: "docs",
-      icon: DocsIcon,
-      loginRequired: true,
-      rolesRequired: ["LRE Admin"],
-    },
-    {
       link: "all-things-viewer",
       title: "All Things Viewer",
       activePath: "all-things-viewer",
