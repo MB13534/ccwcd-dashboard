@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const FilterActions = ({ endpoint, filterValues }) => {
+const FilterActions = ({ endpoint, redirect, filterValues }) => {
   const classes = useStyles();
   let history = useHistory();
   const [saveViewVisibility, handleSaveViewVisibility] = useVisibility(false);
@@ -86,7 +86,7 @@ const FilterActions = ({ endpoint, filterValues }) => {
       handleSaveViewVisibility();
       setWaitingState("complete", "no error");
       setFormValues({ view_name: "", view_description: "" });
-      goTo(history, `reports/all-things-viewer/${view.data.view_ndx}`);
+      goTo(history, `${redirect}/${view.data.view_ndx}`);
     } catch (err) {
       console.error(err);
       setWaitingState("complete", "error");

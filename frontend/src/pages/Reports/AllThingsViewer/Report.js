@@ -281,6 +281,7 @@ const AllThingsViewer = props => {
           <Submit />
           <SaveFilters
             endpoint="all-things-viewer/views"
+            redirect="all-things-viewer"
             filterValues={filterValues}
           />
         </FilterActions>
