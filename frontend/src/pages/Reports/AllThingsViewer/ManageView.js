@@ -286,6 +286,58 @@ const ManageView = props => {
     return extractDate(calculateStartDate(days, endDate));
   };
 
+  const handleChipFilterDelete = (name, value) => {
+    setFilterValues(prevState => {
+      let newValues = { ...prevState };
+      const newFilterValues = [...newValues[name]];
+      const index = newValues[name].indexOf(value);
+      newFilterValues.splice(index, 1);
+
+      // logic that clears selections for structures and measurement types
+      // that should no longer show up if a structure type is removed
+      if (name === "structure_types") {
+        const newStructureSelections = validateDependentSelections({
+          previousParentSelections: newValues[name],
+          newParentSelections: newFilterValues,
+          childData: Structures,
+          previousChildSelections: filterValues.structures,
+          assocField: "assoc_structure_type_ndx",
+          valueField: "structure_ndx",
+        });
+
+        const newMeasurementTypeSelections = validateDependentSelections({
+          previousParentSelections: newValues.structures,
+          newParentSelections: newStructureSelections,
+          childData: MeasurementTypes,
+          previousChildSelections: filterValues.measurement_types,
+          assocField: "assoc_structure_ndx",
+          valueField: "measure_type_ndx",
+        });
+
+        newValues.structures = newStructureSelections;
+        newValues.measurement_types = newMeasurementTypeSelections;
+      }
+
+      // logic that clears selections for measurement types
+      // that should no longer show up if a structure is removed
+      if (name === "structures") {
+        newValues.measurement_types = validateDependentSelections({
+          previousParentSelections: newValues[name],
+          newParentSelections: newFilterValues,
+          childData: MeasurementTypes,
+          previousChildSelections: filterValues.measurement_types,
+          assocField: "assoc_structure_ndx",
+          valueField: "measure_type_ndx",
+        });
+      }
+
+      newValues[name] = newFilterValues;
+
+      // TODO add validate dependent dropdowns logic for structures and measurement types
+      return newValues;
+    });
+  };
+
   /**
    * Utility function used to prepare form values
    * for submission to the database
@@ -611,7 +663,12 @@ const ManageView = props => {
                         key={chip.structure_type_ndx}
                         label={chip.structure_type_desc}
                         className={classes.chip}
-                        onDelete={() => {}}
+                        onDelete={() =>
+                          handleChipFilterDelete(
+                            "structure_types",
+                            chip.structure_type_ndx
+                          )
+                        }
                       />
                     ))}
                   </div>
@@ -630,7 +687,12 @@ const ManageView = props => {
                         key={chip.structure_ndx}
                         label={chip.structure_desc}
                         className={classes.chip}
-                        onDelete={() => {}}
+                        onDelete={() =>
+                          handleChipFilterDelete(
+                            "structures",
+                            chip.structure_ndx
+                          )
+                        }
                       />
                     ))}
                   </div>
@@ -651,7 +713,12 @@ const ManageView = props => {
                         key={chip.measure_type_ndx}
                         label={chip.measure_type_desc}
                         className={classes.chip}
-                        onDelete={() => {}}
+                        onDelete={() =>
+                          handleChipFilterDelete(
+                            "measurement_types",
+                            chip.measure_type_ndx
+                          )
+                        }
                       />
                     ))}
                   </div>
