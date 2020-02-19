@@ -13,7 +13,6 @@ import LogoutIcon from "@material-ui/icons/ExitToApp";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import EcoIcon from "@material-ui/icons/Eco";
-import UsageIcon from "@material-ui/icons/DataUsage";
 import ReportsIcon from "@material-ui/icons/Assignment";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
