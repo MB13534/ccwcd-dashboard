@@ -1,7 +1,14 @@
 import React, { useState, useMemo } from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import "../../../node_modules/react-vis/dist/style.css";
-import { Typography } from "@material-ui/core";
+import {
+  Typography,
+  Collapse,
+  Button,
+  Tooltip,
+  IconButton,
+} from "@material-ui/core";
 import {
   FlexibleWidthXYPlot,
   XAxis,
@@ -11,6 +18,10 @@ import {
   Crosshair,
   DiscreteColorLegend,
 } from "react-vis";
+import MultiSelectFilter from "../Filters/MultiSelectFilter";
+import useGraph from "../../hooks/useGraph";
+import useVisibility from "../../hooks/useVisibility";
+import ColumnsIcon from "@material-ui/icons/ViewColumn";
 
 const useStyles = makeStyles(theme => ({
   tooltip: {
@@ -37,26 +48,58 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const SeriesToggles = ({
+  columns,
+  visible,
+  selections,
+  visibilityHandler,
+  handleToggle,
+}) => {
+  const classes = useStyles();
+
+  const handleFilter = event => {
+    handleToggle(event.target.value);
+  };
+
+  return (
+    <Collapse in={visible}>
+      <div className={classes.filters}>
+        <Button onClick={visibilityHandler}>Hide</Button>
+        <div>
+          <MultiSelectFilter
+            name="series"
+            label="Series"
+            valueField="accessor"
+            displayField="label"
+            data={columns}
+            selected={selections}
+            onChange={handleFilter}
+          />
+        </div>
+      </div>
+    </Collapse>
+  );
+};
+
+SeriesToggles.propTypes = {
+  columns: PropTypes.array.isRequired,
+  visible: PropTypes.bool.isRequired,
+  selections: PropTypes.array.isRequired,
+  visibilityHandler: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func.isRequired,
+};
+
 const LineGraph = ({ data, columns, title }) => {
   const classes = useStyles();
+  const { graphData, filteredKeys, handleFilteredKeys } = useGraph(
+    data,
+    columns
+  );
+  const [
+    seriesTogglesVisibility,
+    handleSeriesTogglesVisibility,
+  ] = useVisibility(false);
   const [crosshairValues, setCrosshairValues] = useState([]);
-  const graphData = useMemo(() => {
-    const series = columns.filter(d => d.type === "series");
-    const category = columns.filter(d => d.type === "category")[0];
-    const seriesData = series.map(d => {
-      const seriesRecords = data.map(dd => [
-        dd[category.accessor],
-        dd[d.accessor],
-        d.accessor,
-      ]);
-      return seriesRecords.map(rec => ({
-        x: new Date(rec[0]),
-        y: +rec[1],
-        seriesLabel: rec[2],
-      }));
-    });
-    return seriesData;
-  }, [data, columns]);
 
   // Color scale used for 5 or less series
   const DISCRETE_COLOR_RANGE = [
@@ -121,6 +164,33 @@ const LineGraph = ({ data, columns, title }) => {
           {title}
         </Typography>
       )}
+      {data.length > 0 && (
+        <div className={classes.controlsBar}>
+          <div onClick={handleSeriesTogglesVisibility}>
+            <Tooltip title="Toggle Series">
+              <IconButton aria-label="Toggle Series">
+                <ColumnsIcon
+                  color={seriesTogglesVisibility ? "primary" : "inherit"}
+                />
+              </IconButton>
+            </Tooltip>
+            <Typography
+              variant="button"
+              display="inline"
+              color={seriesTogglesVisibility ? "primary" : "initial"}
+            >
+              Toggle Series
+            </Typography>
+          </div>
+        </div>
+      )}
+      <SeriesToggles
+        columns={columns}
+        selections={filteredKeys}
+        visible={seriesTogglesVisibility}
+        visibilityHandler={handleSeriesTogglesVisibility}
+        handleToggle={handleFilteredKeys}
+      />
       <FlexibleWidthXYPlot
         height={400}
         xType="time"
@@ -172,7 +242,9 @@ const LineGraph = ({ data, columns, title }) => {
         orientation="horizontal"
         width={900}
         items={columns
-          .filter(col => col.type === "series")
+          .filter(
+            col => col.type === "series" && filteredKeys.includes(col.accessor)
+          )
           .map(col => col.label)}
       />
     </div>
