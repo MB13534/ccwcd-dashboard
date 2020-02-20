@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, REAL, DATE, STRING } = DataTypes;
   const Daily15Minute = sequelize.define(
-    "atv_data_15minute",
+    "atv_data_15minute_table",
     {
       station_name: {
         type: STRING,

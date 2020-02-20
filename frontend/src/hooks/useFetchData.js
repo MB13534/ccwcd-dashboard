@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios';
-import { useAuth0 } from './auth';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useAuth0 } from "./auth";
 
 const useFetchData = (endpoint, dependencies = []) => {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { getTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -17,10 +17,14 @@ const useFetchData = (endpoint, dependencies = []) => {
         const token = await getTokenSilently();
 
         // Create request headers with token authorization
-        const headers = { 'Authorization': `Bearer ${token}` };
+        const headers = { Authorization: `Bearer ${token}` };
 
-        const fetchedData = await axios.get(`${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`, { headers });
-        if (!didCancel) { // Ignore if we started fetching something else
+        const fetchedData = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`,
+          { headers }
+        );
+        if (!didCancel) {
+          // Ignore if we started fetching something else
           setData(fetchedData.data);
           setIsLoading(false);
         }
@@ -35,11 +39,13 @@ const useFetchData = (endpoint, dependencies = []) => {
       }
     }
     getData();
-    return () => { didCancel = true; }; // Remember if we start fetching something else
+    return () => {
+      didCancel = true;
+    }; // Remember if we start fetching something else
     // eslint-disable-next-line
   }, dependencies);
 
   return [data, isLoading];
-}
+};
 
 export default useFetchData;

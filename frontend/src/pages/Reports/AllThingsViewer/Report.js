@@ -60,7 +60,7 @@ const AllThingsViewer = props => {
     },
     { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
   ];
-  const [view] = useFetchData(
+  const [view, viewLoading] = useFetchData(
     `all-things-viewer/views/${viewNdx ? viewNdx : -9999}`,
     [viewNdx]
   );
@@ -184,6 +184,7 @@ const AllThingsViewer = props => {
               type: "category",
               label: "Date",
               accessor: key,
+              width: 120,
               filter: {
                 enabled: true,
                 type: "date",
@@ -197,6 +198,7 @@ const AllThingsViewer = props => {
             type: "series",
             label: key,
             accessor: key,
+            width: 120,
             filter: {
               enabled: false,
               type: "number",
@@ -216,7 +218,7 @@ const AllThingsViewer = props => {
    * TODO potentially refactor this into a useCallback
    */
   useEffect(() => {
-    if (view && view.length !== 0) {
+    if (!viewLoading && view && view.length !== 0) {
       setFilterValues(prevState => {
         let newValues = { ...prevState };
         newValues.structure_types = view.structure_types;
@@ -240,7 +242,7 @@ const AllThingsViewer = props => {
           setData([]);
         }
       })();
-    } else {
+    } else if (!viewLoading) {
       (async () => {
         try {
           const token = await getTokenSilently();
@@ -256,7 +258,7 @@ const AllThingsViewer = props => {
         }
       })();
     }
-  }, [view]); //eslint-disable-line
+  }, [view, viewLoading]); //eslint-disable-line
 
   return (
     <Report>

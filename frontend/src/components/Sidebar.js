@@ -8,7 +8,6 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
-import DocsIcon from "@material-ui/icons/Book";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountIcon from "@material-ui/icons/AccountCircle";

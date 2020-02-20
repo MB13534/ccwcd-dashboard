@@ -7,6 +7,7 @@ import {
   TableCell,
   TableRow,
   TableSortLabel,
+  TablePagination,
   Typography,
   TableHead,
   IconButton,
@@ -23,6 +24,7 @@ import ColumnsIcon from "@material-ui/icons/ViewColumn";
 import DownloadIcon from "@material-ui/icons/CloudDownload";
 import { CSVLink } from "react-csv";
 import useTable from "../../hooks/useTable";
+import useVisibility from "../../hooks/useVisibility";
 import Filters from "./Filters";
 import ColumnToggles from "./ColumnToggles";
 import SwitchFilter from "../Filters/SwitchFilter";
@@ -32,6 +34,7 @@ import LoadingIcon from "../../images/loading.svg";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
+    paddingBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750,
@@ -142,11 +145,31 @@ const DataTable = ({ data, columns, title, height, loading, ...props }) => {
     handleFilteredValues,
     handleExcludeNulls,
   } = useTable(data, columns);
-  const [filtersVisible, setFiltersVisible] = useState(false);
-  const [columnTogglesVisible, setColumnTogglesVisible] = useState(false);
-  const [dataDownloadVisible, setDataDownloadVisibile] = useState(false);
+  const [filtersVisibility, handleFiltersVisibility] = useVisibility(false);
+  const [
+    columnTogglesVisibility,
+    handleColumnTogglesVisibility,
+  ] = useVisibility(false);
+  const [dataDownloadVisibility, handleDataDownloadVisibility] = useVisibility(
+    false
+  );
   const [fileName, setFileName] = useState("");
+  const [activePage, setActivePage] = useState(0);
+  const rowsPerPage = 60;
 
+  /**
+   * Event handler for table pagination
+   * @param {*} event
+   * @param {*} newPage
+   */
+  const handleChangePage = (event, newPage) => {
+    setActivePage(newPage);
+  };
+
+  /**
+   * Utility function used to set height and overflow
+   * styles for the table
+   */
   const setStyles = () => {
     if (height) {
       return {
@@ -155,18 +178,6 @@ const DataTable = ({ data, columns, title, height, loading, ...props }) => {
       };
     }
     return {};
-  };
-
-  const handleColumnTogglesVisibility = () => {
-    setColumnTogglesVisible(state => !state);
-  };
-
-  const handleFiltersVisibility = () => {
-    setFiltersVisible(state => !state);
-  };
-
-  const handleDataDownloadVisibility = () => {
-    setDataDownloadVisibile(state => !state);
   };
 
   if (loading) {
@@ -209,14 +220,14 @@ const DataTable = ({ data, columns, title, height, loading, ...props }) => {
                   <Tooltip title="Filter Records">
                     <IconButton aria-label="Filter Records">
                       <FilterListIcon
-                        color={filtersVisible ? "primary" : "inherit"}
+                        color={filtersVisibility ? "primary" : "inherit"}
                       />
                     </IconButton>
                   </Tooltip>
                   <Typography
                     variant="button"
                     display="inline"
-                    color={filtersVisible ? "primary" : "initial"}
+                    color={filtersVisibility ? "primary" : "initial"}
                   >
                     Filter Records
                   </Typography>
@@ -228,14 +239,14 @@ const DataTable = ({ data, columns, title, height, loading, ...props }) => {
                   <Tooltip title="Toggle Columns">
                     <IconButton aria-label="Toggle Columns">
                       <ColumnsIcon
-                        color={columnTogglesVisible ? "primary" : "inherit"}
+                        color={columnTogglesVisibility ? "primary" : "inherit"}
                       />
                     </IconButton>
                   </Tooltip>
                   <Typography
                     variant="button"
                     display="inline"
-                    color={columnTogglesVisible ? "primary" : "initial"}
+                    color={columnTogglesVisibility ? "primary" : "initial"}
                   >
                     Toggle Columns
                   </Typography>
@@ -265,14 +276,14 @@ const DataTable = ({ data, columns, title, height, loading, ...props }) => {
             </div>
             <Filters
               filters={filters}
-              visible={filtersVisible}
+              visible={filtersVisibility}
               visibilityHandler={handleFiltersVisibility}
               handleFilter={handleFilteredValues}
             />
             <ColumnToggles
               columns={columns}
               selections={filteredKeys}
-              visible={columnTogglesVisible}
+              visible={columnTogglesVisibility}
               visibilityHandler={handleColumnTogglesVisibility}
               handleToggle={handleFilteredKeys}
             />
@@ -301,25 +312,40 @@ const DataTable = ({ data, columns, title, height, loading, ...props }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableData.map(row => (
-                  <TableRow key={Math.random() * 9999999}>
-                    {keys.map(key => (
-                      <TableCell key={Math.random() * 9999999}>
-                        {row[key]}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
+                {tableData
+                  .slice(
+                    activePage * rowsPerPage,
+                    activePage * rowsPerPage + rowsPerPage
+                  )
+                  .map(row => (
+                    <TableRow key={Math.random() * 9999999}>
+                      {keys.map(key => (
+                        <TableCell key={Math.random() * 9999999}>
+                          {row[key]}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </React.Fragment>
         )}
       </div>
+      {tableData.length > rowsPerPage && (
+        <TablePagination
+          rowsPerPageOptions={[31]}
+          component="div"
+          count={tableData.length}
+          rowsPerPage={rowsPerPage}
+          page={activePage}
+          onChangePage={handleChangePage}
+        />
+      )}
       {/* Data Download Dialog */}
       <Dialog
         onClose={handleDataDownloadVisibility}
         aria-labelledby="simple-dialog-title"
-        open={dataDownloadVisible}
+        open={dataDownloadVisibility}
         fullWidth={true}
         maxWidth="sm"
         className={classes.dialog}
