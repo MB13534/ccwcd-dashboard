@@ -5,19 +5,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
   Paper,
-  TextField,
   Stepper,
   Step,
-  StepLabel,
+  StepButton,
   StepContent,
   Button,
   Grid,
   Chip,
 } from "@material-ui/core";
+import { TextField, TextArea, DatePicker } from "@lrewater/lre-react";
 import Layout from "../../../components/Layout";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import MultiSelectFilter from "../../../components/Filters/MultiSelectFilter";
-import SingleSelectFilter from "../../../components/Filters/SingleSelectFilter";
 import useFetchData from "../../../hooks/useFetchData";
 import useFilterAssoc from "../../../hooks/useFilterAssoc";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
@@ -27,7 +25,10 @@ import {
   extractDate,
   calculateStartDate,
 } from "../../../util";
-import DateFilter from "../../../components/Filters/DateFilter";
+import StructureTypesFilter from "../../../components/Filters/StructureTypesFilter";
+import StructuresFilter from "../../../components/Filters/StructuresFilter";
+import MeasurementTypesFilter from "../../../components/Filters/MeasurementTypesFilter";
+import AggregationLevelFilter from "../../../components/Filters/AggregationLevelFilter";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -155,45 +156,6 @@ const ManageView = props => {
   );
 
   /**
-   * Event handler for multi-select select all functionality
-   * @param {string} name name of active mulit-select
-   */
-  const handleSelectAll = name => {
-    setFilterValues(prevState => {
-      let newValues = { ...prevState };
-      if (name === "structure_types") {
-        newValues[name] = StructureTypes.map(d => d.structure_type_ndx);
-      } else if (name === "structures") {
-        newValues[name] = filteredStructures.map(d => d.structure_ndx);
-      } else if (name === "measurement_types") {
-        newValues[name] = filteredMeasurementTypes.map(d => d.measure_type_ndx);
-      }
-      return newValues;
-    });
-  };
-
-  /**
-   * Event handler for multi-select select none functionality
-   * @param {string} name name of active mulit-select
-   */
-  const handleSelectNone = name => {
-    setFilterValues(prevState => {
-      let newValues = { ...prevState };
-      if (name === "structure_types") {
-        newValues[name] = [];
-        newValues.structures = [];
-        newValues.measurement_types = [];
-      } else if (name === "structures") {
-        newValues[name] = [];
-        newValues.measurement_types = [];
-      } else if (name === "measurement_types") {
-        newValues[name] = [];
-      }
-      return newValues;
-    });
-  };
-
-  /**
    * Event handler for the filters bar
    * The values state is updated whenever a filter changes
    * @param {object} event JavaScript event object
@@ -250,6 +212,10 @@ const ManageView = props => {
       }
       return newValues;
     });
+  };
+
+  const handleStep = index => {
+    setActiveStep(index);
   };
 
   /**
@@ -423,9 +389,15 @@ const ManageView = props => {
             <Grid container>
               <Grid item xs={12} md={7}>
                 <form onSubmit={handleSubmit}>
-                  <Stepper activeStep={activeStep} orientation="vertical">
+                  <Stepper
+                    nonLinear
+                    activeStep={activeStep}
+                    orientation="vertical"
+                  >
                     <Step>
-                      <StepLabel>Details</StepLabel>
+                      <StepButton onClick={() => handleStep(0)}>
+                        Details
+                      </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -436,46 +408,21 @@ const ManageView = props => {
                           tote bag salvia migas.
                         </Typography>
                         <TextField
-                          id="view_name"
-                          variant="outlined"
-                          label="View Name"
-                          fullWidth
-                          type="text"
                           name="view_name"
-                          value={filterValues.view_name}
-                          className={classes.textField}
-                          onChange={handleFilter}
-                          placeholder="Name"
-                          InputProps={{
-                            color: "primary",
-                            classes: { root: classes.outlined },
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                            classes: { root: classes.outlinedLabel },
-                          }}
-                        />
-                        <TextField
-                          id="view_description"
-                          multiline
+                          label="View Name"
+                          variant="outlined"
                           fullWidth
+                          value={filterValues.view_name}
+                          onChange={handleFilter}
+                        />
+                        <TextArea
+                          name="view_description"
+                          label="View Description"
                           rows="4"
                           variant="outlined"
-                          label="View Description"
-                          type="text"
-                          name="view_description"
+                          fullWidth
                           value={filterValues.view_description}
-                          className={classes.textField}
                           onChange={handleFilter}
-                          placeholder="Description"
-                          InputProps={{
-                            color: "primary",
-                            classes: { root: classes.outlined },
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                            classes: { root: classes.outlinedLabel },
-                          }}
                         />
                         <div className={classes.actionsContainer}>
                           <div>
@@ -499,7 +446,9 @@ const ManageView = props => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepLabel>Measurements</StepLabel>
+                      <StepButton onClick={() => handleStep(1)}>
+                        Measurements
+                      </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -510,42 +459,24 @@ const ManageView = props => {
                           tote bag salvia migas.
                         </Typography>
                         {/* Structure Types filter */}
-                        <MultiSelectFilter
-                          name="structure_types"
-                          label="Station Types"
-                          valueField="structure_type_ndx"
-                          displayField="structure_type_desc"
+                        <StructureTypesFilter
                           data={StructureTypes}
-                          selected={filterValues.structure_types}
+                          value={filterValues.structure_types}
                           onChange={handleFilter}
-                          onSelectAll={handleSelectAll}
-                          onSelectNone={handleSelectNone}
                         />
 
                         {/* Structures filter */}
-                        <MultiSelectFilter
-                          name="structures"
-                          label="Structures"
-                          valueField="structure_ndx"
-                          displayField="structure_desc"
+                        <StructuresFilter
                           data={filteredStructures}
-                          selected={filterValues.structures}
+                          value={filterValues.structures}
                           onChange={handleFilter}
-                          onSelectAll={handleSelectAll}
-                          onSelectNone={handleSelectNone}
                         />
 
                         {/* Measurement Types Filter */}
-                        <MultiSelectFilter
-                          name="measurement_types"
-                          label="Measurements Types"
-                          valueField="measure_type_ndx"
-                          displayField="measure_type_desc"
+                        <MeasurementTypesFilter
                           data={filteredMeasurementTypes}
-                          selected={filterValues.measurement_types}
+                          value={filterValues.measurement_types}
                           onChange={handleFilter}
-                          onSelectAll={handleSelectAll}
-                          onSelectNone={handleSelectNone}
                         />
                         <div className={classes.actionsContainer}>
                           <div>
@@ -569,7 +500,9 @@ const ManageView = props => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepLabel>Period of Record</StepLabel>
+                      <StepButton onClick={() => handleStep(2)}>
+                        Period of Record
+                      </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -580,18 +513,14 @@ const ManageView = props => {
                           tote bag salvia migas.
                         </Typography>
                         {/* Aggregation Level Filter */}
-                        <SingleSelectFilter
-                          name="aggregation_level"
-                          label="Aggregation Level"
-                          valueField="aggregation_ndx"
-                          displayField="aggregation_desc"
+                        <AggregationLevelFilter
                           data={AggregationData}
-                          selected={filterValues.aggregation_level}
+                          value={filterValues.aggregation_level}
                           onChange={handleFilter}
                         />
 
                         {/* End Date */}
-                        <DateFilter
+                        <DatePicker
                           name="end_date"
                           label="End Date"
                           value={filterValues.end_date}

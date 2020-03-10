@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MultiSelectFilter from "./MultiSelectFilter";
+import { MultiSelect } from "@lrewater/lre-react";
 
-const MeasurementTypesFilter = ({ data, selected, onChange }) => {
+const MeasurementTypesFilter = ({ data, value, onChange }) => {
   return (
-    <MultiSelectFilter
+    <MultiSelect
       name="measurement_types"
-      label="Measurement Tpyes"
+      label="Measurement Types"
+      variant="outlined"
       valueField="measure_type_ndx"
       displayField="measure_type_desc"
       data={data}
-      selected={selected}
+      value={value}
       onChange={onChange}
     />
   );
@@ -18,7 +19,7 @@ const MeasurementTypesFilter = ({ data, selected, onChange }) => {
 
 MeasurementTypesFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired,
+  value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

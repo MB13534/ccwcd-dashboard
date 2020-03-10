@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SingleSelectFilter from "./SingleSelectFilter";
+import { Select } from "@lrewater/lre-react";
 
-const DisplayTypeFilter = ({ data, selected, onChange }) => {
+const DisplayTypeFilter = ({ data, value, onChange }) => {
   return (
-    <SingleSelectFilter
+    <Select
       name="display_type"
       label="Display Type"
+      variant="outlined"
       valueField="display_type_ndx"
       displayField="display_type_desc"
       data={data}
-      selected={selected}
+      value={value}
       onChange={onChange}
       width={200}
     />
@@ -19,7 +20,7 @@ const DisplayTypeFilter = ({ data, selected, onChange }) => {
 
 DisplayTypeFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

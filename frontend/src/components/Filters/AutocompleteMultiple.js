@@ -107,7 +107,7 @@ const AutocompleteMultiple = props => {
     valueField,
     displayField,
     data,
-    selected,
+    value,
     onChange,
   } = props;
 
@@ -138,14 +138,14 @@ const AutocompleteMultiple = props => {
       disableCloseOnSelect
       onChange={handleChange}
       getOptionLabel={option => option[displayField]}
-      value={selected}
-      renderOption={(option, { selected }) => {
+      value={value}
+      renderOption={(option, { value }) => {
         return (
           <React.Fragment>
             <Checkbox
               style={{ marginRight: 8 }}
               color="primary"
-              checked={selected}
+              checked={value}
             />
             {option[displayField]}
           </React.Fragment>

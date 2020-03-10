@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SingleSelectFilter from "./SingleSelectFilter";
+import { Select } from "@lrewater/lre-react";
 
-const EndYearFilter = ({ data, selected, onChange }) => {
+const EndYearFilter = ({ data, value, onChange }) => {
   return (
-    <SingleSelectFilter
+    <Select
       name="end_year"
       label="End Year"
+      variant="outlined"
       valueField="year_ndx"
       displayField="year_desc"
       data={data}
-      selected={selected}
+      value={value}
       onChange={onChange}
       width={150}
     />
@@ -19,7 +20,7 @@ const EndYearFilter = ({ data, selected, onChange }) => {
 
 EndYearFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

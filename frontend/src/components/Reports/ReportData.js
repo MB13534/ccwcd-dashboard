@@ -10,7 +10,7 @@ import {
 import HelpIcon from "@material-ui/icons/Help";
 import useFetchData from "../../hooks/useFetchData";
 import useVisibility from "../../hooks/useVisibility";
-import DataTable from "../DataTable";
+import { Table } from "@lrewater/lre-react";
 import LineGraph from "../DataVisualization/LineGraph";
 
 const useStyles = makeStyles(theme => ({
@@ -144,7 +144,7 @@ const ReportData = ({ title, data, columns, loading }) => {
   };
 
   /**
-   * Utility function to automatically update the DataTable title
+   * Utility function to automatically update the Table title
    * whenever the aggregation level or visualization types change
    */
   const setTableTitle = () => {
@@ -177,7 +177,7 @@ const ReportData = ({ title, data, columns, loading }) => {
       <div className={classes.mainContent}>
         <Paper className={classes.paper}>
           {visualizationType === "table" && (
-            <DataTable
+            <Table
               data={data}
               columns={columns}
               loading={loading}
@@ -204,7 +204,7 @@ const ReportData = ({ title, data, columns, loading }) => {
         className={classes.dialog}
       >
         <DialogTitle>Last Station Update Info</DialogTitle>
-        <DataTable
+        <Table
           data={LastUpdateData}
           columns={LastUpdateColumns}
           stickyHeader={true}

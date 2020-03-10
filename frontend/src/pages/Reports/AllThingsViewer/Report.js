@@ -16,11 +16,11 @@ import StructureTypesFilter from "../../../components/Filters/StructureTypesFilt
 import StructuresFilter from "../../../components/Filters/StructuresFilter";
 import MeasurementTypesFilter from "../../../components/Filters/MeasurementTypesFilter";
 import AggregationLevelFilter from "../../../components/Filters/AggregationLevelFilter";
-import DateFilter from "../../../components/Filters/DateFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
 import { extractDate, validateDependentSelections } from "../../../util";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import ReportData from "../../../components/Reports/ReportData";
+import { DatePicker } from "@lrewater/lre-react";
 
 const AllThingsViewer = props => {
   let { viewNdx } = useParams();
@@ -97,51 +97,50 @@ const AllThingsViewer = props => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
 
-      if (!value.includes("all/none")) {
-        // logic that clears selections for structures and measurement types
-        // that should no longer show up if a structure type is removed
-        if (name === "structure_types") {
-          const newStructureSelections = validateDependentSelections({
-            previousParentSelections: newValues[name],
-            newParentSelections: value,
-            childData: Structures,
-            previousChildSelections: filterValues.structures,
-            assocField: "assoc_structure_type_ndx",
-            valueField: "structure_ndx",
-          });
+      // logic that clears selections for structures and measurement types
+      // that should no longer show up if a structure type is removed
+      if (name === "structure_types") {
+        const newStructureSelections = validateDependentSelections({
+          previousParentSelections: newValues[name],
+          newParentSelections: value,
+          childData: Structures,
+          previousChildSelections: filterValues.structures,
+          assocField: "assoc_structure_type_ndx",
+          valueField: "structure_ndx",
+        });
 
-          const newMeasurementTypeSelections = validateDependentSelections({
-            previousParentSelections: newValues.structures,
-            newParentSelections: newStructureSelections,
-            childData: MeasurementTypes,
-            previousChildSelections: filterValues.measurement_types,
-            assocField: "assoc_structure_ndx",
-            valueField: "measure_type_ndx",
-          });
+        const newMeasurementTypeSelections = validateDependentSelections({
+          previousParentSelections: newValues.structures,
+          newParentSelections: newStructureSelections,
+          childData: MeasurementTypes,
+          previousChildSelections: filterValues.measurement_types,
+          assocField: "assoc_structure_ndx",
+          valueField: "measure_type_ndx",
+        });
 
-          newValues.structures = newStructureSelections;
-          newValues.measurement_types = newMeasurementTypeSelections;
-        }
-
-        // logic that clears selections for measurement types
-        // that should no longer show up if a structure is removed
-        if (name === "structures") {
-          newValues.measurement_types = validateDependentSelections({
-            previousParentSelections: newValues[name],
-            newParentSelections: value,
-            childData: MeasurementTypes,
-            previousChildSelections: filterValues.measurement_types,
-            assocField: "assoc_structure_ndx",
-            valueField: "measure_type_ndx",
-          });
-        }
-
-        if (type === "checkbox") {
-          newValues[name] = checked;
-        } else {
-          newValues[name] = value;
-        }
+        newValues.structures = newStructureSelections;
+        newValues.measurement_types = newMeasurementTypeSelections;
       }
+
+      // logic that clears selections for measurement types
+      // that should no longer show up if a structure is removed
+      if (name === "structures") {
+        newValues.measurement_types = validateDependentSelections({
+          previousParentSelections: newValues[name],
+          newParentSelections: value,
+          childData: MeasurementTypes,
+          previousChildSelections: filterValues.measurement_types,
+          assocField: "assoc_structure_ndx",
+          valueField: "measure_type_ndx",
+        });
+      }
+
+      if (type === "checkbox") {
+        newValues[name] = checked;
+      } else {
+        newValues[name] = value;
+      }
+
       return newValues;
     });
   };
@@ -265,17 +264,17 @@ const AllThingsViewer = props => {
       <FilterBar onSubmit={handleSubmit}>
         <StructureTypesFilter
           data={StructureTypes}
-          selected={filterValues.structure_types}
+          value={filterValues.structure_types}
           onChange={handleFilter}
         />
         <StructuresFilter
           data={filteredStructures}
-          selected={filterValues.structures}
+          value={filterValues.structures}
           onChange={handleFilter}
         />
         <MeasurementTypesFilter
           data={filteredMeasurementTypes}
-          selected={filterValues.measurement_types}
+          value={filterValues.measurement_types}
           onChange={handleFilter}
         />
 
@@ -291,13 +290,14 @@ const AllThingsViewer = props => {
         <AdvancedFilters>
           <AggregationLevelFilter
             data={AggregationData}
-            selected={filterValues.aggregation_level}
+            value={filterValues.aggregation_level}
             onChange={handleFilter}
           />
 
-          <DateFilter
+          <DatePicker
             name="end_date"
             label="End Date"
+            variant="outlined"
             value={filterValues.end_date}
             onChange={handleFilter}
           />

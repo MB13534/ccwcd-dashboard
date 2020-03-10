@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MultiSelectFilter from "./MultiSelectFilter";
+import { MultiSelect } from "@lrewater/lre-react";
 
-const StructureTypesFilter = ({ data, selected, onChange }) => {
+const StructureTypesFilter = ({ data, value, onChange }) => {
   return (
-    <MultiSelectFilter
+    <MultiSelect
       name="structure_types"
       label="Structure Types"
+      variant="outlined"
       valueField="structure_type_ndx"
       displayField="structure_type_desc"
       data={data}
-      selected={selected}
+      value={value}
       onChange={onChange}
     />
   );
@@ -18,7 +19,7 @@ const StructureTypesFilter = ({ data, selected, onChange }) => {
 
 StructureTypesFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired,
+  value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

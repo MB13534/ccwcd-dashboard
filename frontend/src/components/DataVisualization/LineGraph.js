@@ -18,7 +18,7 @@ import {
   Crosshair,
   DiscreteColorLegend,
 } from "react-vis";
-import MultiSelectFilter from "../Filters/MultiSelectFilter";
+import { MultiSelect } from "@lrewater/lre-react";
 import useGraph from "../../hooks/useGraph";
 import useVisibility from "../../hooks/useVisibility";
 import ColumnsIcon from "@material-ui/icons/ViewColumn";
@@ -66,13 +66,13 @@ const SeriesToggles = ({
       <div className={classes.filters}>
         <Button onClick={visibilityHandler}>Hide</Button>
         <div>
-          <MultiSelectFilter
+          <MultiSelect
             name="series"
             label="Series"
             valueField="accessor"
             displayField="label"
             data={columns}
-            selected={selections}
+            value={selections}
             onChange={handleFilter}
           />
         </div>

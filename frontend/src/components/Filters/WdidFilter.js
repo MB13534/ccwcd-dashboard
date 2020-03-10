@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import AutocompleteMultiple from "./AutocompleteMultiple";
 import { unique } from "../../util";
 
-const WdidFilter = ({ data, selected, onChange }) => {
+const WdidFilter = ({ data, value, onChange }) => {
   const displayValues = useMemo(() => {
     let obj = {};
     const ndxs = unique(data, "wdid_ndx");
@@ -17,13 +17,13 @@ const WdidFilter = ({ data, selected, onChange }) => {
   }, [data]);
 
   const mappedSelected = useMemo(() => {
-    return selected.map(d => {
+    return value.map(d => {
       return {
         wdid_ndx: d,
         wdid_desc: displayValues[d],
       };
     });
-  }, [selected, displayValues]);
+  }, [value, displayValues]);
 
   return (
     <AutocompleteMultiple
@@ -32,7 +32,7 @@ const WdidFilter = ({ data, selected, onChange }) => {
       label="WDID"
       displayField="wdid_desc"
       valueField="wdid_ndx"
-      selected={mappedSelected}
+      value={mappedSelected}
       onChange={onChange}
     />
   );
@@ -40,7 +40,7 @@ const WdidFilter = ({ data, selected, onChange }) => {
 
 WdidFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired,
+  value: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SingleSelectFilter from "./SingleSelectFilter";
+import { Select } from "@lrewater/lre-react";
 
-const EndMonthFilter = ({ data, selected, onChange }) => {
+const EndMonthFilter = ({ data, value, onChange }) => {
   return (
-    <SingleSelectFilter
+    <Select
       name="end_month"
       label="End Month"
+      variant="outlined"
       valueField="month_ndx"
       displayField="month_desc"
       data={data}
-      selected={selected}
+      value={value}
       onChange={onChange}
       width={150}
     />
@@ -19,7 +20,7 @@ const EndMonthFilter = ({ data, selected, onChange }) => {
 
 EndMonthFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

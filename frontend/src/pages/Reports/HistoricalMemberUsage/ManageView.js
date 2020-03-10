@@ -5,10 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
   Paper,
-  TextField,
   Stepper,
   Step,
-  StepLabel,
+  StepButton,
   StepContent,
   Button,
   Grid,
@@ -19,6 +18,7 @@ import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
+import { TextField, TextArea } from "@lrewater/lre-react";
 import EndMonthFilter from "../../../components/Filters/EndMonthFilter";
 import EndYearFilter from "../../../components/Filters/EndYearFilter";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
@@ -183,6 +183,10 @@ const ManageView = props => {
     });
   };
 
+  const handleStep = index => {
+    setActiveStep(index);
+  };
+
   /**
    * Handler for advancing to the next step
    */
@@ -278,9 +282,15 @@ const ManageView = props => {
             <Grid container>
               <Grid item xs={12} md={7}>
                 <form onSubmit={handleSubmit}>
-                  <Stepper activeStep={activeStep} orientation="vertical">
+                  <Stepper
+                    activeStep={activeStep}
+                    nonLinear
+                    orientation="vertical"
+                  >
                     <Step>
-                      <StepLabel>Details</StepLabel>
+                      <StepButton onClick={() => handleStep(0)}>
+                        Details
+                      </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -291,46 +301,21 @@ const ManageView = props => {
                           tote bag salvia migas.
                         </Typography>
                         <TextField
-                          id="view_name"
-                          variant="outlined"
-                          label="View Name"
-                          fullWidth
-                          type="text"
                           name="view_name"
-                          value={filterValues.view_name}
-                          className={classes.textField}
-                          onChange={handleFilter}
-                          placeholder="Name"
-                          InputProps={{
-                            color: "primary",
-                            classes: { root: classes.outlined },
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                            classes: { root: classes.outlinedLabel },
-                          }}
-                        />
-                        <TextField
-                          id="view_description"
-                          multiline
+                          label="View Name"
+                          variant="outlined"
                           fullWidth
+                          value={filterValues.view_name}
+                          onChange={handleFilter}
+                        />
+                        <TextArea
+                          name="view_description"
+                          label="View Description"
                           rows="4"
                           variant="outlined"
-                          label="View Description"
-                          type="text"
-                          name="view_description"
+                          fullWidth
                           value={filterValues.view_description}
-                          className={classes.textField}
                           onChange={handleFilter}
-                          placeholder="Description"
-                          InputProps={{
-                            color: "primary",
-                            classes: { root: classes.outlined },
-                          }}
-                          InputLabelProps={{
-                            shrink: true,
-                            classes: { root: classes.outlinedLabel },
-                          }}
                         />
                         <div className={classes.actionsContainer}>
                           <div>
@@ -354,7 +339,9 @@ const ManageView = props => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepLabel>Measurements</StepLabel>
+                      <StepButton onClick={() => handleStep(1)}>
+                        Measurements
+                      </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -367,17 +354,17 @@ const ManageView = props => {
                         {/* Structure Types filter */}
                         <WdidFilter
                           data={WDIDs}
-                          selected={filterValues.wdid}
+                          value={filterValues.wdid}
                           onChange={handleFilter}
                         />
                         <EndMonthFilter
                           data={MonthData}
-                          selected={filterValues.end_month}
+                          value={filterValues.end_month}
                           onChange={handleFilter}
                         />
                         <EndYearFilter
                           data={YearData}
-                          selected={filterValues.end_year}
+                          value={filterValues.end_year}
                           onChange={handleFilter}
                         />
                         <div className={classes.actionsContainer}>
@@ -402,7 +389,9 @@ const ManageView = props => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepLabel>Period of Record</StepLabel>
+                      <StepButton onClick={() => handleStep(2)}>
+                        Period of Record
+                      </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
@@ -415,13 +404,13 @@ const ManageView = props => {
                         {/* Aggregation Level Filter */}
                         <DatasetFilter
                           data={DatasetData}
-                          selected={filterValues.dataset}
+                          value={filterValues.dataset}
                           onChange={handleFilter}
                         />
 
                         <DisplayTypeFilter
                           data={DisplayTypeData}
-                          selected={filterValues.display_type}
+                          value={filterValues.display_type}
                           onChange={handleFilter}
                         />
                         <div className={classes.actionsContainer}>
