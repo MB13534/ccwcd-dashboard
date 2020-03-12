@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Autocomplete as MaterialAutocomplete } from "@material-ui/lab";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { useTheme, makeStyles } from "@material-ui/core/styles";
@@ -82,7 +82,7 @@ ListboxComponent.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     margin: theme.spacing(1),
-    width: 350,
+    // width: 350,
   },
   listbox: {
     "& ul": {
@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AutocompleteMultiple = props => {
+const Autocomplete = props => {
   const classes = useStyles();
   const {
     name,
@@ -108,25 +108,49 @@ const AutocompleteMultiple = props => {
     displayField,
     data,
     value,
+    multiple = false,
     onChange,
   } = props;
 
   const handleChange = (event, value) => {
-    const values = value.map(d => {
-      if (typeof d === "object") {
-        return d[valueField];
-      }
-      return d;
-    });
-    const newEvent = { ...event };
-    newEvent.target.name = name;
-    newEvent.target.value = values;
-    onChange(newEvent, values);
+    if (multiple) {
+      const values = value.map(d => {
+        if (typeof d === "object") {
+          return d[valueField];
+        }
+        return d;
+      });
+      const newEvent = { ...event };
+      newEvent.target.name = name;
+      newEvent.target.value = values;
+      onChange(newEvent, values);
+    } else {
+      const newEvent = { ...event };
+      newEvent.target.name = name;
+      newEvent.target.value = value ? value[valueField] : "";
+      onChange(newEvent);
+    }
+  };
+
+  const setRenderOption = (option, selected) => {
+    if (multiple) {
+      return (
+        <React.Fragment>
+          <Checkbox
+            style={{ marginRight: 8 }}
+            color="primary"
+            checked={selected}
+          />
+          {option[displayField]}
+        </React.Fragment>
+      );
+    }
+    return option[displayField];
   };
 
   return (
-    <Autocomplete
-      multiple
+    <MaterialAutocomplete
+      multiple={multiple}
       id={name}
       classes={{
         root: classes.root,
@@ -135,21 +159,12 @@ const AutocompleteMultiple = props => {
       }}
       ListboxComponent={ListboxComponent}
       options={data}
-      disableCloseOnSelect
+      disableCloseOnSelect={multiple}
       onChange={handleChange}
-      getOptionLabel={option => option[displayField]}
+      getOptionLabel={option => (option ? option[displayField] : "")}
       value={value}
-      renderOption={(option, { value }) => {
-        return (
-          <React.Fragment>
-            <Checkbox
-              style={{ marginRight: 8 }}
-              color="primary"
-              checked={value}
-            />
-            {option[displayField]}
-          </React.Fragment>
-        );
+      renderOption={(option, { selected }) => {
+        return setRenderOption(option, selected);
       }}
       getOptionSelected={(option, value) => {
         return option[valueField] === value[valueField];
@@ -166,17 +181,27 @@ const AutocompleteMultiple = props => {
           }}
         />
       )}
+      style={{
+        width: multiple ? 350 : 175,
+      }}
     />
   );
 };
 
-AutocompleteMultiple.propTypes = {
+Autocomplete.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   valueField: PropTypes.string.isRequired,
   displayField: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array,
+  ]),
+  multiple: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
 };
 
-export default AutocompleteMultiple;
+export default Autocomplete;

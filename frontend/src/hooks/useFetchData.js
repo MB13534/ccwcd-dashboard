@@ -7,6 +7,10 @@ const useFetchData = (endpoint, dependencies = []) => {
   const [isLoading, setIsLoading] = useState(true);
   const { getTokenSilently } = useAuth0();
 
+  const handleDataUpdate = data => {
+    setData(data);
+  };
+
   useEffect(() => {
     // Set up a cancellation source
     let didCancel = false;
@@ -45,7 +49,7 @@ const useFetchData = (endpoint, dependencies = []) => {
     // eslint-disable-next-line
   }, dependencies);
 
-  return [data, isLoading];
+  return [data, isLoading, handleDataUpdate];
 };
 
 export default useFetchData;

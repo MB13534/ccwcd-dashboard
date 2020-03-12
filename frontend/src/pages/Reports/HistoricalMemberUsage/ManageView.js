@@ -23,7 +23,7 @@ import EndMonthFilter from "../../../components/Filters/EndMonthFilter";
 import EndYearFilter from "../../../components/Filters/EndYearFilter";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
 import DisplayTypeFilter from "../../../components/Filters/DisplayTypeFilter";
-import WdidFilter from "../../../components/Filters/WdidFilter";
+import WdidFilter from "../../../components/Filters/WellsFilter";
 
 const useStyles = makeStyles(theme => ({
   root: {

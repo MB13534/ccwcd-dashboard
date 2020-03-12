@@ -75,6 +75,20 @@ db.Historical_Member_Usage_Views = require("./HistoricalMemberUsage/Views")(
 );
 
 /**
+ * Members Management models
+ */
+db.ContractsWellsMetersLanding = require("./MembersManagement/ContractsWellsMetersLanding")(
+  sequelize,
+  Sequelize
+);
+db.ContractsWellsMetersView = require("./MembersManagement/ContractsWellsMetersView")(
+  sequelize,
+  Sequelize
+);
+db.CWM_Meters = require("./MembersManagement/Meters")(sequelize, Sequelize);
+db.CWM_Wells = require("./MembersManagement/Wells")(sequelize, Sequelize);
+
+/**
  * Data Management Models
  */
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);

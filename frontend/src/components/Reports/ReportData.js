@@ -89,7 +89,7 @@ const ReportData = ({ title, data, columns, loading }) => {
   const [lastUpdateVisibility, handleLastUpdateVisibility] = useVisibility(
     false
   );
-  const [visualizationType, setVisualizationType] = useState("graph");
+  const [visualizationType, setVisualizationType] = useState("table");
 
   const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
 

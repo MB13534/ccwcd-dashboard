@@ -7,6 +7,7 @@ const AllThingsViewerRoutes = require("./routes/ATV");
 const HistoricalMemberUsageRoutes = require("./routes/HistoricalMemberUsage");
 const ReportRoutes = require("./routes/Reports");
 const DataManagementRoutes = require("./routes/DataManagement");
+const MembersManagementRoutes = require("./routes/MembersManagement");
 const DummyRoutes = require("./routes/Dummy");
 
 const { setHeaders } = require("./middleware");
@@ -25,6 +26,7 @@ app.use(setHeaders);
 app.use("/api/data-management", DataManagementRoutes);
 app.use("/api/all-things-viewer", AllThingsViewerRoutes);
 app.use("/api/historical-member-usage", HistoricalMemberUsageRoutes);
+app.use("/api/members-management", MembersManagementRoutes);
 app.use("/api/reports", ReportRoutes);
 app.use("/api/dummy", DummyRoutes);
 

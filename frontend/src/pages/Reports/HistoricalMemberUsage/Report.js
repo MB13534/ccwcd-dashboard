@@ -18,7 +18,7 @@ import DisplayTypeFilter from "../../../components/Filters/DisplayTypeFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import ReportData from "../../../components/Reports/ReportData";
-import WdidFilter from "../../../components/Filters/WdidFilter";
+import WdidFilter from "../../../components/Filters/WellsFilter";
 
 const HistoricalMemberUsageReport = props => {
   let { viewNdx } = useParams();
@@ -235,17 +235,17 @@ const HistoricalMemberUsageReport = props => {
       <FilterBar onSubmit={handleSubmit}>
         <WdidFilter
           data={WDIDs}
-          selected={filterValues.wdid}
+          value={filterValues.wdid}
           onChange={handleFilter}
         />
         <EndMonthFilter
           data={MonthData}
-          selected={filterValues.end_month}
+          value={filterValues.end_month}
           onChange={handleFilter}
         />
         <EndYearFilter
           data={YearData}
-          selected={filterValues.end_year}
+          value={filterValues.end_year}
           onChange={handleFilter}
         />
 
