@@ -40,7 +40,7 @@ const Toolbar = props => {
         <Switch
           checked={checked}
           value="exclude"
-          label={checked === "active" ? "Include Inactive" : "Exclude Inactive"}
+          label={checked === "active" ? "Show History" : "Hide History"}
           name="exclude"
           onChange={handleChange}
         />
@@ -98,7 +98,11 @@ const CwmTable = ({ refreshSwitch }) => {
   }, [Wells]);
 
   const columns = [
-    { title: "Contract", field: "contract_index" },
+    {
+      title: "Contract",
+      field: "contract_index",
+      customFilterAndSearch: (term, rowData) => term == rowData.contract_index,
+    },
     {
       title: "Well",
       field: "well_index",

@@ -37,7 +37,7 @@ const MetersFilter = ({ data, value, multiple = false, onChange }) => {
       multiple={multiple}
       data={data}
       name="meter_index"
-      label="Meters"
+      label="Meter"
       displayField="meter_sn"
       valueField="meter_index"
       value={mappedSelected}

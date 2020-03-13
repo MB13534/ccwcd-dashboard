@@ -36,7 +36,7 @@ const WdidFilter = ({ data, value, multiple = false, onChange }) => {
       multiple={multiple}
       data={data}
       name="well_index"
-      label="Wells"
+      label="Well"
       displayField="wdid"
       valueField="well_index"
       value={mappedSelected}

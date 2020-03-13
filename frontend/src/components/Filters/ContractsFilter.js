@@ -6,7 +6,7 @@ const ContractsFilter = ({ value, onChange }) => {
   return (
     <TextField
       name="contract_index"
-      label="Contracts"
+      label="Contract"
       variant="outlined"
       value={value}
       onChange={onChange}
