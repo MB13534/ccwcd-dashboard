@@ -1,20 +1,19 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import MaterialTable, { MTableToolbar } from "material-table";
+import MaterialTable from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import { Switch } from "@lrewater/lre-react";
-import { Button } from "@material-ui/core";
 import CustomEditField from "../../../components/MaterialTable/CustomEditField";
 
 const useStyles = makeStyles(theme => ({
   materialTable: {
-    "& th:last-child": {
-      textAlign: "left!important",
+    "& th:first-child": {
+      textAlign: "center!important",
+      paddingLeft: theme.spacing(2),
     },
   },
   toolbar: {
@@ -25,38 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Toolbar = props => {
-  const classes = useStyles();
-  const {
-    handleChange,
-    checked,
-    handleFilterVisibility,
-    filterVisibility,
-  } = props;
-  return (
-    <div>
-      <MTableToolbar {...props} />
-      <div className={classes.toolbar}>
-        <Switch
-          checked={checked}
-          value="exclude"
-          label={checked === "active" ? "Show History" : "Hide History"}
-          name="exclude"
-          onChange={handleChange}
-        />
-        <Button
-          color="primary"
-          className={classes.filterBtn}
-          onClick={() => handleFilterVisibility(state => !state)}
-        >
-          {filterVisibility ? "Hide" : "Show"} Contracts Filter
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-const CwmTable = ({ refreshSwitch, wells, meters }) => {
+const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
   const classes = useStyles();
   const {
     setWaitingState,
@@ -65,16 +33,12 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
-  const [exclude, setExclude] = useState(true);
-  const [filterVisibility, setFilterVisibility] = useState(false);
 
   const [
     tableData,
     isLoading,
     setTableData,
-  ] = useFetchData("members-management/contracts-wells-meters", [
-    refreshSwitch,
-  ]);
+  ] = useFetchData("members-management/meter-adjustments", [refreshSwitch]);
 
   const formattedMeters = useMemo(() => {
     let converted = {};
@@ -86,50 +50,46 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
     return converted;
   }, [meters]);
 
-  const formattedWells = useMemo(() => {
-    let converted = {};
-    if (wells.length > 0) {
-      wells.forEach(d => {
-        converted[d.well_index] = d.wdid;
-      });
-    }
-    return converted;
-  }, [wells]);
-
   const columns = [
-    {
-      title: "Contract",
-      field: "contract_index",
-      //eslint-disable-next-line
-      customFilterAndSearch: (term, rowData) => term == rowData.contract_index,
-    },
-    {
-      title: "Well",
-      field: "well_index",
-      lookup: formattedWells,
-      filtering: false,
-    },
     {
       title: "Meter",
       field: "meter_index",
       lookup: formattedMeters,
-      filtering: false,
     },
-    { title: "Start Date", field: "start_date", filtering: false },
-    { title: "End Date", field: "end_date", filtering: false },
-    { title: "Notes", field: "notes", filtering: false },
+    { title: "Date", field: "adjustment_date" },
+    { title: "Value", field: "adjustment_value" },
+    {
+      title: "Affected Readings",
+      field: "affected_readings",
+      editable: "never",
+    },
+    {
+      title: "Unadjusted Change",
+      field: "unadjusted_change",
+      editable: "never",
+    },
+    { title: "Adjusted Change", field: "Adjusted_change", editable: "never" },
+    {
+      title: "Pumping (AF)",
+      field: "calculated_pumping_af",
+      editable: "never",
+    },
+    { title: "Notes", field: "notes" },
   ];
 
   const submitUpdate = async record => {
     setWaitingState("in progress");
+    const rec = { ...record };
+    rec.remark = record.notes;
     try {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       await axios.put(
-        `${process.env.REACT_APP_ENDPOINT}/api/members-management/contracts-wells-meters`,
-        record,
+        `${process.env.REACT_APP_ENDPOINT}/api/members-management/meter-adjustments`,
+        rec,
         { headers }
       );
+      handleRefresh();
       setWaitingState("complete", "no error");
     } catch (err) {
       console.error(err);
@@ -145,19 +105,16 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       await axios.put(
-        `${process.env.REACT_APP_ENDPOINT}/api/members-management/contracts-wells-meters`,
+        `${process.env.REACT_APP_ENDPOINT}/api/members-management/meter-adjustments`,
         rec,
         { headers }
       );
+      handleRefresh();
       setWaitingState("complete", "no error");
     } catch (err) {
       console.error(err);
       setWaitingState("complete", "error");
     }
-  };
-
-  const handleExclude = () => {
-    setExclude(state => !state);
   };
 
   const handleUpdate = (newData, oldData) => {
@@ -192,24 +149,12 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
     });
   };
 
-  /**
-   * Utility function used for filtering data based
-   * on if the "Exclude Inactive" filter is set to true
-   * @param {array} data
-   */
-  const filterData = data => {
-    if (exclude) {
-      return data.filter(d => d.end_date === null);
-    }
-    return data;
-  };
-
   return (
     <div className={classes.materialTable}>
       <MaterialTable
-        title="View and Manage Associations"
+        title="View and Manage Adjustment Records"
         columns={columns}
-        data={filterData(tableData)}
+        data={tableData}
         isLoading={isLoading}
         editable={{
           onRowUpdate: handleUpdate,
@@ -219,22 +164,9 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
           EditField: props => {
             return <CustomEditField {...props} />;
           },
-          Toolbar: props => {
-            return (
-              <Toolbar
-                handleChange={handleExclude}
-                checked={exclude}
-                handleFilterVisibility={setFilterVisibility}
-                filterVisibility={filterVisibility}
-                {...props}
-              />
-            );
-          },
         }}
         options={{
-          filtering: filterVisibility,
           actionsCellStyle: { justifyContent: "center" },
-          actionsColumnIndex: -1,
           pageSize: 30,
           pageSizeOptions: [15, 30, 60],
           maxBodyHeight: 600,
@@ -252,8 +184,8 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
   );
 };
 
-CwmTable.propTypes = {
+MeterAdjustmentsTable.propTypes = {
   refreshSwitch: PropTypes.bool.isRequired,
 };
 
-export default CwmTable;
+export default MeterAdjustmentsTable;

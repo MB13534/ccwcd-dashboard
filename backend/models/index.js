@@ -85,6 +85,16 @@ db.ContractsWellsMetersView = require("./MembersManagement/ContractsWellsMetersV
   sequelize,
   Sequelize
 );
+
+db.MeterAdjustmentsLanding = require("./MembersManagement/MeterAdjustmentsLanding")(
+  sequelize,
+  Sequelize
+);
+db.MeterAdjustmentsView = require("./MembersManagement/MeterAdjustmentsView")(
+  sequelize,
+  Sequelize
+);
+
 db.CWM_Meters = require("./MembersManagement/Meters")(sequelize, Sequelize);
 db.CWM_Wells = require("./MembersManagement/Wells")(sequelize, Sequelize);
 

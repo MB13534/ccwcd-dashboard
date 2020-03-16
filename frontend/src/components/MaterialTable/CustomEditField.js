@@ -4,7 +4,6 @@ import AutocompleteTable from "./AutocompleteTable";
 
 class CustomEditField extends MTableEditField {
   renderLookupField() {
-    console.log(this.props);
     return (
       <AutocompleteTable
         {...this.getProps()}

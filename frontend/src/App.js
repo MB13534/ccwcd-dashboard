@@ -31,6 +31,10 @@ const ContractsWellsMeters = React.lazy(() =>
   import("./pages/MembersDataManagement/ContractsWellsMeters")
 );
 
+const MeterAdjustments = React.lazy(() =>
+  import("./pages/MembersDataManagement/MeterAdjustments")
+);
+
 const ViewStructures = React.lazy(() =>
   import("./pages/DataAdmin/Structures/View")
 );
@@ -146,6 +150,12 @@ const App = () => {
               exact
               roles={AdminRoles}
               component={ContractsWellsMeters}
+            />
+            <PrivateRouteWithRoles
+              path="/members-management/meter-adjustments"
+              exact
+              roles={AdminRoles}
+              component={MeterAdjustments}
             />
             <PrivateRouteWithRoles
               path="/auth0-sync"

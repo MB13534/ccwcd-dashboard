@@ -5,7 +5,6 @@ import { DatePicker, TextField } from "@lrewater/lre-react";
 import { Button } from "@material-ui/core";
 import axios from "axios";
 import { useAuth0 } from "../../../hooks/auth";
-import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import { extractDate } from "../../../util";
@@ -22,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CwmForm = ({ handleRefresh }) => {
+const CwmForm = ({ handleRefresh, wells, meters }) => {
   const classes = useStyles();
   const { getTokenSilently } = useAuth0();
   const {
@@ -31,8 +30,6 @@ const CwmForm = ({ handleRefresh }) => {
     snackbarError,
     handleSnackbarClose,
   } = useFormSubmitStatus();
-  const [Wells] = useFetchData("members-management/lists/wells", []);
-  const [Meters] = useFetchData("members-management/lists/meters", []);
 
   const [values, setValues] = useState({
     contract_index: "",
@@ -98,12 +95,12 @@ const CwmForm = ({ handleRefresh }) => {
           onChange={handleChange}
         />
         <WellsFilter
-          data={Wells}
+          data={wells}
           value={values.well_index}
           onChange={handleChange}
         />
         <MetersFilter
-          data={Meters}
+          data={meters}
           value={values.meter_index}
           onChange={handleChange}
         />

@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Paper } from "@material-ui/core";
 import Layout from "../../../components/Layout";
+import MeterAdjustmentsForm from "./MeterAdjustmentsForm";
+import MeterAdjustmentsTable from "./MeterAdjustmentsTable";
 import useFetchData from "../../../hooks/useFetchData";
-import CwmForm from "./CwmForm";
-import CwmTable from "./CwmTable";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
+    // display: "flex",
     overflow: "hidden",
   },
   content: {
@@ -21,10 +21,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ContractsWellsMeters = props => {
+const MeterAdjustments = props => {
   const classes = useStyles();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
-  const [Wells] = useFetchData("members-management/lists/wells", []);
   const [Meters] = useFetchData("members-management/lists/meters", []);
 
   const handleRefresh = () => {
@@ -36,19 +35,18 @@ const ContractsWellsMeters = props => {
       <section className={classes.root}>
         <div className={classes.content}>
           <Typography variant="h5" gutterBottom>
-            Contracts-Wells-Meters Associations
+            Meter Adjustments
           </Typography>
           <Paper className={classes.paper}>
-            <CwmForm
-              wells={Wells}
+            <MeterAdjustmentsForm
               meters={Meters}
               handleRefresh={handleRefresh}
             />
           </Paper>
-          <CwmTable
-            wells={Wells}
+          <MeterAdjustmentsTable
             meters={Meters}
             refreshSwitch={refreshSwitch}
+            handleRefresh={handleRefresh}
           />
         </div>
       </section>
@@ -56,4 +54,4 @@ const ContractsWellsMeters = props => {
   );
 };
 
-export default ContractsWellsMeters;
+export default MeterAdjustments;
