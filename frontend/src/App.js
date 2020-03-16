@@ -35,6 +35,10 @@ const MeterAdjustments = React.lazy(() =>
   import("./pages/MembersDataManagement/MeterAdjustments")
 );
 
+const MeterCorrectionFactors = React.lazy(() =>
+  import("./pages/MembersDataManagement/MeterCorrectionFactors")
+);
+
 const ViewStructures = React.lazy(() =>
   import("./pages/DataAdmin/Structures/View")
 );
@@ -156,6 +160,12 @@ const App = () => {
               exact
               roles={AdminRoles}
               component={MeterAdjustments}
+            />
+            <PrivateRouteWithRoles
+              path="/members-management/meter-correction-factors"
+              exact
+              roles={AdminRoles}
+              component={MeterCorrectionFactors}
             />
             <PrivateRouteWithRoles
               path="/auth0-sync"

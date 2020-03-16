@@ -153,6 +153,14 @@ const Sidebar = props => {
       rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
+      link: "members-management/meter-correction-factors",
+      title: "Meter Correction Factors",
+      activePath: "members-management/meter-correction-factors",
+      icon: ReportsIcon,
+      loginRequired: true,
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+    },
+    {
       link: "auth0-sync",
       title: "User Management",
       activePath: "auth0-sync",
