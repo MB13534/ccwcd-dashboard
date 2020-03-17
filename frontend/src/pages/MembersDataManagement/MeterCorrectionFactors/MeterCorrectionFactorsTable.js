@@ -133,7 +133,7 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
   return (
     <div className={classes.materialTable}>
       <MaterialTable
-        title="View and Manage Correction Factors"
+        title="View and Manage Correction Factor Records"
         columns={columns}
         data={tableData}
         isLoading={isLoading}
@@ -148,7 +148,7 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
         }}
         options={{
           actionsCellStyle: { justifyContent: "center" },
-          actionsColumnIndex: -1,
+//          actionsColumnIndex: -1,
           pageSize: 30,
           pageSizeOptions: [15, 30, 60],
           maxBodyHeight: 600,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { DatePicker, TextField } from "@lrewater/lre-react";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useAuth0 } from "../../../hooks/auth";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
@@ -82,7 +82,11 @@ const MeterCorrectionFactorsForm = ({ handleRefresh, meters }) => {
   };
 
   return (
-    <form onSubmit={handleValuesSubmit}>
+ <>
+    <Typography variant="h6" gutterBottom>
+      Add a New Correction Factor Record
+    </Typography>
+  <form onSubmit={handleValuesSubmit}>
       <div className={classes.row}>
         <MetersFilter
           data={meters}
@@ -131,7 +135,7 @@ const MeterCorrectionFactorsForm = ({ handleRefresh, meters }) => {
         errorMessage="Record could not be saved."
       />
     </form>
-  );
+</>  );
 };
 
 MeterCorrectionFactorsForm.propTypes = {

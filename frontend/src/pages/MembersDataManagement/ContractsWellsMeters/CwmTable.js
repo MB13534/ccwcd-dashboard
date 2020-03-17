@@ -207,7 +207,7 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
   return (
     <div className={classes.materialTable}>
       <MaterialTable
-        title="View and Manage Associations"
+        title="View and Manage Association Records"
         columns={columns}
         data={filterData(tableData)}
         isLoading={isLoading}
@@ -234,7 +234,7 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
         options={{
           filtering: filterVisibility,
           actionsCellStyle: { justifyContent: "center" },
-          actionsColumnIndex: -1,
+//          actionsColumnIndex: -1,
           pageSize: 30,
           pageSizeOptions: [15, 30, 60],
           maxBodyHeight: 600,
