@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, REAL, TEXT, DATE } = DataTypes;
-  const ContractsWellsMetersView = sequelize.define(
+  const MeterCorrectionFactorsView = sequelize.define(
     "member_meterreadings_correction_factors_view",
     {
       meter_index: {
@@ -30,5 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true,
     }
   );
-  return ContractsWellsMetersView;
+  return MeterCorrectionFactorsView
+  ;
 };

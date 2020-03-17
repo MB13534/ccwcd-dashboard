@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const { BIGINT, INTEGER, REAL, TEXT, DATE } = DataTypes;
-  const MeterAdjustmentsLanding = sequelize.define(
+  const MeterAdjustmentsView = sequelize.define(
     "member_meterreadings_adjustments_view",
     {
       data_mradj_ndx: {
@@ -42,5 +42,5 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true,
     }
   );
-  return MeterAdjustmentsLanding;
+  return MeterAdjustmentsView;
 };

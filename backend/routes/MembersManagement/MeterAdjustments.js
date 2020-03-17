@@ -2,6 +2,7 @@ const express = require("express");
 const { checkAccessToken } = require("../../middleware/auth.js");
 const {
   MeterAdjustmentsView,
+  MeterAdjustmentsQAQCView,
   MeterAdjustmentsLanding,
 } = require("../../models");
 
@@ -12,9 +13,21 @@ const router = express.Router();
 router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 
 // GET /api/members-management/meter-adjustments
-// Route for returning daily data averages
+// Route for returning entered records
 router.get("/", (req, res, next) => {
   MeterAdjustmentsView.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+// GET /api/members-management/meter-adjustments
+// Route for returning qaqc table
+router.get("/", (req, res, next) => {
+  MeterAdjustmentsQAQCView.findAll()
     .then(data => {
       res.json(data);
     })

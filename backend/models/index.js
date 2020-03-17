@@ -94,6 +94,10 @@ db.MeterAdjustmentsView = require("./MembersManagement/MeterAdjustmentsView")(
   sequelize,
   Sequelize
 );
+db.MeterAdjustmentsQAQCView = require("./MembersManagement/MeterAdjustmentsQAQCView")(
+  sequelize,
+  Sequelize
+);
 
 db.MeterCorrectionFactorsLanding = require("./MembersManagement/MeterCorrectionFactorsLanding")(
   sequelize,
