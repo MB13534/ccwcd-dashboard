@@ -57,7 +57,7 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
       lookup: formattedMeters,
     },
     { title: "Date", field: "adjustment_date" },
-    { title: "Value", field: "adjustment_value" },
+    { title: "Adjustment", field: "adjustment_value" },
     {
       title: "Affected Readings",
       field: "affected_readings",
@@ -68,7 +68,7 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
       field: "unadjusted_change",
       editable: "never",
     },
-    { title: "Adjusted Change", field: "Adjusted_change", editable: "never" },
+    { title: "Adjusted Change", field: "adjusted_change", editable: "never" },
     {
       title: "Pumping (AF)",
       field: "calculated_pumping_af",
