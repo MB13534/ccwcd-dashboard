@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, TEXT, DATE, BOOLEAN } = DataTypes;
+  const { INTEGER, TEXT, REAL, DATE, BOOLEAN } = DataTypes;
   const MeterAdjustmentsQAQCView = sequelize.define(
     "member_meterreadings_adjustments_view_forqaqc",
     {
