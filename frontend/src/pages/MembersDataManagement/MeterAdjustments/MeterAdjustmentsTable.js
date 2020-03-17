@@ -74,7 +74,13 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
       field: "calculated_pumping_af",
       editable: "never",
     },
-    { title: "Notes", field: "notes" },
+    {
+      title: "Notes",
+      field: "notes",
+      cellStyle: {
+        minWidth: 300,
+      },
+    },
   ];
 
   const submitUpdate = async record => {
