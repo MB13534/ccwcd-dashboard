@@ -9,6 +9,11 @@ import {
   Avatar,
   Button,
 } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
+
+const link = React.forwardRef((props, ref) => (
+  <RouterLink innerRef={ref} {...props} />
+));
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -54,7 +59,9 @@ const ReportCard = ({ report, handleReportSelection }) => {
         <Button size="small" onClick={() => handleReportSelection(report)}>
           Details
         </Button>
-        <Button size="small">Jump To</Button>
+        <Button size="small" component={link} to={report.path}>
+          Jump To
+        </Button>
       </CardActions>
     </Card>
   );
