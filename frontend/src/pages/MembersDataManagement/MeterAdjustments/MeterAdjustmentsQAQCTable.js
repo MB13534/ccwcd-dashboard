@@ -38,7 +38,7 @@ const MeterAdjustmentsQAQCTable = ({ handleRefresh, refreshSwitch, meters }) => 
     tableData,
     isLoading,
     setTableData,
-  ] = useFetchData("members-management/meter-adjustments", [refreshSwitch]);
+  ] = useFetchData("members-management/meter-adjustments/qaqc", [refreshSwitch]);
 
   const formattedMeters = useMemo(() => {
     let converted = {};

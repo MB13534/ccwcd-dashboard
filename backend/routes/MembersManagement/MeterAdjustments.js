@@ -24,9 +24,9 @@ router.get("/", (req, res, next) => {
     });
 });
 
-// GET /api/members-management/meter-adjustments
+// GET /api/members-management/meter-adjustments/qaqc
 // Route for returning qaqc table
-router.get("/", (req, res, next) => {
+router.get("/qaqc", (req, res, next) => {
   MeterAdjustmentsQAQCView.findAll()
     .then(data => {
       res.json(data);
