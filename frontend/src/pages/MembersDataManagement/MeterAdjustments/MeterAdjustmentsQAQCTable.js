@@ -8,23 +8,32 @@ import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import CustomEditField from "../../../components/MaterialTable/CustomEditField";
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Typography,
+} from "@material-ui/core";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    width: "100%",
+    marginBottom: theme.spacing(2),
+  },
   materialTable: {
-    "& th:first-child": {
-      textAlign: "center!important",
-      paddingLeft: theme.spacing(2),
-    },
+    width: "100%",
   },
-  toolbar: {
-    paddingLeft: theme.spacing(2),
-  },
-  filterBtn: {
-    marginTop: theme.spacing(1),
+  panelDetails: {
+    padding: 0,
   },
 }));
 
-const MeterAdjustmentsQAQCTable = ({ handleRefresh, refreshSwitch, meters }) => {
+const MeterAdjustmentsQAQCTable = ({
+  handleRefresh,
+  refreshSwitch,
+  meters,
+}) => {
   const classes = useStyles();
   const {
     setWaitingState,
@@ -38,7 +47,9 @@ const MeterAdjustmentsQAQCTable = ({ handleRefresh, refreshSwitch, meters }) => 
     tableData,
     isLoading,
     setTableData,
-  ] = useFetchData("members-management/meter-adjustments/qaqc", [refreshSwitch]);
+  ] = useFetchData("members-management/meter-adjustments/qaqc", [
+    refreshSwitch,
+  ]);
 
   const formattedMeters = useMemo(() => {
     let converted = {};
@@ -80,23 +91,56 @@ const MeterAdjustmentsQAQCTable = ({ handleRefresh, refreshSwitch, meters }) => 
   ];
 
   return (
-    <div className={classes.materialTable}>
-      <MaterialTable
-        title="Review Negative Changes between Meter Readings"
-        columns={columns}
-        data={tableData}
-        isLoading={isLoading}
-        editable={{
-        }}
-        options={{
-          search: false,
-          actionsCellStyle: { justifyContent: "center" },
-          pageSize: 30,
-          pageSizeOptions: [15, 30, 60],
-          maxBodyHeight: 600,
-          padding: "dense",
-        }}
-      />
+    <div className={classes.root}>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMore />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading} variant="h6">
+            Review Negative Changes between Meter Readings (Click to Expand)
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={classes.panelDetails}>
+          <div className={classes.materialTable}>
+            <MaterialTable
+              columns={columns}
+              data={tableData}
+              isLoading={isLoading}
+              editable={{}}
+              components={{
+                Container: props => <div {...props}></div>,
+              }}
+              options={{
+                toolbar: false,
+                search: false,
+                actionsCellStyle: { justifyContent: "center" },
+                pageSize: 30,
+                pageSizeOptions: [15, 30, 60],
+                maxBodyHeight: 300,
+                padding: "dense",
+              }}
+            />
+          </div>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+      {/* <MaterialTable
+              title="Review Negative Changes between Meter Readings"
+              columns={columns}
+              data={tableData}
+              isLoading={isLoading}
+              editable={{}}
+              options={{
+                search: false,
+                actionsCellStyle: { justifyContent: "center" },
+                pageSize: 30,
+                pageSizeOptions: [15, 30, 60],
+                maxBodyHeight: 600,
+                padding: "dense",
+              }}
+            /> */}
+
       <FormSnackbar
         open={snackbarOpen}
         error={snackbarError}
