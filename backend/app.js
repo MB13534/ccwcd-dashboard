@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const helmet = require("helmet");
 
 const AllThingsViewerRoutes = require("./routes/ATV");
 const HistoricalMemberUsageRoutes = require("./routes/HistoricalMemberUsage");
@@ -15,8 +16,10 @@ const { setHeaders } = require("./middleware");
 const PORT = process.env.PORT || 3005;
 
 const app = express();
+app.use(helmet());
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+//Headers security!!
 app.use(cors());
 
 // Configure headers

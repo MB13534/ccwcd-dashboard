@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
+import FileIcon from "@material-ui/icons/AttachFile";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountIcon from "@material-ui/icons/AccountCircle";
@@ -157,6 +158,14 @@ const Sidebar = props => {
       title: "Meter Correction Factors",
       activePath: "members-management/meter-correction-factors",
       icon: ReportsIcon,
+      loginRequired: true,
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+    },
+    {
+      link: "files/",
+      title: "Files",
+      activePath: "files/",
+      icon: FileIcon,
       loginRequired: true,
       rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },

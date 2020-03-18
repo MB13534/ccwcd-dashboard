@@ -9,6 +9,8 @@ const {
   generateLastUpdate,
   generateLastUpdateDataWithNulls,
 } = require("../util");
+const Dropbox = require("dropbox").Dropbox;
+const fetch = require("isomorphic-fetch");
 
 // Create Express Router
 const router = express.Router();
@@ -217,5 +219,43 @@ router.get(
     }
   }
 );
+
+router.get("/dropbox", (req, res, next) => {
+  try {
+    const dbx = new Dropbox({
+      fetch,
+      accessToken: process.env.DBX_ACCESS_TOKEN,
+    });
+    dbx
+      .filesListFolder({ path: "" })
+      .then(function(response) {
+        res.json(response.entries);
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/dropbox/download", (req, res, next) => {
+  try {
+    const dbx = new Dropbox({
+      fetch,
+      accessToken: process.env.DBX_ACCESS_TOKEN,
+    });
+    dbx
+      .filesGetTemporaryLink({ path: `/${req.body.path}` })
+      .then(function(response) {
+        res.json(response.link);
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
