@@ -60,13 +60,16 @@ const MeterAdjustmentsQAQCTable = ({ handleRefresh, refreshSwitch, meters }) => 
       title: "Readings",
       field: "readings",
       editable: "never",
+      cellStyle: {
+        minWidth: 200,
+      },
     },
     {
       title: "Adjustment",
       field: "Adjustment",
       editable: "never",
     },
-    { title: "Change", field: "change", editable: "never" },
+    { title: "Change", field: "change", editable: "never", searchable: false },
     {
       title: "Notes",
       field: "notes",
@@ -76,78 +79,6 @@ const MeterAdjustmentsQAQCTable = ({ handleRefresh, refreshSwitch, meters }) => 
     },
   ];
 
-  const submitUpdate = async record => {
-    setWaitingState("in progress");
-    const rec = { ...record };
-    rec.remark = record.notes;
-    try {
-      const token = await getTokenSilently();
-      const headers = { Authorization: `Bearer ${token}` };
-      await axios.put(
-        `${process.env.REACT_APP_ENDPOINT}/api/members-management/meter-adjustments`,
-        rec,
-        { headers }
-      );
-      handleRefresh();
-      setWaitingState("complete", "no error");
-    } catch (err) {
-      console.error(err);
-      setWaitingState("complete", "error");
-    }
-  };
-
-  const submitDelete = async record => {
-    setWaitingState("in progress");
-    const rec = { ...record };
-    rec.invalid = true;
-    try {
-      const token = await getTokenSilently();
-      const headers = { Authorization: `Bearer ${token}` };
-      await axios.put(
-        `${process.env.REACT_APP_ENDPOINT}/api/members-management/meter-adjustments`,
-        rec,
-        { headers }
-      );
-      handleRefresh();
-      setWaitingState("complete", "no error");
-    } catch (err) {
-      console.error(err);
-      setWaitingState("complete", "error");
-    }
-  };
-
-  const handleUpdate = (newData, oldData) => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-        if (oldData) {
-          setTableData(prevState => {
-            const data = [...prevState];
-            data[data.indexOf(oldData)] = newData;
-            submitUpdate(newData);
-            return data;
-          });
-        }
-      }, 600);
-    });
-  };
-
-  const handleDelete = oldData => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-        if (oldData) {
-          setTableData(prevState => {
-            const data = [...prevState];
-            data.splice(data.indexOf(oldData), 1);
-            submitDelete(oldData);
-            return data;
-          });
-        }
-      }, 600);
-    });
-  };
-
   return (
     <div className={classes.materialTable}>
       <MaterialTable
@@ -156,15 +87,9 @@ const MeterAdjustmentsQAQCTable = ({ handleRefresh, refreshSwitch, meters }) => 
         data={tableData}
         isLoading={isLoading}
         editable={{
-          onRowUpdate: handleUpdate,
-          onRowDelete: handleDelete,
-        }}
-        components={{
-          EditField: props => {
-            return <CustomEditField {...props} />;
-          },
         }}
         options={{
+          search: false,
           actionsCellStyle: { justifyContent: "center" },
           pageSize: 30,
           pageSizeOptions: [15, 30, 60],

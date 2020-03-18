@@ -5,12 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       meter_index: {
         type: INTEGER,
+        primaryKey: true,
       },
       meter_sn: {
         type: TEXT,
       },
       readings: {
         type: TEXT,
+        primaryKey: true,
       },
       adjustment: {
         type: REAL,

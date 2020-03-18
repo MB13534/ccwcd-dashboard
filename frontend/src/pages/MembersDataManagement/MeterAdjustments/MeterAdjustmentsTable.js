@@ -62,6 +62,9 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
       title: "Affected Readings",
       field: "affected_readings",
       editable: "never",
+      cellStyle: {
+        minWidth: 200,
+      },
     },
     {
       title: "Unadjusted Change",
