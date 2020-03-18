@@ -54,8 +54,6 @@ const ReportsHome = () => {
     [formSubmitting, viewPath]
   );
 
-  const colors = ["#529fe2", "#4CAF50", "#CF6B94"];
-
   const handleReportSelection = report => {
     setSelectedReport(report);
   };
@@ -104,7 +102,6 @@ const ReportsHome = () => {
             {Reports.map((report, index) => (
               <Grid item xs={12} sm={4} key={report.report_name}>
                 <ReportCard
-                  color={colors[index % 3]}
                   report={report}
                   handleReportSelection={handleReportSelection}
                 />
