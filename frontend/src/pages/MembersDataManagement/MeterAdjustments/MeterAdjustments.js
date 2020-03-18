@@ -4,6 +4,7 @@ import { Typography, Paper } from "@material-ui/core";
 import Layout from "../../../components/Layout";
 import MeterAdjustmentsForm from "./MeterAdjustmentsForm";
 import MeterAdjustmentsTable from "./MeterAdjustmentsTable";
+import MeterAdjustmentsQAQCTable from "./MeterAdjustmentsQAQCTable";
 import useFetchData from "../../../hooks/useFetchData";
 
 const useStyles = makeStyles(theme => ({
@@ -43,6 +44,12 @@ const MeterAdjustments = props => {
               handleRefresh={handleRefresh}
             />
           </Paper>
+          <MeterAdjustmentsQAQCTable
+// QAQC Table to be in a collapsed section;
+            meters={Meters}
+            refreshSwitch={refreshSwitch}
+            handleRefresh={handleRefresh}
+          />
           <MeterAdjustmentsTable
             meters={Meters}
             refreshSwitch={refreshSwitch}

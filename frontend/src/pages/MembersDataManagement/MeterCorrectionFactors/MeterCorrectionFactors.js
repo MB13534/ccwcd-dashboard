@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ContractsWellsMeters = props => {
+const MeterCorrectionFactors = props => {
   const classes = useStyles();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [Wells] = useFetchData("members-management/lists/wells", []);
@@ -55,4 +55,4 @@ const ContractsWellsMeters = props => {
   );
 };
 
-export default ContractsWellsMeters;
+export default MeterCorrectionFactors;
