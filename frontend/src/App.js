@@ -9,7 +9,6 @@ import NotFound from "./components/NotFound";
 import Loading from "./components/Loading";
 import theme from "./theme";
 
-const Home = React.lazy(() => import("./pages/Home"));
 const AllThingsViewer = React.lazy(() =>
   import("./pages/Reports/AllThingsViewer/Report")
 );
@@ -23,6 +22,9 @@ const AtvViewManagement = React.lazy(() =>
 const HistoricalMemberUsageViewManagement = React.lazy(() =>
   import("./pages/Reports/HistoricalMemberUsage/ManageView")
 );
+
+const Files = React.lazy(() => import("./pages/Files"));
+
 const Auth0Sync = React.lazy(() =>
   import("./pages/DataAdmin/UserManagement/Auth0Sync")
 );
@@ -94,7 +96,9 @@ const App = () => {
       <BrowserRouter>
         <Suspense fallback={<Loading />}>
           <Switch>
-            <Route path="/" exact component={Home} />
+            <Route path="/" exact>
+              <Redirect to="/reports" />
+            </Route>
             <PrivateRouteWithRoles
               path="/all-things-viewer"
               exact
@@ -166,6 +170,12 @@ const App = () => {
               exact
               roles={AdminRoles}
               component={MeterCorrectionFactors}
+            />
+            <PrivateRouteWithRoles
+              path="/files"
+              exact
+              roles={AdminRoles}
+              component={Files}
             />
             <PrivateRouteWithRoles
               path="/auth0-sync"
