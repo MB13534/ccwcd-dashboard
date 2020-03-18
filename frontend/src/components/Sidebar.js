@@ -1,25 +1,31 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
+import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
-import HomeIcon from "@material-ui/icons/Home";
+import DnsIcon from "@material-ui/icons/Dns";
 import FileIcon from "@material-ui/icons/AttachFile";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import RechargeIcon from "@material-ui/icons/Opacity";
+import DepletionsIcon from "@material-ui/icons/TrackChanges";
 import AccountIcon from "@material-ui/icons/AccountCircle";
 import EcoIcon from "@material-ui/icons/Eco";
 import ReportsIcon from "@material-ui/icons/Assignment";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
 import logo from "../images/ccwcd_logo.png";
 import { useAuth0 } from "../hooks/auth";
+import useVisibility from "../hooks/useVisibility";
 
 const drawerWidth = 270;
 
@@ -50,7 +56,8 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    overflow: `auto!important`,
+    overflowY: `auto!important`,
+    overflowX: "hidden",
     backgroundColor: theme.palette.primary.main,
     borderRight: "1px solid #ddd",
   },
@@ -72,6 +79,14 @@ const useStyles = makeStyles(theme => ({
       fontSize: `18px!important`,
     },
   },
+  nestedNavText: {
+    "& span": {
+      fontSize: `14px!important`,
+    },
+  },
+  nested: {
+    marginLeft: theme.spacing(6),
+  },
 }));
 
 const Sidebar = props => {
@@ -79,6 +94,17 @@ const Sidebar = props => {
   let history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+  const [
+    dataManagementVisibility,
+    handleDataManagementVisibility,
+  ] = useVisibility(false);
+  let location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.includes("members-management")) {
+      handleDataManagementVisibility(true);
+    }
+  }, [location]); //eslint-disable-line
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -105,20 +131,12 @@ const Sidebar = props => {
   // Configure sidebar menu items
   const MenuItems = [
     {
-      link: "",
-      title: "Home",
-      activePath: "",
-      exact: true,
-      icon: HomeIcon,
-      loginRequired: false,
-    },
-    {
-      link: "admin/data/structures",
-      title: "Data Management",
-      activePath: "admin/data",
-      icon: DashboardIcon,
+      link: "reports",
+      title: "Reports",
+      activePath: "reports",
+      icon: ReportsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
       link: "all-things-viewer",
@@ -130,36 +148,65 @@ const Sidebar = props => {
       rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
-      link: "reports",
-      title: "Reports",
-      activePath: "reports",
-      icon: ReportsIcon,
+      link: "auth0-sync",
+      title: "User Management",
+      activePath: "auth0-sync",
+      icon: AccountIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin"],
     },
     {
       link: "members-management/contracts-wells-meters",
-      title: "Contracts Management",
-      activePath: "members-management/contracts-wells-meters",
-      icon: ReportsIcon,
+      title: "Data Management",
+      activePath: "members-management",
+      icon: DashboardIcon,
       loginRequired: true,
       rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      visibilityVarName: "dataManagementVisibility",
+      children: [
+        {
+          link: "members-management/contracts-wells-meters",
+          title: "Contracts Management",
+          activePath: "members-management/contracts-wells-meters",
+          icon: ReportsIcon,
+          loginRequired: true,
+          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+        },
+        {
+          link: "members-management/meter-adjustments",
+          title: "Meter Adjustments",
+          activePath: "members-management/meter-adjustments",
+          icon: ReportsIcon,
+          loginRequired: true,
+          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+        },
+        {
+          link: "members-management/meter-correction-factors",
+          title: "Meter Correction Factors",
+          activePath: "members-management/meter-correction-factors",
+          icon: ReportsIcon,
+          loginRequired: true,
+          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+        },
+      ],
     },
     {
-      link: "members-management/meter-adjustments",
-      title: "Meter Adjustments",
-      activePath: "members-management/meter-adjustments",
-      icon: ReportsIcon,
+      link: "recharge-accounting",
+      title: "Recharge Accounting",
+      activePath: "recharge-accounting",
+      exact: true,
+      icon: RechargeIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin"],
     },
     {
-      link: "members-management/meter-correction-factors",
-      title: "Meter Correction Factors",
-      activePath: "members-management/meter-correction-factors",
-      icon: ReportsIcon,
+      link: "depletions-modeling",
+      title: "Depletions Modeling",
+      activePath: "depletions-modeling",
+      exact: true,
+      icon: DepletionsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin"],
     },
     {
       link: "files/",
@@ -167,31 +214,75 @@ const Sidebar = props => {
       activePath: "files/",
       icon: FileIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin"],
     },
     {
-      link: "auth0-sync",
-      title: "User Management",
-      activePath: "auth0-sync",
-      icon: AccountIcon,
+      link: "admin/data/structures",
+      title: "Database Lists",
+      activePath: "admin/data",
+      icon: DnsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin"],
     },
   ];
 
   const returnMenuItem = (item, isAuthenticated, user) => {
     const li = (
-      <ListItem
-        button
-        onClick={() => goTo(item.link)}
-        selected={setActive(item)}
-        key={item.title}
-      >
-        <ListItemIcon className={classes.navIcon}>
+      <ListItem button selected={setActive(item)}>
+        <ListItemIcon
+          className={classes.navIcon}
+          onClick={() => goTo(item.link)}
+        >
           <item.icon />
         </ListItemIcon>
-        <ListItemText className={classes.navText} primary={item.title} />
+        <ListItemText
+          className={classes.navText}
+          primary={item.title}
+          onClick={() => goTo(item.link)}
+        />
+
+        {item.visibilityVarName === "dataManagementVisibility" &&
+          (dataManagementVisibility ? (
+            <ExpandLess onClick={handleDataManagementVisibility} />
+          ) : (
+            <ExpandMore onClick={handleDataManagementVisibility} />
+          ))}
       </ListItem>
+    );
+
+    const NestedUl = () => {
+      if (
+        item.visibilityVarName === "dataManagementVisibility" &&
+        item.children
+      ) {
+        return (
+          <Collapse in={dataManagementVisibility} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {item.children.map(child => (
+                <ListItem
+                  button
+                  onClick={() => goTo(child.link)}
+                  selected={setActive(child)}
+                  key={Math.random() * 9999999}
+                  className={classes.nested}
+                >
+                  <ListItemText
+                    className={classes.nestedNavText}
+                    primary={child.title}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+        );
+      }
+    };
+
+    const list = (
+      <React.Fragment key={Math.random() * 9999999}>
+        {li}
+        {NestedUl()}
+      </React.Fragment>
     );
 
     if (item.loginRequired && item.rolesRequired && user) {
@@ -203,14 +294,14 @@ const Sidebar = props => {
         }
       });
       if (isAuthenticated && roleSwitch) {
-        return li;
+        return list;
       }
     } else if (item.loginRequired) {
       if (isAuthenticated) {
-        return li;
+        return list;
       }
     } else {
-      return li;
+      return list;
     }
   };
 
