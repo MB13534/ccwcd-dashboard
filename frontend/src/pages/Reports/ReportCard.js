@@ -16,9 +16,6 @@ const useStyles = makeStyles(theme => ({
       cursor: "pointer",
     },
   },
-  cardHeader: {
-    paddingBottom: 0,
-  },
   avatar: {
     color: "#ffffff",
     backgroundColor: "#4ca963",
