@@ -25,6 +25,8 @@ const HistoricalMemberUsageViewManagement = React.lazy(() =>
 
 const Files = React.lazy(() => import("./pages/Files"));
 
+const FolderPage = React.lazy(() => import("./pages/Files/FolderPage"));
+
 const Auth0Sync = React.lazy(() =>
   import("./pages/DataAdmin/UserManagement/Auth0Sync")
 );
@@ -176,6 +178,11 @@ const App = () => {
               exact
               roles={AdminRoles}
               component={Files}
+            />
+            <PrivateRouteWithRoles
+              path="/files/:folderPath"
+              roles={AdminRoles}
+              component={FolderPage}
             />
             <PrivateRouteWithRoles
               path="/auth0-sync"

@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Paper } from "@material-ui/core";
+import {
+  Typography,
+  Paper,
+  Container,
+  Breadcrumbs,
+  Link,
+} from "@material-ui/core";
 import Layout from "../../components/Layout";
 import { useAuth0 } from "../../hooks/auth";
 import useFetchData from "../../hooks/useFetchData";
@@ -19,8 +26,10 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3),
   },
   paper: {
-    // padding: theme.spacing(2),
     margin: theme.spacing(2, 0),
+  },
+  breadcrumbs: {
+    padding: theme.spacing(1),
   },
 }));
 
@@ -33,22 +42,33 @@ const Files = props => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
-  // const [Data] = useFetchData("dummy/dropbox", []);
+  // const [Folders] = useFetchData("files/folders", []);
   // const [linkData, setLinkData] = useState("");
 
+  const LinkRouter = props => <Link {...props} component={RouterLink} />;
+
   const Folders = [
-    { name: "Aug Wells", count: 2 },
-    { name: "GMS Meters", count: 2 },
-  ];
-
-  const AugWellsData = [
-    { id: 1, name: "Aug Wells_GMS_reachC_October-November18.dsi" },
-    { id: 2, name: "Aug Wells_GMS_reachBDE_October18.dsi" },
-  ];
-
-  const GMSData = [
-    { id: 3, name: "GMS020334_190430METER_APRIL19.xlsx" },
-    { id: 4, name: "GMS020334_190430METER_MAY19.xlsx" },
+    {
+      ".tag": "folder",
+      name: "Aug Wells",
+      path_lower: "/aug wells",
+      path_display: "/Aug Wells",
+      id: "id:e3HPqKZ4rWAAAAAAAAAJFQ",
+    },
+    {
+      ".tag": "folder",
+      name: "GMS Accounting_Projection",
+      path_lower: "/gms accounting_projection",
+      path_display: "/GMS Accounting_Projection",
+      id: "id:e3HPqKZ4rWAAAAAAAAAJFg",
+    },
+    {
+      ".tag": "folder",
+      name: "Recharge",
+      path_lower: "/recharge",
+      path_display: "/Recharge",
+      id: "id:e3HPqKZ4rWAAAAAAAAAJFw",
+    },
   ];
 
   // const handleDownload = async path => {
@@ -74,20 +94,26 @@ const Files = props => {
     <Layout>
       <section className={classes.root}>
         <div className={classes.content}>
-          <Typography variant="h5" gutterBottom>
-            Files
-          </Typography>
-          <Paper className={classes.paper}>
-            <FoldersList data={Folders} />
-            {/* {Data.map(d => (
-              <>
-                {linkData && <a href={linkData}>Download</a>}
-                <div onClick={() => handleDownload(d.name)} key={d.name}>
-                  Start Download - {d.name}
-                </div>
-              </>
-            ))} */}
-          </Paper>
+          <Container maxWidth="md">
+            <Typography variant="h5" gutterBottom>
+              Files Explorer
+            </Typography>
+            <Typography variant="body1" paragraph>
+              This page is intended to provide an interface for exploring files
+              uploaded for download by CCWCD staff. Clicking on a folder will
+              allow you to view the folder contents and download files.
+            </Typography>
+            <Paper className={classes.breadcrumbs}>
+              <Breadcrumbs aria-label="breadcrumb">
+                <LinkRouter color="primary" to="/files">
+                  Files /
+                </LinkRouter>
+              </Breadcrumbs>
+            </Paper>
+            <Paper className={classes.paper}>
+              <FoldersList data={Folders} />
+            </Paper>
+          </Container>
           <FormSnackbar
             open={snackbarOpen}
             error={snackbarError}
