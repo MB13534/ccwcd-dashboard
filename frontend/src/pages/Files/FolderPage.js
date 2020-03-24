@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -13,6 +13,7 @@ import {
   Button,
   Breadcrumbs,
   Link,
+  CircularProgress,
 } from "@material-ui/core";
 import PrivateRouteWithRoles from "../../components/PrivateRouteWithRoles";
 import Layout from "../../components/Layout";
@@ -47,6 +48,18 @@ const useStyles = makeStyles(theme => ({
   },
   breadcrumbs: {
     padding: theme.spacing(1),
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: "relative",
+  },
+  buttonProgress: {
+    color: theme.palette.primary.main,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
   },
 }));
 
@@ -107,7 +120,7 @@ const FolderPage = props => {
   const { folderPath } = useParams();
   // const [Data] = useFetchData(`files/folders/${folderPath}`);
 
-  const Data = [
+  const [Data, setData] = useState([
     {
       ".tag": "file",
       name: "Another Example File.xlsx",
@@ -121,6 +134,8 @@ const FolderPage = props => {
       is_downloadable: true,
       content_hash:
         "2b685c5e12951e7563f91396c8afc9cc8dacebe348aa91f3d0f44f2d5adc3a2f",
+      loading: false,
+      downloaded: false,
     },
     {
       ".tag": "file",
@@ -135,6 +150,8 @@ const FolderPage = props => {
       is_downloadable: true,
       content_hash:
         "ac0d2bda3790b410299001b0cb30de067d70e8fb1a95b61aa253ec394e95ea02",
+      loading: false,
+      downloaded: false,
     },
     {
       ".tag": "file",
@@ -149,8 +166,25 @@ const FolderPage = props => {
       is_downloadable: true,
       content_hash:
         "22a9b7c33e2ddc51fb6921fa4edf5bf74b766c3ebf22d4be87fa84a9ed85293e",
+      downloaded: false,
     },
-  ];
+  ]);
+
+  const handleClick = index => {
+    setData(prevState => {
+      const newData = [...prevState];
+      prevState[index].loading = true;
+      return newData;
+    });
+    setTimeout(() => {
+      setData(prevState => {
+        const newData = [...prevState];
+        prevState[index].loading = false;
+        prevState[index].downloaded = true;
+        return newData;
+      });
+    }, 2000);
+  };
   return (
     <Layout>
       <section className={classes.root}>
@@ -188,10 +222,24 @@ const FolderPage = props => {
                         {/* <img src={CSV} alt="CSV" style={{ maxWidth: 40 }} /> */}
                       </ListItemAvatar>
                       <ListItemText primary={item.name} />
-                      <Button variant="contained" color="primary" size="small">
-                        <DownloadIcon style={{ marginRight: 5 }} />
-                        Download
-                      </Button>
+                      <div className={classes.wrapper}>
+                        <Button
+                          variant="contained"
+                          color={item.downloaded ? "secondary" : "primary"}
+                          size="small"
+                          disabled={item.loading}
+                          onClick={() => handleClick(index)}
+                        >
+                          <DownloadIcon style={{ marginRight: 5 }} />
+                          {item.downloaded ? "Download" : "Start Download"}
+                        </Button>
+                        {item.loading && (
+                          <CircularProgress
+                            size={24}
+                            className={classes.buttonProgress}
+                          />
+                        )}
+                      </div>
                     </ListItem>
                     {index !== Data.length - 1 && <Divider />}
                   </React.Fragment>

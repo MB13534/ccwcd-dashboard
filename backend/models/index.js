@@ -73,6 +73,18 @@ db.Historical_Member_Usage_Views = require("./HistoricalMemberUsage/Views")(
   sequelize,
   Sequelize
 );
+db.HMU_Meter_Readings = require("./HistoricalMemberUsage/MeterReadings")(
+  sequelize,
+  Sequelize
+);
+db.HMU_Well_Depletions = require("./HistoricalMemberUsage/WellDepletions")(
+  sequelize,
+  Sequelize
+);
+db.HMU_Well_Pumping = require("./HistoricalMemberUsage/WellPumping")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Members Management models

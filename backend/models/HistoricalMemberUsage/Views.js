@@ -23,20 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       assoc_user_id: {
         type: ARRAY(TEXT),
       },
-      wdid: {
-        type: ARRAY(TEXT),
-      },
-      end_month: {
-        type: INTEGER,
-      },
-      end_year: {
-        type: INTEGER,
+      well_index: {
+        type: ARRAY(INTEGER),
       },
       dataset: {
         type: TEXT,
       },
-      display_type: {
-        type: TEXT,
+      depletion_start_year: {
+        type: INTEGER,
       },
     },
     {

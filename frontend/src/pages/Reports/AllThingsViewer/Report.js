@@ -19,7 +19,7 @@ import AggregationLevelFilter from "../../../components/Filters/AggregationLevel
 import SavedViews from "../../../components/Filters/SavedViews";
 import { extractDate, validateDependentSelections } from "../../../util";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import ReportData from "../../../components/Reports/ReportData";
+import ReportData from "../../../components/Reports/ReportDataATV";
 import { DatePicker } from "@lrewater/lre-react";
 
 const AllThingsViewer = props => {

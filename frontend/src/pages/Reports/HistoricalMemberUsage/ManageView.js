@@ -95,11 +95,9 @@ const ManageView = props => {
   const { getTokenSilently } = useAuth0();
   const [activeStep, setActiveStep] = useState(0);
   const [filterValues, setFilterValues] = useState({
-    wdid: [],
-    end_month: 1,
-    end_year: 2020,
+    well_index: [],
     dataset: "meter-readings",
-    display_type: "time-series",
+    depletion_start_year: "",
     view_ndx: null,
     view_name: "",
     view_description: "",
@@ -107,39 +105,6 @@ const ManageView = props => {
 
   // Request data for the filters
   const [WDIDs] = useFetchData("dummy/historical-member-usage/wdid", []);
-  const MonthData = [
-    { month_ndx: 1, month_desc: "January" },
-    { month_ndx: 2, month_desc: "February" },
-    { month_ndx: 3, month_desc: "March" },
-    { month_ndx: 4, month_desc: "April" },
-    { month_ndx: 5, month_desc: "May" },
-    { month_ndx: 6, month_desc: "June" },
-    { month_ndx: 7, month_desc: "July" },
-    { month_ndx: 8, month_desc: "August" },
-    { month_ndx: 9, month_desc: "September" },
-    { month_ndx: 10, month_desc: "October" },
-    { month_ndx: 11, month_desc: "November" },
-    { month_ndx: 12, month_desc: "December" },
-  ];
-  const YearData = [
-    { year_ndx: 2005, year_desc: 2005 },
-    { year_ndx: 2006, year_desc: 2006 },
-    { year_ndx: 2007, year_desc: 2007 },
-    { year_ndx: 2008, year_desc: 2008 },
-    { year_ndx: 2009, year_desc: 2009 },
-    { year_ndx: 2010, year_desc: 2010 },
-    { year_ndx: 2011, year_desc: 2011 },
-    { year_ndx: 2012, year_desc: 2012 },
-    { year_ndx: 2013, year_desc: 2013 },
-    { year_ndx: 2013, year_desc: 2014 },
-    { year_ndx: 2014, year_desc: 2014 },
-    { year_ndx: 2015, year_desc: 2015 },
-    { year_ndx: 2016, year_desc: 2016 },
-    { year_ndx: 2017, year_desc: 2017 },
-    { year_ndx: 2018, year_desc: 2018 },
-    { year_ndx: 2019, year_desc: 2019 },
-    { year_ndx: 2020, year_desc: 2020 },
-  ];
   const DatasetData = [
     { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
     {
@@ -147,13 +112,6 @@ const ManageView = props => {
       dataset_desc: "Pumping",
     },
     { dataset_ndx: "depletions", dataset_desc: "Depletions" },
-  ];
-  const DisplayTypeData = [
-    { display_type_ndx: "time-series", display_type_desc: "Time Series" },
-    {
-      display_type_ndx: "crosstab",
-      display_type_desc: "Crosstab",
-    },
   ];
   const [view] = useFetchData(
     `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
@@ -211,21 +169,17 @@ const ManageView = props => {
       view_ndx,
       view_name,
       view_description,
-      wdid,
-      end_month,
-      end_year,
+      well_index,
+      depletion_start_year,
       dataset,
-      display_type,
     } = values;
     return {
       view_ndx,
       view_name,
       view_description,
-      wdid,
-      end_month,
-      end_year,
+      well_index,
+      depletion_start_year,
       dataset,
-      display_type,
     };
   };
 
@@ -262,11 +216,9 @@ const ManageView = props => {
         view_ndx: view.view_ndx,
         view_name: view.view_name,
         view_description: view.view_description,
-        wdid: view.wdid,
-        end_month: view.end_month,
-        end_year: view.end_year,
+        well_index: view.well_index,
+        depletion_start_year: view.depletion_start_year,
         dataset: view.dataset,
-        display_type: view.display_type,
       });
     }
   }, [view]);
@@ -354,63 +306,12 @@ const ManageView = props => {
                         {/* Structure Types filter */}
                         <WdidFilter
                           data={WDIDs}
-                          value={filterValues.wdid}
+                          value={filterValues.well_index}
                           onChange={handleFilter}
                         />
-                        <EndMonthFilter
-                          data={MonthData}
-                          value={filterValues.end_month}
-                          onChange={handleFilter}
-                        />
-                        <EndYearFilter
-                          data={YearData}
-                          value={filterValues.end_year}
-                          onChange={handleFilter}
-                        />
-                        <div className={classes.actionsContainer}>
-                          <div>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={handleBack}
-                              className={classes.button}
-                            >
-                              Back
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={handleNext}
-                              className={classes.button}
-                            >
-                              Next
-                            </Button>
-                          </div>
-                        </div>
-                      </StepContent>
-                    </Step>
-                    <Step>
-                      <StepButton onClick={() => handleStep(2)}>
-                        Period of Record
-                      </StepButton>
-                      <StepContent>
-                        <Typography
-                          variant="body1"
-                          className={classes.helpText}
-                        >
-                          Lorem ipsum dolor amet ennui jianbing taiyaki
-                          distillery everyday carry, meggings tbh shoreditch
-                          tote bag salvia migas.
-                        </Typography>
-                        {/* Aggregation Level Filter */}
                         <DatasetFilter
                           data={DatasetData}
                           value={filterValues.dataset}
-                          onChange={handleFilter}
-                        />
-
-                        <DisplayTypeFilter
-                          data={DisplayTypeData}
-                          value={filterValues.display_type}
                           onChange={handleFilter}
                         />
                         <div className={classes.actionsContainer}>
@@ -473,36 +374,18 @@ const ManageView = props => {
                     WDIDs
                   </Typography>
                   <div className={classes.chipCloud}>
-                    {filterValues.wdid.length === 0 && "None"}
+                    {filterValues.well_index.length === 0 && "None"}
                     {WDIDs.filter(d =>
-                      filterValues.wdid.includes(d.wdid_ndx)
+                      filterValues.well_index.includes(d.well_index)
                     ).map(chip => (
                       <Chip
-                        key={chip.wdid_ndx}
+                        key={chip.well_index}
                         label={chip.wdid_desc}
                         className={classes.chip}
                         onDelete={() => {}}
                       />
                     ))}
                   </div>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
-                    End Month
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {filterValues.end_month}
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
-                    End Year
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {filterValues.end_year}
-                  </Typography>
                   <Typography
                     variant="body1"
                     className={classes.viewSummaryTitle}
@@ -514,19 +397,6 @@ const ManageView = props => {
                       DatasetData.filter(
                         d => filterValues.dataset === d.dataset_ndx
                       )[0].dataset_desc
-                    }
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
-                    Display Type
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {
-                      DisplayTypeData.filter(
-                        d => filterValues.display_type === d.display_type_ndx
-                      )[0].display_type_desc
                     }
                   </Typography>
                 </div>

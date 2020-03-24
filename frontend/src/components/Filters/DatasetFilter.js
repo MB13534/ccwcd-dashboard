@@ -20,7 +20,7 @@ const DatasetFilter = ({ data, value, onChange }) => {
 
 DatasetFilter.propTypes = {
   data: PropTypes.array.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
