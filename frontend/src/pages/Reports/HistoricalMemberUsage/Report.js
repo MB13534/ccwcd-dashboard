@@ -65,7 +65,7 @@ const HistoricalMemberUsageReport = props => {
           { title: "Year", field: "i_year" },
           { title: "Month", field: "i_month" },
           { title: "Pumping (AF)", field: "pumping_af" },
-          { title: "Metered Fraction", field: "metered_fraction" },
+          { title: "Metered Fraction", field: "fraction_metered" },
           { title: "Estimated Fraction", field: "fraction_estimated" },
           { title: "Inoperable", field: "inoperable" },
           { title: "External SWSP", field: "external_swsp" },
