@@ -21,7 +21,6 @@ import useFetchData from "../../hooks/useFetchData";
 import { Link as RouterLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import DownloadIcon from "@material-ui/icons/GetApp";
-import loading from "../../images/loading.svg";
 import CSV from "../../images/file-types/csv.svg";
 import XLS from "../../images/file-types/xls.svg";
 import Doc from "../../images/file-types/doc.svg";
@@ -43,13 +42,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3),
   },
   paper: {
-    // padding: theme.spacing(2),
     margin: theme.spacing(2, 0),
-  },
-  loading: {
-    width: "100%",
-    textAlign: "center",
-    padding: theme.spacing(2),
   },
   breadcrumbs: {
     padding: theme.spacing(1),
@@ -58,13 +51,16 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     position: "relative",
   },
-  buttonProgress: {
+  noDataMessage: {
+    padding: theme.spacing(4),
+  },
+  filesProgressWrapper: {
+    width: "100%",
+    textAlign: "center",
+    padding: theme.spacing(4),
+  },
+  filesProgress: {
     color: theme.palette.primary.main,
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    marginTop: -12,
-    marginLeft: -12,
   },
 }));
 
@@ -198,21 +194,29 @@ const FolderPage = props => {
                   Files
                 </LinkRouter>
                 <LinkRouter color="primary" to={`/${folderPath}`}>
-                  Aug Wells
+                  {folderPath}
                 </LinkRouter>
               </Breadcrumbs>
             </Paper>
             <Paper className={classes.paper}>
               {isLoading ? (
-                <div className={classes.loading}>
-                  <img
-                    src={loading}
-                    alt="loading"
-                    className={classes.loadingIcon}
+                <div className={classes.filesProgressWrapper}>
+                  <CircularProgress
+                    size={48}
+                    className={classes.filesProgress}
                   />
                 </div>
               ) : (
                 <List>
+                  {ModifiedData.length === 0 && (
+                    <Typography
+                      variant="body1"
+                      className={classes.noDataMessage}
+                    >
+                      No Files or Folders Found
+                    </Typography>
+                  )}
+
                   {ModifiedData.map((item, index) => (
                     <React.Fragment key={item.name}>
                       <ListItem button>
@@ -245,13 +249,6 @@ const FolderPage = props => {
                               <DownloadIcon style={{ marginRight: 5 }} />
                               Start Download
                             </Button>
-                          )}
-
-                          {item.loading && (
-                            <CircularProgress
-                              size={24}
-                              className={classes.buttonProgress}
-                            />
                           )}
                         </div>
                       </ListItem>

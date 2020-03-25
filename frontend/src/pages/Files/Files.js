@@ -7,6 +7,7 @@ import {
   Container,
   Breadcrumbs,
   Link,
+  CircularProgress,
 } from "@material-ui/core";
 import Layout from "../../components/Layout";
 import useFetchData from "../../hooks/useFetchData";
@@ -30,8 +31,16 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     padding: theme.spacing(2),
   },
-  loadingIcon: {
-    maxWidth: 75,
+  noDataMessage: {
+    padding: theme.spacing(4),
+  },
+  filesProgressWrapper: {
+    width: "100%",
+    textAlign: "center",
+    padding: theme.spacing(4),
+  },
+  filesProgress: {
+    color: theme.palette.primary.main,
   },
   breadcrumbs: {
     padding: theme.spacing(1),
@@ -66,15 +75,24 @@ const Files = props => {
             </Paper>
             <Paper className={classes.paper}>
               {isLoading ? (
-                <div className={classes.loading}>
-                  <img
-                    src={loading}
-                    alt="loading"
-                    className={classes.loadingIcon}
+                <div className={classes.filesProgressWrapper}>
+                  <CircularProgress
+                    size={48}
+                    className={classes.filesProgress}
                   />
                 </div>
               ) : (
-                <FoldersList data={Folders} />
+                <>
+                  {!Folders && (
+                    <Typography
+                      variant="body1"
+                      className={classes.noDataMessage}
+                    >
+                      No Files or Folders Found
+                    </Typography>
+                  )}
+                  <FoldersList data={Folders} />
+                </>
               )}
             </Paper>
           </Container>
