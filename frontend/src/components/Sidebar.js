@@ -166,7 +166,7 @@ const Sidebar = props => {
       children: [
         {
           link: "members-management/contracts-wells-meters",
-          title: "Contracts Management",
+          title: "Contract Associations",
           activePath: "members-management/contracts-wells-meters",
           icon: ReportsIcon,
           loginRequired: true,
@@ -201,7 +201,7 @@ const Sidebar = props => {
     },
     {
       link: "depletions-modeling",
-      title: "Depletions Modeling",
+      title: "Depletions Model",
       activePath: "depletions-modeling",
       exact: true,
       icon: DepletionsIcon,
@@ -210,7 +210,7 @@ const Sidebar = props => {
     },
     {
       link: "files/",
-      title: "Files",
+      title: "File Sharing",
       activePath: "files/",
       icon: FileIcon,
       loginRequired: true,
@@ -218,7 +218,7 @@ const Sidebar = props => {
     },
     {
       link: "admin/data/structures",
-      title: "Database Lists",
+      title: "DB Lists Management",
       activePath: "admin/data",
       icon: DnsIcon,
       loginRequired: true,
