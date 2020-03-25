@@ -41,6 +41,8 @@ const HistoricalMemberUsageReport = props => {
       return "Well Pumping";
     } else if (dataset === "well-depletions") {
       return "Well Depletions";
+    } else if (dataset === "well-info") {
+      return "Well Info";
     }
   }, [data]); //eslint-disable-line
   const columns = useMemo(() => {
@@ -80,6 +82,12 @@ const HistoricalMemberUsageReport = props => {
           { title: "Month", field: "i_month" },
           { title: "Depletions (AF)", field: "dpl_af" },
         ];
+      } else if (dataset === "well-info") {
+        return [
+          { title: "WDID", field: "wdid" },
+          { title: "Meters", field: "meters" },
+          { title: "Contracts", field: "contracts" },
+        ];
       }
       return [];
     }
@@ -94,6 +102,7 @@ const HistoricalMemberUsageReport = props => {
       dataset_desc: "Well Pumping",
     },
     { dataset_ndx: "well-depletions", dataset_desc: "Well Depletions" },
+    { dataset_ndx: "well-info", dataset_desc: "Well Info" },
   ];
   const YearData = (() => {
     const lastYear = new Date().getFullYear() - 1;

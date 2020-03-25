@@ -8,6 +8,7 @@ const {
   HMU_Meter_Readings,
   HMU_Well_Pumping,
   HMU_Well_Depletions,
+  HMU_Well_Info,
   CWM_Wells,
 } = require("../../models");
 
@@ -89,75 +90,23 @@ router.get(
   }
 );
 
-// GET /api/atv/daily-end-of-day/:structures/:measure_types
-// Route for returning daily end of day values
-// router.get(
-//   "/daily-end-of-day/:structures/:measure_types/:end_date",
-//   (req, res, next) => {
-//     const StartDate = setAPIDate(45, req.params.end_date);
-//     const EndDate = setAPIDate(0, req.params.end_date);
-//     ATV_Daily_End_of_Day.findAll({
-//       where: {
-//         structure_ndx: {
-//           [Op.in]: req.params.structures.split(","),
-//         },
-//         measure_type_ndx: {
-//           [Op.in]: req.params.measure_types.split(","),
-//         },
-//         collect_timestamp: {
-//           [Op.between]: [StartDate, EndDate],
-//         },
-//       },
-//     })
-//       .then(data => {
-//         const crosstabbed = crosstab(
-//           data,
-//           "collect_timestamp",
-//           "station_name",
-//           "endofday_value"
-//         );
-//         res.json(crosstabbed);
-//       })
-//       .catch(err => {
-//         next(err);
-//       });
-//   }
-// );
-
-// GET /api/atv/daily-15-min/:structures/:measure_types
-// Route for returning 15 minute data
-// router.get(
-//   "/daily-15-min/:structures/:measure_types/:end_date",
-//   (req, res, next) => {
-//     const StartDate = setAPIDate(3, req.params.end_date);
-//     const EndDate = setAPIDate(0, req.params.end_date);
-//     ATV_Daily_15_min.findAll({
-//       where: {
-//         structure_ndx: {
-//           [Op.in]: req.params.structures.split(","),
-//         },
-//         measure_type_ndx: {
-//           [Op.in]: req.params.measure_types.split(","),
-//         },
-//         collect_timestamp: {
-//           [Op.between]: [StartDate, EndDate],
-//         },
-//       },
-//     })
-//       .then(data => {
-//         const crosstabbed = crosstab(
-//           data,
-//           "collect_timestamp",
-//           "station_name",
-//           "measured_value"
-//         );
-//         res.json(crosstabbed);
-//       })
-//       .catch(err => {
-//         next(err);
-//       });
-//   }
-// );
+// GET /api/historical-member-usage/well-info/:wells
+// Route for returning well info data
+router.get("/well-info/:wells", (req, res, next) => {
+  HMU_Well_Info.findAll({
+    where: {
+      well_index: {
+        [Op.in]: req.params.wells.split(","),
+      },
+    },
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
 
 // GET /api/historical-member-usage/views
 // Route for retrieving all views

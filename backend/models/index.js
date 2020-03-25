@@ -85,6 +85,10 @@ db.HMU_Well_Pumping = require("./HistoricalMemberUsage/WellPumping")(
   sequelize,
   Sequelize
 );
+db.HMU_Well_Info = require("./HistoricalMemberUsage/WellInfo")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Members Management models

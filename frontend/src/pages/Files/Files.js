@@ -12,7 +12,6 @@ import {
 import Layout from "../../components/Layout";
 import useFetchData from "../../hooks/useFetchData";
 import FoldersList from "./FoldersList";
-import loading from "../../images/loading.svg";
 
 const useStyles = makeStyles(theme => ({
   root: {
