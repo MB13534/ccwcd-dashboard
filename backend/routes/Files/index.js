@@ -31,7 +31,15 @@ router.get("/folders", (req, res, next) => {
     dbx
       .filesListFolder({ path: "" })
       .then(function(response) {
-        res.json(response.entries);
+        if (req.user.permissions.includes("read:all-files")) {
+          res.json(response.entries);
+        } else if (req.user.permissions.includes("read:objector-files")) {
+          res.json(
+            response.entries.filter(d => d.name === "WAS Objector Files")
+          );
+        } else {
+          res.json([]);
+        }
       })
       .catch(function(error) {
         console.error(error);

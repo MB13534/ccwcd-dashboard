@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
   },
   noDataMessage: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(4, 4, 2, 4),
   },
   filesProgressWrapper: {
     width: "100%",
@@ -82,7 +82,7 @@ const Files = props => {
                 </div>
               ) : (
                 <>
-                  {!Folders && (
+                  {Folders.length === 0 && (
                     <Typography
                       variant="body1"
                       className={classes.noDataMessage}

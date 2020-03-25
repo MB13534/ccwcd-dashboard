@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   cardTitle: {
     fontWeight: 400,
     fontSize: 18,
-    lineHeight: 1.1,
+    lineHeight: 1.3,
   },
 }));
 

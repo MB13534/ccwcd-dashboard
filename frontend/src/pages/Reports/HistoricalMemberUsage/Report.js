@@ -145,6 +145,31 @@ const HistoricalMemberUsageReport = props => {
   };
 
   /**
+   * Utility function used to prepare form values
+   * for submission to the database
+   * @param {object} values
+   */
+  const prepFormValues = values => {
+    const {
+      view_ndx,
+      view_name,
+      view_description,
+      well_index,
+      dataset,
+    } = values;
+    const depletion_start_year =
+      values.depletion_start_year === "" ? null : values.depletion_start_year;
+    return {
+      view_ndx,
+      view_name,
+      view_description,
+      well_index,
+      depletion_start_year,
+      dataset,
+    };
+  };
+
+  /**
    * Handle form submit
    * @param {Object} event
    */
@@ -154,12 +179,24 @@ const HistoricalMemberUsageReport = props => {
     try {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
-      const response = await axios.get(
-        `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${filterValues.dataset}/${filterValues.well_index}/${filterValues.depletion_start_year}`,
-        { headers }
-      );
-      setWaitingState("complete", "no error");
-      setData(response.data);
+      if (
+        filterValues.depletion_start_year === "" ||
+        !filterValues.depletion_start_year
+      ) {
+        const response = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${filterValues.dataset}/${filterValues.well_index}`,
+          { headers }
+        );
+        setWaitingState("complete", "no error");
+        setData(response.data);
+      } else {
+        const response = await axios.get(
+          `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${filterValues.dataset}/${filterValues.well_index}/${filterValues.depletion_start_year}`,
+          { headers }
+        );
+        setWaitingState("complete", "no error");
+        setData(response.data);
+      }
     } catch (err) {
       console.error(err);
       setWaitingState("complete", "error");
@@ -185,11 +222,19 @@ const HistoricalMemberUsageReport = props => {
         try {
           const token = await getTokenSilently();
           const headers = { Authorization: `Bearer ${token}` };
-          const response = await axios.get(
-            `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${filterValues.dataset}/${filterValues.well_index}/${filterValues.depletion_start_year}`,
-            { headers }
-          );
-          setData(response.data);
+          if (!filterValues.depletion_start_year) {
+            const response = await axios.get(
+              `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${view.dataset}/${view.well_index}`,
+              { headers }
+            );
+            setData(response.data);
+          } else {
+            const response = await axios.get(
+              `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${view.dataset}/${view.well_index}/${view.depletion_start_year}`,
+              { headers }
+            );
+            setData(response.data);
+          }
         } catch (err) {
           console.error(err);
           setData([]);
@@ -246,7 +291,8 @@ const HistoricalMemberUsageReport = props => {
           <Submit />
           <SaveFilters
             endpoint="historical-member-usage/views"
-            filterValues={filterValues}
+            redirect="historical-member-usage"
+            filterValues={prepFormValues(filterValues)}
           />
         </FilterActions>
 

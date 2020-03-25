@@ -20,7 +20,7 @@ import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import { TextField, TextArea } from "@lrewater/lre-react";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
-import WdidFilter from "../../../components/Filters/WellsFilter";
+import WellsFilter from "../../../components/Filters/WellsFilter";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -101,14 +101,15 @@ const ManageView = props => {
   });
 
   // Request data for the filters
-  const [WDIDs] = useFetchData("dummy/historical-member-usage/wdid", []);
+  const [Wells] = useFetchData("historical-member-usage/wells", []);
   const DatasetData = [
     { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
     {
-      dataset_ndx: "pumping",
+      dataset_ndx: "well-pumping",
       dataset_desc: "Pumping",
     },
-    { dataset_ndx: "depletions", dataset_desc: "Depletions" },
+    { dataset_ndx: "well-depletions", dataset_desc: "Depletions" },
+    { dataset_ndx: "well-info", dataset_desc: "Well Info" },
   ];
   const [view] = useFetchData(
     `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
@@ -125,7 +126,7 @@ const ManageView = props => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
 
-      if (name === "wdid") {
+      if (name === "well_index") {
         newValues[name] = values;
       } else {
         if (type === "checkbox") {
@@ -167,9 +168,10 @@ const ManageView = props => {
       view_name,
       view_description,
       well_index,
-      depletion_start_year,
       dataset,
     } = values;
+    const depletion_start_year =
+      values.depletion_start_year === "" ? null : values.depletion_start_year;
     return {
       view_ndx,
       view_name,
@@ -245,9 +247,7 @@ const ManageView = props => {
                           variant="body1"
                           className={classes.helpText}
                         >
-                          Lorem ipsum dolor amet ennui jianbing taiyaki
-                          distillery everyday carry, meggings tbh shoreditch
-                          tote bag salvia migas.
+                          Provide a name and description for the view.
                         </Typography>
                         <TextField
                           name="view_name"
@@ -260,7 +260,7 @@ const ManageView = props => {
                         <TextArea
                           name="view_description"
                           label="View Description"
-                          rows="4"
+                          rows={4}
                           variant="outlined"
                           fullWidth
                           value={filterValues.view_description}
@@ -289,20 +289,20 @@ const ManageView = props => {
                     </Step>
                     <Step>
                       <StepButton onClick={() => handleStep(1)}>
-                        Measurements
+                        Filters
                       </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
                           className={classes.helpText}
                         >
-                          Lorem ipsum dolor amet ennui jianbing taiyaki
-                          distillery everyday carry, meggings tbh shoreditch
-                          tote bag salvia migas.
+                          Select the wells and dataset associated with this
+                          view.
                         </Typography>
                         {/* Structure Types filter */}
-                        <WdidFilter
-                          data={WDIDs}
+                        <WellsFilter
+                          multiple
+                          data={Wells}
                           value={filterValues.well_index}
                           onChange={handleFilter}
                         />
@@ -342,9 +342,7 @@ const ManageView = props => {
                     View Summary
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    Lorem ipsum dolor amet ennui jianbing taiyaki distillery
-                    everyday carry, meggings tbh shoreditch tote bag salvia
-                    migas.
+                    This panel provides a summary of current view.
                   </Typography>
                   <Typography
                     variant="body1"
@@ -372,12 +370,12 @@ const ManageView = props => {
                   </Typography>
                   <div className={classes.chipCloud}>
                     {filterValues.well_index.length === 0 && "None"}
-                    {WDIDs.filter(d =>
+                    {Wells.filter(d =>
                       filterValues.well_index.includes(d.well_index)
                     ).map(chip => (
                       <Chip
                         key={chip.well_index}
-                        label={chip.wdid_desc}
+                        label={chip.wdid}
                         className={classes.chip}
                         onDelete={() => {}}
                       />

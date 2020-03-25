@@ -403,9 +403,7 @@ const ManageView = props => {
                           variant="body1"
                           className={classes.helpText}
                         >
-                          Lorem ipsum dolor amet ennui jianbing taiyaki
-                          distillery everyday carry, meggings tbh shoreditch
-                          tote bag salvia migas.
+                          Provide a name and description for the view.
                         </Typography>
                         <TextField
                           name="view_name"
@@ -454,9 +452,9 @@ const ManageView = props => {
                           variant="body1"
                           className={classes.helpText}
                         >
-                          Lorem ipsum dolor amet ennui jianbing taiyaki
-                          distillery everyday carry, meggings tbh shoreditch
-                          tote bag salvia migas.
+                          Select the structure types, structures, and
+                          measurement types that you would like to be associated
+                          with this view.
                         </Typography>
                         {/* Structure Types filter */}
                         <StructureTypesFilter
@@ -508,9 +506,7 @@ const ManageView = props => {
                           variant="body1"
                           className={classes.helpText}
                         >
-                          Lorem ipsum dolor amet ennui jianbing taiyaki
-                          distillery everyday carry, meggings tbh shoreditch
-                          tote bag salvia migas.
+                          Refine the period of record for this view.
                         </Typography>
                         {/* Aggregation Level Filter */}
                         <AggregationLevelFilter
@@ -557,9 +553,7 @@ const ManageView = props => {
                     View Summary
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    Lorem ipsum dolor amet ennui jianbing taiyaki distillery
-                    everyday carry, meggings tbh shoreditch tote bag salvia
-                    migas.
+                    This panel provides a summary of current view.
                   </Typography>
                   <Typography
                     variant="body1"
