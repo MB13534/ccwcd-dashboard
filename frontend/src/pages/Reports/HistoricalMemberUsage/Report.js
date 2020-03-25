@@ -16,7 +16,6 @@ import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import ReportData from "../../../components/Reports/ReportData";
 import WellsFilter from "../../../components/Filters/WellsFilter";
 import { Select } from "@lrewater/lre-react";
-import MaterialTable from "material-table";
 
 const HistoricalMemberUsageReport = props => {
   let { viewNdx } = useParams();

@@ -1,13 +1,9 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import MaterialTable from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../../hooks/useFetchData";
-import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import { useAuth0 } from "../../../hooks/auth";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import CustomEditField from "../../../components/MaterialTable/CustomEditField";
+
 import {
   ExpansionPanel,
   ExpansionPanelDetails,
@@ -35,18 +31,10 @@ const MeterAdjustmentsQAQCTable = ({
   meters,
 }) => {
   const classes = useStyles();
-  const {
-    setWaitingState,
-    snackbarOpen,
-    snackbarError,
-    handleSnackbarClose,
-  } = useFormSubmitStatus();
-  const { getTokenSilently } = useAuth0();
 
   const [
     tableData,
     isLoading,
-    setTableData,
   ] = useFetchData("members-management/meter-adjustments/qaqc", [
     refreshSwitch,
   ]);
@@ -140,14 +128,6 @@ const MeterAdjustmentsQAQCTable = ({
                 padding: "dense",
               }}
             /> */}
-
-      <FormSnackbar
-        open={snackbarOpen}
-        error={snackbarError}
-        handleClose={handleSnackbarClose}
-        successMessage="Success"
-        errorMessage="Error"
-      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -8,20 +9,19 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Avatar,
   Divider,
   Button,
   Breadcrumbs,
   Link,
   CircularProgress,
 } from "@material-ui/core";
-import PrivateRouteWithRoles from "../../components/PrivateRouteWithRoles";
 import Layout from "../../components/Layout";
-import FolderIcon from "@material-ui/icons/Folder";
+import { useAuth0 } from "../../hooks/auth";
 import useFetchData from "../../hooks/useFetchData";
 import { Link as RouterLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import DownloadIcon from "@material-ui/icons/GetApp";
+import loading from "../../images/loading.svg";
 import CSV from "../../images/file-types/csv.svg";
 import XLS from "../../images/file-types/xls.svg";
 import Doc from "../../images/file-types/doc.svg";
@@ -45,6 +45,11 @@ const useStyles = makeStyles(theme => ({
   paper: {
     // padding: theme.spacing(2),
     margin: theme.spacing(2, 0),
+  },
+  loading: {
+    width: "100%",
+    textAlign: "center",
+    padding: theme.spacing(2),
   },
   breadcrumbs: {
     padding: theme.spacing(1),
@@ -118,73 +123,62 @@ const FileIcon = ({ name }) => {
 const FolderPage = props => {
   const classes = useStyles();
   const { folderPath } = useParams();
-  // const [Data] = useFetchData(`files/folders/${folderPath}`);
+  const { getTokenSilently } = useAuth0();
+  const [Data, isLoading] = useFetchData(`files/folders/${folderPath}`, []);
+  const [ModifiedData, setModifiedData] = useState([]);
 
-  const [Data, setData] = useState([
-    {
-      ".tag": "file",
-      name: "Another Example File.xlsx",
-      path_lower: "/aug wells/another example file.xlsx",
-      path_display: "/Aug Wells/Another Example File.xlsx",
-      id: "id:e3HPqKZ4rWAAAAAAAAAJEw",
-      client_modified: "2020-03-16T23:19:59Z",
-      server_modified: "2020-03-19T15:05:13Z",
-      rev: "015a1367ef5293900000001b1788f00",
-      size: 7934,
-      is_downloadable: true,
-      content_hash:
-        "2b685c5e12951e7563f91396c8afc9cc8dacebe348aa91f3d0f44f2d5adc3a2f",
-      loading: false,
-      downloaded: false,
-    },
-    {
-      ".tag": "file",
-      name: "Example File.docx",
-      path_lower: "/aug wells/example file.docx",
-      path_display: "/Aug Wells/Example File.docx",
-      id: "id:e3HPqKZ4rWAAAAAAAAAJEg",
-      client_modified: "2020-03-16T21:42:09Z",
-      server_modified: "2020-03-19T15:05:15Z",
-      rev: "015a1367f0f7ebb00000001b1788f00",
-      size: 11023,
-      is_downloadable: true,
-      content_hash:
-        "ac0d2bda3790b410299001b0cb30de067d70e8fb1a95b61aa253ec394e95ea02",
-      loading: false,
-      downloaded: false,
-    },
-    {
-      ".tag": "file",
-      name: "Yet Another Example Doc.docx",
-      path_lower: "/aug wells/yet another example doc.docx",
-      path_display: "/Aug Wells/Yet Another Example Doc.docx",
-      id: "id:e3HPqKZ4rWAAAAAAAAAJFA",
-      client_modified: "2020-03-16T23:20:24Z",
-      server_modified: "2020-03-19T15:05:17Z",
-      rev: "015a1367f2a446a00000001b1788f00",
-      size: 11013,
-      is_downloadable: true,
-      content_hash:
-        "22a9b7c33e2ddc51fb6921fa4edf5bf74b766c3ebf22d4be87fa84a9ed85293e",
-      downloaded: false,
-    },
-  ]);
+  useEffect(() => {
+    let newData = [...Data];
+    newData = newData.map(d => {
+      let rec = { ...d };
 
-  const handleClick = index => {
-    setData(prevState => {
-      const newData = [...prevState];
-      prevState[index].loading = true;
-      return newData;
+      rec.loading = false;
+      rec.downloaded = false;
+      return rec;
     });
-    setTimeout(() => {
-      setData(prevState => {
-        const newData = [...prevState];
-        prevState[index].loading = false;
-        prevState[index].downloaded = true;
-        return newData;
+    setModifiedData(newData);
+  }, [Data]);
+
+  const handleDownload = async file => {
+    try {
+      const filePath = file.path_display;
+      const token = await getTokenSilently();
+      const headers = { Authorization: `Bearer ${token}` };
+      const LinkData = await axios.post(
+        `${process.env.REACT_APP_ENDPOINT}/api/files/download`,
+        { filePath },
+        { headers }
+      );
+      const { data } = LinkData;
+      setModifiedData(prevState => {
+        let newData = [...prevState];
+        return newData.map(d => {
+          let rec = { ...d };
+          if (d.path_display === file.path_display) {
+            rec.loading = false;
+            rec.downloaded = true;
+            rec.downloadLink = data.link;
+          }
+          return rec;
+        });
       });
-    }, 2000);
+    } catch (err) {
+      console.error(err);
+      setModifiedData(prevState => {
+        let newData = [...prevState];
+        return newData.map(d => {
+          let rec = { ...d };
+          if (d.path_display === file.path_display) {
+            let rec = { ...d };
+            rec.loading = false;
+            rec.downloaded = false;
+          }
+          return rec;
+        });
+      });
+    }
   };
+
   return (
     <Layout>
       <section className={classes.root}>
@@ -209,42 +203,63 @@ const FolderPage = props => {
               </Breadcrumbs>
             </Paper>
             <Paper className={classes.paper}>
-              <List>
-                {Data.map((item, index) => (
-                  <React.Fragment key={item.name}>
-                    <ListItem
-                      button
-                      // onClick={() => handleClick(item.id)}
-                    >
-                      <ListItemAvatar>
-                        <FileIcon name={item.name} />
-                        {/* <CSV /> */}
-                        {/* <img src={CSV} alt="CSV" style={{ maxWidth: 40 }} /> */}
-                      </ListItemAvatar>
-                      <ListItemText primary={item.name} />
-                      <div className={classes.wrapper}>
-                        <Button
-                          variant="contained"
-                          color={item.downloaded ? "secondary" : "primary"}
-                          size="small"
-                          disabled={item.loading}
-                          onClick={() => handleClick(index)}
-                        >
-                          <DownloadIcon style={{ marginRight: 5 }} />
-                          {item.downloaded ? "Download" : "Start Download"}
-                        </Button>
-                        {item.loading && (
-                          <CircularProgress
-                            size={24}
-                            className={classes.buttonProgress}
-                          />
-                        )}
-                      </div>
-                    </ListItem>
-                    {index !== Data.length - 1 && <Divider />}
-                  </React.Fragment>
-                ))}
-              </List>
+              {isLoading ? (
+                <div className={classes.loading}>
+                  <img
+                    src={loading}
+                    alt="loading"
+                    className={classes.loadingIcon}
+                  />
+                </div>
+              ) : (
+                <List>
+                  {ModifiedData.map((item, index) => (
+                    <React.Fragment key={item.name}>
+                      <ListItem button>
+                        <ListItemAvatar>
+                          <FileIcon name={item.name} />
+                        </ListItemAvatar>
+                        <ListItemText primary={item.name} />
+                        <div className={classes.wrapper}>
+                          {item.downloaded && item.downloadLink ? (
+                            <Button
+                              target="_blank"
+                              rel="noopener"
+                              href={item.downloadLink}
+                              variant="contained"
+                              color="secondary"
+                              size="small"
+                              disabled={item.loading}
+                            >
+                              <DownloadIcon style={{ marginRight: 5 }} />
+                              Download
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              size="small"
+                              disabled={item.loading}
+                              onClick={() => handleDownload(item)}
+                            >
+                              <DownloadIcon style={{ marginRight: 5 }} />
+                              Start Download
+                            </Button>
+                          )}
+
+                          {item.loading && (
+                            <CircularProgress
+                              size={24}
+                              className={classes.buttonProgress}
+                            />
+                          )}
+                        </div>
+                      </ListItem>
+                      {index !== Data.length - 1 && <Divider />}
+                    </React.Fragment>
+                  ))}
+                </List>
+              )}
             </Paper>
           </Container>
         </div>

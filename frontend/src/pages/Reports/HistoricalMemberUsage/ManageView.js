@@ -19,10 +19,7 @@ import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import { TextField, TextArea } from "@lrewater/lre-react";
-import EndMonthFilter from "../../../components/Filters/EndMonthFilter";
-import EndYearFilter from "../../../components/Filters/EndYearFilter";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
-import DisplayTypeFilter from "../../../components/Filters/DisplayTypeFilter";
 import WdidFilter from "../../../components/Filters/WellsFilter";
 
 const useStyles = makeStyles(theme => ({

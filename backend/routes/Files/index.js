@@ -62,4 +62,25 @@ router.get("/folders/:folderPath", (req, res, next) => {
   }
 });
 
+// POST /api/files/download
+// Route for returning all files in Dropbox subfolder
+router.post("/download/", (req, res, next) => {
+  try {
+    const dbx = new Dropbox({
+      fetch,
+      accessToken: process.env.DBX_ACCESS_TOKEN,
+    });
+    dbx
+      .filesGetTemporaryLink({ path: `${req.body.filePath}` })
+      .then(function(response) {
+        res.json(response);
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
