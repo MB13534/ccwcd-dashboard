@@ -21,6 +21,7 @@ const ReportData = ({ title, data, columns, loading }) => {
         isLoading={loading}
         editable={{}}
         options={{
+          exportAllData: true,
           grouping: true,
           columnsButton: true,
           exportButton: true,
