@@ -8,6 +8,8 @@ const DatasetFilter = ({ data, value, onChange }) => {
       name="dataset"
       label="Dataset"
       variant="outlined"
+      outlineColor="primary"
+      labelColor="primary"
       valueField="dataset_ndx"
       displayField="dataset_desc"
       data={data}
