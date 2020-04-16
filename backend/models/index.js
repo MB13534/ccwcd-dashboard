@@ -23,17 +23,17 @@ const sequelize = new Sequelize(
 );
 
 fs.readdirSync(__dirname)
-  .filter(file => {
+  .filter((file) => {
     return (
       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
     );
   })
-  .forEach(file => {
+  .forEach((file) => {
     const model = sequelize["import"](path.join(__dirname, file));
     db[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
@@ -44,7 +44,7 @@ sequelize
   .then(() => {
     console.log("Connection has been established successfully.");
   })
-  .catch(err => {
+  .catch((err) => {
     console.log("Unable to connect to the database:", err);
   });
 
@@ -64,7 +64,7 @@ db.ATV_Measurement_Types = require("./ATV/MeasurementTypes")(
 );
 db.ATV_Daily_Average = require("./ATV/DailyAverage")(sequelize, Sequelize);
 db.ATV_Daily_End_of_Day = require("./ATV/DailyEndofDay")(sequelize, Sequelize);
-db.ATV_Daily_15_min = require("./ATV/Daily15Minute")(sequelize, Sequelize);
+db.ATV_Daily_15_min = require("./ATV/Daily15minute")(sequelize, Sequelize);
 
 /**
  * Historical Member Usage models
@@ -155,10 +155,10 @@ db.UserRolesLanding = require("./DataManagement/UserRolesLanding")(
   Sequelize
 );
 
-Sequelize.postgres.DECIMAL.parse = function(value) {
+Sequelize.postgres.DECIMAL.parse = function (value) {
   return parseFloat(value);
 };
-Sequelize.postgres.BIGINT.parse = function(value) {
+Sequelize.postgres.BIGINT.parse = function (value) {
   return parseInt(value);
 };
 
