@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Typography, Divider } from "@material-ui/core";
+import { FilterBar, FilterActions, FilterAdvanced } from "@lrewater/lre-react";
+
 import { useAuth0 } from "../../../hooks/auth";
 import useFetchData from "../../../hooks/useFetchData";
 import useFilterAssoc from "../../../hooks/useFilterAssoc";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import Report from "../../../components/Reports/Report";
-import FilterBar from "../../../components/Filters/FilterBar";
-import AdvancedFilters from "../../../components/Filters/AdvancedFilters";
-import FilterActions from "../../../components/Filters/FilterActions";
+
 import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
 import StructureTypesFilter from "../../../components/Filters/StructureTypesFilter";
@@ -22,7 +22,7 @@ import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import ReportData from "../../../components/Reports/ReportDataATV";
 import { DatePicker } from "@lrewater/lre-react";
 
-const AllThingsViewer = props => {
+const AllThingsViewer = (props) => {
   let { viewNdx } = useParams();
   const {
     setWaitingState,
@@ -92,9 +92,9 @@ const AllThingsViewer = props => {
    * The values state is updated whenever a filter changes
    * @param {object} event JavaScript event object
    */
-  const handleFilter = event => {
+  const handleFilter = (event) => {
     const { name, value, type, checked } = event.target;
-    setFilterValues(prevState => {
+    setFilterValues((prevState) => {
       let newValues = { ...prevState };
 
       // logic that clears selections for structures and measurement types
@@ -149,7 +149,7 @@ const AllThingsViewer = props => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -177,7 +177,7 @@ const AllThingsViewer = props => {
     if (data.length > 0) {
       const keys = Object.keys(data[0]);
       setColumns(
-        keys.map(key => {
+        keys.map((key) => {
           if (key === "collect_timestamp") {
             return {
               type: "category",
@@ -218,7 +218,7 @@ const AllThingsViewer = props => {
    */
   useEffect(() => {
     if (!viewLoading && view && view.length !== 0) {
-      setFilterValues(prevState => {
+      setFilterValues((prevState) => {
         let newValues = { ...prevState };
         newValues.structure_types = view.structure_types;
         newValues.structures = view.structures;
@@ -287,7 +287,7 @@ const AllThingsViewer = props => {
           />
         </FilterActions>
 
-        <AdvancedFilters>
+        <FilterAdvanced>
           <AggregationLevelFilter
             data={AggregationData}
             value={filterValues.aggregation_level}
@@ -313,7 +313,7 @@ const AllThingsViewer = props => {
           <Divider style={{ margin: "16px 0" }} />
 
           <SavedViews endpoint="all-things-viewer/views" />
-        </AdvancedFilters>
+        </FilterAdvanced>
       </FilterBar>
 
       <ReportData

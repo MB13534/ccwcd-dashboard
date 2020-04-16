@@ -18,7 +18,7 @@ import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../hooks/auth";
 import { goTo } from "../../util";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   btn: {
     marginRight: theme.spacing(1),
   },
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const FilterActions = ({ endpoint, redirect, filterValues }) => {
+const SaveFilters = ({ endpoint, redirect, filterValues }) => {
   const classes = useStyles();
   let history = useHistory();
   const [saveViewVisibility, handleSaveViewVisibility] = useVisibility(false);
@@ -51,16 +51,16 @@ const FilterActions = ({ endpoint, redirect, filterValues }) => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormValues(prevState => {
+    setFormValues((prevState) => {
       let newValues = { ...prevState };
       newValues[name] = value;
       return newValues;
     });
   };
 
-  const prepFormValues = values => {
+  const prepFormValues = (values) => {
     let newValues = { ...values };
     newValues.view_name = formValues.view_name;
     newValues.view_description = formValues.view_description;
@@ -71,7 +71,7 @@ const FilterActions = ({ endpoint, redirect, filterValues }) => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSaveViewSubmit = async event => {
+  const handleSaveViewSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -181,11 +181,11 @@ const FilterActions = ({ endpoint, redirect, filterValues }) => {
   );
 };
 
-FilterActions.propTypes = {
+SaveFilters.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
 };
 
-export default FilterActions;
+export default SaveFilters;

@@ -10,9 +10,12 @@ const MeasurementTypesFilter = ({ data, value, onChange }) => {
       variant="outlined"
       valueField="measure_type_ndx"
       displayField="measure_type_desc"
+      outlineColor="primary"
+      labelColor="primary"
       data={data}
       value={value}
       onChange={onChange}
+      width={200}
     />
   );
 };

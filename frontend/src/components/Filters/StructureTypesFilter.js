@@ -10,9 +10,13 @@ const StructureTypesFilter = ({ data, value, onChange }) => {
       variant="outlined"
       valueField="structure_type_ndx"
       displayField="structure_type_desc"
+      outlineColor="primary"
+      labelColor="primary"
+      margin="normal"
       data={data}
       value={value}
       onChange={onChange}
+      width={200}
     />
   );
 };

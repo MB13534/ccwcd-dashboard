@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { FilterActions, FilterBar, FilterAdvanced } from "@lrewater/lre-react";
+
 import { useAuth0 } from "../../../hooks/auth";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import Report from "../../../components/Reports/Report";
-import FilterBar from "../../../components/Filters/FilterBar";
-import AdvancedFilters from "../../../components/Filters/AdvancedFilters";
-import FilterActions from "../../../components/Filters/FilterActions";
 import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
@@ -17,7 +16,7 @@ import ReportData from "../../../components/Reports/ReportData";
 import WellsFilter from "../../../components/Filters/WellsFilter";
 import { Select } from "@lrewater/lre-react";
 
-const HistoricalMemberUsageReport = props => {
+const HistoricalMemberUsageReport = (props) => {
   let { viewNdx } = useParams();
   const {
     setWaitingState,
@@ -125,7 +124,7 @@ const HistoricalMemberUsageReport = props => {
    */
   const handleFilter = (event, values) => {
     const { name, value, type, checked } = event.target;
-    setFilterValues(prevState => {
+    setFilterValues((prevState) => {
       let newValues = { ...prevState };
 
       if (name === "well_index") {
@@ -149,7 +148,7 @@ const HistoricalMemberUsageReport = props => {
    * for submission to the database
    * @param {object} values
    */
-  const prepFormValues = values => {
+  const prepFormValues = (values) => {
     const {
       view_ndx,
       view_name,
@@ -173,7 +172,7 @@ const HistoricalMemberUsageReport = props => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -211,7 +210,7 @@ const HistoricalMemberUsageReport = props => {
    */
   useEffect(() => {
     if (view && view.length !== 0) {
-      setFilterValues(prevState => {
+      setFilterValues((prevState) => {
         let newValues = { ...prevState };
         newValues.well_index = view.well_index;
         newValues.depletion_start_year = view.depletion_start_year;
@@ -296,9 +295,9 @@ const HistoricalMemberUsageReport = props => {
           />
         </FilterActions>
 
-        <AdvancedFilters>
+        <FilterAdvanced>
           <SavedViews endpoint="historical-member-usage/views" />
-        </AdvancedFilters>
+        </FilterAdvanced>
       </FilterBar>
 
       <ReportData

@@ -17,4 +17,11 @@ export default createMuiTheme({
   typography: {
     useNextVariants: true,
   },
+  overrides: {
+    MuiInputBase: {
+      root: {
+        fontSize: "0.9rem",
+      },
+    },
+  },
 });

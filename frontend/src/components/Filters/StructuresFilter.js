@@ -11,8 +11,11 @@ const StructuresFilter = ({ data, value, onChange }) => {
       valueField="structure_ndx"
       displayField="structure_desc"
       data={data}
+      outlineColor="primary"
+      labelColor="primary"
       value={value}
       onChange={onChange}
+      width={200}
     />
   );
 };
