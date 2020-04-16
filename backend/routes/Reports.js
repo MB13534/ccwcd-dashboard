@@ -22,12 +22,13 @@ router.get("/", (req, res, next) => {
       assoc_role_id: {
         [Op.contains]: roles,
       },
+      report_enabled: true,
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });

@@ -29,7 +29,7 @@ import useVisibility from "../hooks/useVisibility";
 
 const drawerWidth = 270;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
@@ -89,7 +89,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Sidebar = props => {
+const Sidebar = (props) => {
   const classes = useStyles();
   let history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -111,7 +111,7 @@ const Sidebar = props => {
   };
 
   // function for naviating to a specific page in the app
-  const goTo = route => {
+  const goTo = (route) => {
     history.push(`/${route}`);
     localStorage.setItem("last_url", history.location.pathname);
   };
@@ -120,7 +120,7 @@ const Sidebar = props => {
    * Utility function used to determine if a menu link is active
    * @param {*} item
    */
-  const setActive = item => {
+  const setActive = (item) => {
     if (item.exact) {
       return history.location.pathname === `/${item.activePath}`;
     } else {
@@ -258,7 +258,7 @@ const Sidebar = props => {
         return (
           <Collapse in={dataManagementVisibility} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {item.children.map(child => (
+              {item.children.map((child) => (
                 <ListItem
                   button
                   onClick={() => goTo(child.link)}
@@ -288,7 +288,7 @@ const Sidebar = props => {
     if (item.loginRequired && item.rolesRequired && user) {
       let roleSwitch = false;
       const roles = [...item.rolesRequired];
-      roles.forEach(role => {
+      roles.forEach((role) => {
         if (user["https://ccwcd2.org/roles"].includes(role)) {
           roleSwitch = true;
         }
@@ -311,7 +311,7 @@ const Sidebar = props => {
         <img src={logo} className={classes.logo} alt="Logo" />
       </div>
       <List className={classes.nav}>
-        {MenuItems.map(item => returnMenuItem(item, isAuthenticated, user))}
+        {MenuItems.map((item) => returnMenuItem(item, isAuthenticated, user))}
         {isAuthenticated ? (
           <ListItem button>
             <ListItemIcon className={classes.navIcon}>
