@@ -292,6 +292,7 @@ const AllThingsViewer = (props) => {
             data={AggregationData}
             value={filterValues.aggregation_level}
             onChange={handleFilter}
+            width={200}
           />
 
           <DatePicker
@@ -302,6 +303,7 @@ const AllThingsViewer = (props) => {
             labelColor="primary"
             value={filterValues.end_date}
             onChange={handleFilter}
+            width={200}
           />
 
           <Typography
