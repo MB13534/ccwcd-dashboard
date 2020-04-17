@@ -11,8 +11,10 @@ import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../hooks/auth";
 import ReportDetails from "./ReportDetails";
 import { goTo } from "../../util";
+import Flex from "../../components/Flex";
+import ReportsHelp from "./HelpGuides/ReportsHelp";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     overflow: "hidden",
@@ -54,7 +56,7 @@ const ReportsHome = () => {
     [formSubmitting, viewPath]
   );
 
-  const handleReportSelection = report => {
+  const handleReportSelection = (report) => {
     setSelectedReport(report);
   };
 
@@ -95,10 +97,20 @@ const ReportsHome = () => {
     <Layout>
       <section className={classes.root}>
         <div className={classes.content}>
-          <Typography variant="h5" gutterBottom>
-            Reports Explorer
-          </Typography>
-          <Grid container spacing={3} className={classes.reportsGrid}>
+          <Flex>
+            <Typography variant="h5" gutterBottom>
+              Reports Explorer
+            </Typography>
+            <ReportsHelp
+              handleReportSelection={() => handleReportSelection(Reports[0])}
+            />
+          </Flex>
+          <Grid
+            id="report-cards"
+            container
+            spacing={3}
+            className={classes.reportsGrid}
+          >
             {Reports.map((report, index) => (
               <Grid item xs={12} sm={4} key={report.report_name}>
                 <ReportCard

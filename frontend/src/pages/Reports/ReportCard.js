@@ -15,7 +15,7 @@ const link = React.forwardRef((props, ref) => (
   <RouterLink innerRef={ref} {...props} />
 ));
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     "&:hover": {
       cursor: "pointer",
@@ -56,10 +56,19 @@ const ReportCard = ({ report, handleReportSelection }) => {
         <Typography variant="body2">{report.report_description}</Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => handleReportSelection(report)}>
+        <Button
+          id="report-details-btn"
+          size="small"
+          onClick={() => handleReportSelection(report)}
+        >
           Details
         </Button>
-        <Button size="small" component={link} to={report.path}>
+        <Button
+          id="report-jump-to-btn"
+          size="small"
+          component={link}
+          to={report.path}
+        >
           Jump To
         </Button>
       </CardActions>

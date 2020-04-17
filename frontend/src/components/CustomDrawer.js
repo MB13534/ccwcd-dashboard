@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const drawerWidth = 345;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,

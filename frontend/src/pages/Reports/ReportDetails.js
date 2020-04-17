@@ -14,7 +14,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import CustomDrawer from "../../components/CustomDrawer";
 import ReportIllustration from "../../images/undraw_data_trends_b0wg.svg";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   reportDrawer: {
     padding: theme.spacing(3),
   },
@@ -48,7 +48,7 @@ const ReportDetails = ({
 
   return (
     <CustomDrawer>
-      <div className={classes.reportDrawer}>
+      <div className={classes.reportDrawer} id="report-details-drawer">
         {!selectedReport && (
           <React.Fragment>
             <Typography
@@ -96,25 +96,25 @@ const ReportDetails = ({
             <List>
               {views
                 .filter(
-                  view => view.assoc_report_ndx === selectedReport.report_ndx
+                  (view) => view.assoc_report_ndx === selectedReport.report_ndx
                 )
-                .map(view => (
+                .map((view) => (
                   <ListItem key={view.view_ndx} button>
                     <ListItemText
                       className={classes.listItemText}
                       primary={view.view_name}
-                      onClick={e => handleJumpToView(e, view)}
+                      onClick={(e) => handleJumpToView(e, view)}
                     />
                     <ListItemSecondaryAction>
                       <IconButton
                         edge="end"
                         aria-label="edit"
-                        onClick={e => handleEditView(e, view)}
+                        onClick={(e) => handleEditView(e, view)}
                       >
                         <EditIcon />
                       </IconButton>
                       <IconButton
-                        onClick={e => handleDeleteView(e, view)}
+                        onClick={(e) => handleDeleteView(e, view)}
                         edge="end"
                         aria-label="delete"
                       >
