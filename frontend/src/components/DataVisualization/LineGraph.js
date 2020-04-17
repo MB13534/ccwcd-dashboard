@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import "../../../node_modules/react-vis/dist/style.css";
 import {
   Typography,
   Collapse,
@@ -10,20 +9,22 @@ import {
   IconButton,
 } from "@material-ui/core";
 import {
-  FlexibleWidthXYPlot,
+  ResponsiveContainer,
+  LineChart,
   XAxis,
+  Tooltip as ChartTooltip,
+  CartesianGrid,
+  Line,
   YAxis,
-  HorizontalGridLines,
-  LineSeries,
-  Crosshair,
-  DiscreteColorLegend,
-} from "react-vis";
+  Legend,
+} from "recharts";
 import { MultiSelect } from "@lrewater/lre-react";
 import useGraph from "../../hooks/useGraph";
 import useVisibility from "../../hooks/useVisibility";
 import ColumnsIcon from "@material-ui/icons/ViewColumn";
+import { formatDate } from "../../util";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   tooltip: {
     width: 300,
     border: "1px solid #dddddd",
@@ -37,15 +38,6 @@ const useStyles = makeStyles(theme => ({
   tooltipValue: {
     margin: theme.spacing(1, 0),
   },
-  seriesLegend: {
-    width: 15,
-    height: 5,
-    display: "inline-block",
-    marginRight: theme.spacing(1),
-  },
-  seriesText: {
-    fontSize: 13,
-  },
 }));
 
 const SeriesToggles = ({
@@ -57,7 +49,7 @@ const SeriesToggles = ({
 }) => {
   const classes = useStyles();
 
-  const handleFilter = event => {
+  const handleFilter = (event) => {
     handleToggle(event.target.value);
   };
 
@@ -74,6 +66,8 @@ const SeriesToggles = ({
             data={columns}
             value={selections}
             onChange={handleFilter}
+            variant="outlined"
+            width={300}
           />
         </div>
       </div>
@@ -91,15 +85,11 @@ SeriesToggles.propTypes = {
 
 const LineGraph = ({ data, columns, title }) => {
   const classes = useStyles();
-  const { graphData, filteredKeys, handleFilteredKeys } = useGraph(
-    data,
-    columns
-  );
+  const { filteredKeys, handleFilteredKeys } = useGraph(columns);
   const [
     seriesTogglesVisibility,
     handleSeriesTogglesVisibility,
   ] = useVisibility(false);
-  const [crosshairValues, setCrosshairValues] = useState([]);
 
   // Color scale used for 5 or less series
   const DISCRETE_COLOR_RANGE = [
@@ -135,28 +125,13 @@ const LineGraph = ({ data, columns, title }) => {
     "#B3AD9E",
   ];
 
-  /**
-   * Event handlers for graph mouseover/mouseleave
-   */
-  const onMouseLeave = () => setCrosshairValues([]);
-  const onNearestX = (value, { index }) => {
-    setCrosshairValues(graphData.map(d => d[index].y !== null && d[index]));
+  const setLineColor = (series, index) => {
+    return series.length > 5
+      ? EXTENDED_DISCRETE_COLOR_RANGE[index]
+      : DISCRETE_COLOR_RANGE[index];
   };
 
-  /**
-   * Utility function that determines whether the descrete or
-   * extended discrete color range should be used in setting
-   * the background color for the tooltip legend item
-   * @param {number} index index of the legend item
-   */
-  const setLegendColor = index => {
-    if (index >= DISCRETE_COLOR_RANGE.length) {
-      return EXTENDED_DISCRETE_COLOR_RANGE[index];
-    }
-    return DISCRETE_COLOR_RANGE[index];
-  };
-
-  if (graphData.length === 0) return null;
+  if (data.length === 0) return null;
   return (
     <div>
       {title && (
@@ -174,13 +149,13 @@ const LineGraph = ({ data, columns, title }) => {
                 />
               </IconButton>
             </Tooltip>
-            <Typography
-              variant="button"
-              display="inline"
+            <Button
+              // variant="button"
+              // display="inline"
               color={seriesTogglesVisibility ? "primary" : "initial"}
             >
               Toggle Series
-            </Typography>
+            </Button>
           </div>
         </div>
       )}
@@ -191,62 +166,36 @@ const LineGraph = ({ data, columns, title }) => {
         visibilityHandler={handleSeriesTogglesVisibility}
         handleToggle={handleFilteredKeys}
       />
-      <FlexibleWidthXYPlot
-        height={400}
-        xType="time"
-        margin={{ left: 60, right: 10, top: 10, bottom: 40 }}
-        onMouseLeave={onMouseLeave}
-      >
-        <HorizontalGridLines />
-        <XAxis tickTotal={8} tickLabelAngle={-45} title="Time" />
-        <YAxis title="Change in Flow (CFS)" />
-        {graphData.map(d => (
-          <LineSeries
-            key={Math.random() * 9999999}
-            data={d}
-            getNull={d => d.y !== null}
-            onNearestX={onNearestX}
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 0, bottom: 30 }}
+        >
+          <XAxis
+            dataKey="collect_timestamp"
+            tickFormatter={(val) => formatDate(val, "mm/dd")}
           />
-        ))}
-        {crosshairValues.length > 0 && (
-          <Crosshair values={crosshairValues}>
-            <div className={classes.tooltip}>
-              {crosshairValues.map(
-                (val, index) =>
-                  val && (
-                    <div key={Math.random() * 999999}>
-                      {index === 0 && (
-                        <Typography variant="body2" gutterBottom>
-                          {val.x.toString()}
-                        </Typography>
-                      )}
-                      <div className={classes.tooltipValue}>
-                        <span
-                          className={classes.seriesLegend}
-                          style={{
-                            backgroundColor: setLegendColor(index),
-                          }}
-                        ></span>
-                        <span className={classes.seriesText}>
-                          {val.seriesLabel}: {val.y}
-                        </span>
-                      </div>
-                    </div>
-                  )
-              )}
-            </div>
-          </Crosshair>
-        )}
-      </FlexibleWidthXYPlot>
-      <DiscreteColorLegend
-        orientation="horizontal"
-        width={900}
-        items={columns
-          .filter(
-            col => col.type === "series" && filteredKeys.includes(col.accessor)
-          )
-          .map(col => col.label)}
-      />
+          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" />
+          <ChartTooltip labelFormatter={formatDate} />
+          {filteredKeys.map((s, i) => (
+            <Line
+              key={s}
+              dataKey={s}
+              stroke={setLineColor(filteredKeys, i)}
+              strokeWidth={2}
+            />
+          ))}
+
+          <Legend
+            verticalAlign="bottom"
+            height={36}
+            wrapperStyle={{
+              bottom: 0,
+            }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };

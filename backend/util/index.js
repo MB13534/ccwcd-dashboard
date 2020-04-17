@@ -10,7 +10,7 @@ const unique = (data, field) => {
   if (data[0][field] instanceof Date) {
     return [
       ...new Set(
-        data.map(d =>
+        data.map((d) =>
           d[field].toLocaleString("en-US", {
             timeZone: "America/Denver",
           })
@@ -18,12 +18,13 @@ const unique = (data, field) => {
       ),
     ];
   }
-  return [...new Set(data.map(d => d[field]))];
+  return [...new Set(data.map((d) => d[field]))];
 };
 
-const formatDate = date => {
-  return `${date.getMonth() +
-    1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+const formatDate = (date) => {
+  return `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 };
 
 /**
@@ -60,17 +61,17 @@ const crosstab = (data, categoryField, seriesField, valueField) => {
   const series = unique(data, seriesField);
   const categories = unique(data, categoryField);
 
-  const records = categories.map(category => {
+  const records = categories.map((category) => {
     const record = {};
     if (data[0][categoryField] instanceof Date) {
       record[categoryField] = new Date(category);
     } else {
       record[categoryField] = category;
     }
-    series.forEach(s => {
+    series.forEach((s) => {
       record[s] = null;
     });
-    data.forEach(d => {
+    data.forEach((d) => {
       if (data[0][categoryField] instanceof Date) {
         if (
           d[categoryField].toLocaleString("en-US", {
@@ -94,7 +95,7 @@ const crosstab = (data, categoryField, seriesField, valueField) => {
  * Utility function used to generate crosstabbed data
  * @param {number} count number of records to generate
  */
-const generateCrosstabbedDailyData = count => {
+const generateCrosstabbedDailyData = (count) => {
   const Measurements = [
     "West Stage (ft)",
     "Oster Stage (ft)",
@@ -110,7 +111,7 @@ const generateCrosstabbedDailyData = count => {
     let record = {
       Date: new Date(baseDate.setDate(baseDate.getDate() - 1)),
     };
-    Measurements.forEach(m => {
+    Measurements.forEach((m) => {
       record[m] = (Math.random() * 6).toFixed(2);
     });
     return record;
@@ -122,7 +123,7 @@ const generateCrosstabbedDailyData = count => {
  * Utility function used to generate crosstabbed data with nulls
  * @param {number} count number of records to generate
  */
-const generateCrosstabbedDailyDataWithNulls = count => {
+const generateCrosstabbedDailyDataWithNulls = (count) => {
   const Measurements = [
     "West Stage (ft)",
     "Oster Stage (ft)",
@@ -138,7 +139,7 @@ const generateCrosstabbedDailyDataWithNulls = count => {
     let record = {
       Date: new Date(baseDate.setDate(baseDate.getDate() - 1)),
     };
-    Measurements.forEach(m => {
+    Measurements.forEach((m) => {
       record[m] =
         i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2);
     });
@@ -151,7 +152,7 @@ const generateCrosstabbedDailyDataWithNulls = count => {
  * Utility function used to generate a stacked dataset
  * @param {number} count number of crosstabbed records to generate
  */
-const generateDailyData = count => {
+const generateDailyData = (count) => {
   const Measurements = [
     "West Stage (ft)",
     "Oster Stage (ft)",
@@ -181,7 +182,7 @@ const generateDailyData = count => {
  * Utility function used to generate a stacked dataset with nulls
  * @param {number} count number of crosstabbed records to generate
  */
-const generateDailyDataWithNulls = count => {
+const generateDailyDataWithNulls = (count) => {
   const Measurements = [
     "West Stage (ft)",
     "Oster Stage (ft)",
@@ -212,7 +213,7 @@ const generateDailyDataWithNulls = count => {
  * mocks the last station update info data source
  * @param {number} count number of records to generate
  */
-const generateLastUpdateData = count => {
+const generateLastUpdateData = (count) => {
   const Measurements = [
     "West Stage (ft)",
     "Oster Stage (ft)",
@@ -241,7 +242,7 @@ const generateLastUpdateData = count => {
  * mocks the last station update info data source with null values
  * @param {number} count number of records to generate
  */
-const generateLastUpdateDataWithNulls = count => {
+const generateLastUpdateDataWithNulls = (count) => {
   const Measurements = [
     "West Stage (ft)",
     "Oster Stage (ft)",
@@ -276,7 +277,7 @@ const generateLastUpdateDataWithNulls = count => {
  * Ideal for extracting the date for a Material-UI date picker
  * @param {*} date
  */
-const extractDate = date => {
+const extractDate = (date) => {
   if (date) {
     const properDate = new Date(date);
     const year = properDate.getFullYear();

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 
-const useGraph = (data, columns) => {
+const useGraph = (columns) => {
   const [filteredKeys, setFilteredKeys] = useState([]);
 
   /**
@@ -10,8 +10,8 @@ const useGraph = (data, columns) => {
   const headers = useMemo(() => {
     if (columns.length > 0) {
       return columns
-        .filter(col => filteredKeys.includes(col.accessor))
-        .map(col => col.label);
+        .filter((col) => filteredKeys.includes(col.accessor))
+        .map((col) => col.label);
     }
     return [];
   }, [columns, filteredKeys]);
@@ -23,8 +23,8 @@ const useGraph = (data, columns) => {
   const keys = useMemo(() => {
     if (columns.length > 0) {
       return columns
-        .filter(col => filteredKeys.includes(col.accessor))
-        .map(col => col.accessor);
+        .filter((col) => filteredKeys.includes(col.accessor))
+        .map((col) => col.accessor);
     }
     return [];
   }, [columns, filteredKeys]);
@@ -34,8 +34,8 @@ const useGraph = (data, columns) => {
    */
   const initFilteredColumns = useCallback(() => {
     const columnKeys = columns
-      .filter(col => col.columnToggle.enabled)
-      .map(col => col.accessor);
+      .filter((col) => col.columnToggle.enabled && col.type === "series")
+      .map((col) => col.accessor);
     setFilteredKeys(columnKeys);
   }, [columns]);
 
@@ -51,7 +51,7 @@ const useGraph = (data, columns) => {
    * toggling columns on and off
    * @param {*} keys
    */
-  const handleFilteredKeys = keys => {
+  const handleFilteredKeys = (keys) => {
     setFilteredKeys(keys);
   };
 
@@ -59,41 +59,14 @@ const useGraph = (data, columns) => {
    * Return an array of the columns that are toggled on
    */
   const columnToggles = useMemo(() => {
-    return columns.filter(col => col.columnToggle.enabled);
+    return columns.filter((col) => col.columnToggle.enabled);
   }, [columns]);
-
-  /**
-   * Logic surrounding updating the graphData value
-   * The toggle column selections are applied first,
-   * then the data is transformed into a format that works
-   * for React Vis.
-   */
-  const graphData = useMemo(() => {
-    const series = columns.filter(
-      d => d.type === "series" && filteredKeys.includes(d.accessor)
-    );
-    const category = columns.filter(d => d.type === "category")[0];
-    const seriesData = series.map(d => {
-      const seriesRecords = data.map(dd => [
-        dd[category.accessor],
-        dd[d.accessor],
-        d.accessor,
-      ]);
-      return seriesRecords.map(rec => ({
-        x: new Date(rec[0]),
-        y: +rec[1],
-        seriesLabel: rec[2],
-      }));
-    });
-    return seriesData;
-  }, [columns, filteredKeys, data]);
 
   return {
     headers,
     keys,
     columnToggles,
     filteredKeys,
-    graphData,
     handleFilteredKeys,
   };
 };

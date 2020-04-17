@@ -13,7 +13,7 @@ import useVisibility from "../../hooks/useVisibility";
 import { Table } from "@lrewater/lre-react";
 import LineGraph from "../DataVisualization/LineGraph";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   mainContent: {
     margin: theme.spacing(5),
     maxWidth: "100%",
@@ -140,7 +140,7 @@ const ReportData = ({ title, data, columns, loading }) => {
    * i.e. graph or table
    */
   const handleVisualizationType = () => {
-    setVisualizationType(state => (state === "table" ? "graph" : "table"));
+    setVisualizationType((state) => (state === "table" ? "graph" : "table"));
   };
 
   /**

@@ -6,11 +6,11 @@
  * @param {string} assocField field name that contains the associations
  */
 export const getAssociations = (associations, data, assocField) => {
-  return data.filter(d => {
+  return data.filter((d) => {
     if (typeof d[assocField] !== "object") {
       return associations.includes(d[assocField]);
     }
-    return d[assocField].filter(dd => associations.includes(dd)).length > 0;
+    return d[assocField].filter((dd) => associations.includes(dd)).length > 0;
   });
 };
 
@@ -20,7 +20,7 @@ export const getAssociations = (associations, data, assocField) => {
  * @param {array} data array of objects to parse
  * @param {string} field property name to return unique values for
  */
-export const unique = (data, field) => [...new Set(data.map(d => d[field]))];
+export const unique = (data, field) => [...new Set(data.map((d) => d[field]))];
 
 /**
  * Utility function used for a descending sort
@@ -50,7 +50,7 @@ export const stableSort = (array, cmp) => {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis.map(el => el[0]);
+  return stabilizedThis.map((el) => el[0]);
 };
 
 /**
@@ -69,7 +69,7 @@ export const getSorting = (order, orderBy) => {
  * Ideal for extracting the date for a Material-UI date picker
  * @param {*} date
  */
-export const extractDate = date => {
+export const extractDate = (date) => {
   if (date) {
     const properDate = new Date(date);
     const year = properDate.getFullYear();
@@ -141,15 +141,17 @@ export const validateDependentSelections = ({
   if (previousParentSelections.length > newParentSelections.length) {
     // get a list of values that match the users new selections
     const filteredSelections = childData
-      .filter(d => {
+      .filter((d) => {
         return (
-          d[assocField].filter(dd => newParentSelections.includes(dd)).length >
-          0
+          d[assocField].filter((dd) => newParentSelections.includes(dd))
+            .length > 0
         );
       })
-      .map(d => d[valueField]);
+      .map((d) => d[valueField]);
 
-    return previousChildSelections.filter(d => filteredSelections.includes(d));
+    return previousChildSelections.filter((d) =>
+      filteredSelections.includes(d)
+    );
   }
   return previousChildSelections;
 };
@@ -161,4 +163,29 @@ export const validateDependentSelections = ({
  */
 export const goTo = (history, route) => {
   history.push(`/${route}`);
+};
+
+/**
+ * Utility function used to format date in MM/DD/YYYY format
+ * @param {*} date
+ */
+export const formatDate = (date, format = "mm/dd/yyyy") => {
+  const newDate = new Date(date);
+  if (format.toLowerCase() === "mm/dd/yyyy") {
+    return `${
+      newDate.getMonth() + 1
+    }/${newDate.getDate()}/${newDate.getFullYear()}`;
+  } else if (format.toLowerCase() === "mm/dd") {
+    return `${newDate.getMonth() + 1}/${newDate.getDate()}`;
+  }
+};
+
+/**
+ * Utility function used to format date in MM/DD/YYYY HH:MM:SS format
+ * @param {*} date
+ */
+export const formatTimestamp = (date) => {
+  return `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 };
