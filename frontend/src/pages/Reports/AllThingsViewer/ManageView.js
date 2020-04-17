@@ -30,7 +30,7 @@ import StructuresFilter from "../../../components/Filters/StructuresFilter";
 import MeasurementTypesFilter from "../../../components/Filters/MeasurementTypesFilter";
 import AggregationLevelFilter from "../../../components/Filters/AggregationLevelFilter";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     overflow: "hidden",
@@ -87,7 +87,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ManageView = props => {
+const ManageView = (props) => {
   const classes = useStyles();
   const { viewNdx } = useParams();
 
@@ -160,9 +160,9 @@ const ManageView = props => {
    * The values state is updated whenever a filter changes
    * @param {object} event JavaScript event object
    */
-  const handleFilter = event => {
+  const handleFilter = (event) => {
     const { name, value, type, checked } = event.target;
-    setFilterValues(prevState => {
+    setFilterValues((prevState) => {
       let newValues = { ...prevState };
 
       if (!value.includes("all/none")) {
@@ -214,7 +214,7 @@ const ManageView = props => {
     });
   };
 
-  const handleStep = index => {
+  const handleStep = (index) => {
     setActiveStep(index);
   };
 
@@ -222,14 +222,14 @@ const ManageView = props => {
    * Handler for advancing to the next step
    */
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   /**
    * Handler for returning to the previous step
    */
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   /**
@@ -259,7 +259,7 @@ const ManageView = props => {
    * @param {string || number} value value associated with the deleted chip
    */
   const handleChipFilterDelete = (name, value) => {
-    setFilterValues(prevState => {
+    setFilterValues((prevState) => {
       let newValues = { ...prevState };
       const newFilterValues = [...newValues[name]];
       const index = newValues[name].indexOf(value);
@@ -313,7 +313,7 @@ const ManageView = props => {
    * for submission to the database
    * @param {object} values
    */
-  const prepFormValues = values => {
+  const prepFormValues = (values) => {
     const {
       view_ndx,
       view_name,
@@ -340,7 +340,7 @@ const ManageView = props => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -409,6 +409,8 @@ const ManageView = props => {
                           name="view_name"
                           label="View Name"
                           variant="outlined"
+                          outlineColor="primary"
+                          labelColor="primary"
                           fullWidth
                           value={filterValues.view_name}
                           onChange={handleFilter}
@@ -418,6 +420,8 @@ const ManageView = props => {
                           label="View Description"
                           rows="4"
                           variant="outlined"
+                          outlineColor="primary"
+                          labelColor="primary"
                           fullWidth
                           value={filterValues.view_description}
                           onChange={handleFilter}
@@ -513,14 +517,19 @@ const ManageView = props => {
                           data={AggregationData}
                           value={filterValues.aggregation_level}
                           onChange={handleFilter}
+                          width={300}
                         />
 
                         {/* End Date */}
                         <DatePicker
                           name="end_date"
                           label="End Date"
+                          variant="outlined"
+                          outlineColor="primary"
+                          labelColor="primary"
                           value={filterValues.end_date}
                           onChange={handleFilter}
+                          width={300}
                         />
                         <div className={classes.actionsContainer}>
                           <div>
@@ -581,11 +590,11 @@ const ManageView = props => {
                   </Typography>
                   <div className={classes.chipCloud}>
                     {filterValues.structure_types.length === 0 && "None"}
-                    {StructureTypes.filter(d =>
+                    {StructureTypes.filter((d) =>
                       filterValues.structure_types.includes(
                         d.structure_type_ndx
                       )
-                    ).map(chip => (
+                    ).map((chip) => (
                       <Chip
                         key={chip.structure_type_ndx}
                         label={chip.structure_type_desc}
@@ -607,9 +616,9 @@ const ManageView = props => {
                   </Typography>
                   <div className={classes.chipCloud}>
                     {filterValues.structures.length === 0 && "None"}
-                    {Structures.filter(d =>
+                    {Structures.filter((d) =>
                       filterValues.structures.includes(d.structure_ndx)
-                    ).map(chip => (
+                    ).map((chip) => (
                       <Chip
                         key={chip.structure_ndx}
                         label={chip.structure_desc}
@@ -631,11 +640,11 @@ const ManageView = props => {
                   </Typography>
                   <div className={classes.chipCloud}>
                     {filterValues.measurement_types.length === 0 && "None"}
-                    {MeasurementTypes.filter(d =>
+                    {MeasurementTypes.filter((d) =>
                       filterValues.measurement_types.includes(
                         d.measure_type_ndx
                       )
-                    ).map(chip => (
+                    ).map((chip) => (
                       <Chip
                         key={chip.measure_type_ndx}
                         label={chip.measure_type_desc}
@@ -658,7 +667,7 @@ const ManageView = props => {
                   <Typography variant="body1" paragraph>
                     {
                       AggregationData.filter(
-                        d =>
+                        (d) =>
                           filterValues.aggregation_level === d.aggregation_ndx
                       )[0].aggregation_desc
                     }

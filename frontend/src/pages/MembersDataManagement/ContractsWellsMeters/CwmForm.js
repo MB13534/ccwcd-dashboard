@@ -12,7 +12,7 @@ import WellsFilter from "../../../components/Filters/WellsFilter";
 import ContractsFilter from "../../../components/Filters/ContractsFilter";
 import MetersFilter from "../../../components/Filters/MetersFilter";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   row: {
     display: "flex",
   },
@@ -40,13 +40,13 @@ const CwmForm = ({ handleRefresh, wells, meters }) => {
     notes: "",
   });
 
-  const prepFormValues = formValues => {
+  const prepFormValues = (formValues) => {
     const newValues = { ...formValues };
     newValues.end_date = newValues.end_date === "" ? null : newValues.end_date;
     return newValues;
   };
 
-  const handleValuesSubmit = async event => {
+  const handleValuesSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -66,9 +66,9 @@ const CwmForm = ({ handleRefresh, wells, meters }) => {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    setValues(prevState => {
+    setValues((prevState) => {
       const newValues = { ...prevState };
 
       newValues[name] = value;
@@ -88,69 +88,79 @@ const CwmForm = ({ handleRefresh, wells, meters }) => {
   };
 
   return (
-  <>
+    <>
       <Typography variant="h6" gutterBottom>
         Add a New Association Record
       </Typography>
-    <form onSubmit={handleValuesSubmit}>
-      <div className={classes.row}>
-        <ContractsFilter
-          value={values.contract_index}
-          onChange={handleChange}
+      <form onSubmit={handleValuesSubmit}>
+        <div className={classes.row}>
+          <ContractsFilter
+            value={values.contract_index}
+            onChange={handleChange}
+          />
+          <WellsFilter
+            data={wells}
+            value={values.well_index}
+            onChange={handleChange}
+          />
+          <MetersFilter
+            data={meters}
+            value={values.meter_index}
+            onChange={handleChange}
+          />
+          <DatePicker
+            name="start_date"
+            label="Start Date"
+            value={values.start_date}
+            variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
+            onChange={handleChange}
+          />
+          <DatePicker
+            name="end_date"
+            label="End Date"
+            value={values.end_date}
+            variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleChange}
+          />
+          <TextField
+            name="notes"
+            label="Notes"
+            value={values.notes}
+            variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
+            onChange={handleChange}
+          />
+        </div>
+        <div className={classes.row}></div>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Submit
+        </Button>
+        <Button type="button" variant="contained" onClick={handleReset}>
+          Reset
+        </Button>
+        <FormSnackbar
+          open={snackbarOpen}
+          error={snackbarError}
+          handleClose={handleSnackbarClose}
+          successMessage="Record successfully added."
+          errorMessage="Record could not be saved."
         />
-        <WellsFilter
-          data={wells}
-          value={values.well_index}
-          onChange={handleChange}
-        />
-        <MetersFilter
-          data={meters}
-          value={values.meter_index}
-          onChange={handleChange}
-        />
-        <DatePicker
-          name="start_date"
-          label="Start Date"
-          value={values.start_date}
-          variant="outlined"
-          onChange={handleChange}
-        />
-        <DatePicker
-          name="end_date"
-          label="End Date"
-          value={values.end_date}
-          variant="outlined"
-          onChange={handleChange}
-        />
-        <TextField
-          name="notes"
-          label="Notes"
-          value={values.notes}
-          variant="outlined"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={classes.row}></div>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-      >
-        Submit
-      </Button>
-      <Button type="button" variant="contained" onClick={handleReset}>
-        Reset
-      </Button>
-      <FormSnackbar
-        open={snackbarOpen}
-        error={snackbarError}
-        handleClose={handleSnackbarClose}
-        successMessage="Record successfully added."
-        errorMessage="Record could not be saved."
-      />
-    </form>
- </> );
+      </form>
+    </>
+  );
 };
 
 CwmForm.propTypes = {

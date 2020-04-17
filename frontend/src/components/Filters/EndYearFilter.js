@@ -8,6 +8,8 @@ const EndYearFilter = ({ data, value, onChange }) => {
       name="end_year"
       label="End Year"
       variant="outlined"
+      outlineColor="primary"
+      labelColor="primary"
       valueField="year_ndx"
       displayField="year_desc"
       data={data}

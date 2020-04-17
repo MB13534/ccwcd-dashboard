@@ -10,7 +10,7 @@ import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import { extractDate } from "../../../util";
 import MetersFilter from "../../../components/Filters/MetersFilter";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   row: {
     display: "flex",
   },
@@ -36,13 +36,13 @@ const MeterCorrectionFactorsForm = ({ handleRefresh, meters }) => {
     notes: "",
   });
 
-  const prepFormValues = formValues => {
+  const prepFormValues = (formValues) => {
     const newValues = { ...formValues };
     newValues.end_date = newValues.end_date === "" ? null : newValues.end_date;
     return newValues;
   };
 
-  const handleValuesSubmit = async event => {
+  const handleValuesSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -62,9 +62,9 @@ const MeterCorrectionFactorsForm = ({ handleRefresh, meters }) => {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    setValues(prevState => {
+    setValues((prevState) => {
       const newValues = { ...prevState };
 
       newValues[name] = value;
@@ -82,60 +82,67 @@ const MeterCorrectionFactorsForm = ({ handleRefresh, meters }) => {
   };
 
   return (
- <>
-    <Typography variant="h6" gutterBottom>
-      Add a New Correction Factor Record
-    </Typography>
-  <form onSubmit={handleValuesSubmit}>
-      <div className={classes.row}>
-        <MetersFilter
-          data={meters}
-          value={values.meter_index}
-          onChange={handleChange}
+    <>
+      <Typography variant="h6" gutterBottom>
+        Add a New Correction Factor Record
+      </Typography>
+      <form onSubmit={handleValuesSubmit}>
+        <div className={classes.row}>
+          <MetersFilter
+            data={meters}
+            value={values.meter_index}
+            onChange={handleChange}
+          />
+          <DatePicker
+            name="test_date"
+            label="Test Date"
+            value={values.test_date}
+            variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
+            onChange={handleChange}
+          />
+          <TextField
+            name="correction_factor"
+            label="Correction Factor"
+            value={values.correction_factor}
+            variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
+            onChange={handleChange}
+          />
+          <TextField
+            name="notes"
+            label="Notes"
+            value={values.notes}
+            variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
+            onChange={handleChange}
+          />
+        </div>
+        <div className={classes.row}></div>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Submit
+        </Button>
+        <Button type="button" variant="contained" onClick={handleReset}>
+          Reset
+        </Button>
+        <FormSnackbar
+          open={snackbarOpen}
+          error={snackbarError}
+          handleClose={handleSnackbarClose}
+          successMessage="Record successfully added."
+          errorMessage="Record could not be saved."
         />
-        <DatePicker
-          name="test_date"
-          label="Test Date"
-          value={values.test_date}
-          variant="outlined"
-          onChange={handleChange}
-        />
-        <TextField
-          name="correction_factor"
-          label="Correction Factor"
-          value={values.correction_factor}
-          variant="outlined"
-          onChange={handleChange}
-        />
-        <TextField
-          name="notes"
-          label="Notes"
-          value={values.notes}
-          variant="outlined"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={classes.row}></div>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        className={classes.submit}
-      >
-        Submit
-      </Button>
-      <Button type="button" variant="contained" onClick={handleReset}>
-        Reset
-      </Button>
-      <FormSnackbar
-        open={snackbarOpen}
-        error={snackbarError}
-        handleClose={handleSnackbarClose}
-        successMessage="Record successfully added."
-        errorMessage="Record could not be saved."
-      />
-    </form>
-</>  );
+      </form>
+    </>
+  );
 };
 
 MeterCorrectionFactorsForm.propTypes = {

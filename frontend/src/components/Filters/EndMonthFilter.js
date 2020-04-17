@@ -8,6 +8,8 @@ const EndMonthFilter = ({ data, value, onChange }) => {
       name="end_month"
       label="End Month"
       variant="outlined"
+      outlineColor="primary"
+      labelColor="primary"
       valueField="month_ndx"
       displayField="month_desc"
       data={data}

@@ -22,7 +22,7 @@ import { TextField, TextArea } from "@lrewater/lre-react";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
 import WellsFilter from "../../../components/Filters/WellsFilter";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     overflow: "hidden",
@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ManageView = props => {
+const ManageView = (props) => {
   const classes = useStyles();
   const { viewNdx } = useParams();
 
@@ -123,7 +123,7 @@ const ManageView = props => {
    */
   const handleFilter = (event, values) => {
     const { name, value, type, checked } = event.target;
-    setFilterValues(prevState => {
+    setFilterValues((prevState) => {
       let newValues = { ...prevState };
 
       if (name === "well_index") {
@@ -139,7 +139,7 @@ const ManageView = props => {
     });
   };
 
-  const handleStep = index => {
+  const handleStep = (index) => {
     setActiveStep(index);
   };
 
@@ -147,14 +147,14 @@ const ManageView = props => {
    * Handler for advancing to the next step
    */
   const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   /**
    * Handler for returning to the previous step
    */
   const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   /**
@@ -162,7 +162,7 @@ const ManageView = props => {
    * for submission to the database
    * @param {object} values
    */
-  const prepFormValues = values => {
+  const prepFormValues = (values) => {
     const {
       view_ndx,
       view_name,
@@ -186,7 +186,7 @@ const ManageView = props => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -253,6 +253,8 @@ const ManageView = props => {
                           name="view_name"
                           label="View Name"
                           variant="outlined"
+                          outlineColor="primary"
+                          labelColor="primary"
                           fullWidth
                           value={filterValues.view_name}
                           onChange={handleFilter}
@@ -262,6 +264,8 @@ const ManageView = props => {
                           label="View Description"
                           rows={4}
                           variant="outlined"
+                          outlineColor="primary"
+                          labelColor="primary"
                           fullWidth
                           value={filterValues.view_description}
                           onChange={handleFilter}
@@ -370,9 +374,9 @@ const ManageView = props => {
                   </Typography>
                   <div className={classes.chipCloud}>
                     {filterValues.well_index.length === 0 && "None"}
-                    {Wells.filter(d =>
+                    {Wells.filter((d) =>
                       filterValues.well_index.includes(d.well_index)
-                    ).map(chip => (
+                    ).map((chip) => (
                       <Chip
                         key={chip.well_index}
                         label={chip.wdid}
@@ -390,7 +394,7 @@ const ManageView = props => {
                   <Typography variant="body1" paragraph>
                     {
                       DatasetData.filter(
-                        d => filterValues.dataset === d.dataset_ndx
+                        (d) => filterValues.dataset === d.dataset_ndx
                       )[0].dataset_desc
                     }
                   </Typography>

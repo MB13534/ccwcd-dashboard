@@ -8,6 +8,8 @@ const DisplayTypeFilter = ({ data, value, onChange }) => {
       name="display_type"
       label="Display Type"
       variant="outlined"
+      outlineColor="primary"
+      labelColor="primary"
       valueField="display_type_ndx"
       displayField="display_type_desc"
       data={data}

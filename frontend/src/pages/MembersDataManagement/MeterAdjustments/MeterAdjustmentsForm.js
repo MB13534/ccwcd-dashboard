@@ -10,7 +10,7 @@ import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import { extractDate } from "../../../util";
 import MetersFilter from "../../../components/Filters/MetersFilter";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   row: {
     display: "flex",
   },
@@ -36,7 +36,7 @@ const MeterAdjustmentsForm = ({ handleRefresh, meters }) => {
     remark: "",
   });
 
-  const handleValuesSubmit = async event => {
+  const handleValuesSubmit = async (event) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
@@ -56,9 +56,9 @@ const MeterAdjustmentsForm = ({ handleRefresh, meters }) => {
     }
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
-    setValues(prevState => {
+    setValues((prevState) => {
       const newValues = { ...prevState };
 
       newValues[name] = value;
@@ -92,6 +92,8 @@ const MeterAdjustmentsForm = ({ handleRefresh, meters }) => {
             label="Adjustment Date"
             value={values.adjustment_date}
             variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
             onChange={handleChange}
           />
           <TextField
@@ -99,6 +101,8 @@ const MeterAdjustmentsForm = ({ handleRefresh, meters }) => {
             label="Adjustment Value"
             value={values.adjustment_value}
             variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
             onChange={handleChange}
           />
           <TextField
@@ -106,6 +110,8 @@ const MeterAdjustmentsForm = ({ handleRefresh, meters }) => {
             label="Notes"
             value={values.remark}
             variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
             onChange={handleChange}
           />
         </div>

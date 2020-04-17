@@ -277,6 +277,8 @@ const HistoricalMemberUsageReport = (props) => {
             name="depletion_start_year"
             label="Depletion Start Year"
             variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
             valueField="year_ndx"
             displayField="year_desc"
             data={YearData}

@@ -8,6 +8,8 @@ const ContractsFilter = ({ value, onChange }) => {
       name="contract_index"
       label="Contract"
       variant="outlined"
+      outlineColor="primary"
+      labelColor="primary"
       value={value}
       onChange={onChange}
       width={200}

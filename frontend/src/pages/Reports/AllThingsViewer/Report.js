@@ -298,6 +298,8 @@ const AllThingsViewer = (props) => {
             name="end_date"
             label="End Date"
             variant="outlined"
+            outlineColor="primary"
+            labelColor="primary"
             value={filterValues.end_date}
             onChange={handleFilter}
           />
