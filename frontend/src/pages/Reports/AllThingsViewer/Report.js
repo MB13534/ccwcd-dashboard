@@ -261,7 +261,7 @@ const AllThingsViewer = (props) => {
 
   return (
     <Report>
-      <FilterBar onSubmit={handleSubmit}>
+      <FilterBar onSubmit={handleSubmit} id="filters">
         <StructureTypesFilter
           data={StructureTypes}
           value={filterValues.structure_types}
@@ -311,7 +311,7 @@ const AllThingsViewer = (props) => {
             display="inline"
             style={{ marginLeft: 16 }}
           >
-            Note: INSTRUCTIONS HERE
+            Note: Please provide a file name for your download.
           </Typography>
 
           <Divider style={{ margin: "16px 0" }} />

@@ -11,7 +11,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import DeleteDialog from "../DeleteDialog";
 import ListTableFilters from "./ListTableFilters";
 
-const useToolbarStyles = makeStyles(theme => ({
+const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
@@ -58,7 +58,7 @@ const FilterButtons = ({ filters, filtersHandler }) => {
   );
 };
 
-const ListTableToolbar = props => {
+const ListTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const {
     numSelected,
@@ -74,16 +74,16 @@ const ListTableToolbar = props => {
   const [filtersEnabled, setFiltersEnabled] = useState(true);
 
   const displayFilters = () => {
-    setFiltersVisible(prev => !prev);
+    setFiltersVisible((prev) => !prev);
   };
 
-  const handleDeleted = selected => {
+  const handleDeleted = (selected) => {
     handleDelete(selected);
     handleClearSelected();
   };
 
   useEffect(() => {
-    const enabledFilters = columns.filter(d => d.filterEnabled !== false);
+    const enabledFilters = columns.filter((d) => d.filterEnabled !== false);
     if (enabledFilters.length === 0) {
       setFiltersEnabled(false);
     } else {

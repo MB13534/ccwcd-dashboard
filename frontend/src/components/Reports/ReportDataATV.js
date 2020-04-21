@@ -12,6 +12,8 @@ import useFetchData from "../../hooks/useFetchData";
 import useVisibility from "../../hooks/useVisibility";
 import { Table } from "@lrewater/lre-react";
 import LineGraph from "../DataVisualization/LineGraph";
+import AtvHelp from "../../pages/Reports/HelpGuides/AtvHelp";
+import Flex from "../Flex";
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -157,24 +159,29 @@ const ReportData = ({ title, data, columns, loading }) => {
             variant="outlined"
             color="primary"
             onClick={handleVisualizationType}
+            id="view-graph-btn"
           >
             View As {visualizationType === "graph" ? "Table" : "Graph"}
           </Button>
         </div>
-        <Button
-          onClick={handleLastUpdateVisibility}
-          color="primary"
-          className={classes.lastUpdateBtn}
-        >
-          <HelpIcon style={{ marginRight: 8 }} /> View Data Availability
-        </Button>
+        <Flex>
+          <AtvHelp />
+          <Button
+            startIcon={<HelpIcon />}
+            onClick={handleLastUpdateVisibility}
+            color="primary"
+            className={classes.lastUpdateBtn}
+          >
+            View Data Availability
+          </Button>
+        </Flex>
       </div>
     );
   };
 
   return (
     <>
-      <div className={classes.mainContent}>
+      <div className={classes.mainContent} id="table">
         <Paper className={classes.paper}>
           {visualizationType === "table" && (
             <Table
