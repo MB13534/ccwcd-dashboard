@@ -35,9 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       aggregation_level: {
         type: TEXT,
       },
-      end_date: {
-        type: DATE,
-      },
     },
     {
       timestamps: false,

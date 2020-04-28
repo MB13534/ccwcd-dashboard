@@ -13,18 +13,14 @@ import {
   Grid,
   Chip,
 } from "@material-ui/core";
-import { TextField, TextArea, DatePicker } from "@lrewater/lre-react";
+import { TextField, TextArea } from "@lrewater/lre-react";
 import Layout from "../../../components/Layout";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import useFetchData from "../../../hooks/useFetchData";
 import useFilterAssoc from "../../../hooks/useFilterAssoc";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
-import {
-  validateDependentSelections,
-  extractDate,
-  calculateStartDate,
-} from "../../../util";
+import { validateDependentSelections } from "../../../util";
 import StructureTypesFilter from "../../../components/Filters/StructureTypesFilter";
 import StructuresFilter from "../../../components/Filters/StructuresFilter";
 import MeasurementTypesFilter from "../../../components/Filters/MeasurementTypesFilter";
@@ -104,7 +100,6 @@ const ManageView = (props) => {
     structures: [],
     measurement_types: [],
     aggregation_level: "daily-averages",
-    end_date: extractDate(new Date()),
     view_ndx: null,
     view_name: "",
     view_description: "",
@@ -233,26 +228,6 @@ const ManageView = (props) => {
   };
 
   /**
-   * Utility function used to calculate the start date for a period
-   * of record based on the aggregation level.
-   * Returns a date in "YYYY-MM-DD" format
-   * @param {string} endDate current PoR end date
-   * @param {*} aggregationLevel i.e. daily averages, daily end of day values, 15 min
-   */
-  const handleStartDate = (endDate, aggregationLevel) => {
-    let days = 0;
-    if (
-      aggregationLevel === "daily-averages" ||
-      aggregationLevel === "daily-end-of-day"
-    ) {
-      days = 45;
-    } else if (aggregationLevel === "daily-15-min") {
-      days = 3;
-    }
-    return extractDate(calculateStartDate(days, endDate));
-  };
-
-  /**
    * Utility function used to handle when the user deletes a chip
    * selection from the View Summary section
    * @param {string} name filter field name
@@ -322,7 +297,6 @@ const ManageView = (props) => {
       structures,
       measurement_types,
       aggregation_level,
-      end_date,
     } = values;
     return {
       view_ndx,
@@ -332,7 +306,6 @@ const ManageView = (props) => {
       structures,
       measurement_types,
       aggregation_level,
-      end_date,
     };
   };
 
@@ -373,7 +346,6 @@ const ManageView = (props) => {
         structures: view.structures,
         measurement_types: view.measurement_types,
         aggregation_level: view.aggregation_level,
-        end_date: view.end_date,
       });
     }
   }, [view]);
@@ -503,14 +475,14 @@ const ManageView = (props) => {
                     </Step>
                     <Step>
                       <StepButton onClick={() => handleStep(2)}>
-                        Period of Record
+                        Dataset Aggregation
                       </StepButton>
                       <StepContent>
                         <Typography
                           variant="body1"
                           className={classes.helpText}
                         >
-                          Refine the period of record for this view.
+                          Select a dataset aggregation level
                         </Typography>
                         {/* Aggregation Level Filter */}
                         <AggregationLevelFilter
@@ -520,17 +492,6 @@ const ManageView = (props) => {
                           width={300}
                         />
 
-                        {/* End Date */}
-                        <DatePicker
-                          name="end_date"
-                          label="End Date"
-                          variant="outlined"
-                          outlineColor="primary"
-                          labelColor="primary"
-                          value={filterValues.end_date}
-                          onChange={handleFilter}
-                          width={300}
-                        />
                         <div className={classes.actionsContainer}>
                           <div>
                             <Button
@@ -671,19 +632,6 @@ const ManageView = (props) => {
                           filterValues.aggregation_level === d.aggregation_ndx
                       )[0].aggregation_desc
                     }
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
-                    Period of Record
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {filterValues.end_date} -{" "}
-                    {handleStartDate(
-                      filterValues.end_date,
-                      filterValues.aggregation_level
-                    )}
                   </Typography>
                 </div>
               </Grid>

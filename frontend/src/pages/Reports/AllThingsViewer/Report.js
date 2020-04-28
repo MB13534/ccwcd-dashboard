@@ -225,7 +225,6 @@ const AllThingsViewer = (props) => {
         newValues.structures = view.structures;
         newValues.measurement_types = view.measurement_types;
         newValues.aggregation_level = view.aggregation_level;
-        newValues.end_date = view.end_date;
         return newValues;
       });
       (async () => {
@@ -233,7 +232,7 @@ const AllThingsViewer = (props) => {
           const token = await getTokenSilently();
           const headers = { Authorization: `Bearer ${token}` };
           const response = await axios.get(
-            `${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${view.end_date}`,
+            `${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/${view.aggregation_level}/${view.structures}/${view.measurement_types}/${filterValues.end_date}`,
             { headers }
           );
           setData(response.data);
