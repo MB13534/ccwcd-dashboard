@@ -21,6 +21,7 @@ import { extractDate, validateDependentSelections } from "../../../util";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 import ReportData from "../../../components/Reports/ReportDataATV";
 import { DatePicker } from "@lrewater/lre-react";
+import Flex from "../../../components/Flex";
 
 const AllThingsViewer = (props) => {
   let { viewNdx } = useParams();
@@ -288,33 +289,31 @@ const AllThingsViewer = (props) => {
         </FilterActions>
 
         <FilterAdvanced>
-          <AggregationLevelFilter
-            data={AggregationData}
-            value={filterValues.aggregation_level}
-            onChange={handleFilter}
-            width={200}
-          />
+          <Flex>
+            <AggregationLevelFilter
+              data={AggregationData}
+              value={filterValues.aggregation_level}
+              onChange={handleFilter}
+              width={200}
+            />
 
-          <DatePicker
-            name="end_date"
-            label="End Date"
-            variant="outlined"
-            outlineColor="primary"
-            labelColor="primary"
-            value={filterValues.end_date}
-            onChange={handleFilter}
-            width={200}
-          />
+            <DatePicker
+              name="end_date"
+              label="End Date"
+              variant="outlined"
+              outlineColor="primary"
+              labelColor="primary"
+              value={filterValues.end_date}
+              onChange={handleFilter}
+              width={200}
+            />
 
-          <Typography
-            variant="body1"
-            display="inline"
-            style={{ marginLeft: 16 }}
-          >
-            Note: The viewer can only be used to pull back 30 days of data at
-            one time for daily datasets. The End Date filter is used to
-            determine where that 30 days should start.
-          </Typography>
+            <Typography variant="body1" style={{ marginLeft: 16 }}>
+              Note: The viewer can only be used to pull back 30 days of data at
+              one time for daily datasets. The End Date filter is used to
+              determine where that 30 days should start.
+            </Typography>
+          </Flex>
 
           <Divider style={{ margin: "16px 0" }} />
 
