@@ -14,6 +14,7 @@ const {
   ATV_Daily_End_of_Day,
   ATV_Daily_15_min,
   ATV_Views,
+  ATV_LastReport,
 } = require("../../models");
 
 // Create Express Router
@@ -31,10 +32,10 @@ router.use(
 // Route for returning all structure types
 router.get("/structure-types", (req, res, next) => {
   ATV_Structure_Types.findAll()
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -43,10 +44,10 @@ router.get("/structure-types", (req, res, next) => {
 // Route for returning all structures
 router.get("/structures", (req, res, next) => {
   ATV_Structures.findAll()
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -55,10 +56,10 @@ router.get("/structures", (req, res, next) => {
 // Route for returning all measurement types
 router.get("/measurement-types", (req, res, next) => {
   ATV_Measurement_Types.findAll()
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -83,7 +84,7 @@ router.get(
         },
       },
     })
-      .then(data => {
+      .then((data) => {
         const crosstabbed = crosstab(
           data,
           "collect_timestamp",
@@ -92,7 +93,7 @@ router.get(
         );
         res.json(crosstabbed);
       })
-      .catch(err => {
+      .catch((err) => {
         next(err);
       });
   }
@@ -118,7 +119,7 @@ router.get(
         },
       },
     })
-      .then(data => {
+      .then((data) => {
         const crosstabbed = crosstab(
           data,
           "collect_timestamp",
@@ -127,7 +128,7 @@ router.get(
         );
         res.json(crosstabbed);
       })
-      .catch(err => {
+      .catch((err) => {
         next(err);
       });
   }
@@ -153,7 +154,7 @@ router.get(
         },
       },
     })
-      .then(data => {
+      .then((data) => {
         const crosstabbed = crosstab(
           data,
           "collect_timestamp",
@@ -162,7 +163,7 @@ router.get(
         );
         res.json(crosstabbed);
       })
-      .catch(err => {
+      .catch((err) => {
         next(err);
       });
   }
@@ -178,10 +179,10 @@ router.get("/views", (req, res, next) => {
       },
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -197,10 +198,10 @@ router.get("/views/:id", (req, res, next) => {
       view_ndx: req.params.id,
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -212,10 +213,10 @@ router.post("/views", (req, res, next) => {
   data.assoc_user_id = [req.user.sub];
   data.assoc_report_ndx = 1;
   ATV_Views.upsert(data, { returning: true })
-    .then(data => {
+    .then((data) => {
       res.json(data[0].dataValues);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -231,10 +232,22 @@ router.delete("/views/:view_ndx", (req, res, next) => {
       },
     },
   })
-    .then(data => {
+    .then((data) => {
       res.sendStatus(200);
     })
-    .catch(err => {
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/all-things-viewer/last-report
+// Route for returning last report data
+router.get("/last-report", (req, res, next) => {
+  ATV_LastReport.findAll()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
       next(err);
     });
 });

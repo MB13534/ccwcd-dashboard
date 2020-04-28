@@ -65,6 +65,7 @@ db.ATV_Measurement_Types = require("./ATV/MeasurementTypes")(
 db.ATV_Daily_Average = require("./ATV/DailyAverage")(sequelize, Sequelize);
 db.ATV_Daily_End_of_Day = require("./ATV/DailyEndofDay")(sequelize, Sequelize);
 db.ATV_Daily_15_min = require("./ATV/Daily15minute")(sequelize, Sequelize);
+db.ATV_LastReport = require("./ATV/LastReport")(sequelize, Sequelize);
 
 /**
  * Historical Member Usage models

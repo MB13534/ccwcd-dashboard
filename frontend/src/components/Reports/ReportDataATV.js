@@ -93,7 +93,7 @@ const ReportData = ({ title, data, columns, loading }) => {
   );
   const [visualizationType, setVisualizationType] = useState("table");
 
-  const [LastUpdateData] = useFetchData("dummy/atv/last-update/with-nulls", []);
+  const [LastUpdateData] = useFetchData("all-things-viewer/last-report", []);
 
   /**
    * Configure the columns for the Last Update Table
@@ -102,7 +102,7 @@ const ReportData = ({ title, data, columns, loading }) => {
     {
       type: "category",
       label: "Measurement",
-      accessor: "measurement_abbrev",
+      accessor: "station_name",
       filter: { enabled: false },
       columnToggle: {
         enabled: true,
@@ -110,17 +110,17 @@ const ReportData = ({ title, data, columns, loading }) => {
     },
     {
       type: "category",
-      label: "Last Update",
-      accessor: "last_update",
-      filter: { enabled: true, type: "date" },
+      label: "PoR Start",
+      accessor: "por_start",
+      filter: { enabled: false },
       columnToggle: {
         enabled: true,
       },
     },
     {
-      type: "series",
-      label: "Value",
-      accessor: "last_value",
+      type: "category",
+      label: "PoR End",
+      accessor: "por_end",
       filter: { enabled: false },
       columnToggle: {
         enabled: true,
@@ -128,8 +128,17 @@ const ReportData = ({ title, data, columns, loading }) => {
     },
     {
       type: "series",
-      label: "Unit",
-      accessor: "unit",
+      label: "Record Count",
+      accessor: "recordcount",
+      filter: { enabled: false },
+      columnToggle: {
+        enabled: true,
+      },
+    },
+    {
+      type: "series",
+      label: "Last Value",
+      accessor: "last_value_received",
       filter: { enabled: false },
       columnToggle: {
         enabled: true,
