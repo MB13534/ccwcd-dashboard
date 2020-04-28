@@ -311,7 +311,9 @@ const AllThingsViewer = (props) => {
             display="inline"
             style={{ marginLeft: 16 }}
           >
-            Note: Please provide a file name for your download.
+            Note: The viewer can only be used to pull back 30 days of data at
+            one time for daily datasets. The End Date filter is used to
+            determine where that 30 days should start.
           </Typography>
 
           <Divider style={{ margin: "16px 0" }} />

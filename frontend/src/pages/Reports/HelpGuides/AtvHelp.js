@@ -11,15 +11,56 @@ const AtvHelp = (props) => {
     {
       title: "Filters",
       content:
-        "Use the filters bar to refine the data you would like to view in the table below. You can save your filter selections as a view for easy viewing later. Selecting More Filters will allow to apply advanced filters as well as view and select any views you have already created.",
+        "Use the filters bar to refine the data you would like to view in the table below.",
       target: "#filters",
       disableBeacon: true,
     },
     {
-      title: "Table",
+      title: "Save As View",
       content:
-        "The table will display the data you have requested using the filters bar. You can sort by any field by clicking on the column header. The table can filtered further by selecting the Filter Records button or the Toggle Columns button. Additionally, you can exclude records where every value is null. Lastly, you can download the table data by selecting the Download Data button.",
-      target: "#table",
+        "Use the Save As View button to save your filter selections as a View for easy viewing later.",
+      target: "#save-as-view-btn",
+      disableBeacon: true,
+    },
+    {
+      title: "More Filters",
+      content:
+        "Selecting More Filters will open an advanced filters section where you can select the dataset you would like to view as well as refine the period of record. Additionally, your saved views are displayed in the More Filters section and can be loaded by clicking on the view you are interested in.",
+      target: "#more-filters-btn",
+      disableBeacon: true,
+    },
+    {
+      title: "Filter Records",
+      content:
+        "The period of record for the table data can be further refined using a start and end date filter.",
+      target: "#table-filters",
+      disableBeacon: true,
+    },
+    {
+      title: "Toggle Columns",
+      content:
+        "You can control which columns are visible in the table using the column toggle.",
+      target: "#column-toggle",
+      disableBeacon: true,
+    },
+    {
+      title: "Exclude Nulls",
+      content: "You can exclude records that are null across every field.",
+      target: "#exclude-nulls",
+      disableBeacon: true,
+    },
+    {
+      title: "Download Data",
+      content:
+        "You can download the table data. Note that the filters applied to the table will also apply to the data download.",
+      target: "#download-data",
+      disableBeacon: true,
+    },
+    {
+      title: "View Data Availability",
+      content:
+        "The View Data Availability button can be used to view a table highlighting when each of your selected stations were last updated.",
+      target: "#view-data-availability-btn",
       disableBeacon: true,
     },
     {

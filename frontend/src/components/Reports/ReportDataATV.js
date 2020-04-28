@@ -167,6 +167,7 @@ const ReportData = ({ title, data, columns, loading }) => {
         <Flex>
           <AtvHelp />
           <Button
+            id="view-data-availability-btn"
             startIcon={<HelpIcon />}
             onClick={handleLastUpdateVisibility}
             color="primary"

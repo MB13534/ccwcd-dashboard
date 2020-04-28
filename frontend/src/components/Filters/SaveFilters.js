@@ -96,6 +96,7 @@ const SaveFilters = ({ endpoint, redirect, filterValues }) => {
   return (
     <>
       <Button
+        id="save-as-view-btn"
         variant="contained"
         color="primary"
         className={classes.btn}
