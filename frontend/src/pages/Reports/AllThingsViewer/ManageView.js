@@ -121,7 +121,6 @@ const ManageView = (props) => {
       aggregation_ndx: "daily-end-of-day",
       aggregation_desc: "Daily - End of Day",
     },
-    { aggregation_ndx: "daily-15-min", aggregation_desc: "15 Minute" },
   ];
   const [view] = useFetchData(
     `all-things-viewer/views/${viewNdx ? viewNdx : -9999}`,

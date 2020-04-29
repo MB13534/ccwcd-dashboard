@@ -214,7 +214,7 @@ const Sidebar = (props) => {
       activePath: "files/",
       icon: FileIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
       link: "admin/data/structures",
