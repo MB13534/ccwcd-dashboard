@@ -318,6 +318,7 @@ const AllThingsViewer = (props) => {
       <Box marginLeft={2} marginTop={2} marginRight={2}>
         <Flex justifyContent="space-between">
           <Button
+            id="view-graph-btn"
             startIcon={<ChartIcon />}
             variant="outlined"
             color="primary"
@@ -335,6 +336,7 @@ const AllThingsViewer = (props) => {
       <Box marginLeft={2} marginRight={2} marginTop={2} marginBottom={5}>
         {visualizationType === "table" && (
           <MaterialTable
+            id="table"
             title="All Things Viewer Report"
             columns={columns}
             data={data}

@@ -32,35 +32,24 @@ const AtvHelp = (props) => {
     {
       title: "Filter Records",
       content:
-        "The period of record for the table data can be further refined using a start and end date filter.",
-      target: "#table-filters",
+        "You can search across any field in the table using the search box.",
+      target: "div.MuiTextField-root:nth-child(3)",
       disableBeacon: true,
     },
     {
       title: "Toggle Columns",
       content:
         "You can control which columns are visible in the table using the column toggle.",
-      target: "#column-toggle",
-      disableBeacon: true,
-    },
-    {
-      title: "Exclude Nulls",
-      content: "You can exclude records that are null across every field.",
-      target: "#exclude-nulls",
+      target:
+        ".MTableToolbar-actions-431 > div:nth-child(1) > div:nth-child(1) > span:nth-child(1) > button:nth-child(1)",
       disableBeacon: true,
     },
     {
       title: "Download Data",
       content:
         "You can download the table data. Note that the filters applied to the table will also apply to the data download.",
-      target: "#download-data",
-      disableBeacon: true,
-    },
-    {
-      title: "View Data Availability",
-      content:
-        "The View Data Availability button can be used to view a table highlighting when each of your selected stations were last updated.",
-      target: "#view-data-availability-btn",
+      target:
+        ".MTableToolbar-actions-431 > div:nth-child(1) > div:nth-child(1) > span:nth-child(2) > button:nth-child(1)",
       disableBeacon: true,
     },
     {
@@ -68,6 +57,13 @@ const AtvHelp = (props) => {
       content:
         "The data can additionally be viewed as a graph by selecting the View As Graph button.",
       target: "#view-graph-btn",
+      disableBeacon: true,
+    },
+    {
+      title: "View Data Availability",
+      content:
+        "The View Data Availability button can be used to view a table highlighting when each of your selected stations were last updated.",
+      target: "#view-data-availability-btn",
       disableBeacon: true,
     },
   ];

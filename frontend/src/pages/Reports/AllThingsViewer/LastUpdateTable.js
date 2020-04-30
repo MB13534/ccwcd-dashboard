@@ -141,6 +141,7 @@ const LastUpdateTable = ({ title, data, columns, loading }) => {
         color="primary"
         style={{ marginRight: 8 }}
         onClick={handleLastUpdateVisibility}
+        id="view-data-availability-btn"
       >
         View Recent Data Availability
       </Button>
