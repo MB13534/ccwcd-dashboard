@@ -189,3 +189,58 @@ export const formatTimestamp = (date) => {
     date.getMonth() + 1
   }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 };
+
+/**
+ * Generate an array of objects for a depletions
+ * years dropdown
+ * Expects a number of years to generate back to and
+ * the total number of years to generate
+ * i.e. if the yearsBack is set to 1 and the
+ * yearsCount is set to 2020,
+ * the first year in the array will be 2019 and the last
+ * year will be 2021
+ * @param {number} yearsBack
+ * @param {number} yearsCount
+ */
+export const generateDepletionYears = (yearsBack, yearsCount) => {
+  const lastYear = new Date().getFullYear() - yearsBack;
+  let yearsData = [];
+  for (let i = 0; i < yearsCount; i++) {
+    yearsData.push({ year_ndx: lastYear + i, year_desc: lastYear + i });
+  }
+  return yearsData;
+};
+
+// Color scale used for 5 or less series
+export const DISCRETE_COLOR_RANGE = [
+  "#12939A",
+  "#79C7E3",
+  "#1A3177",
+  "#FF9833",
+  "#EF5D28",
+];
+
+// Color scale used for 6 or more series
+export const EXTENDED_DISCRETE_COLOR_RANGE = [
+  "#19CDD7",
+  "#DDB27C",
+  "#88572C",
+  "#FF991F",
+  "#F15C17",
+  "#223F9A",
+  "#DA70BF",
+  "#125C77",
+  "#4DC19C",
+  "#776E57",
+  "#12939A",
+  "#17B8BE",
+  "#F6D18A",
+  "#B7885E",
+  "#FFCB99",
+  "#F89570",
+  "#829AE3",
+  "#E79FD5",
+  "#1E96BE",
+  "#89DAC1",
+  "#B3AD9E",
+];

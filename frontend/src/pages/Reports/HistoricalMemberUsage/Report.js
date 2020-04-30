@@ -6,15 +6,18 @@ import { FilterActions, FilterBar, FilterAdvanced } from "@lrewater/lre-react";
 import { useAuth0 } from "../../../hooks/auth";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import Report from "../../../components/Reports/Report";
+import Layout from "../../../components/Layout";
 import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import ReportData from "../../../components/Reports/ReportData";
 import WellsFilter from "../../../components/Filters/WellsFilter";
 import { Select } from "@lrewater/lre-react";
+import useTableTitle from "../../../hooks/useTableTitle";
+import { generateDepletionYears } from "../../../util";
+import MaterialTable from "material-table";
+import { Box } from "@material-ui/core";
 
 const HistoricalMemberUsageReport = (props) => {
   let { viewNdx } = useParams();
@@ -26,24 +29,55 @@ const HistoricalMemberUsageReport = (props) => {
     handleSnackbarClose,
   } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
+
+  // Request data for the filters
+  const [Wells] = useFetchData("historical-member-usage/wells", []);
+
+  // options for the dataset dropdown
+  const DatasetData = [
+    { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
+    {
+      dataset_ndx: "well-pumping",
+      dataset_desc: "Well Pumping",
+    },
+    { dataset_ndx: "well-depletions", dataset_desc: "Well Depletions" },
+    { dataset_ndx: "well-info", dataset_desc: "Well Info" },
+  ];
+
+  // generate years data for the dropdown
+  const YearData = generateDepletionYears(1, 3);
+
+  // setup state management for table data
+  const [data, setData] = useState([]);
+
+  // Fetch data if the user has selected a view
+  const [view] = useFetchData(
+    `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
+    [viewNdx]
+  );
+
+  // initialize filter values
   const [filterValues, setFilterValues] = useState({
     well_index: [526],
     dataset: "meter-readings",
     depletion_start_year: "",
   });
-  const [data, setData] = useState([]);
-  const TableTitle = useMemo(() => {
-    const { dataset } = { ...filterValues };
-    if (dataset === "meter-readings") {
-      return "Meter Readings";
-    } else if (dataset === "well-pumping") {
-      return "Well Pumping";
-    } else if (dataset === "well-depletions") {
-      return "Well Depletions";
-    } else if (dataset === "well-info") {
-      return "Well Info";
-    }
-  }, [data]); //eslint-disable-line
+
+  // dynamically set the table title to reflect
+  // the user's current data set
+  const TableTitle = useTableTitle(
+    {
+      "meter-readings": "Meter Readings",
+      "well-pumping": "Well Pumping",
+      "well-depletions": "Well Depletions",
+      "well-info": "Well Info",
+    },
+    filterValues.dataset,
+    data
+  );
+
+  // dynamically update the table columns to reflect
+  // the user's current data set
   const columns = useMemo(() => {
     if (data.length > 0) {
       const { dataset } = { ...filterValues };
@@ -91,31 +125,6 @@ const HistoricalMemberUsageReport = (props) => {
       return [];
     }
   }, [data]); //eslint-disable-line
-
-  // Request data for the filters
-  const [Wells] = useFetchData("historical-member-usage/wells", []);
-  const DatasetData = [
-    { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
-    {
-      dataset_ndx: "well-pumping",
-      dataset_desc: "Well Pumping",
-    },
-    { dataset_ndx: "well-depletions", dataset_desc: "Well Depletions" },
-    { dataset_ndx: "well-info", dataset_desc: "Well Info" },
-  ];
-  const YearData = (() => {
-    const lastYear = new Date().getFullYear() - 1;
-    let yearsData = [];
-    for (let i = 0; i < 3; i++) {
-      yearsData.push({ year_ndx: lastYear + i, year_desc: lastYear + i });
-    }
-    return yearsData;
-  })();
-
-  const [view] = useFetchData(
-    `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
-    [viewNdx]
-  );
 
   /**
    * Event handler for the filters bar
@@ -258,7 +267,7 @@ const HistoricalMemberUsageReport = (props) => {
   }, [view]); //eslint-disable-line
 
   return (
-    <Report>
+    <Layout>
       <FilterBar onSubmit={handleSubmit}>
         <WellsFilter
           multiple
@@ -302,12 +311,25 @@ const HistoricalMemberUsageReport = (props) => {
         </FilterAdvanced>
       </FilterBar>
 
-      <ReportData
-        title={TableTitle}
-        data={data}
-        columns={columns}
-        loading={formSubmitting}
-      />
+      <Box marginLeft={2} marginRight={2} marginTop={2} marginBottom={5}>
+        <MaterialTable
+          title={TableTitle}
+          columns={columns}
+          data={data}
+          isLoading={formSubmitting}
+          editable={{}}
+          options={{
+            exportAllData: true,
+            grouping: true,
+            columnsButton: true,
+            exportButton: true,
+            pageSize: 30,
+            pageSizeOptions: [15, 30, 60],
+            maxBodyHeight: 600,
+            padding: "dense",
+          }}
+        />
+      </Box>
 
       <FormSnackbar
         open={snackbarOpen}
@@ -316,7 +338,7 @@ const HistoricalMemberUsageReport = (props) => {
         successMessage="Filters submitted successfully"
         errorMessage="Filters could not be submitted"
       />
-    </Report>
+    </Layout>
   );
 };
 

@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Typography, Divider } from "@material-ui/core";
-import { FilterBar, FilterActions, FilterAdvanced } from "@lrewater/lre-react";
+import { Typography, Divider, Button, Box, Paper } from "@material-ui/core";
+import ChartIcon from "@material-ui/icons/Timeline";
+import {
+  FilterBar,
+  FilterActions,
+  FilterAdvanced,
+  DatePicker,
+} from "@lrewater/lre-react";
 
 import { useAuth0 } from "../../../hooks/auth";
 import useFetchData from "../../../hooks/useFetchData";
 import useFilterAssoc from "../../../hooks/useFilterAssoc";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import Report from "../../../components/Reports/Report";
+import Layout from "../../../components/Layout";
 
 import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
@@ -19,9 +25,11 @@ import AggregationLevelFilter from "../../../components/Filters/AggregationLevel
 import SavedViews from "../../../components/Filters/SavedViews";
 import { extractDate, validateDependentSelections } from "../../../util";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import ReportData from "../../../components/Reports/ReportDataATV";
-import { DatePicker } from "@lrewater/lre-react";
 import Flex from "../../../components/Flex";
+import LastUpdateTable from "./LastUpdateTable";
+import AtvHelp from "../HelpGuides/AtvHelp";
+import MaterialTable from "material-table";
+import LineGraph from "../../../components/DataVisualization/LineGraph";
 
 const AllThingsViewer = (props) => {
   let { viewNdx } = useParams();
@@ -41,7 +49,7 @@ const AllThingsViewer = (props) => {
     end_date: extractDate(new Date()),
   });
   const [data, setData] = useState([]);
-  const [columns, setColumns] = useState([]);
+  const [visualizationType, setVisualizationType] = useState("table");
 
   // Request data for the filters
   const [StructureTypes] = useFetchData(
@@ -65,6 +73,29 @@ const AllThingsViewer = (props) => {
     [viewNdx]
   );
 
+  // dynamically update the table columns to reflect
+  // the user's current data set
+  const columns = useMemo(() => {
+    if (data.length > 0) {
+      const keys = Object.keys(data[0]);
+      return keys.map((key) => {
+        if (key === "collect_timestamp") {
+          return {
+            title: "Date",
+            field: key,
+            type: "date",
+          };
+        }
+        return {
+          title: key,
+          field: key,
+          type: "numeric",
+        };
+      });
+    }
+    return [];
+  }, [data]); //eslint-disable-line
+
   /**
    * Use the useFilterAssoc hook to populate the structures dropdown
    * Returns structures data associated with the user's selected
@@ -86,6 +117,14 @@ const AllThingsViewer = (props) => {
     MeasurementTypes,
     "assoc_structure_ndx"
   );
+
+  const handleVisualizationType = () => {
+    if (visualizationType === "graph") {
+      setVisualizationType("table");
+    } else {
+      setVisualizationType("graph");
+    }
+  };
 
   /**
    * Event handler for the filters bar
@@ -169,49 +208,6 @@ const AllThingsViewer = (props) => {
   };
 
   /**
-   * Logic used to programatically set the column configs for the
-   * Daily Data crosstab table
-   * Logic runs whenever the DailyData is updated
-   */
-  useEffect(() => {
-    if (data.length > 0) {
-      const keys = Object.keys(data[0]);
-      setColumns(
-        keys.map((key) => {
-          if (key === "collect_timestamp") {
-            return {
-              type: "category",
-              label: "Date",
-              accessor: key,
-              width: 120,
-              filter: {
-                enabled: true,
-                type: "date",
-              },
-              columnToggle: {
-                enabled: true,
-              },
-            };
-          }
-          return {
-            type: "series",
-            label: key,
-            accessor: key,
-            width: 120,
-            filter: {
-              enabled: false,
-              type: "number",
-            },
-            columnToggle: {
-              enabled: true,
-            },
-          };
-        })
-      );
-    }
-  }, [data]);
-
-  /**
    * Logic used to handle setting the filter values
    * if the user is editing an existing view
    * TODO potentially refactor this into a useCallback
@@ -259,7 +255,7 @@ const AllThingsViewer = (props) => {
   }, [view, viewLoading]); //eslint-disable-line
 
   return (
-    <Report>
+    <Layout>
       <FilterBar onSubmit={handleSubmit} id="filters">
         <StructureTypesFilter
           data={StructureTypes}
@@ -319,12 +315,55 @@ const AllThingsViewer = (props) => {
         </FilterAdvanced>
       </FilterBar>
 
-      <ReportData
-        title="All Things Viewer Report"
-        data={data}
-        columns={columns}
-        loading={formSubmitting}
-      />
+      <Box marginLeft={2} marginTop={2} marginRight={2}>
+        <Flex justifyContent="space-between">
+          <Button
+            startIcon={<ChartIcon />}
+            variant="outlined"
+            color="primary"
+            onClick={handleVisualizationType}
+          >
+            {visualizationType === "table" ? "View as Graph" : "View as Table"}
+          </Button>
+          <div>
+            <LastUpdateTable />
+            <AtvHelp />
+          </div>
+        </Flex>
+      </Box>
+
+      <Box marginLeft={2} marginRight={2} marginTop={2} marginBottom={5}>
+        {visualizationType === "table" && (
+          <MaterialTable
+            title="All Things Viewer Report"
+            columns={columns}
+            data={data}
+            isLoading={formSubmitting}
+            editable={{}}
+            options={{
+              exportAllData: true,
+              columnsButton: true,
+              exportButton: true,
+              pageSize: 30,
+              pageSizeOptions: [15, 30, 60],
+              maxBodyHeight: 600,
+              padding: "dense",
+            }}
+          />
+        )}
+
+        {visualizationType === "graph" && (
+          <Paper>
+            <Box padding={3}>
+              <LineGraph
+                data={data}
+                columns={columns}
+                title="All Things Viewer Report"
+              />
+            </Box>
+          </Paper>
+        )}
+      </Box>
 
       <FormSnackbar
         open={snackbarOpen}
@@ -333,7 +372,7 @@ const AllThingsViewer = (props) => {
         successMessage="Filters submitted successfully"
         errorMessage="Filters could not be submitted"
       />
-    </Report>
+    </Layout>
   );
 };
 

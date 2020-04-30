@@ -1,19 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Paper,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-} from "@material-ui/core";
-import HelpIcon from "@material-ui/icons/Help";
-import useFetchData from "../../hooks/useFetchData";
-import useVisibility from "../../hooks/useVisibility";
+import { Button, Dialog, DialogTitle, DialogActions } from "@material-ui/core";
+import useFetchData from "../../../hooks/useFetchData";
+import useVisibility from "../../../hooks/useVisibility";
 import { Table } from "@lrewater/lre-react";
-import LineGraph from "../DataVisualization/LineGraph";
-import AtvHelp from "../../pages/Reports/HelpGuides/AtvHelp";
-import Flex from "../Flex";
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -86,12 +76,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ReportData = ({ title, data, columns, loading }) => {
+const LastUpdateTable = ({ title, data, columns, loading }) => {
   const classes = useStyles();
   const [lastUpdateVisibility, handleLastUpdateVisibility] = useVisibility(
     false
   );
-  const [visualizationType, setVisualizationType] = useState("table");
 
   const [LastUpdateData] = useFetchData("all-things-viewer/last-report", []);
 
@@ -146,70 +135,15 @@ const ReportData = ({ title, data, columns, loading }) => {
     },
   ];
 
-  /**
-   * Handler for setting the active visualization type
-   * i.e. graph or table
-   */
-  const handleVisualizationType = () => {
-    setVisualizationType((state) => (state === "table" ? "graph" : "table"));
-  };
-
-  /**
-   * Utility function to automatically update the Table title
-   * whenever the aggregation level or visualization types change
-   */
-  const setTableTitle = () => {
-    return (
-      <div className={classes.tableTitle}>
-        <div>
-          {title}
-          <Button
-            style={{ marginLeft: 16 }}
-            variant="outlined"
-            color="primary"
-            onClick={handleVisualizationType}
-            id="view-graph-btn"
-          >
-            View As {visualizationType === "graph" ? "Table" : "Graph"}
-          </Button>
-        </div>
-        <Flex>
-          <AtvHelp />
-          <Button
-            id="view-data-availability-btn"
-            startIcon={<HelpIcon />}
-            onClick={handleLastUpdateVisibility}
-            color="primary"
-            className={classes.lastUpdateBtn}
-          >
-            View Data Availability
-          </Button>
-        </Flex>
-      </div>
-    );
-  };
-
   return (
     <>
-      <div className={classes.mainContent} id="table">
-        <Paper className={classes.paper}>
-          {visualizationType === "table" && (
-            <Table
-              data={data}
-              columns={columns}
-              loading={loading}
-              title={setTableTitle()}
-              size="small"
-              stickyHeader={true}
-              height={750}
-            />
-          )}
-
-          {visualizationType === "graph" && (
-            <LineGraph data={data} columns={columns} title={setTableTitle()} />
-          )}
-        </Paper>
-      </div>
+      <Button
+        color="primary"
+        style={{ marginRight: 8 }}
+        onClick={handleLastUpdateVisibility}
+      >
+        View Recent Data Availability
+      </Button>
 
       {/* Last Update Dialog */}
       <Dialog
@@ -243,4 +177,4 @@ const ReportData = ({ title, data, columns, loading }) => {
   );
 };
 
-export default ReportData;
+export default LastUpdateTable;

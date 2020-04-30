@@ -87,7 +87,6 @@ const AtvHelp = (props) => {
         startIcon={<HelpIcon />}
         color="primary"
         size="large"
-        style={{ marginLeft: theme.spacing(2) }}
         onClick={() => setRun((state) => !state)}
       >
         Help

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -19,10 +19,13 @@ import {
   Legend,
 } from "recharts";
 import { MultiSelect } from "@lrewater/lre-react";
-import useGraph from "../../hooks/useGraph";
 import useVisibility from "../../hooks/useVisibility";
 import ColumnsIcon from "@material-ui/icons/ViewColumn";
-import { formatDate } from "../../util";
+import {
+  formatDate,
+  DISCRETE_COLOR_RANGE,
+  EXTENDED_DISCRETE_COLOR_RANGE,
+} from "../../util";
 
 const useStyles = makeStyles((theme) => ({
   tooltip: {
@@ -61,8 +64,8 @@ const SeriesToggles = ({
           <MultiSelect
             name="series"
             label="Series"
-            valueField="accessor"
-            displayField="label"
+            valueField="field"
+            displayField="title"
             data={columns}
             value={selections}
             onChange={handleFilter}
@@ -85,45 +88,21 @@ SeriesToggles.propTypes = {
 
 const LineGraph = ({ data, columns, title }) => {
   const classes = useStyles();
-  const { filteredKeys, handleFilteredKeys } = useGraph(columns);
+  const [filteredColumns, setFilteredColumns] = useState([]);
   const [
     seriesTogglesVisibility,
     handleSeriesTogglesVisibility,
   ] = useVisibility(false);
 
-  // Color scale used for 5 or less series
-  const DISCRETE_COLOR_RANGE = [
-    "#12939A",
-    "#79C7E3",
-    "#1A3177",
-    "#FF9833",
-    "#EF5D28",
-  ];
+  useEffect(() => {
+    setFilteredColumns(
+      columns.filter((d) => d.field !== "collect_timestamp").map((d) => d.field)
+    );
+  }, [columns]);
 
-  // Color scale used for 6 or more series
-  const EXTENDED_DISCRETE_COLOR_RANGE = [
-    "#19CDD7",
-    "#DDB27C",
-    "#88572C",
-    "#FF991F",
-    "#F15C17",
-    "#223F9A",
-    "#DA70BF",
-    "#125C77",
-    "#4DC19C",
-    "#776E57",
-    "#12939A",
-    "#17B8BE",
-    "#F6D18A",
-    "#B7885E",
-    "#FFCB99",
-    "#F89570",
-    "#829AE3",
-    "#E79FD5",
-    "#1E96BE",
-    "#89DAC1",
-    "#B3AD9E",
-  ];
+  const handleFilteredColumns = (values) => {
+    setFilteredColumns(values);
+  };
 
   const setLineColor = (series, index) => {
     return series.length > 5
@@ -149,22 +128,18 @@ const LineGraph = ({ data, columns, title }) => {
                 />
               </IconButton>
             </Tooltip>
-            <Button
-              // variant="button"
-              // display="inline"
-              color={seriesTogglesVisibility ? "primary" : "initial"}
-            >
+            <Button color={seriesTogglesVisibility ? "primary" : "inherit"}>
               Toggle Series
             </Button>
           </div>
         </div>
       )}
       <SeriesToggles
-        columns={columns}
-        selections={filteredKeys}
+        columns={columns.filter((d) => d.field !== "collect_timestamp")}
+        selections={filteredColumns}
         visible={seriesTogglesVisibility}
         visibilityHandler={handleSeriesTogglesVisibility}
-        handleToggle={handleFilteredKeys}
+        handleToggle={handleFilteredColumns}
       />
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
@@ -178,11 +153,11 @@ const LineGraph = ({ data, columns, title }) => {
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
           <ChartTooltip labelFormatter={formatDate} />
-          {filteredKeys.map((s, i) => (
+          {filteredColumns.map((s, i) => (
             <Line
               key={s}
               dataKey={s}
-              stroke={setLineColor(filteredKeys, i)}
+              stroke={setLineColor(filteredColumns, i)}
               strokeWidth={2}
             />
           ))}
