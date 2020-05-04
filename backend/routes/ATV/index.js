@@ -81,6 +81,7 @@ router.get(
           [Op.between]: [StartDate, EndDate],
         },
       },
+      order: [["collect_timestamp", "asc"]],
     })
       .then((data) => {
         const crosstabbed = crosstab(
@@ -116,6 +117,7 @@ router.get(
           [Op.between]: [StartDate, EndDate],
         },
       },
+      order: [["collect_timestamp", "asc"]],
     })
       .then((data) => {
         const crosstabbed = crosstab(

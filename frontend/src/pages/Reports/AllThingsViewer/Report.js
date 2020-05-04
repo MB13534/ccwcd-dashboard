@@ -42,8 +42,26 @@ const AllThingsViewer = (props) => {
   } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
   const [filterValues, setFilterValues] = useState({
-    structure_types: [6],
-    structures: [18, 28, 29],
+    structure_types: [1],
+    structures: [
+      13,
+      14,
+      15,
+      16,
+      17,
+      19,
+      20,
+      31,
+      32,
+      35,
+      37,
+      12,
+      52,
+      53,
+      55,
+      62,
+      63,
+    ],
     measurement_types: [3],
     aggregation_level: "daily-averages",
     end_date: extractDate(new Date()),
