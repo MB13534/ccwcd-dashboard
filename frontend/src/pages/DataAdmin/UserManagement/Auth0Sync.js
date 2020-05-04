@@ -6,22 +6,17 @@ import Layout from "../../../components/Layout";
 import useFetchData from "../../../hooks/useFetchData";
 import { useAuth0 } from "../../../hooks/auth";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
     margin: theme.spacing(3),
   },
 }));
 
-const Auth0Sync = props => {
+const Auth0Sync = (props) => {
   const classes = useStyles();
-  const [Users] = useFetchData("user-management/users", []);
   const [isLoading, setIsLoading] = useState(false); //eslint-disable-line
   const { getTokenSilently } = useAuth0();
-
-  useEffect(() => {
-    console.log(Users);
-  }, [Users]);
 
   const handleSync = () => {
     // Set up a cancellation source

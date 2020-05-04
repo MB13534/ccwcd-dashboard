@@ -23,7 +23,14 @@ router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
  * * @param {string} access_token
  */
 async function getUserRoles(users, access_token) {
-  const usersWithRoles = users.map(async user => {
+  // Returns a Promise that resolves after "ms" Milliseconds
+  function timer(ms) {
+    return new Promise((res) => setTimeout(res, ms));
+  }
+
+  let usersWithRoles = [];
+  for (let user of users) {
+    await timer(501);
     const { user_id } = user;
     const rolesResponse = await axios.get(
       `${process.env.USER_MANAGEMENT_AUDIENCE}users/${user_id}/roles`,
@@ -36,10 +43,10 @@ async function getUserRoles(users, access_token) {
     const { data } = rolesResponse;
     const mergedUser = {
       ...user,
-      roles: data.map(d => d.id),
+      roles: data.map((d) => d.id),
     };
-    return mergedUser;
-  });
+    usersWithRoles.push(mergedUser);
+  }
   const rolesPromises = await Promise.all(usersWithRoles);
   return rolesPromises;
 }
@@ -65,10 +72,10 @@ async function getRoles(access_token) {
 // Route for returning all users
 router.get("/users", checkPermission(["read:users"]), (req, res, next) => {
   Users.findAll()
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -92,7 +99,7 @@ router.post(
       const users = usersResponse.data;
       const usersWithRoles = await getUserRoles(users, access_token);
       const roles = await getRoles(access_token);
-      const formattedUsersData = usersWithRoles.map(user => {
+      const formattedUsersData = usersWithRoles.map((user) => {
         return {
           auth0_user_id: user.user_id,
           auth0_email: user.email,
@@ -104,17 +111,17 @@ router.post(
           assigned_roles: user.roles,
         };
       });
-      const formattedRolesData = roles.map(role => {
+      const formattedRolesData = roles.map((role) => {
         return {
           auth0_role_id: role.id,
           auth0_role_name: role.name,
           auth0_role_description: role.description,
         };
       });
-      const destroyUsers = await UsersLanding.destroy({ truncate: true });
-      const createUsers = await UsersLanding.bulkCreate(formattedUsersData);
-      const destroyRoles = await UserRolesLanding.destroy({ truncate: true });
-      const createRoles = await UserRolesLanding.bulkCreate(formattedRolesData);
+      await UsersLanding.destroy({ truncate: true });
+      await UsersLanding.bulkCreate(formattedUsersData);
+      await UserRolesLanding.destroy({ truncate: true });
+      await UserRolesLanding.bulkCreate(formattedRolesData);
       res.sendStatus(200);
     } catch (error) {
       next(error);

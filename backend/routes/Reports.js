@@ -20,7 +20,7 @@ router.get("/", (req, res, next) => {
   Reports.findAll({
     where: {
       assoc_role_id: {
-        [Op.contains]: roles,
+        [Op.overlap]: roles,
       },
       report_enabled: true,
     },
