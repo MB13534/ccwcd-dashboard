@@ -67,7 +67,7 @@ router.get("/measurement-types", (req, res, next) => {
 router.get(
   "/daily-averages/:structures/:measure_types/:end_date",
   (req, res, next) => {
-    const StartDate = setAPIDate(45, req.params.end_date);
+    const StartDate = setAPIDate(90, req.params.end_date);
     const EndDate = setAPIDate(0, req.params.end_date);
     ATV_Daily_Average.findAll({
       where: {
@@ -103,7 +103,7 @@ router.get(
 router.get(
   "/daily-end-of-day/:structures/:measure_types/:end_date",
   (req, res, next) => {
-    const StartDate = setAPIDate(45, req.params.end_date);
+    const StartDate = setAPIDate(90, req.params.end_date);
     const EndDate = setAPIDate(0, req.params.end_date);
     ATV_Daily_End_of_Day.findAll({
       where: {
