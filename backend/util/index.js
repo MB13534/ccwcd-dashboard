@@ -63,11 +63,12 @@ const crosstab = (data, categoryField, seriesField, valueField) => {
 
   const records = categories.map((category) => {
     const record = {};
-    if (data[0][categoryField] instanceof Date) {
-      record[categoryField] = new Date(category);
-    } else {
-      record[categoryField] = category;
-    }
+    record[categoryField] = new Date(`${category} 00:00:00`);
+    // if (data[0][categoryField] instanceof Date) {
+    //   record[categoryField] = new Date(category);
+    // } else {
+    //   record[categoryField] = category;
+    // }
     series.forEach((s) => {
       record[s] = null;
     });
