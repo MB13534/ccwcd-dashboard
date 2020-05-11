@@ -35,8 +35,11 @@ const UserManagement = (props) => {
   const [isLoading, setIsLoading] = useState(false); //eslint-disable-line
   const { getTokenSilently } = useAuth0();
   const [Users] = useFetchData("data-management/user-management/users", []);
-  const [StructureTypes] = useFetchData("data-management/structure-types", []);
-  const [Structures] = useFetchData(`data-management/structures`, []);
+  const [StructureTypes] = useFetchData(
+    "all-things-viewer/structure-types",
+    []
+  );
+  const [Structures] = useFetchData(`all-things-viewer/structures`, []);
   const [UserStructureAssociations] = useFetchData(
     "data-management/user-management/users/assoc/structures",
     []
@@ -245,8 +248,8 @@ const UserManagement = (props) => {
                   <StructureAssociations
                     key={st.structure_type_ndx}
                     title={st.structure_type_desc}
-                    data={Structures.filter(
-                      (d) => d.structure_type_ndx === st.structure_type_ndx
+                    data={Structures.filter((d) =>
+                      d.assoc_structure_type_ndx.includes(st.structure_type_ndx)
                     )}
                     defaultVisibility={true}
                     selections={associatedStructures}
