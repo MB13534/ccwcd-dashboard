@@ -6,7 +6,12 @@ const {
   getAuth0APIToken,
 } = require("../../middleware/auth.js");
 
-const { Users, UsersLanding, UserRolesLanding } = require("../../models");
+const {
+  Users,
+  UsersLanding,
+  UserRolesLanding,
+  UserStructuresAssoc,
+} = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -71,9 +76,35 @@ async function getRoles(access_token) {
 // GET /api/data-management/user-management/users
 // Route for returning all users
 router.get("/users", checkPermission(["read:users"]), (req, res, next) => {
-  Users.findAll()
+  Users.findAll({
+    order: [["auth0_email", "asc"]],
+  })
     .then((data) => {
       res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/data-management/user-management/assoc/structures
+// Route for returning all user to structure associations
+router.get("/users/assoc/structures", (req, res, next) => {
+  UserStructuresAssoc.findAll()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// post /api/data-management/user-management/assoc/structures
+// Route for updating/adding structure associations for a user
+router.post("/users/assoc/structures", (req, res, next) => {
+  UserStructuresAssoc.upsert(req.body)
+    .then((data) => {
+      res.sendStatus(204);
     })
     .catch((err) => {
       next(err);

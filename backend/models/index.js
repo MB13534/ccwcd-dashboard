@@ -133,6 +133,10 @@ db.CWM_Wells = require("./MembersManagement/Wells")(sequelize, Sequelize);
  */
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
 db.DM_Sources = require("./DataManagement/SourcesView")(sequelize, Sequelize);
+db.DM_Structures = require("./DataManagement/StructuresView")(
+  sequelize,
+  Sequelize
+);
 db.DM_StructureTypes = require("./DataManagement/StructureTypesView")(
   sequelize,
   Sequelize
@@ -152,6 +156,10 @@ db.UsersLanding = require("./DataManagement/UsersLanding")(
 );
 db.UserRoles = require("./DataManagement/UserRoles")(sequelize, Sequelize);
 db.UserRolesLanding = require("./DataManagement/UserRolesLanding")(
+  sequelize,
+  Sequelize
+);
+db.UserStructuresAssoc = require("./DataManagement/UserStructuresAssoc")(
   sequelize,
   Sequelize
 );

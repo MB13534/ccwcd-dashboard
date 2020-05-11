@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, STRING, ARRAY, DOUBLE, BOOLEAN } = DataTypes;
   const StructuresView = sequelize.define(
-    "atv_list_structures",
+    "list_structures",
     {
       structure_ndx: {
         type: INTEGER,
@@ -12,13 +12,13 @@ module.exports = (sequelize, DataTypes) => {
         type: STRING,
         allowNull: false,
       },
-      assoc_structure_type_ndx: {
-        type: ARRAY(INTEGER),
+      structure_type_ndx: {
+        type: INTEGER,
       },
     },
     {
       timestamps: false,
-      schema: "web",
+      schema: "data",
       freezeTableName: true,
     }
   );

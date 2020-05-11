@@ -27,8 +27,8 @@ const Files = React.lazy(() => import("./pages/Files"));
 
 const FolderPage = React.lazy(() => import("./pages/Files/FolderPage"));
 
-const Auth0Sync = React.lazy(() =>
-  import("./pages/DataAdmin/UserManagement/Auth0Sync")
+const UserManagement = React.lazy(() =>
+  import("./pages/DataAdmin/UserManagement/")
 );
 
 const ContractsWellsMeters = React.lazy(() =>
@@ -188,7 +188,7 @@ const App = () => {
               path="/auth0-sync"
               exact
               roles={AdminRoles}
-              component={Auth0Sync}
+              component={UserManagement}
             />
             <Route
               path="/docs"

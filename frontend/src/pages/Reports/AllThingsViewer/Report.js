@@ -272,6 +272,7 @@ const AllThingsViewer = (props) => {
     }
   }, [view, viewLoading]); //eslint-disable-line
 
+  console.table(data);
   return (
     <Layout>
       <FilterBar onSubmit={handleSubmit} id="filters">
