@@ -83,6 +83,10 @@ const ViewMeasurementStations = React.lazy(() =>
   import("./pages/DataAdmin/MeasurementStations/View")
 );
 
+const RechargeAccounting = React.lazy(() =>
+  import("./pages/RechargeAccounting")
+);
+
 const App = () => {
   const { loading } = useAuth0();
 
@@ -190,6 +194,14 @@ const App = () => {
               roles={AdminRoles}
               component={UserManagement}
             />
+
+            <PrivateRouteWithRoles
+              path="/recharge-accounting"
+              exact
+              roles={AdminRoles}
+              component={RechargeAccounting}
+            />
+
             <Route
               path="/docs"
               exact
