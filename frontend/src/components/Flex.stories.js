@@ -4,7 +4,7 @@ import Flex from "./Flex";
 import { Typography, TextField, Box } from "@material-ui/core";
 
 export default {
-  title: "Components | Flex",
+  title: "Components/Flex",
   // component: Flex,
   parameters: {
     component: Flex,

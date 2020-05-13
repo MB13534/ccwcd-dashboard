@@ -48,7 +48,6 @@ const TopNav = ({ title, menuItems, ...other }) => {
    * @param {*} url
    */
   const checkActive = (history, url, exact) => {
-    console.log(url);
     if (exact) {
       if (history.location.pathname === url) {
         return true;
@@ -84,7 +83,7 @@ const TopNav = ({ title, menuItems, ...other }) => {
       {...other}
     >
       <Toolbar>
-        <Typography variant="h6" color="primary" className={classes.title}>
+        <Typography variant="h6" className={classes.title}>
           {title}
         </Typography>
         {menuItems.map((item) => (

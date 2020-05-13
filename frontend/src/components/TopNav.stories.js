@@ -6,7 +6,7 @@ import { CssBaseline } from "@material-ui/core";
 import { select } from "@storybook/addon-knobs";
 
 export default {
-  title: "Components | TopNav",
+  title: "Components/TopNav",
   parameters: {
     component: TopNav,
     componentSubtitle: "Component for rendering a top navigation bar",

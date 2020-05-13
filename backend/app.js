@@ -10,6 +10,7 @@ const ReportRoutes = require("./routes/Reports");
 const DataManagementRoutes = require("./routes/DataManagement");
 const MembersManagementRoutes = require("./routes/MembersManagement");
 const FilesRoutes = require("./routes/Files");
+const RechargeAccountingRoutes = require("./routes/RechargeAccounting");
 const DummyRoutes = require("./routes/Dummy");
 
 const { setHeaders } = require("./middleware");
@@ -33,6 +34,7 @@ app.use("/api/historical-member-usage", HistoricalMemberUsageRoutes);
 app.use("/api/members-management", MembersManagementRoutes);
 app.use("/api/reports", ReportRoutes);
 app.use("/api/files", FilesRoutes);
+app.use("/api/recharge-accounting", RechargeAccountingRoutes);
 app.use("/api/dummy", DummyRoutes);
 
 // send 404 if no other route matched
