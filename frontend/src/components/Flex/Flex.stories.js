@@ -1,6 +1,6 @@
 import React from "react";
 import { withKnobs, select } from "@storybook/addon-knobs/react";
-import Flex from "./Flex";
+import { default as Flex } from "./Flex";
 import { Typography, TextField, Box } from "@material-ui/core";
 
 export default {

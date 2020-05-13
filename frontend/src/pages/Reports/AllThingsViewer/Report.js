@@ -25,7 +25,7 @@ import AggregationLevelFilter from "../../../components/Filters/AggregationLevel
 import SavedViews from "../../../components/Filters/SavedViews";
 import { extractDate, validateDependentSelections } from "../../../util";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
-import Flex from "../../../components/Flex";
+import { Flex } from "../../../components/Flex";
 import LastUpdateTable from "./LastUpdateTable";
 import AtvHelp from "../HelpGuides/AtvHelp";
 import MaterialTable from "material-table";

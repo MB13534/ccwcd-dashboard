@@ -1,9 +1,8 @@
 import React from "react";
 import { withKnobs, text, object } from "@storybook/addon-knobs/react";
-import TopNav from "./TopNav";
+import { default as TopNav } from "./TopNav";
 import { BrowserRouter } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
-import { select } from "@storybook/addon-knobs";
 
 export default {
   title: "Components/TopNav",

@@ -21,7 +21,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import SortIcon from "@material-ui/icons/SortByAlpha";
 import UpIcon from "@material-ui/icons/ArrowDropUp";
 import DownIcon from "@material-ui/icons/ArrowDropDown";
-import Flex from "../../../components/Flex";
+import { Flex } from "../../../components/Flex";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {

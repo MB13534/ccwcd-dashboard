@@ -11,7 +11,7 @@ import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../hooks/auth";
 import ReportDetails from "./ReportDetails";
 import { goTo } from "../../util";
-import Flex from "../../components/Flex";
+import { Flex } from "../../components/Flex";
 import ReportsHelp from "./HelpGuides/ReportsHelp";
 
 const useStyles = makeStyles((theme) => ({

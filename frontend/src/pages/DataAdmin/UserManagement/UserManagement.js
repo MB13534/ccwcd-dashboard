@@ -16,7 +16,7 @@ import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import StructureAssociations from "./StructureAssociations";
 import NoSelectionsIllustrations from "../../../images/undraw_setup_wizard_r6mr.svg";
-import Flex from "../../../components/Flex";
+import { Flex } from "../../../components/Flex";
 import AssociationControls from "./AssociationControls";
 import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
 

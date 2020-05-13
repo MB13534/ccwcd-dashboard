@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Paper, Chip, Box } from "@material-ui/core";
+import { Typography, Paper, Chip } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Flex from "../../../components/Flex";
+import { Flex } from "../Flex";
 import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
@@ -93,11 +93,7 @@ const RollupCard = ({
   };
 
   if (loading) {
-    return (
-      <Box width="100%">
-        <Skeleton variant="rect" height={175} animation="wave" />
-      </Box>
-    );
+    return <Skeleton variant="rect" height={175} animation="wave" />;
   }
 
   return (

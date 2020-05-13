@@ -3,11 +3,11 @@ import { withKnobs, text, select, object } from "@storybook/addon-knobs/react";
 import RollupCard from "./RollupCard";
 import { BrowserRouter } from "react-router-dom";
 import { CssBaseline, Box } from "@material-ui/core";
-import BasicIllustration from "../../../images/undraw_personal_settings_kihd.svg";
-import ErrorIllustration from "../../../images/undraw_alert_mc7b.svg";
+import BasicIllustration from "../../images/undraw_personal_settings_kihd.svg";
+import ErrorIllustration from "../../images/undraw_alert_mc7b.svg";
 
 export default {
-  title: "Recharge Accounting/Home/RollupCard",
+  title: "Components/RollupCard",
   parameters: {
     component: RollupCard,
     componentSubtitle: "Component for rendering a dashboard rollup card.",
