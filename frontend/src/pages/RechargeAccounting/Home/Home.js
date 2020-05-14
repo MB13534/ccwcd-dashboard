@@ -8,6 +8,7 @@ import WaterSliceIllustration from "../../../images/undraw_personal_settings_kih
 import ErrorIllustration from "../../../images/undraw_alert_mc7b.svg";
 import useFetchData from "../../../hooks/useFetchData";
 import Title from "./Title";
+import DataRollup from "./DataRollup";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -89,7 +90,7 @@ const Home = (props) => {
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={7}>
-                <Title text="Accounting QAQC" />
+                {/* <Title text="Accounting QAQC" /> */}
                 <RollupCard
                   title={accountingFlagsState.title}
                   message={accountingFlagsState.message}
@@ -101,11 +102,13 @@ const Home = (props) => {
                       : null
                   }
                   links={accountingFlagsState.links}
+                  elevation={0}
                 />
               </Grid>
               <Grid item xs={12} md={5}>
-                <Title text="Manage Water Slices" />
+                {/* <Title text="Manage Water Slices" /> */}
                 <RollupCard
+                  title="Manage Water Slices"
                   message="Manage your water slices and associated data from the Water Slices Management Page."
                   illustration={WaterSliceIllustration}
                   links={[
@@ -114,9 +117,11 @@ const Home = (props) => {
                       path: "/recharge-accounting/water-slices",
                     },
                   ]}
+                  elevation={0}
                 />
               </Grid>
             </Grid>
+            <DataRollup />
           </Container>
         </div>
       </section>
