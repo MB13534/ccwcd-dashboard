@@ -135,6 +135,10 @@ db.RCH_FlagsReport = require("./RechargeAccounting/FlagsReport")(
   sequelize,
   Sequelize
 );
+db.RCH_SunburstUnlagged = require("./RechargeAccounting/SunburstUnlagged")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Data Management Models

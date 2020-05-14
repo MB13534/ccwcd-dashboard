@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
   },
+  topNav: {
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 const parseFlagsData = (data) => {
@@ -86,8 +89,12 @@ const Home = (props) => {
     <Layout>
       <section className={classes.root}>
         <div className={classes.content}>
-          <TopNav title="Recharge Accounting" menuItems={MenuItems} />
           <Container maxWidth="lg" className={classes.container}>
+            <TopNav
+              title="Recharge Accounting"
+              menuItems={MenuItems}
+              className={classes.topNav}
+            />
             <Grid container spacing={2}>
               <Grid item xs={12} md={7}>
                 {/* <Title text="Accounting QAQC" /> */}
@@ -103,6 +110,7 @@ const Home = (props) => {
                   }
                   links={accountingFlagsState.links}
                   elevation={0}
+                  style={{ height: "100%" }}
                 />
               </Grid>
               <Grid item xs={12} md={5}>

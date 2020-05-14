@@ -6,7 +6,7 @@ const {
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const { crosstab, setAPIDate } = require("../../util");
-const { RCH_FlagsReport } = require("../../models");
+const { RCH_FlagsReport, RCH_SunburstUnlagged } = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -21,6 +21,18 @@ router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 // Route for returning recharge accounting flags
 router.get("/flags", (req, res, next) => {
   RCH_FlagsReport.findAll()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/recharge-accounting/contribution/unlagged
+// Route for returning data for the contribution aka unlagged sunburst chart
+router.get("/contribution/unlagged", (req, res, next) => {
+  RCH_SunburstUnlagged.findAll()
     .then((data) => {
       res.json(data);
     })

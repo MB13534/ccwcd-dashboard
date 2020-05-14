@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   activeLink: {
     color: theme.palette.primary.main,
     fontWeight: 600,
-    // fontSize: 17,
+    fontSize: 17,
     margin: theme.spacing(0.5),
     padding: theme.spacing(1),
     borderRadius: 4,
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   link: {
-    // fontSize: 17,
+    fontSize: 17,
     color: "#777777",
     margin: theme.spacing(0.5),
     padding: theme.spacing(1),
