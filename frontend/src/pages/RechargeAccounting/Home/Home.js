@@ -1,17 +1,15 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Grid, Container } from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 import Layout from "../../../components/Layout";
 import { TopNav } from "../../../components/TopNav";
 import { RollupCard } from "../../../components/RollupCard";
 import WaterSliceIllustration from "../../../images/undraw_personal_settings_kihd.svg";
 import ErrorIllustration from "../../../images/undraw_alert_mc7b.svg";
 import useFetchData from "../../../hooks/useFetchData";
-import Title from "./Title";
 import DataRollup from "./DataRollup";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
   content: {
     marginTop: theme.spacing(2),
   },
@@ -24,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Utility function used to interpret and parse the qaqc
+ * flags data and determine what should be shown in
+ * the accounting qaqc rollup card
+ * @param {*} data
+ */
 const parseFlagsData = (data) => {
   if (data.length > 0) {
     if (data[0].urfs || data[0].splits || data[0].slices) {
@@ -73,6 +77,9 @@ const parseFlagsData = (data) => {
   };
 };
 
+/**
+ * Menu items for the top navigation bar
+ */
 const MenuItems = [
   { id: 1, title: "Home", path: "/recharge-accounting" },
   { id: 2, title: "Water Slices", path: "/recharge-accounting/water-slices" },
@@ -97,7 +104,6 @@ const Home = (props) => {
             />
             <Grid container spacing={2}>
               <Grid item xs={12} md={7}>
-                {/* <Title text="Accounting QAQC" /> */}
                 <RollupCard
                   title={accountingFlagsState.title}
                   message={accountingFlagsState.message}
@@ -114,7 +120,6 @@ const Home = (props) => {
                 />
               </Grid>
               <Grid item xs={12} md={5}>
-                {/* <Title text="Manage Water Slices" /> */}
                 <RollupCard
                   title="Manage Water Slices"
                   message="Manage your water slices and associated data from the Water Slices Management Page."

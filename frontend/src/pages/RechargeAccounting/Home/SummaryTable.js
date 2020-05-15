@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import PropTypes from "prop-types";
 import { Paper } from "@material-ui/core";
 import MaterialTable from "material-table";
 import useFetchData from "../../../hooks/useFetchData";
@@ -63,7 +62,5 @@ const SummaryTable = (props) => {
     />
   );
 };
-
-SummaryTable.propTypes = {};
 
 export default SummaryTable;

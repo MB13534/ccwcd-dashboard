@@ -11,8 +11,6 @@ import {
   Button,
   Collapse,
 } from "@material-ui/core";
-import useFetchData from "../../../hooks/useFetchData";
-import { Flex } from "../../../components/Flex";
 import useVisibility from "../../../hooks/useVisibility";
 
 const useStyles = makeStyles((theme) => ({

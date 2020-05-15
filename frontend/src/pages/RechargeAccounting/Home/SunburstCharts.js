@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Paper, ButtonGroup, Button, Box } from "@material-ui/core";
 import useFetchData from "../../../hooks/useFetchData";

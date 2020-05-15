@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -9,12 +8,10 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  TextField,
   InputAdornment,
   IconButton,
   FormControl,
   InputLabel,
-  Input,
   OutlinedInput,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
