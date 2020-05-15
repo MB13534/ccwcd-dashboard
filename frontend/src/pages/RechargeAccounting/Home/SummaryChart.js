@@ -49,7 +49,7 @@ const SummaryChart = (props) => {
         <ResponsiveContainer>
           <ComposedChart
             data={ChartData}
-            margin={{ top: 20, right: 16, bottom: 40, left: 20 }}
+            margin={{ top: 20, right: 0, bottom: 40, left: 0 }}
           >
             <CartesianGrid stroke="#f5f5f5" />
             <XAxis
