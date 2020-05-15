@@ -7,7 +7,8 @@ export default {
   title: "Components/Sunburst",
   parameters: {
     component: Sunburst,
-    componentSubtitle: "Component for rendering a basic sunburst chart.",
+    componentSubtitle:
+      "Component for rendering a basic sunburst chart. The chart is",
   },
   decorators: [
     (storyFn) => (
@@ -131,10 +132,6 @@ const splits = ["GMS", "WAS", "Ditch", "Owner"];
 export const Default = () => (
   <React.Fragment>
     <CssBaseline />
-    <Sunburst
-      data={formatSunburstData(DummyData, splits)}
-      categoryField="name"
-      valueField="value"
-    />
+    <Sunburst data={formatSunburstData(DummyData, splits)} />
   </React.Fragment>
 );

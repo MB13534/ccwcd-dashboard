@@ -1,26 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { ResponsiveSunburst } from "@nivo/sunburst";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Box } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { Flex } from "../Flex";
 import { schemeDark2 } from "d3-scale-chromatic";
 
-const useStyles = makeStyles((theme) => ({
-  root: {},
-}));
-
-const Sunburst = ({ data, categoryField, valueField }) => {
-  const classes = useStyles();
-
+const Sunburst = ({ data, width = "100%", height = 275, ...other }) => {
   return (
     <div>
-      <Box width="100%" height={275} marginBottom={2}>
+      <Box width={width} height={height} marginBottom={2}>
         <ResponsiveSunburst
           data={data}
           margin={{ top: 16, right: 16, bottom: 16, left: 16 }}
-          identity={categoryField}
-          value={valueField}
+          identity="name"
+          value="value"
           cornerRadius={0}
           borderWidth={1.5}
           borderColor="white"
@@ -30,6 +23,7 @@ const Sunburst = ({ data, categoryField, valueField }) => {
           motionStiffness={90}
           motionDamping={15}
           isInteractive={true}
+          {...other}
         />
       </Box>
 
@@ -60,13 +54,13 @@ Sunburst.propTypes = {
    */
   data: PropTypes.object.isRequired,
   /**
-   * Name of the field that contains the sunburst slice category
+   * Optional width for the chart
    */
-  categoryField: PropTypes.string.isRequired,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   /**
-   * Name of the field that contains teh sunburst slice value
+   * Optional height for the chart
    */
-  valueField: PropTypes.string.isRequired,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default Sunburst;
