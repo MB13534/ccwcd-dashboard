@@ -6,7 +6,12 @@ const {
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const { crosstab, setAPIDate } = require("../../util");
-const { RCH_FlagsReport, RCH_SunburstUnlagged } = require("../../models");
+const {
+  RCH_FlagsReport,
+  RCH_SunburstUnlagged,
+  RCH_HomeTable,
+  RCH_HomeChart,
+} = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -35,6 +40,39 @@ router.get("/contribution/unlagged", (req, res, next) => {
   RCH_SunburstUnlagged.findAll()
     .then((data) => {
       res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/recharge-accounting/summary/monthly
+// Route for returning a rolled up lagged vs unlagged summary for
+// each month
+router.get("/summary/monthly", (req, res, next) => {
+  RCH_HomeChart.findAll()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/recharge-accounting/summary/annual/unlagged
+// Route for returning annual unlagged summaries for a project - structure combo
+router.get("/summary/annual/unlagged", (req, res, next) => {
+  RCH_HomeTable.findAll()
+    .then((data) => {
+      const crosstabbed = crosstab(
+        data,
+        "web_record_key",
+        "op_year",
+        "annual_af",
+        "non-date",
+        ["recharge_project_desc", "structure_desc"]
+      );
+      res.json(crosstabbed);
     })
     .catch((err) => {
       next(err);

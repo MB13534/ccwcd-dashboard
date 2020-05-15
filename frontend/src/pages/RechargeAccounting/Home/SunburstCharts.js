@@ -69,6 +69,7 @@ const SunburstCharts = (props) => {
         data={formatSunburstData(UnlaggedContribution)}
         categoryField="name"
         valueField="value"
+        height={225}
       />
       <Box display="flex" justifyContent="center" marginTop={2}>
         <ButtonGroup disableElevation color="primary">

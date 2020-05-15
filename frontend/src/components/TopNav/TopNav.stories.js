@@ -22,15 +22,16 @@ const MenuItems = [
   { id: 3, title: "Item 3", path: "/item-3" },
 ];
 
-const backgroundColorOptions = {
-  default: "default",
-  inherit: "inherit",
-  primary: "primary",
-  secondary: "secondary",
-  transparent: "transparent",
-};
-
 export const Default = () => (
+  <div>
+    <CssBaseline />
+    <BrowserRouter>
+      <TopNav title="CCWCD Dashboard" menuItems={MenuItems} />
+    </BrowserRouter>
+  </div>
+);
+
+export const Playground = () => (
   <div>
     <CssBaseline />
     <BrowserRouter>
@@ -41,3 +42,12 @@ export const Default = () => (
     </BrowserRouter>
   </div>
 );
+
+Playground.story = {
+  parameters: {
+    docs: {
+      storyDescription:
+        "You can explore the different props available to the TopNav component by selecting the Playground story and selecting the Canvas tab.",
+    },
+  },
+};

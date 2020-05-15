@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Box, Grid, Paper } from "@material-ui/core";
-import Title from "./Title";
+import { Box, Grid } from "@material-ui/core";
 import SunburstCharts from "./SunburstCharts";
+import SummaryTable from "./SummaryTable";
+import SummaryChart from "./SummaryChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -11,15 +12,17 @@ const useStyles = makeStyles((theme) => ({
 
 const DataRollup = (props) => {
   const classes = useStyles();
+
   return (
     <Box marginTop={1} marginBottom={2}>
       {/* <Title text="Recharge Data Summary" /> */}
+      <SummaryChart />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <SunburstCharts />
         </Grid>
-        <Grid item xs={12} md={8}>
-          <Paper style={{ height: 350 }} elevation={0}></Paper>
+        <Grid item xs={12} md={9}>
+          <SummaryTable />
         </Grid>
       </Grid>
     </Box>

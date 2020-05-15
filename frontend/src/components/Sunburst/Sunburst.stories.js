@@ -8,7 +8,7 @@ export default {
   parameters: {
     component: Sunburst,
     componentSubtitle:
-      "Component for rendering a basic sunburst chart. The chart is",
+      "Component for rendering a basic sunburst chart. The chart is based off of the Nivo Sunburst (https://nivo.rocks/sunburst/) and all props that are valid for the Nivo chart are valid for this component as well.",
   },
   decorators: [
     (storyFn) => (

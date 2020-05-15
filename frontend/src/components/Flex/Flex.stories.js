@@ -35,10 +35,7 @@ const alignItemsOptions = {
 
 export const Default = () => (
   <Box width="100%">
-    <Flex
-      justifyContent={select("justifyContent", justifyContentOptions, "start")}
-      alignItems={select("alignItems", alignItemsOptions, "start")}
-    >
+    <Flex justifyContent="start" alignItems="start">
       <Typography variant="h6">Example Page Header</Typography>
       <Box marginLeft={2}>
         <TextField variant="outlined" value="Search" />
@@ -63,11 +60,34 @@ export const NestedFlex = () => (
   </Box>
 );
 
+export const Playground = () => (
+  <Box width="100%">
+    <Flex
+      justifyContent={select("justifyContent", justifyContentOptions, "start")}
+      alignItems={select("alignItems", alignItemsOptions, "start")}
+    >
+      <Typography variant="h6">Example Page Header</Typography>
+      <Box marginLeft={2}>
+        <TextField variant="outlined" value="Search" />
+      </Box>
+    </Flex>
+  </Box>
+);
+
 NestedFlex.story = {
   parameters: {
     docs: {
       storyDescription:
         "You can nest the Flex component within other Flex components for even more control over layout.",
+    },
+  },
+};
+
+Playground.story = {
+  parameters: {
+    docs: {
+      storyDescription:
+        "You can explore the different props available to the Flex component by selecting the Playground story and selecting the Canvas tab.",
     },
   },
 };

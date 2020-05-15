@@ -30,7 +30,7 @@ const Sunburst = ({ data, width = "100%", height = 275, ...other }) => {
       {data.length !== 0 && data.children.length > 0 && (
         <Flex justifyContent="center">
           {data.children.map((d, i) => (
-            <Flex key={d.name}>
+            <Flex key={d.name} flexWrap="wrap" justifyContent="center">
               <Box
                 bgcolor={schemeDark2[i]}
                 width={25}

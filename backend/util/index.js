@@ -56,14 +56,27 @@ const formatDate = (date) => {
  * @param {string} categoryField field name to use as the category field (i.e. date)
  * @param {string} seriesField field name to use as the series field (i.e. measurement)
  * @param {string} valueField field name that contains the result value
+ * @param {string} type crosstab category type i.e. date vs non-date
+ * @param {array} extraFields array of extra fields to append to each record
  */
-const crosstab = (data, categoryField, seriesField, valueField) => {
+const crosstab = (
+  data,
+  categoryField,
+  seriesField,
+  valueField,
+  type = "date",
+  extraFields = []
+) => {
   const series = unique(data, seriesField);
   const categories = unique(data, categoryField);
 
   const records = categories.map((category) => {
     const record = {};
-    record[categoryField] = new Date(`${category} 00:00:00`);
+    if (type === "date") {
+      record[categoryField] = new Date(`${category} 00:00:00`);
+    } else {
+      record[categoryField] = category;
+    }
     // if (data[0][categoryField] instanceof Date) {
     //   record[categoryField] = new Date(category);
     // } else {
@@ -86,6 +99,11 @@ const crosstab = (data, categoryField, seriesField, valueField) => {
           record[d[seriesField]] = d[valueField];
         }
       }
+      extraFields.map((field) => {
+        if (d[categoryField] === category) {
+          record[field] = d[field];
+        }
+      });
     });
     return record;
   });

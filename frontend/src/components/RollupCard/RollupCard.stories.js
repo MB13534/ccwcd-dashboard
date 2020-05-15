@@ -10,7 +10,8 @@ export default {
   title: "Components/RollupCard",
   parameters: {
     component: RollupCard,
-    componentSubtitle: "Component for rendering a dashboard rollup card.",
+    componentSubtitle:
+      "Component for rendering a dashboard rollup card. A dashboard rollup card is intended to provide high level system information. Common use cases include alerts, a description with links to a site section prominently, or to display basic metrics.",
   },
   decorators: [
     (storyFn) => (
@@ -37,10 +38,10 @@ export const Default = () => (
     <CssBaseline />
     <BrowserRouter>
       <RollupCard
-        title={text("title", "Accounting Rollup")}
-        message={text("message", "Some filler text about accounting")}
-        state={select("state", stateOptions, "default")}
-        links={object("links", links)}
+        title="Accounting Rollup"
+        message="Some filler text about accounting"
+        state="default"
+        links={links}
         style={{ width: 600 }}
       />
     </BrowserRouter>
@@ -106,3 +107,27 @@ export const Error = () => (
     </BrowserRouter>
   </React.Fragment>
 );
+
+export const Playground = () => (
+  <React.Fragment>
+    <CssBaseline />
+    <BrowserRouter>
+      <RollupCard
+        title={text("title", "Accounting Rollup")}
+        message={text("message", "Some filler text about accounting")}
+        state={select("state", stateOptions, "default")}
+        links={object("links", links)}
+        style={{ width: 600 }}
+      />
+    </BrowserRouter>
+  </React.Fragment>
+);
+
+Playground.story = {
+  parameters: {
+    docs: {
+      storyDescription:
+        "You can explore the different props available to the RollupCard component by selecting the Playground story and selecting the Canvas tab.",
+    },
+  },
+};

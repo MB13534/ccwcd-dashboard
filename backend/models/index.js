@@ -139,6 +139,14 @@ db.RCH_SunburstUnlagged = require("./RechargeAccounting/SunburstUnlagged")(
   sequelize,
   Sequelize
 );
+db.RCH_HomeTable = require("./RechargeAccounting/HomeTable")(
+  sequelize,
+  Sequelize
+);
+db.RCH_HomeChart = require("./RechargeAccounting/HomeChart")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Data Management Models

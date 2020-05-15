@@ -7,11 +7,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: (props) => props.justifyContent,
     alignItems: (props) => props.alignItems,
+    flexWrap: (props) => props.flexWrap,
   },
 }));
 
 /**
- * Component used to display in a row using flexbox.
+ * Component used to display elements in a row using flexbox.
  * The content can be justified and aligned
  * using component props. Any valid css flexbox value
  * works with this component.
@@ -20,8 +21,9 @@ const Flex = ({
   children,
   alignItems = "center",
   justifyContent = "start",
+  flexWrap = "nowrap",
 }) => {
-  const classes = useStyles({ alignItems, justifyContent });
+  const classes = useStyles({ alignItems, justifyContent, flexWrap });
   return <div className={classes.root}>{children}</div>;
 };
 
@@ -41,6 +43,7 @@ Flex.propTypes = {
    * Any valid flexbox align-items value
    */
   alignItems: PropTypes.oneOf(["start", "end", "center", "stretch"]),
+  flexWrap: PropTypes.oneOf(["nowrap", "wrap", "wrap-reverse"]),
 };
 
 export default Flex;
