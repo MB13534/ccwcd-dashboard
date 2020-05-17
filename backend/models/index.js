@@ -151,6 +151,11 @@ db.RCH_HomeChart = require("./RechargeAccounting/HomeChart")(
 /**
  * Data Management Models
  */
+db.ListRechargeProjects = require("./RechargeProjects/ListRechargeProjects")(
+  sequelize,
+  Sequelize
+);
+
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
 db.DM_Sources = require("./DataManagement/SourcesView")(sequelize, Sequelize);
 db.DM_Structures = require("./DataManagement/StructuresView")(
