@@ -11,6 +11,8 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
+import DropdownIcon from "@material-ui/icons/KeyboardArrowDown";
+import { Flex } from "../Flex";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#e9e9e9",
       textDecoration: `none`,
     },
+  },
+  dropdownIcon: {
+    marginLeft: theme.spacing(1),
   },
 }));
 
@@ -146,7 +151,10 @@ const TopNav = ({ title, menuItems, ...other }) => {
                   onClick={handleClick}
                   className={handleActive(item.path, item.exact)}
                 >
-                  {item.title}
+                  <Flex>
+                    {item.title}
+                    <DropdownIcon style={{ marginLeft: 4 }} />
+                  </Flex>
                 </Link>
                 <Menu
                   id={item.title}
