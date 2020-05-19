@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, AppBar, Toolbar, Divider, Link } from "@material-ui/core";
+import {
+  Typography,
+  AppBar,
+  Toolbar,
+  Divider,
+  Link,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,11 +44,41 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: `none`,
     },
   },
+  activeChildLink: {
+    color: theme.palette.primary.main,
+    fontWeight: 600,
+    fontSize: 17,
+    borderRadius: 4,
+    textDecoration: `none`,
+    "&:hover": {
+      backgroundColor: `#e9e9e9`,
+      textDecoration: `none`,
+    },
+  },
+  childLink: {
+    fontSize: 17,
+    color: "#777777",
+    borderRadius: 4,
+    textDecoration: `none`,
+    "&:hover": {
+      backgroundColor: "#e9e9e9",
+      textDecoration: `none`,
+    },
+  },
 }));
 
 const TopNav = ({ title, menuItems, ...other }) => {
   const classes = useStyles();
   let history = useHistory();
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   /**
    * utility function used to check
@@ -74,6 +112,19 @@ const TopNav = ({ title, menuItems, ...other }) => {
     return classes.link;
   };
 
+  /**
+   * Assign appropriate class name to menu item based
+   * on if menu item is active or not
+   * @param {*} url
+   */
+  const handleActiveChild = (url, exact) => {
+    const active = checkActive(history, url, exact);
+    if (active) {
+      return classes.activeChildLink;
+    }
+    return classes.childLink;
+  };
+
   return (
     <AppBar
       position="static"
@@ -86,16 +137,51 @@ const TopNav = ({ title, menuItems, ...other }) => {
         <Typography variant="h6" className={classes.title}>
           {title}
         </Typography>
-        {menuItems.map((item) => (
-          <Link
-            key={item.id}
-            component={RouterLink}
-            to={item.path}
-            className={handleActive(item.path, item.exact)}
-          >
-            {item.title}
-          </Link>
-        ))}
+        {menuItems.map((item) => {
+          if (item.children && item.children.length > 0) {
+            return (
+              <>
+                <Link
+                  key={item.id}
+                  onClick={handleClick}
+                  className={handleActive(item.path, item.exact)}
+                >
+                  {item.title}
+                </Link>
+                <Menu
+                  id={item.title}
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  {item.children.map((child) => (
+                    <Link
+                      key={child.title}
+                      component={RouterLink}
+                      to={child.path}
+                      className={handleActiveChild(child.path, child.exact)}
+                      onClick={handleClose}
+                    >
+                      <MenuItem>{child.title}</MenuItem>
+                    </Link>
+                  ))}
+                </Menu>
+              </>
+            );
+          } else {
+            return (
+              <Link
+                key={item.id}
+                component={RouterLink}
+                to={item.path}
+                className={handleActive(item.path, item.exact)}
+              >
+                {item.title}
+              </Link>
+            );
+          }
+        })}
       </Toolbar>
       <Divider />
     </AppBar>
@@ -115,6 +201,16 @@ TopNav.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
+      exact: PropTypes.boolean,
+      children: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+            .isRequired,
+          title: PropTypes.string.isRequired,
+          path: PropTypes.string.isRequired,
+          exact: PropTypes.boolean,
+        })
+      ),
     })
   ).isRequired,
 };
