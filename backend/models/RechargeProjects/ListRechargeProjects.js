@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const { ARRAY, INTEGER, TEXT } = DataTypes;
+  const { INTEGER, TEXT } = DataTypes;
   const ListRechargeProjects = sequelize.define(
     "list_recharge_projects",
     {
@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       recharge_project_desc: {
         type: TEXT,
-      },
-      assoc_structure_ndx: {
-        type: ARRAY(INTEGER),
       },
     },
     {
