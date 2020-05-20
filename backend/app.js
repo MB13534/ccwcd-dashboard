@@ -16,6 +16,7 @@ const RechargeDecreesRoutes = require("./routes/RechargeDecrees");
 const StructuresRoutes = require("./routes/Structures");
 const StructureTypesRoutes = require("./routes/StructureTypes");
 const UnitsRoutes = require("./routes/Units");
+const SourcesRoutes = require("./routes/Sources");
 const DummyRoutes = require("./routes/Dummy");
 
 const { setHeaders } = require("./middleware");
@@ -45,6 +46,7 @@ app.use("/api/recharge-decrees", RechargeDecreesRoutes);
 app.use("/api/structures", StructuresRoutes);
 app.use("/api/structure-types", StructureTypesRoutes);
 app.use("/api/units", UnitsRoutes);
+app.use("/api/sources", SourcesRoutes);
 app.use("/api/dummy", DummyRoutes);
 
 // send 404 if no other route matched
