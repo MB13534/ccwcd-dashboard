@@ -37,7 +37,7 @@ const MeasurementTypes = (props) => {
   const [Data, isLoading, setData] = useFetchData("measurement-types", []);
 
   const Columns = [
-    { title: "Description", field: "measurement_type_desc" },
+    { title: "Description", field: "measure_type_desc" },
     { title: "Notes", field: "remark" },
   ];
 
@@ -60,8 +60,8 @@ const MeasurementTypes = (props) => {
               columns={Columns}
               loading={isLoading}
               updateHandler={setData}
-              endpoint="measurement-types"
-              ndxField="measurement_type_ndx"
+              endpoint="measure-types"
+              ndxField="measure_type_ndx"
             />
           </Container>
         </div>
