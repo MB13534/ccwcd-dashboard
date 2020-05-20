@@ -173,6 +173,10 @@ db.ListMeasurementTypes = require("./MeasurementTypes/ListMeasurementTypes")(
   sequelize,
   Sequelize
 );
+db.ListMeasurementStations = require("./Measurements/ListMeasurementStations")(
+  sequelize,
+  Sequelize
+);
 
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
 db.DM_Sources = require("./DataManagement/SourcesView")(sequelize, Sequelize);

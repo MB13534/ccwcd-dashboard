@@ -18,6 +18,7 @@ const StructureTypesRoutes = require("./routes/StructureTypes");
 const UnitsRoutes = require("./routes/Units");
 const SourcesRoutes = require("./routes/Sources");
 const MeasurementTypesRoutes = require("./routes/MeasurementTypes");
+const MeasurementsRoutes = require("./routes/Measurements");
 const DummyRoutes = require("./routes/Dummy");
 
 const { setHeaders } = require("./middleware");
@@ -49,6 +50,7 @@ app.use("/api/structure-types", StructureTypesRoutes);
 app.use("/api/units", UnitsRoutes);
 app.use("/api/sources", SourcesRoutes);
 app.use("/api/measurement-types", MeasurementTypesRoutes);
+app.use("/api/measurements", MeasurementsRoutes);
 app.use("/api/dummy", DummyRoutes);
 
 // send 404 if no other route matched
