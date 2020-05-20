@@ -87,6 +87,10 @@ const RechargeAccounting = React.lazy(() =>
   import("./pages/RechargeAccounting")
 );
 
+const DatabaseManagement = React.lazy(() =>
+  import("./pages/DatabaseManagement")
+);
+
 const App = () => {
   const { loading } = useAuth0();
 
@@ -197,9 +201,14 @@ const App = () => {
 
             <PrivateRouteWithRoles
               path="/recharge-accounting"
-              exact
               roles={AdminRoles}
               component={RechargeAccounting}
+            />
+
+            <PrivateRouteWithRoles
+              path="/database-management"
+              roles={AdminRoles}
+              component={DatabaseManagement}
             />
 
             <Route

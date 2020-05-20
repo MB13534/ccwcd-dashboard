@@ -27,7 +27,7 @@ const PrivateRouteWithRoles = ({
   useEffect(() => {
     if (isAuthenticated && user) {
       let authSwitch = false;
-      roles.forEach(role => {
+      roles.forEach((role) => {
         if (user["https://ccwcd2.org/roles"].includes(role)) {
           authSwitch = true;
         }
@@ -36,7 +36,7 @@ const PrivateRouteWithRoles = ({
     }
   }, [isAuthenticated, user, roles]);
 
-  const render = props =>
+  const render = (props) =>
     isAuthenticated && admin === true ? <Component {...props} /> : <NotFound />;
 
   return <Route path={path} render={render} {...rest} />;
