@@ -155,6 +155,19 @@ db.ListRechargeProjects = require("./RechargeProjects/ListRechargeProjects")(
   sequelize,
   Sequelize
 );
+db.ListRechargeDecrees = require("./RechargeDecrees/ListRechargeDecrees")(
+  sequelize,
+  Sequelize
+);
+db.ListStructures = require("./Structures/ListStructures")(
+  sequelize,
+  Sequelize
+);
+db.ListStructureTypes = require("./StructureTypes/ListStructureTypes")(
+  sequelize,
+  Sequelize
+);
+db.ListUnits = require("./Units/ListUnits")(sequelize, Sequelize);
 
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
 db.DM_Sources = require("./DataManagement/SourcesView")(sequelize, Sequelize);
