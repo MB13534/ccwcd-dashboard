@@ -169,6 +169,10 @@ db.ListStructureTypes = require("./StructureTypes/ListStructureTypes")(
 );
 db.ListUnits = require("./Units/ListUnits")(sequelize, Sequelize);
 db.ListSources = require("./Sources/ListSources")(sequelize, Sequelize);
+db.ListMeasurementTypes = require("./MeasurementTypes/ListMeasurementTypes")(
+  sequelize,
+  Sequelize
+);
 
 db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
 db.DM_Sources = require("./DataManagement/SourcesView")(sequelize, Sequelize);
