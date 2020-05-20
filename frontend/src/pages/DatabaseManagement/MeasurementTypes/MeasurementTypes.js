@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 const RelatedTablesLinks = [
   {
     id: 1,
-    title: "Manage Measurement Types",
-    path: "/database-management/measurement-types",
+    title: "Manage Measurements",
+    path: "/database-management/measurements",
   },
 ];
 
@@ -60,7 +60,7 @@ const MeasurementTypes = (props) => {
               columns={Columns}
               loading={isLoading}
               updateHandler={setData}
-              endpoint="measure-types"
+              endpoint="measurement-types"
               ndxField="measure_type_ndx"
             />
           </Container>

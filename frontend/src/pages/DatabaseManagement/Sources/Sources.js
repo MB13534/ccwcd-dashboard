@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 const RelatedTablesLinks = [
   {
     id: 1,
-    title: "Manage Structures",
-    path: "/database-management/structures",
+    title: "Manage Measurements",
+    path: "/database-management/measurements",
   },
 ];
 
