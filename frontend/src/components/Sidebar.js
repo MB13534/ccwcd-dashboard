@@ -136,7 +136,7 @@ const Sidebar = (props) => {
       activePath: "reports",
       icon: ReportsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
     },
     {
       link: "all-things-viewer",
@@ -145,7 +145,7 @@ const Sidebar = (props) => {
       exact: true,
       icon: EcoIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
     },
     {
       link: "auth0-sync",
@@ -213,7 +213,7 @@ const Sidebar = (props) => {
       activePath: "files/",
       icon: FileIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
     },
     {
       link: "database-management/recharge-projects",

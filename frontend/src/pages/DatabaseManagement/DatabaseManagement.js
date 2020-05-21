@@ -9,6 +9,7 @@ const StructureTypes = React.lazy(() => import("./StructureTypes"));
 const Units = React.lazy(() => import("./Units"));
 const Sources = React.lazy(() => import("./Sources"));
 const MeasurementTypes = React.lazy(() => import("./MeasurementTypes"));
+const Measurements = React.lazy(() => import("./Measurements"));
 
 const DatabaseManagement = (props) => {
   const AdminRoles = ["LRE Admin", "CCWCD Admin"];
@@ -46,17 +47,23 @@ const DatabaseManagement = (props) => {
         roles={AdminRoles}
         component={Units}
       />
-       <PrivateRouteWithRoles
+      <PrivateRouteWithRoles
         path={`${url}/sources`}
         exact
         roles={AdminRoles}
         component={Sources}
       />
-       <PrivateRouteWithRoles
+      <PrivateRouteWithRoles
         path={`${url}/measurement-types`}
         exact
         roles={AdminRoles}
         component={MeasurementTypes}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/measurements`}
+        exact
+        roles={AdminRoles}
+        component={Measurements}
       />
     </Switch>
   );

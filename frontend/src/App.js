@@ -95,6 +95,7 @@ const App = () => {
   const { loading } = useAuth0();
 
   const AdminRoles = ["LRE Admin", "CCWCD Admin"];
+  const DataViewerRoles = ["CCWCD Data Viewer"];
 
   if (loading) {
     return <Loading />;
@@ -112,13 +113,13 @@ const App = () => {
             <PrivateRouteWithRoles
               path="/all-things-viewer"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={AllThingsViewer}
             />
             <PrivateRouteWithRoles
               path="/all-things-viewer/:viewNdx"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={AllThingsViewer}
             />
             <PrivateRouteWithRoles
@@ -136,19 +137,19 @@ const App = () => {
             <PrivateRouteWithRoles
               path="/reports"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={ReportsHome}
             />
             <PrivateRouteWithRoles
               path="/reports/all-things-viewer/view"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={AtvViewManagement}
             />
             <PrivateRouteWithRoles
               path="/reports/all-things-viewer/view/:viewNdx"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={AtvViewManagement}
             />
             <PrivateRouteWithRoles
@@ -184,12 +185,12 @@ const App = () => {
             <PrivateRouteWithRoles
               path="/files"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={Files}
             />
             <PrivateRouteWithRoles
               path="/files/:folderPath"
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={FolderPage}
             />
             <PrivateRouteWithRoles

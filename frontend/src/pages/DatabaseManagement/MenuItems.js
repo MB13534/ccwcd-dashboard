@@ -20,6 +20,12 @@ export const MenuItems = [
       },
       {
         id: 8,
+        title: "Measurements",
+        path: "/database-management/measurements",
+        exact: true,
+      },
+      {
+        id: 8,
         title: "Measurement Types",
         path: "/database-management/measurement-types",
         exact: true,

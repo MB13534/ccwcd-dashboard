@@ -11,7 +11,7 @@ const router = express.Router();
 router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 
 // Attach middleware to ensure that the user has the proper permissions
-router.use(checkPermission(["read:reports", "write:reports"]));
+router.use(checkPermission(["read:reports"]));
 
 // GET /api/reports
 // Route for returning all reports
