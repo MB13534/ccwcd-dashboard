@@ -108,7 +108,7 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route path="/" exact>
-              <Redirect to="/reports" />
+              <Redirect to="/all-things-viewer" />
             </Route>
             <PrivateRouteWithRoles
               path="/all-things-viewer"
