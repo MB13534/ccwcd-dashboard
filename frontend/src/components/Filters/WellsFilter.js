@@ -7,10 +7,10 @@ const WdidFilter = ({ data, value, multiple = false, onChange }) => {
   const displayValues = useMemo(() => {
     let obj = {};
     const ndxs = unique(data, "well_index");
-    ndxs.forEach(ndx => {
+    ndxs.forEach((ndx) => {
       obj[ndx] = null;
     });
-    data.forEach(d => {
+    data.forEach((d) => {
       obj[d.well_index] = d.wdid;
     });
     return obj;
@@ -18,7 +18,7 @@ const WdidFilter = ({ data, value, multiple = false, onChange }) => {
 
   const mappedSelected = useMemo(() => {
     if (multiple) {
-      return value.map(d => {
+      return value.map((d) => {
         return {
           well_index: d,
           wdid: displayValues[d],
@@ -41,6 +41,7 @@ const WdidFilter = ({ data, value, multiple = false, onChange }) => {
       valueField="well_index"
       value={mappedSelected}
       onChange={onChange}
+      limitTags={2}
     />
   );
 };
