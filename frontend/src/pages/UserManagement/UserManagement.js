@@ -40,17 +40,20 @@ const useStyles = makeStyles((theme) => ({
 
 const UserManagement = (props) => {
   const classes = useStyles();
+  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [userSyncRefreshSwitch, setUserSyncRefreshSwitch] = useState(false);
   const { getTokenSilently } = useAuth0();
-  const [Users] = useFetchData("user-management/users", []);
+  const [Users] = useFetchData("user-management/users", [
+    userSyncRefreshSwitch,
+  ]);
   const [StructureTypes] = useFetchData(
     "all-things-viewer/structure-types",
     []
   );
   const [Structures] = useFetchData(`all-things-viewer/structures`, []);
-  const [UserStructureAssociations] = useFetchData(
-    "user-management/users/assoc/structures",
-    []
-  );
+  const [
+    UserStructureAssociations,
+  ] = useFetchData("user-management/users/assoc/structures", [refreshSwitch]);
   const [activeUser, setActiveUser] = useState({});
   const [associatedStructures, setAssociatedStructures] = useState([]);
   const {
@@ -76,6 +79,14 @@ const UserManagement = (props) => {
       setAssociatedStructures(activeAssociations[0].assoc_structure_ndx);
     }
   }, [UserStructureAssociations, activeUser]);
+
+  const handleRefresh = () => {
+    setRefreshSwitch((state) => !state);
+  };
+
+  const handleUserSyncRefresh = () => {
+    setUserSyncRefreshSwitch((state) => !state);
+  };
 
   /**
    * Function that is responsible for keeping the Auth0 dashboard
@@ -103,6 +114,7 @@ const UserManagement = (props) => {
           // Ignore if we started fetching something else
           console.log("success");
           setWaitingState("complete", "no error");
+          handleUserSyncRefresh();
         }
       } catch (err) {
         // Is this error because we cancelled it ourselves?
@@ -195,6 +207,7 @@ const UserManagement = (props) => {
           // Ignore if we started fetching something else
           console.log("success");
           setWaitingState("complete", "no error");
+          handleRefresh();
         }
       } catch (err) {
         // Is this error because we cancelled it ourselves?

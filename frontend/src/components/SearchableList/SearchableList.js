@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
@@ -32,23 +33,32 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     width: 300,
-    // marginTop: theme.spacing(1),
-    // marginBottom: theme.spacing(1),
+  },
+  list: {
+    overflowY: "scroll",
+    maxHeight: 600,
   },
 }));
 
-const UsersList = ({ users, activeUser, onClick }) => {
+const SearchableList = ({
+  data = [],
+  valueField,
+  displayField,
+  title,
+  active = {},
+  onClick = () => {},
+}) => {
   const classes = useStyles();
   const [searchText, setSearchText] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
 
-  if (users.length === 0) {
+  if (data.length === 0) {
     return (
       <Box marginTop={2}>
         <Typography variant="h6" color="textSecondary" gutterBottom>
-          Users List
+          {title}
         </Typography>
-        <Typography variant="body1">No Users Found</Typography>
+        <Typography variant="body1">No Data Found</Typography>
       </Box>
     );
   }
@@ -65,7 +75,7 @@ const UsersList = ({ users, activeUser, onClick }) => {
   return (
     <Box marginTop={2} width="100%">
       <Typography variant="h6" color="textSecondary" gutterBottom>
-        Users List
+        {title}
       </Typography>
       <Flex>
         <FormControl variant="outlined" className={classes.formControl}>
@@ -97,41 +107,43 @@ const UsersList = ({ users, activeUser, onClick }) => {
         </Flex>
       </Flex>
 
-      <List>
-        {users
-          .filter((user) => user.auth0_email.toLowerCase().includes(searchText))
+      <List className={classes.list}>
+        {data
+          .filter((record) =>
+            record[displayField].toLowerCase().includes(searchText)
+          )
           .sort((a, b) => {
             if (sortDirection === "asc") {
-              if (a.auth0_email < b.auth0_email) {
+              if (a[displayField] < b[displayField]) {
                 return -1;
               }
-              if (a.auth0_email > b.auth0_email) {
+              if (a[displayField] > b[displayField]) {
                 return 1;
               }
               return 0;
             } else {
-              if (a.auth0_email > b.auth0_email) {
+              if (a[displayField] > b[displayField]) {
                 return -1;
               }
-              if (a.auth0_email < b.auth0_email) {
+              if (a[displayField] < b[displayField]) {
                 return 1;
               }
               return 0;
             }
           })
-          .map((user) => (
+          .map((record) => (
             <ListItem
-              key={user.auth0_email}
+              key={record[displayField]}
               button
-              selected={user.auth0_email === activeUser.auth0_email}
-              onClick={() => onClick(user)}
+              selected={record[displayField] === active[displayField]}
+              onClick={() => onClick(record)}
             >
               <ListItemAvatar>
                 <Avatar className={classes.avatar}>
-                  {user.auth0_email.charAt(0)}
+                  {record[displayField].charAt(0)}
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={user.auth0_email} />
+              <ListItemText primary={record[displayField]} />
             </ListItem>
           ))}
       </List>
@@ -139,6 +151,34 @@ const UsersList = ({ users, activeUser, onClick }) => {
   );
 };
 
-UsersList.propTypes = {};
+SearchableList.propTypes = {
+  /**
+   * Title to display above the list
+   */
+  title: PropTypes.string.isRequired,
+  /**
+   * Data to display in a searchable list.
+   * Expects an array of objects.
+   */
+  data: PropTypes.array.isRequired,
+  /**
+   * Name of the field that contains the internal value
+   * i.e. the index field in a list table
+   */
+  valueField: PropTypes.string.isRequired,
+  /**
+   * Name of the field that contains the display value
+   * i.e. the description field in a list table
+   */
+  displayField: PropTypes.string.isRequired,
+  /**
+   * Object representing the currently selected list value
+   */
+  active: PropTypes.object,
+  /**
+   * Event handler for when the user selects a list item
+   */
+  onClick: PropTypes.func,
+};
 
-export default UsersList;
+export default SearchableList;

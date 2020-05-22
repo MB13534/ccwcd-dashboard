@@ -25,9 +25,15 @@ export const MenuItems = [
         exact: true,
       },
       {
-        id: 8,
+        id: 9,
         title: "Measurement Types",
         path: "/database-management/measurement-types",
+        exact: true,
+      },
+      {
+        id: 10,
+        title: "Structures to Measurements",
+        path: "/database-management/structures/measurements",
         exact: true,
       },
       {

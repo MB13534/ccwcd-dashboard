@@ -38,7 +38,7 @@ const RelatedTablesLinks = [
   {
     id: 1,
     title: "Structure to Measurement Associations",
-    path: "/recharge-accounting/water-slices",
+    path: "/database-management/structures/measurements",
   },
 ];
 
@@ -46,7 +46,6 @@ const Structures = (props) => {
   const classes = useStyles();
   const [Data, isLoading, setData] = useFetchData("structures", []);
   const [StructureTypes] = useFetchData("structure-types", []);
-  const [Measurements] = useFetchData("measurements", []);
 
   const formattedStructureTypes = useMemo(() => {
     let converted = {};

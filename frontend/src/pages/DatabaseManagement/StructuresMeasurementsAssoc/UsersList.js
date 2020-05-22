@@ -18,7 +18,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import SortIcon from "@material-ui/icons/SortByAlpha";
 import UpIcon from "@material-ui/icons/ArrowDropUp";
 import DownIcon from "@material-ui/icons/ArrowDropDown";
-import { Flex } from "../../components/Flex";
+import { Flex } from "../../../components/Flex";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -99,7 +99,7 @@ const UsersList = ({ users, activeUser, onClick }) => {
 
       <List>
         {users
-          .filter((user) => user.auth0_email.toLowerCase().includes(searchText))
+          .filter((user) => user.auth0_email.includes(searchText))
           .sort((a, b) => {
             if (sortDirection === "asc") {
               if (a.auth0_email < b.auth0_email) {
