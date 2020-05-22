@@ -111,39 +111,6 @@ const DataAdminTable = ({
     })();
   };
 
-  /**
-   * Event handler for when the user deletes a record
-   * @param {object} oldData
-   */
-  const handleDelete = (oldData) => {
-    return (async () => {
-      setWaitingState("in progress");
-      try {
-        if (oldData) {
-          const token = await getTokenSilently();
-          const headers = { Authorization: `Bearer ${token}` };
-          await axios.delete(
-            `${process.env.REACT_APP_ENDPOINT}/api/${endpoint}/${oldData[ndxField]}`,
-            { headers }
-          );
-          updateHandler((prevState) => {
-            const data = [...prevState];
-            data.splice(data.indexOf(oldData), 1);
-            return data;
-          });
-          setWaitingState("complete", "no error");
-        } else {
-          setWaitingState("complete", "error");
-        }
-      } catch (err) {
-        console.error(err);
-        setWaitingState("complete", "error");
-      }
-    })();
-  };
-
-  console.log(components);
-
   return (
     <div className={classes.table}>
       <MaterialTable
