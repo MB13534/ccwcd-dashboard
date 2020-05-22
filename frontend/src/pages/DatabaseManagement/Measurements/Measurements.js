@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box } from "@material-ui/core";
 import Layout from "../../../components/Layout";
@@ -50,9 +50,76 @@ const RelatedTablesLinks = [
 const Measurements = (props) => {
   const classes = useStyles();
   const [Data, isLoading, setData] = useFetchData("measurements", []);
+  const [MeasureTypes] = useFetchData("measurement-types", []);
+  const [Units] = useFetchData("units", []);
+  const [Sources] = useFetchData("sources", []);
+
+  const formattedMeasureTypes = useMemo(() => {
+    let converted = {};
+    if (MeasureTypes.length > 0) {
+      MeasureTypes.forEach((d) => {
+        converted[d.measure_type_ndx] = d.measure_type_desc;
+      });
+    }
+    return converted;
+  }, [MeasureTypes]);
+
+  const formattedUnits = useMemo(() => {
+    let converted = {};
+    if (Units.length > 0) {
+      Units.forEach((d) => {
+        converted[d.unit_ndx] = d.unit_desc;
+      });
+    }
+    return converted;
+  }, [Units]);
+
+  const formattedSources = useMemo(() => {
+    let converted = {};
+    if (Sources.length > 0) {
+      Sources.forEach((d) => {
+        converted[d.source_ndx] = d.source_desc;
+      });
+    }
+    return converted;
+  }, [Sources]);
 
   const Columns = [
-    { title: "Description", field: "station_name" },
+    {
+      title: "Description",
+      field: "station_name",
+      cellStyle: { minWidth: 250 },
+    },
+    {
+      title: "Display Name",
+      field: "display_name_short",
+      cellStyle: { minWidth: 250 },
+    },
+    {
+      title: "Measure Type",
+      field: "measure_type_ndx",
+      lookup: formattedMeasureTypes,
+    },
+    {
+      title: "Units",
+      field: "unit_ndx",
+      lookup: formattedUnits,
+    },
+    {
+      title: "Sources",
+      field: "source_ndx",
+      lookup: formattedSources,
+    },
+    {
+      title: "Active?",
+      field: "inactive",
+      type: "boolean",
+    },
+    {
+      title: "To Accounting?",
+      field: "to_accounting",
+      type: "boolean",
+    },
     { title: "Notes", field: "remark" },
   ];
 

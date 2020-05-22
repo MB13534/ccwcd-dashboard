@@ -27,7 +27,17 @@ const useStyles = makeStyles((theme) => ({
 const RelatedTablesLinks = [
   {
     id: 1,
-    title: "Manage Water Slices",
+    title: "Water Slices",
+    path: "/recharge-accounting/water-slices",
+  },
+  {
+    id: 2,
+    title: "User to Structure Associations",
+    path: "/recharge-accounting/water-slices",
+  },
+  {
+    id: 1,
+    title: "Structure to Measurement Associations",
     path: "/recharge-accounting/water-slices",
   },
 ];
@@ -36,6 +46,7 @@ const Structures = (props) => {
   const classes = useStyles();
   const [Data, isLoading, setData] = useFetchData("structures", []);
   const [StructureTypes] = useFetchData("structure-types", []);
+  const [Measurements] = useFetchData("measurements", []);
 
   const formattedStructureTypes = useMemo(() => {
     let converted = {};
@@ -48,16 +59,25 @@ const Structures = (props) => {
   }, [StructureTypes]);
 
   const Columns = [
-    { title: "Description", field: "structure_desc" },
+    {
+      title: "Description",
+      field: "structure_desc",
+      cellStyle: { minWidth: 250 },
+    },
     {
       title: "Structure Type",
       field: "structure_type_ndx",
       lookup: formattedStructureTypes,
+      cellStyle: { minWidth: 200 },
     },
-    { title: "Measurements", field: "assoc_station_ndx" },
     { title: "notes", field: "remark" },
     { title: "Active?", field: "inactive", type: "boolean" },
-    { title: "Recharge Structure Type", field: "rech_structure_type_ndx" },
+    {
+      title: "Recharge Structure Type",
+      field: "rech_structure_type_ndx",
+      lookup: formattedStructureTypes,
+      cellStyle: { minWidth: 200 },
+    },
     {
       title: "Accounting Flows Table",
       field: "to_accounting_flows_table",

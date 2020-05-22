@@ -142,6 +142,8 @@ const DataAdminTable = ({
     })();
   };
 
+  console.log(components);
+
   return (
     <div className={classes.table}>
       <MaterialTable
