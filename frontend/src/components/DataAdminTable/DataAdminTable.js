@@ -5,7 +5,7 @@ import { Paper, makeStyles } from "@material-ui/core";
 import MaterialTable, { MTableBodyRow } from "material-table";
 import { useAuth0 } from "../../hooks/auth";
 import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
-import FormSnackbar from "../DataAdmin/FormSnackbar";
+import FormSnackbar from "../FormSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   table: {

@@ -6,10 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import CustomEditField from "../../../components/MaterialTable/CustomEditField";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   materialTable: {
     "& th:last-child": {
       textAlign: "left!important",
@@ -44,7 +44,7 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
   const formattedMeters = useMemo(() => {
     let converted = {};
     if (meters.length > 0) {
-      meters.forEach(d => {
+      meters.forEach((d) => {
         converted[d.meter_index] = d.meter_sn;
       });
     }
@@ -62,7 +62,7 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
     { title: "Notes", field: "notes" },
   ];
 
-  const submitUpdate = async record => {
+  const submitUpdate = async (record) => {
     setWaitingState("in progress");
     try {
       const token = await getTokenSilently();
@@ -79,7 +79,7 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
     }
   };
 
-  const submitDelete = async record => {
+  const submitDelete = async (record) => {
     setWaitingState("in progress");
     const rec = { ...record };
     rec.invalid = true;
@@ -99,11 +99,11 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
   };
 
   const handleUpdate = (newData, oldData) => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
         if (oldData) {
-          setTableData(prevState => {
+          setTableData((prevState) => {
             const data = [...prevState];
             data[data.indexOf(oldData)] = newData;
             submitUpdate(newData);
@@ -114,12 +114,12 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
     });
   };
 
-  const handleDelete = oldData => {
-    return new Promise(resolve => {
+  const handleDelete = (oldData) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
         if (oldData) {
-          setTableData(prevState => {
+          setTableData((prevState) => {
             const data = [...prevState];
             data.splice(data.indexOf(oldData), 1);
             submitDelete(oldData);
@@ -142,13 +142,13 @@ const MeterCorrectionFactorsTable = ({ refreshSwitch, meters }) => {
           onRowDelete: handleDelete,
         }}
         components={{
-          EditField: props => {
+          EditField: (props) => {
             return <CustomEditField {...props} />;
           },
         }}
         options={{
           actionsCellStyle: { justifyContent: "center" },
-//          actionsColumnIndex: -1,
+          //          actionsColumnIndex: -1,
           pageSize: 30,
           pageSizeOptions: [15, 30, 60],
           maxBodyHeight: 600,

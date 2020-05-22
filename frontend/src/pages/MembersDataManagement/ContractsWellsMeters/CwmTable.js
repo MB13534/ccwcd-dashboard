@@ -6,12 +6,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import { Switch } from "@lrewater/lre-react";
 import { Button } from "@material-ui/core";
 import CustomEditField from "../../../components/MaterialTable/CustomEditField";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   materialTable: {
     "& th:last-child": {
       textAlign: "left!important",
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Toolbar = props => {
+const Toolbar = (props) => {
   const classes = useStyles();
   const {
     handleChange,
@@ -47,7 +47,7 @@ const Toolbar = props => {
         <Button
           color="primary"
           className={classes.filterBtn}
-          onClick={() => handleFilterVisibility(state => !state)}
+          onClick={() => handleFilterVisibility((state) => !state)}
         >
           {filterVisibility ? "Hide" : "Show"} Contracts Filter
         </Button>
@@ -79,7 +79,7 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
   const formattedMeters = useMemo(() => {
     let converted = {};
     if (meters.length > 0) {
-      meters.forEach(d => {
+      meters.forEach((d) => {
         converted[d.meter_index] = d.meter_sn;
       });
     }
@@ -89,7 +89,7 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
   const formattedWells = useMemo(() => {
     let converted = {};
     if (wells.length > 0) {
-      wells.forEach(d => {
+      wells.forEach((d) => {
         converted[d.well_index] = d.wdid;
       });
     }
@@ -120,7 +120,7 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
     { title: "Notes", field: "notes", filtering: false },
   ];
 
-  const submitUpdate = async record => {
+  const submitUpdate = async (record) => {
     setWaitingState("in progress");
     try {
       const token = await getTokenSilently();
@@ -137,7 +137,7 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
     }
   };
 
-  const submitDelete = async record => {
+  const submitDelete = async (record) => {
     setWaitingState("in progress");
     const rec = { ...record };
     rec.invalid = true;
@@ -157,15 +157,15 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
   };
 
   const handleExclude = () => {
-    setExclude(state => !state);
+    setExclude((state) => !state);
   };
 
   const handleUpdate = (newData, oldData) => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
         if (oldData) {
-          setTableData(prevState => {
+          setTableData((prevState) => {
             const data = [...prevState];
             data[data.indexOf(oldData)] = newData;
             submitUpdate(newData);
@@ -176,12 +176,12 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
     });
   };
 
-  const handleDelete = oldData => {
-    return new Promise(resolve => {
+  const handleDelete = (oldData) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
         if (oldData) {
-          setTableData(prevState => {
+          setTableData((prevState) => {
             const data = [...prevState];
             data.splice(data.indexOf(oldData), 1);
             submitDelete(oldData);
@@ -197,9 +197,9 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
    * on if the "Exclude Inactive" filter is set to true
    * @param {array} data
    */
-  const filterData = data => {
+  const filterData = (data) => {
     if (exclude) {
-      return data.filter(d => d.end_date === null);
+      return data.filter((d) => d.end_date === null);
     }
     return data;
   };
@@ -216,10 +216,10 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
           onRowDelete: handleDelete,
         }}
         components={{
-          EditField: props => {
+          EditField: (props) => {
             return <CustomEditField {...props} />;
           },
-          Toolbar: props => {
+          Toolbar: (props) => {
             return (
               <Toolbar
                 handleChange={handleExclude}
@@ -234,7 +234,7 @@ const CwmTable = ({ refreshSwitch, wells, meters }) => {
         options={{
           filtering: filterVisibility,
           actionsCellStyle: { justifyContent: "center" },
-//          actionsColumnIndex: -1,
+          //          actionsColumnIndex: -1,
           pageSize: 30,
           pageSizeOptions: [15, 30, 60],
           maxBodyHeight: 600,

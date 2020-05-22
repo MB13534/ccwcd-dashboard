@@ -11,7 +11,7 @@ import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
 import DatasetFilter from "../../../components/Filters/DatasetFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import WellsFilter from "../../../components/Filters/WellsFilter";
 import { Select } from "@lrewater/lre-react";
 import useTableTitle from "../../../hooks/useTableTitle";

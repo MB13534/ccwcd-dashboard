@@ -24,7 +24,7 @@ import MeasurementTypesFilter from "../../../components/Filters/MeasurementTypes
 import AggregationLevelFilter from "../../../components/Filters/AggregationLevelFilter";
 import SavedViews from "../../../components/Filters/SavedViews";
 import { extractDate, validateDependentSelections } from "../../../util";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import { Flex } from "../../../components/Flex";
 import LastUpdateTable from "./LastUpdateTable";
 import AtvHelp from "../HelpGuides/AtvHelp";

@@ -6,10 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import CustomEditField from "../../../components/MaterialTable/CustomEditField";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   materialTable: {
     "& th:first-child": {
       textAlign: "center!important",
@@ -43,7 +43,7 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
   const formattedMeters = useMemo(() => {
     let converted = {};
     if (meters.length > 0) {
-      meters.forEach(d => {
+      meters.forEach((d) => {
         converted[d.meter_index] = d.meter_sn;
       });
     }
@@ -86,7 +86,7 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
     },
   ];
 
-  const submitUpdate = async record => {
+  const submitUpdate = async (record) => {
     setWaitingState("in progress");
     const rec = { ...record };
     rec.remark = record.notes;
@@ -106,7 +106,7 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
     }
   };
 
-  const submitDelete = async record => {
+  const submitDelete = async (record) => {
     setWaitingState("in progress");
     const rec = { ...record };
     rec.invalid = true;
@@ -127,11 +127,11 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
   };
 
   const handleUpdate = (newData, oldData) => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
         if (oldData) {
-          setTableData(prevState => {
+          setTableData((prevState) => {
             const data = [...prevState];
             data[data.indexOf(oldData)] = newData;
             submitUpdate(newData);
@@ -142,12 +142,12 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
     });
   };
 
-  const handleDelete = oldData => {
-    return new Promise(resolve => {
+  const handleDelete = (oldData) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
         if (oldData) {
-          setTableData(prevState => {
+          setTableData((prevState) => {
             const data = [...prevState];
             data.splice(data.indexOf(oldData), 1);
             submitDelete(oldData);
@@ -170,7 +170,7 @@ const MeterAdjustmentsTable = ({ handleRefresh, refreshSwitch, meters }) => {
           onRowDelete: handleDelete,
         }}
         components={{
-          EditField: props => {
+          EditField: (props) => {
             return <CustomEditField {...props} />;
           },
         }}

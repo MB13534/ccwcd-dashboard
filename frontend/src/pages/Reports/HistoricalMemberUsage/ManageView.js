@@ -14,7 +14,7 @@ import {
   Chip,
 } from "@material-ui/core";
 import Layout from "../../../components/Layout";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";

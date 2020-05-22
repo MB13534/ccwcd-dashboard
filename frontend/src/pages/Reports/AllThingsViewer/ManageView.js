@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { TextField, TextArea } from "@lrewater/lre-react";
 import Layout from "../../../components/Layout";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import useFetchData from "../../../hooks/useFetchData";
 import useFilterAssoc from "../../../hooks/useFilterAssoc";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";

@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import FormSnackbar from "../DataAdmin/FormSnackbar";
+import FormSnackbar from "../FormSnackbar";
 import useVisibility from "../../hooks/useVisibility";
 import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../hooks/auth";

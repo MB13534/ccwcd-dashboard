@@ -6,7 +6,7 @@ import { Button, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useAuth0 } from "../../../hooks/auth";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../../components/FormSnackbar";
 import { extractDate } from "../../../util";
 import MetersFilter from "../../../components/Filters/MetersFilter";
 

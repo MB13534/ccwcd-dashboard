@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid } from "@material-ui/core";
 import Layout from "../../components/Layout";
-import FormSnackbar from "../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../components/FormSnackbar";
 import ReportCard from "./ReportCard";
 import useFetchData from "../../hooks/useFetchData";
 import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
