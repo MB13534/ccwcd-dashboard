@@ -177,6 +177,7 @@ db.ListMeasurementStations = require("./Measurements/ListMeasurementStations")(
   sequelize,
   Sequelize
 );
+db.ListReaches = require("./Reaches/ListReaches")(sequelize, Sequelize);
 
 db.Users = require("./UserManagement/Users")(sequelize, Sequelize);
 db.UsersLanding = require("./UserManagement/UsersLanding")(

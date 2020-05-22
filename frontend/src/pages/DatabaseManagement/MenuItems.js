@@ -49,6 +49,12 @@ export const MenuItems = [
         exact: true,
       },
       {
+        id: 11,
+        title: "Reaches",
+        path: "/database-management/reaches",
+        exact: true,
+      },
+      {
         id: 3,
         title: "Recharge Projects",
         path: "/database-management/recharge-projects",

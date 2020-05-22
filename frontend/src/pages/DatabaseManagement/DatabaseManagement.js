@@ -11,6 +11,7 @@ const StructuresMeasurementsAssoc = React.lazy(() =>
 const StructureTypes = React.lazy(() => import("./StructureTypes"));
 const Units = React.lazy(() => import("./Units"));
 const Sources = React.lazy(() => import("./Sources"));
+const Reaches = React.lazy(() => import("./Reaches"));
 const MeasurementTypes = React.lazy(() => import("./MeasurementTypes"));
 const Measurements = React.lazy(() => import("./Measurements"));
 
@@ -61,6 +62,12 @@ const DatabaseManagement = (props) => {
         exact
         roles={AdminRoles}
         component={Sources}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/reaches`}
+        exact
+        roles={AdminRoles}
+        component={Reaches}
       />
       <PrivateRouteWithRoles
         path={`${url}/measurement-types`}
