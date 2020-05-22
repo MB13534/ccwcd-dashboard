@@ -1,5 +1,8 @@
 const express = require("express");
-const { checkAccessToken } = require("../../middleware/auth.js");
+const {
+  checkAccessToken,
+  checkPermission,
+} = require("../../middleware/auth.js");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const { crosstab, setAPIDate } = require("../../util");
