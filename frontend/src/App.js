@@ -83,13 +83,13 @@ const App = () => {
             <PrivateRouteWithRoles
               path="/historical-member-usage"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={HistoricalMemberUsage}
             />
             <PrivateRouteWithRoles
               path="/historical-member-usage/:viewNdx"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={HistoricalMemberUsage}
             />
             <PrivateRouteWithRoles
@@ -113,13 +113,13 @@ const App = () => {
             <PrivateRouteWithRoles
               path="/reports/historical-member-usage/view"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={HistoricalMemberUsageViewManagement}
             />
             <PrivateRouteWithRoles
               path="/reports/historical-member-usage/view/:viewNdx"
               exact
-              roles={AdminRoles}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={HistoricalMemberUsageViewManagement}
             />
             <PrivateRouteWithRoles

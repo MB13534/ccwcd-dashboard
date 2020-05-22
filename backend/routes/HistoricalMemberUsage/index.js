@@ -18,14 +18,17 @@ const router = express.Router();
 // Attach middleware to ensure that user is authenticated
 router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 
+// Attach middleware to ensure that the user has the proper permissions
+router.use(checkPermission(["read:pumping-depletions"]));
+
 // GET /api/historical-member-usage/wells
 // Route for returning wells
 router.get("/wells", (req, res, next) => {
   CWM_Wells.findAll()
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -40,10 +43,10 @@ router.get("/meter-readings/:wells", (req, res, next) => {
       },
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -58,10 +61,10 @@ router.get("/well-pumping/:wells", (req, res, next) => {
       },
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -81,10 +84,10 @@ router.get(
         },
       },
     })
-      .then(data => {
+      .then((data) => {
         res.json(data);
       })
-      .catch(err => {
+      .catch((err) => {
         next(err);
       });
   }
@@ -100,10 +103,10 @@ router.get("/well-info/:wells", (req, res, next) => {
       },
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -118,10 +121,10 @@ router.get("/views", (req, res, next) => {
       },
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -137,10 +140,10 @@ router.get("/views/:id", (req, res, next) => {
       view_ndx: req.params.id,
     },
   })
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -152,10 +155,10 @@ router.post("/views", (req, res, next) => {
   data.assoc_user_id = [req.user.sub];
   data.assoc_report_ndx = 5;
   Historical_Member_Usage_Views.upsert(data, { returning: true })
-    .then(data => {
+    .then((data) => {
       res.json(data[0].dataValues);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
@@ -171,10 +174,10 @@ router.delete("/views/:view_ndx", (req, res, next) => {
       },
     },
   })
-    .then(data => {
+    .then((data) => {
       res.sendStatus(200);
     })
-    .catch(err => {
+    .catch((err) => {
       next(err);
     });
 });
