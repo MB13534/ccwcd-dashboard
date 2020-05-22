@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, STRING, ARRAY } = DataTypes;
+  const { INTEGER, TEXT, ARRAY } = DataTypes;
   const StructuresView = sequelize.define(
     "atv_list_structures",
     {
@@ -9,11 +9,14 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       structure_desc: {
-        type: STRING,
+        type: TEXT,
         allowNull: false,
       },
       assoc_structure_type_ndx: {
         type: ARRAY(INTEGER),
+      },
+      assoc_users: {
+        type: ARRAY(TEXT),
       },
     },
     {

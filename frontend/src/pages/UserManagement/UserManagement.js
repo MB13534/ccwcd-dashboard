@@ -50,7 +50,7 @@ const UserManagement = (props) => {
     "all-things-viewer/structure-types",
     []
   );
-  const [Structures] = useFetchData(`all-things-viewer/structures`, []);
+  const [Structures] = useFetchData(`all-things-viewer/structures/all`, []);
   const [
     UserStructureAssociations,
   ] = useFetchData("user-management/users/assoc/structures", [refreshSwitch]);

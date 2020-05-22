@@ -41,7 +41,28 @@ router.get("/structure-types", (req, res, next) => {
 // GET /api/all-things-viewer/structures
 // Route for returning all structures
 router.get("/structures", (req, res, next) => {
-  ATV_Structures.findAll()
+  ATV_Structures.findAll({
+    attributes: ["structure_ndx", "structure_desc", "assoc_structure_type_ndx"],
+    where: {
+      assoc_users: {
+        [Op.contains]: [req.user.sub],
+      },
+    },
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/all-things-viewer/structures/all
+// Route for returning all structures
+router.get("/structures/all", (req, res, next) => {
+  ATV_Structures.findAll({
+    attributes: ["structure_ndx", "structure_desc", "assoc_structure_type_ndx"],
+  })
     .then((data) => {
       res.json(data);
     })
