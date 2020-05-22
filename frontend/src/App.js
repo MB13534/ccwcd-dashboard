@@ -27,9 +27,7 @@ const Files = React.lazy(() => import("./pages/Files"));
 
 const FolderPage = React.lazy(() => import("./pages/Files/FolderPage"));
 
-const UserManagement = React.lazy(() =>
-  import("./pages/DataAdmin/UserManagement/")
-);
+const UserManagement = React.lazy(() => import("./pages/UserManagement"));
 
 const ContractsWellsMeters = React.lazy(() =>
   import("./pages/MembersDataManagement/ContractsWellsMeters")
@@ -41,46 +39,6 @@ const MeterAdjustments = React.lazy(() =>
 
 const MeterCorrectionFactors = React.lazy(() =>
   import("./pages/MembersDataManagement/MeterCorrectionFactors")
-);
-
-const ViewStructures = React.lazy(() =>
-  import("./pages/DataAdmin/Structures/View")
-);
-const AddStructures = React.lazy(() =>
-  import("./pages/DataAdmin/Structures/Add")
-);
-const EditStructures = React.lazy(() =>
-  import("./pages/DataAdmin/Structures/Edit")
-);
-
-const ViewStructureTypes = React.lazy(() =>
-  import("./pages/DataAdmin/StructureTypes/View")
-);
-const AddStructureTypes = React.lazy(() =>
-  import("./pages/DataAdmin/StructureTypes/Add")
-);
-const EditStructureTypes = React.lazy(() =>
-  import("./pages/DataAdmin/StructureTypes/Edit")
-);
-
-const ViewSources = React.lazy(() => import("./pages/DataAdmin/Sources/View"));
-
-const ViewUnits = React.lazy(() => import("./pages/DataAdmin/Units/View"));
-const AddUnits = React.lazy(() => import("./pages/DataAdmin/Units/Add"));
-const EditUnits = React.lazy(() => import("./pages/DataAdmin/Units/Edit"));
-
-const ViewMeasurementTypes = React.lazy(() =>
-  import("./pages/DataAdmin/MeasurementTypes/View")
-);
-const AddMeasurementTypes = React.lazy(() =>
-  import("./pages/DataAdmin/MeasurementTypes/Add")
-);
-const EditMeasurementTypes = React.lazy(() =>
-  import("./pages/DataAdmin/MeasurementTypes/Edit")
-);
-
-const ViewMeasurementStations = React.lazy(() =>
-  import("./pages/DataAdmin/MeasurementStations/View")
 );
 
 const RechargeAccounting = React.lazy(() =>
@@ -194,7 +152,7 @@ const App = () => {
               component={FolderPage}
             />
             <PrivateRouteWithRoles
-              path="/auth0-sync"
+              path="/user-management"
               exact
               roles={AdminRoles}
               component={UserManagement}
@@ -216,102 +174,6 @@ const App = () => {
               path="/docs"
               exact
               render={() => <Redirect to="docs/overview" />}
-            />
-
-            {/* Structures Routes */}
-            <PrivateRouteWithRoles
-              path="/admin/data/structures"
-              exact
-              roles={AdminRoles}
-              component={ViewStructures}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/structures/edit/:id"
-              exact
-              roles={AdminRoles}
-              component={EditStructures}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/structures/new"
-              exact
-              roles={AdminRoles}
-              component={AddStructures}
-            />
-
-            {/* Structure Types Routes */}
-            <PrivateRouteWithRoles
-              path="/admin/data/structure-types"
-              exact
-              roles={AdminRoles}
-              component={ViewStructureTypes}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/structure-types/edit/:id"
-              exact
-              roles={AdminRoles}
-              component={EditStructureTypes}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/structure-types/new"
-              exact
-              roles={AdminRoles}
-              component={AddStructureTypes}
-            />
-
-            {/* Units Routes */}
-            <PrivateRouteWithRoles
-              path="/admin/data/units"
-              exact
-              roles={AdminRoles}
-              component={ViewUnits}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/units/edit/:id"
-              exact
-              roles={AdminRoles}
-              component={EditUnits}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/units/new"
-              exact
-              roles={AdminRoles}
-              component={AddUnits}
-            />
-
-            {/* Sources Routes */}
-            <PrivateRouteWithRoles
-              path="/admin/data/sources"
-              exact
-              roles={AdminRoles}
-              component={ViewSources}
-            />
-
-            {/* Measurement Types Routes */}
-            <PrivateRouteWithRoles
-              path="/admin/data/measurement-types"
-              exact
-              roles={AdminRoles}
-              component={ViewMeasurementTypes}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/measurement-types/edit/:id"
-              exact
-              roles={AdminRoles}
-              component={EditMeasurementTypes}
-            />
-            <PrivateRouteWithRoles
-              path="/admin/data/measurement-types/new"
-              exact
-              roles={AdminRoles}
-              component={AddMeasurementTypes}
-            />
-
-            {/* Measurement Stations Routes */}
-            <PrivateRouteWithRoles
-              path="/admin/data/measurement-stations"
-              exact
-              roles={AdminRoles}
-              component={ViewMeasurementStations}
             />
 
             <Route path="*">

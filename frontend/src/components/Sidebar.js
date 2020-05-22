@@ -148,9 +148,9 @@ const Sidebar = (props) => {
       rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
     },
     {
-      link: "auth0-sync",
+      link: "user-management",
       title: "User Management",
-      activePath: "auth0-sync",
+      activePath: "user-management",
       icon: AccountIcon,
       loginRequired: true,
       rolesRequired: ["LRE Admin"],

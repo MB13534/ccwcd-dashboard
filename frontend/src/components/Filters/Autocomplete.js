@@ -10,7 +10,7 @@ import { VariableSizeList } from "react-window";
 
 const LISTBOX_PADDING = 8;
 
-const renderRow = props => {
+const renderRow = (props) => {
   const { data, index, style } = props;
   return React.cloneElement(data[index], {
     style: {
@@ -39,7 +39,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(
   const itemCount = itemData.length;
   const itemSize = smUp ? 36 : 48;
 
-  const getChildSize = child => {
+  const getChildSize = (child) => {
     if (React.isValidElement(child) && child.type === ListSubheader) {
       return 48;
     }
@@ -64,7 +64,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(
           key={itemCount}
           outerElementType={OuterElementType}
           innerElementType="ul"
-          itemSize={index => getChildSize(itemData[index])}
+          itemSize={(index) => getChildSize(itemData[index])}
           overscanCount={5}
           itemCount={itemCount}
         >
@@ -79,7 +79,7 @@ ListboxComponent.propTypes = {
   children: PropTypes.node,
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
     // width: 350,
@@ -99,7 +99,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Autocomplete = props => {
+const Autocomplete = (props) => {
   const classes = useStyles();
   const {
     name,
@@ -110,11 +110,12 @@ const Autocomplete = props => {
     value,
     multiple = false,
     onChange,
+    ...other
   } = props;
 
   const handleChange = (event, value) => {
     if (multiple) {
-      const values = value.map(d => {
+      const values = value.map((d) => {
         if (typeof d === "object") {
           return d[valueField];
         }
@@ -161,7 +162,7 @@ const Autocomplete = props => {
       options={data}
       disableCloseOnSelect={multiple}
       onChange={handleChange}
-      getOptionLabel={option => (option ? option[displayField] : "")}
+      getOptionLabel={(option) => (option ? option[displayField] : "")}
       value={value}
       renderOption={(option, { selected }) => {
         return setRenderOption(option, selected);
@@ -169,7 +170,7 @@ const Autocomplete = props => {
       getOptionSelected={(option, value) => {
         return option[valueField] === value[valueField];
       }}
-      renderInput={params => (
+      renderInput={(params) => (
         <TextField
           {...params}
           variant="outlined"
@@ -184,6 +185,7 @@ const Autocomplete = props => {
       style={{
         width: multiple ? 350 : 175,
       }}
+      {...other}
     />
   );
 };

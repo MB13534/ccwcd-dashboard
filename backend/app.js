@@ -7,7 +7,7 @@ const helmet = require("helmet");
 const AllThingsViewerRoutes = require("./routes/ATV");
 const HistoricalMemberUsageRoutes = require("./routes/HistoricalMemberUsage");
 const ReportRoutes = require("./routes/Reports");
-const DataManagementRoutes = require("./routes/DataManagement");
+const UserManagementRoutes = require("./routes/UserManagement");
 const MembersManagementRoutes = require("./routes/MembersManagement");
 const FilesRoutes = require("./routes/Files");
 const RechargeAccountingRoutes = require("./routes/RechargeAccounting");
@@ -36,7 +36,7 @@ app.use(cors());
 app.use(setHeaders);
 
 // Set routes
-app.use("/api/data-management", DataManagementRoutes);
+app.use("/api/user-management", UserManagementRoutes);
 app.use("/api/all-things-viewer", AllThingsViewerRoutes);
 app.use("/api/historical-member-usage", HistoricalMemberUsageRoutes);
 app.use("/api/members-management", MembersManagementRoutes);

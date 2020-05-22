@@ -178,35 +178,17 @@ db.ListMeasurementStations = require("./Measurements/ListMeasurementStations")(
   Sequelize
 );
 
-db.DM_Units = require("./DataManagement/UnitsView")(sequelize, Sequelize);
-db.DM_Sources = require("./DataManagement/SourcesView")(sequelize, Sequelize);
-db.DM_Structures = require("./DataManagement/StructuresView")(
+db.Users = require("./UserManagement/Users")(sequelize, Sequelize);
+db.UsersLanding = require("./UserManagement/UsersLanding")(
   sequelize,
   Sequelize
 );
-db.DM_StructureTypes = require("./DataManagement/StructureTypesView")(
+db.UserRoles = require("./UserManagement/UserRoles")(sequelize, Sequelize);
+db.UserRolesLanding = require("./UserManagement/UserRolesLanding")(
   sequelize,
   Sequelize
 );
-db.DM_MeasurementTypes = require("./DataManagement/MeasurementTypesView")(
-  sequelize,
-  Sequelize
-);
-db.DM_MeasurementStations = require("./DataManagement/MeasurementStationsView")(
-  sequelize,
-  Sequelize
-);
-db.Users = require("./DataManagement/Users")(sequelize, Sequelize);
-db.UsersLanding = require("./DataManagement/UsersLanding")(
-  sequelize,
-  Sequelize
-);
-db.UserRoles = require("./DataManagement/UserRoles")(sequelize, Sequelize);
-db.UserRolesLanding = require("./DataManagement/UserRolesLanding")(
-  sequelize,
-  Sequelize
-);
-db.UserStructuresAssoc = require("./DataManagement/UserStructuresAssoc")(
+db.UserStructuresAssoc = require("./UserManagement/UserStructuresAssoc")(
   sequelize,
   Sequelize
 );

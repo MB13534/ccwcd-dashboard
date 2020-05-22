@@ -33,7 +33,7 @@ const RelatedTablesLinks = [
   {
     id: 2,
     title: "User to Structure Associations",
-    path: "/recharge-accounting/water-slices",
+    path: "/user-management",
   },
   {
     id: 1,

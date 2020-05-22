@@ -8,17 +8,18 @@ import {
   Grid,
   Box,
   Chip,
+  CircularProgress,
 } from "@material-ui/core";
-import Layout from "../../../components/Layout";
-import { useAuth0 } from "../../../hooks/auth";
+import Layout from "../../components/Layout";
+import { useAuth0 } from "../../hooks/auth";
 import UsersList from "./UsersList";
-import useFetchData from "../../../hooks/useFetchData";
-import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
+import useFetchData from "../../hooks/useFetchData";
+import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import StructureAssociations from "./StructureAssociations";
-import NoSelectionsIllustrations from "../../../images/undraw_setup_wizard_r6mr.svg";
-import { Flex } from "../../../components/Flex";
+import NoSelectionsIllustrations from "../../images/undraw_setup_wizard_r6mr.svg";
+import { Flex } from "../../components/Flex";
 import AssociationControls from "./AssociationControls";
-import FormSnackbar from "../../../components/DataAdmin/FormSnackbar";
+import FormSnackbar from "../../components/DataAdmin/FormSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,25 +29,32 @@ const useStyles = makeStyles((theme) => ({
   colLeft: {
     borderRight: "1px solid #dddddd",
   },
+  buttonProgress: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
+  },
 }));
 
 const UserManagement = (props) => {
   const classes = useStyles();
-  const [isLoading, setIsLoading] = useState(false); //eslint-disable-line
   const { getTokenSilently } = useAuth0();
-  const [Users] = useFetchData("data-management/user-management/users", []);
+  const [Users] = useFetchData("user-management/users", []);
   const [StructureTypes] = useFetchData(
     "all-things-viewer/structure-types",
     []
   );
   const [Structures] = useFetchData(`all-things-viewer/structures`, []);
   const [UserStructureAssociations] = useFetchData(
-    "data-management/user-management/users/assoc/structures",
+    "user-management/users/assoc/structures",
     []
   );
   const [activeUser, setActiveUser] = useState({});
   const [associatedStructures, setAssociatedStructures] = useState([]);
   const {
+    formSubmitting,
     setWaitingState,
     snackbarOpen,
     snackbarError,
@@ -78,8 +86,7 @@ const UserManagement = (props) => {
   const handleSync = () => {
     // Set up a cancellation source
     let didCancel = false;
-
-    setIsLoading(true);
+    setWaitingState("in progress");
     async function writeData() {
       try {
         const token = await getTokenSilently();
@@ -88,14 +95,14 @@ const UserManagement = (props) => {
         const headers = { Authorization: `Bearer ${token}` };
 
         await axios.post(
-          `${process.env.REACT_APP_ENDPOINT}/api/data-management/user-management/auth0-sync`,
+          `${process.env.REACT_APP_ENDPOINT}/api/user-management/auth0-sync`,
           {},
           { headers }
         );
         if (!didCancel) {
           // Ignore if we started fetching something else
           console.log("success");
-          setIsLoading(false);
+          setWaitingState("complete", "no error");
         }
       } catch (err) {
         // Is this error because we cancelled it ourselves?
@@ -103,8 +110,8 @@ const UserManagement = (props) => {
           console.log(`call was cancelled`);
         } else {
           console.error(err);
+          setWaitingState("complete", "error");
         }
-        setIsLoading(false);
         didCancel = true;
       }
     }
@@ -180,7 +187,7 @@ const UserManagement = (props) => {
         const headers = { Authorization: `Bearer ${token}` };
 
         await axios.post(
-          `${process.env.REACT_APP_ENDPOINT}/api/data-management/user-management/users/assoc/structures`,
+          `${process.env.REACT_APP_ENDPOINT}/api/user-management/users/assoc/structures`,
           prepareValues(),
           { headers }
         );
@@ -207,12 +214,22 @@ const UserManagement = (props) => {
   return (
     <Layout>
       <Container maxWidth="lg" className={classes.root}>
-        <Typography variant="h5" gutterBottom>
-          User Management
-        </Typography>
-        <Button variant="contained" color="primary" onClick={handleSync}>
-          Sync
-        </Button>
+        <Flex justifyContent="space-between">
+          <Typography variant="h5" gutterBottom>
+            User Management
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={formSubmitting}
+            onClick={handleSync}
+          >
+            Sync Auth0 with Database
+            {formSubmitting && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
+          </Button>
+        </Flex>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={5} className={classes.colLeft}>
             <UsersList

@@ -73,7 +73,7 @@ async function getRoles(access_token) {
   return data;
 }
 
-// GET /api/data-management/user-management/users
+// GET /api/user-management/users
 // Route for returning all users
 router.get("/users", checkPermission(["read:users"]), (req, res, next) => {
   Users.findAll({
@@ -87,7 +87,7 @@ router.get("/users", checkPermission(["read:users"]), (req, res, next) => {
     });
 });
 
-// GET /api/data-management/user-management/assoc/structures
+// GET /api/user-management/assoc/structures
 // Route for returning all user to structure associations
 router.get("/users/assoc/structures", (req, res, next) => {
   UserStructuresAssoc.findAll()
@@ -99,7 +99,7 @@ router.get("/users/assoc/structures", (req, res, next) => {
     });
 });
 
-// post /api/data-management/user-management/assoc/structures
+// post /api/user-management/assoc/structures
 // Route for updating/adding structure associations for a user
 router.post("/users/assoc/structures", (req, res, next) => {
   UserStructuresAssoc.upsert(req.body)
@@ -111,7 +111,7 @@ router.post("/users/assoc/structures", (req, res, next) => {
     });
 });
 
-// POST /api/data-management/user-management/users
+// POST /api/user-management/users
 // Route for writing all users from Auth0 to
 router.post(
   "/auth0-sync",

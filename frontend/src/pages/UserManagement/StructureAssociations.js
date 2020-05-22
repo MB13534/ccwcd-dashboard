@@ -11,7 +11,7 @@ import {
   Button,
   Collapse,
 } from "@material-ui/core";
-import useVisibility from "../../../hooks/useVisibility";
+import useVisibility from "../../hooks/useVisibility";
 
 const useStyles = makeStyles((theme) => ({
   divider: {
