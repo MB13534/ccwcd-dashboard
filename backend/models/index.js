@@ -182,6 +182,10 @@ db.ListRechargePivotGroups = require("./RechargePivotGroups/ListRechargePivotGro
   sequelize,
   Sequelize
 );
+db.ListRechargeSlices = require("./RechargeSlices/ListRechargeSlices")(
+  sequelize,
+  Sequelize
+);
 
 db.Users = require("./UserManagement/Users")(sequelize, Sequelize);
 db.UsersLanding = require("./UserManagement/UsersLanding")(

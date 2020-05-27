@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box } from "@material-ui/core";
 import Layout from "../../../components/Layout";
 import { TopNav } from "../../../components/TopNav";
 import ChipNav from "../../../components/ChipNav";
+import useFetchData from "../../../hooks/useFetchData";
+import DataAdminTable from "../../../components/DataAdminTable";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -53,10 +55,120 @@ const RelatedTablesLinks = [
     title: "Edit Sources",
     path: "/database-management/recharge-decrees",
   },
+  {
+    id: 4,
+    title: "Edit Reaches",
+    path: "/database-management/reaches",
+  },
+  {
+    id: 5,
+    title: "Edit Pivot Groups",
+    path: "/database-management/recharge-pivot-groups",
+  },
 ];
 
 const WaterSlices = (props) => {
   const classes = useStyles();
+  const [Data, isLoading, setData] = useFetchData("recharge-slices", []);
+  const [Projects] = useFetchData("recharge-projects", []);
+  const [Structures] = useFetchData("structures", []);
+  const [Sources] = useFetchData("sources", []);
+  const [Reaches] = useFetchData("reaches", []);
+  const [PivotGroups] = useFetchData("recharge-pivot-groups", []);
+
+  const formattedProjects = useMemo(() => {
+    let converted = {};
+    if (Projects.length > 0) {
+      Projects.forEach((d) => {
+        converted[d.recharge_project_ndx] = d.recharge_project_desc;
+      });
+    }
+    return converted;
+  }, [Projects]);
+
+  const formattedStructures = useMemo(() => {
+    let converted = {};
+    if (Structures.length > 0) {
+      Structures.forEach((d) => {
+        converted[d.structure_ndx] = d.structure_desc;
+      });
+    }
+    return converted;
+  }, [Structures]);
+
+  const formattedSources = useMemo(() => {
+    let converted = {};
+    if (Sources.length > 0) {
+      Sources.forEach((d) => {
+        converted[d.source_ndx] = d.source_desc;
+      });
+    }
+    return converted;
+  }, [Sources]);
+
+  const formattedReaches = useMemo(() => {
+    let converted = {};
+    if (Reaches.length > 0) {
+      Reaches.forEach((d) => {
+        converted[d.reach_index] = d.reach_name;
+      });
+    }
+    return converted;
+  }, [Reaches]);
+
+  const formattedPivotGroups = useMemo(() => {
+    let converted = {};
+    if (PivotGroups.length > 0) {
+      PivotGroups.forEach((d) => {
+        converted[d.recharge_pivot_group_ndx] = d.recharge_pivot_group_desc;
+      });
+    }
+    return converted;
+  }, [PivotGroups]);
+
+  const Columns = [
+    {
+      title: "Description",
+      field: "recharge_slice_desc",
+      cellStyle: { minWidth: 250 },
+    },
+    {
+      title: "Project",
+      field: "recharge_project_ndx",
+      lookup: formattedProjects,
+    },
+    {
+      title: "Structure",
+      field: "structure_ndx",
+      lookup: formattedStructures,
+    },
+    {
+      title: "Source",
+      field: "recharge_decree_ndx",
+      lookup: formattedSources,
+    },
+    {
+      title: "GMS",
+      field: "gms_reach",
+      lookup: formattedReaches,
+    },
+    {
+      title: "WAS",
+      field: "was_reach",
+      lookup: formattedReaches,
+    },
+    {
+      title: "CREP Pivot Group 1",
+      field: "crep_pivot_group_1",
+      lookup: formattedPivotGroups,
+    },
+    {
+      title: "CREP Pivot Group 2",
+      field: "crep_pivot_group_2",
+      lookup: formattedPivotGroups,
+    },
+  ];
+
   return (
     <Layout>
       <section className={classes.root}>
@@ -71,6 +183,15 @@ const WaterSlices = (props) => {
               <ChipNav title="Related Tables" menuItems={RelatedTablesLinks} />
             </Box>
           </Container>
+          <DataAdminTable
+            title="Water Slices Management"
+            data={Data}
+            columns={Columns}
+            loading={isLoading}
+            updateHandler={setData}
+            endpoint="recharge-slices"
+            ndxField="recharge_slice_ndx"
+          />
         </div>
       </section>
     </Layout>

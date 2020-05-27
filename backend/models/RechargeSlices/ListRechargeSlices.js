@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, TEXT } = DataTypes;
-  const ListRechargeProjects = sequelize.define(
-    "list_recharge_projects",
+  const ListRechargeSlices = sequelize.define(
+    "list_recharge_slices",
     {
       recharge_slice_ndx: {
         type: INTEGER,
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       recharge_decree_ndx: {
         type: INTEGER,
       },
-      gm_reach: {
+      gms_reach: {
         type: INTEGER,
       },
       was_reach: {
@@ -39,5 +39,5 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true,
     }
   );
-  return ListRechargeProjects;
+  return ListRechargeSlices;
 };
