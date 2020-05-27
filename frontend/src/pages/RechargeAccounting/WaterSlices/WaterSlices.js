@@ -161,11 +161,13 @@ const WaterSlices = (props) => {
       title: "CREP Pivot Group 1",
       field: "crep_pivot_group_1",
       lookup: formattedPivotGroups,
+      cellStyle: { minWidth: 250 },
     },
     {
       title: "CREP Pivot Group 2",
       field: "crep_pivot_group_2",
       lookup: formattedPivotGroups,
+      cellStyle: { minWidth: 250 },
     },
   ];
 
@@ -179,19 +181,19 @@ const WaterSlices = (props) => {
               menuItems={MenuItems}
               className={classes.topNav}
             />
-            <Box marginLeft={3} marginTop={3}>
+            <Box marginLeft={3} marginTop={3} marginBottom={2}>
               <ChipNav title="Related Tables" menuItems={RelatedTablesLinks} />
             </Box>
+            <DataAdminTable
+              title="Water Slices Management"
+              data={Data}
+              columns={Columns}
+              loading={isLoading}
+              updateHandler={setData}
+              endpoint="recharge-slices"
+              ndxField="recharge_slice_ndx"
+            />
           </Container>
-          <DataAdminTable
-            title="Water Slices Management"
-            data={Data}
-            columns={Columns}
-            loading={isLoading}
-            updateHandler={setData}
-            endpoint="recharge-slices"
-            ndxField="recharge_slice_ndx"
-          />
         </div>
       </section>
     </Layout>
