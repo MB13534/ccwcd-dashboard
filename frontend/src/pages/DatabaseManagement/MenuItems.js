@@ -66,6 +66,12 @@ export const MenuItems = [
         path: "/database-management/recharge-decrees",
         exact: true,
       },
+      {
+        id: 12,
+        title: "Recharge Pivot Groups",
+        path: "/database-management/recharge-pivot-groups",
+        exact: true,
+      },
     ],
   },
 ];

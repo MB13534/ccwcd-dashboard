@@ -4,6 +4,7 @@ import { Switch, useRouteMatch } from "react-router-dom";
 
 const RechargeProjects = React.lazy(() => import("./RechargeProjects"));
 const RechargeDecrees = React.lazy(() => import("./RechargeDecrees"));
+const RechargePivotGroups = React.lazy(() => import("./RechargePivotGroups"));
 const Structures = React.lazy(() => import("./Structures"));
 const StructuresMeasurementsAssoc = React.lazy(() =>
   import("./StructuresMeasurementsAssoc")
@@ -32,6 +33,12 @@ const DatabaseManagement = (props) => {
         exact
         roles={AdminRoles}
         component={RechargeDecrees}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/recharge-pivot-groups`}
+        exact
+        roles={AdminRoles}
+        component={RechargePivotGroups}
       />
       <PrivateRouteWithRoles
         path={`${url}/structures`}

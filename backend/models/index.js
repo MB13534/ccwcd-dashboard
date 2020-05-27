@@ -178,6 +178,10 @@ db.ListMeasurementStations = require("./Measurements/ListMeasurementStations")(
   Sequelize
 );
 db.ListReaches = require("./Reaches/ListReaches")(sequelize, Sequelize);
+db.ListRechargePivotGroups = require("./RechargePivotGroups/ListRechargePivotGroups")(
+  sequelize,
+  Sequelize
+);
 
 db.Users = require("./UserManagement/Users")(sequelize, Sequelize);
 db.UsersLanding = require("./UserManagement/UsersLanding")(

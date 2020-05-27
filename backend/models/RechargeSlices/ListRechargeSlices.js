@@ -20,6 +20,18 @@ module.exports = (sequelize, DataTypes) => {
       recharge_decree_ndx: {
         type: INTEGER,
       },
+      gm_reach: {
+        type: INTEGER,
+      },
+      was_reach: {
+        type: INTEGER,
+      },
+      crep_pivot_group_1: {
+        type: INTEGER,
+      },
+      crep_pivot_group_2: {
+        type: INTEGER,
+      },
     },
     {
       timestamps: false,
