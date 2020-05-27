@@ -21,7 +21,7 @@ function checkAccessToken(issuer, audience) {
 function checkPermission(providedPermissions) {
   return (req, res, next) => {
     const { permissions } = req.user;
-    const permissionsArray = providedPermissions.map(permission => {
+    const permissionsArray = providedPermissions.map((permission) => {
       if (permissions.includes(permission)) {
         return true;
       }

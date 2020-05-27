@@ -12,14 +12,6 @@ const router = express.Router();
 // Attach middleware to ensure that user is authenticated
 router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 
-// Attach middleware to ensure that the user has the proper permissions
-// router.use(
-//   checkPermission([
-//     "read:members-data-management",
-//     "write:members-data-management",
-//   ])
-// );
-
 // GET /api/files/folders
 // Route for returning all dropbox folders
 router.get("/folders", (req, res, next) => {
@@ -30,18 +22,18 @@ router.get("/folders", (req, res, next) => {
     });
     dbx
       .filesListFolder({ path: "" })
-      .then(function(response) {
+      .then(function (response) {
         if (req.user.permissions.includes("read:all-files")) {
           res.json(response.entries);
         } else if (req.user.permissions.includes("read:objector-files")) {
           res.json(
-            response.entries.filter(d => d.name === "WAS Objector Files")
+            response.entries.filter((d) => d.name === "WAS Objector Files")
           );
         } else {
           res.json([]);
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error);
       });
   } catch (error) {
@@ -59,10 +51,10 @@ router.get("/folders/:folderPath", (req, res, next) => {
     });
     dbx
       .filesListFolder({ path: `/${req.params.folderPath}` })
-      .then(function(response) {
+      .then(function (response) {
         res.json(response.entries);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error);
       });
   } catch (error) {
@@ -80,10 +72,10 @@ router.post("/download/", (req, res, next) => {
     });
     dbx
       .filesGetTemporaryLink({ path: `${req.body.filePath}` })
-      .then(function(response) {
+      .then(function (response) {
         res.json(response);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error);
       });
   } catch (error) {

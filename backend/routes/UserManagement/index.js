@@ -89,27 +89,35 @@ router.get("/users", checkPermission(["read:users"]), (req, res, next) => {
 
 // GET /api/user-management/assoc/structures
 // Route for returning all user to structure associations
-router.get("/users/assoc/structures", (req, res, next) => {
-  UserStructuresAssoc.findAll()
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
+router.get(
+  "/users/assoc/structures",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    UserStructuresAssoc.findAll()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
 
 // post /api/user-management/assoc/structures
 // Route for updating/adding structure associations for a user
-router.post("/users/assoc/structures", (req, res, next) => {
-  UserStructuresAssoc.upsert(req.body)
-    .then((data) => {
-      res.sendStatus(204);
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
+router.post(
+  "/users/assoc/structures",
+  checkPermission(["read:users"]),
+  (req, res, next) => {
+    UserStructuresAssoc.upsert(req.body)
+      .then((data) => {
+        res.sendStatus(204);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
 
 // POST /api/user-management/users
 // Route for writing all users from Auth0 to
