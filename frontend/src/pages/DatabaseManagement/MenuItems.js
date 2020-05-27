@@ -72,6 +72,12 @@ export const MenuItems = [
         path: "/database-management/recharge-pivot-groups",
         exact: true,
       },
+      {
+        id: 13,
+        title: "Recharge Slices",
+        path: "/recharge-accounting/water-slices",
+        exact: true,
+      },
     ],
   },
 ];
