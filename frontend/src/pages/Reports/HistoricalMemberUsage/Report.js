@@ -101,8 +101,8 @@ const HistoricalMemberUsageReport = (props) => {
           { title: "Pumping (AF)", field: "pumping_af" },
           { title: "Metered Fraction", field: "fraction_metered" },
           { title: "Estimated Fraction", field: "fraction_estimated" },
+          { title: "Ext Plan (AF)", field: "plan_covered_af" },
           { title: "Inoperable", field: "inoperable" },
-          { title: "External SWSP", field: "external_swsp" },
           { title: "Contracts", field: "contracts" },
           { title: "Subdistrict", field: "subdistrict" },
         ];

@@ -30,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       inoperable: {
         type: BOOLEAN,
       },
-      external_swsp: {
-        type: BOOLEAN,
+      plan_covered_af: {
+        type: REAL,
       },
       contracts: {
         type: TEXT,
