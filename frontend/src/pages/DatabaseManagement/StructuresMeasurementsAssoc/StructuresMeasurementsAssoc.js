@@ -173,12 +173,12 @@ const StructuresMeasurementsAssoc = (props) => {
     {
       id: 1,
       title: "Structures",
-      path: "/data-management/structures",
+      path: "/database-management/structures",
     },
     {
       id: 2,
       title: "Measurements",
-      path: "/data-management/measurements",
+      path: "/database-management/measurements",
     },
   ];
 
