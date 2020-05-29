@@ -52,7 +52,7 @@ const RelatedTablesLinks = [
   { id: 2, title: "Edit Structures", path: "/database-management/structures" },
   {
     id: 3,
-    title: "Edit Sources",
+    title: "Edit Decrees",
     path: "/database-management/recharge-decrees",
   },
   {
@@ -72,7 +72,7 @@ const WaterSlices = (props) => {
   const [Data, isLoading, setData] = useFetchData("recharge-slices", []);
   const [Projects] = useFetchData("recharge-projects", []);
   const [Structures] = useFetchData("structures", []);
-  const [Sources] = useFetchData("sources", []);
+  const [Decrees] = useFetchData("recharge-decrees", []);
   const [Reaches] = useFetchData("reaches", []);
   const [PivotGroups] = useFetchData("recharge-pivot-groups", []);
 
@@ -96,15 +96,15 @@ const WaterSlices = (props) => {
     return converted;
   }, [Structures]);
 
-  const formattedSources = useMemo(() => {
+  const formattedDecrees = useMemo(() => {
     let converted = {};
-    if (Sources.length > 0) {
-      Sources.forEach((d) => {
-        converted[d.source_ndx] = d.source_desc;
+    if (Decrees.length > 0) {
+      Decrees.forEach((d) => {
+        converted[d.recharge_decree_ndx] = d.recharge_decree_desc;
       });
     }
     return converted;
-  }, [Sources]);
+  }, [Decrees]);
 
   const formattedReaches = useMemo(() => {
     let converted = {};
@@ -143,9 +143,9 @@ const WaterSlices = (props) => {
       lookup: formattedStructures,
     },
     {
-      title: "Source",
+      title: "Decree",
       field: "recharge_decree_ndx",
-      lookup: formattedSources,
+      lookup: formattedDecrees,
     },
     {
       title: "GMS",

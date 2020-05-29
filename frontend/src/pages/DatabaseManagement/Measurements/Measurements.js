@@ -111,7 +111,7 @@ const Measurements = (props) => {
       lookup: formattedSources,
     },
     {
-      title: "Active?",
+      title: "HIDE?",
       field: "inactive",
       type: "boolean",
     },

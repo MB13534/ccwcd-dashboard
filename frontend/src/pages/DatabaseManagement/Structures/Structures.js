@@ -70,7 +70,7 @@ const Structures = (props) => {
       cellStyle: { minWidth: 200 },
     },
     { title: "notes", field: "remark" },
-    { title: "Active?", field: "inactive", type: "boolean" },
+    { title: "HIDE?", field: "inactive", type: "boolean" },
     {
       title: "Recharge Structure Type",
       field: "rech_structure_type_ndx",
