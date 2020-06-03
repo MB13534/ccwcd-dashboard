@@ -4,6 +4,7 @@ import { Switch, useRouteMatch } from "react-router-dom";
 
 const Home = React.lazy(() => import("./Home"));
 const WaterSlices = React.lazy(() => import("./WaterSlices"));
+const Splits = React.lazy(() => import("./Splits"));
 
 const RechargeAccounting = (props) => {
   const AdminRoles = ["LRE Admin", "CCWCD Admin"];
@@ -23,6 +24,18 @@ const RechargeAccounting = (props) => {
         roles={AdminRoles}
         component={WaterSlices}
       />
+      <PrivateRouteWithRoles
+        path={`${url}/splits/:id`}
+        exact
+        roles={AdminRoles}
+        component={Splits}
+      />
+      {/* <PrivateRouteWithRoles
+        path={`${url}/urfs/:id`}
+        exact
+        roles={AdminRoles}
+        component={WaterSlices}
+      /> */}
     </Switch>
   );
 };

@@ -8,6 +8,7 @@ import WaterSliceIllustration from "../../../images/undraw_personal_settings_kih
 import ErrorIllustration from "../../../images/undraw_alert_mc7b.svg";
 import useFetchData from "../../../hooks/useFetchData";
 import DataRollup from "./DataRollup";
+import { MenuItems } from "../MenuItems";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -76,16 +77,6 @@ const parseFlagsData = (data) => {
     message: "No accounting errors were found",
   };
 };
-
-/**
- * Menu items for the top navigation bar
- */
-const MenuItems = [
-  { id: 1, title: "Home", path: "/recharge-accounting" },
-  { id: 2, title: "Water Slices", path: "/recharge-accounting/water-slices" },
-  { id: 3, title: "Recharge Data", path: "/recharge-accounting/data" },
-  { id: 4, title: "QAQC", path: "/recharge-accounting/qaqc" },
-];
 
 const Home = (props) => {
   const classes = useStyles();

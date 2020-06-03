@@ -22,6 +22,7 @@ const Flex = ({
   alignItems = "center",
   justifyContent = "start",
   flexWrap = "nowrap",
+  ...other
 }) => {
   const classes = useStyles({ alignItems, justifyContent, flexWrap });
   return <div className={classes.root}>{children}</div>;

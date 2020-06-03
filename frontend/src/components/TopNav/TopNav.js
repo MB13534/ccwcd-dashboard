@@ -139,9 +139,11 @@ const TopNav = ({ title, menuItems, ...other }) => {
       {...other}
     >
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          {title}
-        </Typography>
+        {title && (
+          <Typography variant="h6" className={classes.title}>
+            {title}
+          </Typography>
+        )}
         {menuItems.map((item) => {
           if (item.children && item.children.length > 0) {
             return (

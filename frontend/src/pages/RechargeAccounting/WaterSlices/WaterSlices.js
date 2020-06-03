@@ -6,6 +6,7 @@ import { TopNav } from "../../../components/TopNav";
 import ChipNav from "../../../components/ChipNav";
 import useFetchData from "../../../hooks/useFetchData";
 import DataAdminTable from "../../../components/DataAdminTable";
+import { MenuItems } from "../MenuItems";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -19,26 +20,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
 }));
-
-/**
- * Menu items for the top navigation bar
- */
-const MenuItems = [
-  { id: 1, title: "Home", path: "/recharge-accounting", exact: true },
-  {
-    id: 2,
-    title: "Water Slices",
-    path: "/recharge-accounting/water-slices",
-    exact: true,
-  },
-  {
-    id: 3,
-    title: "Recharge Data",
-    path: "/recharge-accounting/data",
-    exact: true,
-  },
-  { id: 4, title: "QAQC", path: "/recharge-accounting/qaqc", exact: true },
-];
 
 /**
  * Menu items for the top navigation bar
@@ -192,6 +173,14 @@ const WaterSlices = (props) => {
               updateHandler={setData}
               endpoint="recharge-slices"
               ndxField="recharge_slice_ndx"
+              actions={[
+                {
+                  icon: "visibility",
+                  tooltip: "View Details",
+                  onClick: (event, rowData) =>
+                    alert("You saved " + rowData.recharge_slice_ndx),
+                },
+              ]}
             />
           </Container>
         </div>

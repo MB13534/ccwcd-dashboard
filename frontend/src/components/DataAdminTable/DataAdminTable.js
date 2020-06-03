@@ -28,6 +28,7 @@ const DataAdminTable = ({
   ndxField,
   options = {},
   components = {},
+  actions = [],
 }) => {
   const classes = useStyles();
   const {
@@ -124,7 +125,6 @@ const DataAdminTable = ({
         editable={{
           onRowAdd: handleAdd,
           onRowUpdate: handleUpdate,
-          // onRowDelete: handleDelete,
         }}
         components={{
           Row: (props) => <MTableBodyRow {...props} />,
@@ -152,6 +152,7 @@ const DataAdminTable = ({
                 : "#FFF",
           }),
         }}
+        actions={actions}
       />
       <FormSnackbar
         open={snackbarOpen}
