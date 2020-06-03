@@ -186,7 +186,14 @@ db.ListRechargeSlices = require("./RechargeSlices/ListRechargeSlices")(
   sequelize,
   Sequelize
 );
-db.ListAlertTypes = require("./Alerts/ListAlertTypes")(sequelize, Sequelize);
+db.ListAlertTypes = require("./AlertTypes/ListAlertTypes")(
+  sequelize,
+  Sequelize
+);
+db.AlertsRequestsConfig = require("./Alerts/AlertsRequestsConfig")(
+  sequelize,
+  Sequelize
+);
 
 db.Users = require("./UserManagement/Users")(sequelize, Sequelize);
 db.UsersLanding = require("./UserManagement/UsersLanding")(
