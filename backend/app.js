@@ -22,6 +22,7 @@ const MeasurementsRoutes = require("./routes/Measurements");
 const ReachesRoutes = require("./routes/Reaches");
 const RechargePivotGroupsRoutes = require("./routes/RechargePivotGroups");
 const RechargeSlicesRoutes = require("./routes/RechargeSlices");
+const AlertTypesRoutes = require("./routes/AlertTypes");
 const DummyRoutes = require("./routes/Dummy");
 
 const { setHeaders } = require("./middleware");
@@ -57,6 +58,7 @@ app.use("/api/measurements", MeasurementsRoutes);
 app.use("/api/reaches", ReachesRoutes);
 app.use("/api/recharge-pivot-groups", RechargePivotGroupsRoutes);
 app.use("/api/recharge-slices", RechargeSlicesRoutes);
+app.use("/api/alert-types", AlertTypesRoutes);
 app.use("/api/dummy", DummyRoutes);
 
 // send 404 if no other route matched
