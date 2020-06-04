@@ -85,15 +85,19 @@ const Alerts = (props) => {
 
   const Columns = [
     {
+      title: "Enabled",
+      field: "enabled",
+      type: "boolean",
+    },
+    {
+      title: "Notes",
+      field: "triggered",
+    },
+    {
       title: "Measurement Station",
       field: "station_ndx",
       lookup: formattedMeasurements,
       cellStyle: { minWidth: 250 },
-    },
-    {
-      title: "Meas Type",
-      field: "measure_type_ndx",
-      lookup: formattedMeasurementTypes,
     },
     {
       title: "Alert Type",
@@ -109,20 +113,8 @@ const Alerts = (props) => {
       field: "trigger_units",
     },
     {
-      title: "Notifications List",
-      field: "merged_address_ndx",
-      lookup: formattedAlertAddresses,
-      cellStyle: { minWidth: 250 },
-    },
-    {
-      title: "Reset (Hrs)",
-      field: "reset_interval_hours",
-    },
-    {
-      title: "Last Alert Sent",
-      field: "last_alert_sent",
-      type: "datetime",
-      cellStyle: { minWidth: 200 },
+      title: "Most Recent Value",
+      field: "most_recent_value",
     },
     {
       title: "Most Recent Timestamp",
@@ -131,13 +123,25 @@ const Alerts = (props) => {
       cellStyle: { minWidth: 200 },
     },
     {
-      title: "Most Recent Value",
-      field: "most_recent_value",
+      title: "Distribution List",
+      field: "merged_address_ndx",
+      lookup: formattedAlertAddresses,
+      cellStyle: { minWidth: 500 },
     },
     {
-      title: "Enabled",
-      field: "enabled",
-      type: "boolean",
+      title: "Reset (Hrs)",
+      field: "reset_interval_hours",
+    },
+    {
+      title: "Meas Type",
+      field: "measure_type_ndx",
+      lookup: formattedMeasurementTypes,
+    },
+    {
+      title: "Last Alert Sent",
+      field: "last_alert_sent",
+      type: "datetime",
+      cellStyle: { minWidth: 200 },
     },
   ];
 
@@ -162,6 +166,7 @@ const Alerts = (props) => {
               updateHandler={setData}
               endpoint="reaches"
               ndxField="reach_index"
+              filtering={true}
             />
           </Container>
         </div>
