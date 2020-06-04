@@ -145,7 +145,7 @@ const Alerts = (props) => {
     <Layout>
       <section className={classes.root}>
         <div className={classes.content}>
-          <Container maxWidth="lg" className={classes.container}>
+          <Container maxWidth="xl" className={classes.container}>
             <TopNav
               title="Database Management"
               menuItems={MenuItems}
