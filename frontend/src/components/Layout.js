@@ -2,17 +2,16 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Sidebar from "./Sidebar";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    overflow: "hidden",
-    maxWidth: "100%",
-    width: "100%",
+    overflowX: `hidden`,
+    [theme.breakpoints.up("md")]: {
+      display: `flex`,
+    },
   },
   content: {
     flexGrow: 1,
-    width: "calc(100% - 340px)",
-    flexShrink: 0,
+    overflow: "hidden",
   },
 }));
 

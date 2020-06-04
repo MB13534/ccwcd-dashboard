@@ -8,6 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 import DnsIcon from "@material-ui/icons/Dns";
 import FileIcon from "@material-ui/icons/AttachFile";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
@@ -31,22 +32,26 @@ const drawerWidth = 270;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
     marginLeft: drawerWidth,
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
   menuButton: {
     marginRight: 20,
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "none",
     },
+  },
+  mobileToolbar: {
+    backgroundColor: theme.palette.primary.main,
+    color: `#ffffff`,
   },
   toolbar: {
     textAlign: "center",
@@ -340,15 +345,17 @@ const Sidebar = (props) => {
 
   return (
     <div>
-      <Toolbar>
+      <Toolbar className={classes.mobileToolbar}>
         <IconButton
           color="inherit"
           aria-label="Open drawer"
           onClick={handleDrawerToggle}
           className={classes.menuButton}
-        ></IconButton>
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography variant="h6" color="inherit" noWrap>
-          Responsive drawer
+          CCWCD Dashboard
         </Typography>
       </Toolbar>
       <nav className={classes.drawer}>
