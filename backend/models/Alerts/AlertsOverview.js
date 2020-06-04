@@ -44,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       enabled: {
         type: BOOLEAN,
       },
+      remark: {
+        type: TEXT,
+      },
     },
     {
       timestamps: false,

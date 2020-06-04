@@ -30,6 +30,7 @@ const DataAdminTable = ({
   components = {},
   actions = [],
   filtering = false,
+  handleRefresh = () => {},
 }) => {
   const classes = useStyles();
   const {
@@ -72,6 +73,7 @@ const DataAdminTable = ({
           data.push(addedRec.data);
           return data;
         });
+        handleRefresh();
         setWaitingState("complete", "no error");
       } catch (err) {
         console.error(err);
@@ -102,6 +104,7 @@ const DataAdminTable = ({
             data[data.indexOf(oldData)] = newData;
             return data;
           });
+          handleRefresh();
           setWaitingState("complete", "no error");
         } else {
           setWaitingState("complete", "error");

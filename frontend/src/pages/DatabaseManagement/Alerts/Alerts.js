@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Box } from "@material-ui/core";
 import Layout from "../../../components/Layout";
@@ -34,7 +34,8 @@ const RelatedTablesLinks = [
 
 const Alerts = (props) => {
   const classes = useStyles();
-  const [Data, isLoading, setData] = useFetchData("alerts", []);
+  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [Data, isLoading, setData] = useFetchData("alerts", [refreshSwitch]);
   const [Measurements] = useFetchData("measurements/alerts", []);
   const [MeasurementTypes] = useFetchData(
     "all-things-viewer/measurement-types",
@@ -42,6 +43,10 @@ const Alerts = (props) => {
   );
   const [AlertTypes] = useFetchData("alert-types", []);
   const [AlertAddresses] = useFetchData("alerts/assoc/addresses", []);
+
+  const handleRefresh = () => {
+    setRefreshSwitch((state) => !state);
+  };
 
   const formattedMeasurements = useMemo(() => {
     let converted = {};
@@ -92,6 +97,7 @@ const Alerts = (props) => {
     {
       title: "Notes",
       field: "triggered",
+      editable: "never",
     },
     {
       title: "Measurement Station",
@@ -111,16 +117,19 @@ const Alerts = (props) => {
     {
       title: "Units",
       field: "trigger_units",
+      editable: "never",
     },
     {
       title: "Most Recent Value",
       field: "most_recent_value",
+      editable: "never",
     },
     {
       title: "Most Recent Timestamp",
       field: "most_recent_timestamp",
       type: "datetime",
       cellStyle: { minWidth: 200 },
+      editable: "never",
     },
     {
       title: "Distribution List",
@@ -136,12 +145,19 @@ const Alerts = (props) => {
       title: "Meas Type",
       field: "measure_type_ndx",
       lookup: formattedMeasurementTypes,
+      editable: "never",
     },
     {
       title: "Last Alert Sent",
       field: "last_alert_sent",
       type: "datetime",
       cellStyle: { minWidth: 200 },
+      editable: "never",
+    },
+    {
+      title: "Alternate Station Name for Alert",
+      field: "remark",
+      cellStyle: { minWidth: 250 },
     },
   ];
 
@@ -164,9 +180,10 @@ const Alerts = (props) => {
               columns={Columns}
               loading={isLoading}
               updateHandler={setData}
-              endpoint="reaches"
-              ndxField="reach_index"
+              endpoint="alerts"
+              ndxField="alert_request_ndx"
               filtering={true}
+              handleRefresh={handleRefresh}
             />
           </Container>
         </div>
