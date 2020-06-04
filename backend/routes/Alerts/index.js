@@ -3,7 +3,11 @@ const {
   checkAccessToken,
   checkPermission,
 } = require("../../middleware/auth.js");
-const { AlertsRequestsConfig } = require("../../models");
+const {
+  AlertsRequestsConfig,
+  AlertListAddresses,
+  AlertsOverview,
+} = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -17,7 +21,7 @@ router.get(
   "/",
   checkPermission(["read:database-management"]),
   (req, res, next) => {
-    AlertsRequestsConfig.findAll()
+    AlertsOverview.findAll()
       .then((data) => {
         res.json(data);
       })
@@ -33,7 +37,7 @@ router.get(
   "/:id",
   checkPermission(["read:database-management"]),
   (req, res, next) => {
-    AlertsRequestsConfig.findByPk(req.params.id)
+    AlertsOverview.findByPk(req.params.id)
       .then((data) => {
         res.json(data);
       })
@@ -73,6 +77,22 @@ router.put(
     })
       .then((data) => {
         res.json(data[1][0]);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/alerts/assoc/addresses
+// Route for returning all alert addresses
+router.get(
+  "/assoc/addresses",
+  checkPermission(["read:database-management"]),
+  (req, res, next) => {
+    AlertListAddresses.findAll()
+      .then((data) => {
+        res.json(data);
       })
       .catch((err) => {
         next(err);

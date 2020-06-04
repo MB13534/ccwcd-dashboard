@@ -3,7 +3,10 @@ const {
   checkAccessToken,
   checkPermission,
 } = require("../../middleware/auth.js");
-const { ListMeasurementStations } = require("../../models");
+const {
+  ListMeasurementStations,
+  AlertListMeasurementStations,
+} = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -18,6 +21,22 @@ router.get(
   checkPermission(["read:database-management"]),
   (req, res, next) => {
     ListMeasurementStations.findAll()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/measurements/alerts
+// Route for returning all measurements related to alerts
+router.get(
+  "/alerts",
+  checkPermission(["read:database-management"]),
+  (req, res, next) => {
+    AlertListMeasurementStations.findAll()
       .then((data) => {
         res.json(data);
       })

@@ -15,6 +15,7 @@ const Sources = React.lazy(() => import("./Sources"));
 const Reaches = React.lazy(() => import("./Reaches"));
 const MeasurementTypes = React.lazy(() => import("./MeasurementTypes"));
 const Measurements = React.lazy(() => import("./Measurements"));
+const Alerts = React.lazy(() => import("./Alerts"));
 
 const DatabaseManagement = (props) => {
   const AdminRoles = ["LRE Admin", "CCWCD Admin"];
@@ -87,6 +88,12 @@ const DatabaseManagement = (props) => {
         exact
         roles={AdminRoles}
         component={Measurements}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/alerts`}
+        exact
+        roles={AdminRoles}
+        component={Alerts}
       />
     </Switch>
   );

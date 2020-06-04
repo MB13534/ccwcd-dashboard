@@ -107,7 +107,7 @@ router.get(
 // Route for updating/adding structure associations for a user
 router.post(
   "/users/assoc/structures",
-  checkPermission(["read:users"]),
+  checkPermission(["read:users", "write:users"]),
   (req, res, next) => {
     UserStructuresAssoc.upsert(req.body)
       .then((data) => {
@@ -123,7 +123,7 @@ router.post(
 // Route for writing all users from Auth0 to
 router.post(
   "/auth0-sync",
-  checkPermission(["read:users"]),
+  checkPermission(["read:users", "write:users"]),
   async (req, res, next) => {
     try {
       const access_token = await getAuth0APIToken();

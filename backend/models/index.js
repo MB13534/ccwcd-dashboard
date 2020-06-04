@@ -177,6 +177,10 @@ db.ListMeasurementStations = require("./Measurements/ListMeasurementStations")(
   sequelize,
   Sequelize
 );
+db.AlertListMeasurementStations = require("./Measurements/AlertListMeasurementStations")(
+  sequelize,
+  Sequelize
+);
 db.ListReaches = require("./Reaches/ListReaches")(sequelize, Sequelize);
 db.ListRechargePivotGroups = require("./RechargePivotGroups/ListRechargePivotGroups")(
   sequelize,
@@ -194,6 +198,11 @@ db.AlertsRequestsConfig = require("./Alerts/AlertsRequestsConfig")(
   sequelize,
   Sequelize
 );
+db.AlertListAddresses = require("./Alerts/AlertListAddresses")(
+  sequelize,
+  Sequelize
+);
+db.AlertsOverview = require("./Alerts/AlertsOverview")(sequelize, Sequelize);
 
 db.Users = require("./UserManagement/Users")(sequelize, Sequelize);
 db.UsersLanding = require("./UserManagement/UsersLanding")(

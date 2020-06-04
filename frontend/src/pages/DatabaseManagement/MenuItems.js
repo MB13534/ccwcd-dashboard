@@ -78,6 +78,12 @@ export const MenuItems = [
         path: "/recharge-accounting/water-slices",
         exact: true,
       },
+      {
+        id: 14,
+        title: "Alerts",
+        path: "/database-management/alerts",
+        exact: true,
+      },
     ],
   },
 ];
