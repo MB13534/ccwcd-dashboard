@@ -3,19 +3,18 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Typography, Divider, Button, Box, Paper } from "@material-ui/core";
 import ChartIcon from "@material-ui/icons/Timeline";
+import CopyIcon from "@material-ui/icons/FileCopy";
 import {
   FilterBar,
   FilterActions,
   FilterAdvanced,
   DatePicker,
 } from "@lrewater/lre-react";
-
 import { useAuth0 } from "../../../hooks/auth";
 import useFetchData from "../../../hooks/useFetchData";
 import useFilterAssoc from "../../../hooks/useFilterAssoc";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import Layout from "../../../components/Layout";
-
 import Submit from "../../../components/Filters/Submit";
 import SaveFilters from "../../../components/Filters/SaveFilters";
 import StructureTypesFilter from "../../../components/Filters/StructureTypesFilter";
@@ -30,9 +29,12 @@ import LastUpdateTable from "./LastUpdateTable";
 import AtvHelp from "../HelpGuides/AtvHelp";
 import MaterialTable from "material-table";
 import LineGraph from "../../../components/DataVisualization/LineGraph";
+import useVisibility from "../../../hooks/useVisibility";
+import { copyToClipboard } from "../../../util";
 
 const AllThingsViewer = (props) => {
   let { viewNdx } = useParams();
+  const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
   const {
     setWaitingState,
     formSubmitting,
@@ -136,6 +138,10 @@ const AllThingsViewer = (props) => {
     "assoc_structure_ndx"
   );
 
+  /**
+   * Handler for toggling between graph and table
+   * visualization types
+   */
   const handleVisualizationType = () => {
     if (visualizationType === "graph") {
       setVisualizationType("table");
@@ -360,6 +366,18 @@ const AllThingsViewer = (props) => {
             data={data}
             isLoading={formSubmitting}
             editable={{}}
+            actions={[
+              {
+                icon: CopyIcon,
+                tooltip: "Copy Data",
+                isFreeAction: true,
+                onClick: (event) => {
+                  copyToClipboard(data, columns, () =>
+                    handleCopySnackbarOpen(true)
+                  );
+                },
+              },
+            ]}
             options={{
               exportAllData: true,
               columnsButton: true,
@@ -391,6 +409,13 @@ const AllThingsViewer = (props) => {
         handleClose={handleSnackbarClose}
         successMessage="Filters submitted successfully"
         errorMessage="Filters could not be submitted"
+      />
+
+      <FormSnackbar
+        open={copySnackbarOpen}
+        error={false}
+        handleClose={() => handleCopySnackbarOpen(false)}
+        successMessage="Copied to Clipboard"
       />
     </Layout>
   );

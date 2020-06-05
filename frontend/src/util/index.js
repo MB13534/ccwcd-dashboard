@@ -1,3 +1,6 @@
+import copy from "copy-to-clipboard";
+import Papa from "papaparse";
+
 /**
  * Utility function for returning a list of objects associated with an
  * array of values
@@ -172,9 +175,8 @@ export const goTo = (history, route) => {
 export const formatDate = (date, format = "mm/dd/yyyy") => {
   const newDate = new Date(date);
   if (format.toLowerCase() === "mm/dd/yyyy") {
-    return `${
-      newDate.getMonth() + 1
-    }/${newDate.getDate()}/${newDate.getFullYear()}`;
+    return `${newDate.getMonth() +
+      1}/${newDate.getDate()}/${newDate.getFullYear()}`;
   } else if (format.toLowerCase() === "mm/dd") {
     return `${newDate.getMonth() + 1}/${newDate.getDate()}`;
   }
@@ -185,9 +187,8 @@ export const formatDate = (date, format = "mm/dd/yyyy") => {
  * @param {*} date
  */
 export const formatTimestamp = (date) => {
-  return `${
-    date.getMonth() + 1
-  }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  return `${date.getMonth() +
+    1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 };
 
 /**
@@ -244,3 +245,24 @@ export const EXTENDED_DISCRETE_COLOR_RANGE = [
   "#89DAC1",
   "#B3AD9E",
 ];
+
+/**
+ * Utility function used to implement
+ * copy to clipboard functionality
+ * @param {array} data
+ * @param {array} columns
+ * @param {function} callback
+ */
+export const copyToClipboard = (data, columns, callback) => {
+  const columnOrder = columns.map((d) => d.field);
+  copy(
+    Papa.unparse(data, {
+      delimiter: "\t",
+      columns: columnOrder,
+    }),
+    {
+      format: "text/plain",
+    }
+  );
+  callback();
+};

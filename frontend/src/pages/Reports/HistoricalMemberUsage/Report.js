@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { FilterActions, FilterBar, FilterAdvanced } from "@lrewater/lre-react";
-
+import CopyIcon from "@material-ui/icons/FileCopy";
 import { useAuth0 } from "../../../hooks/auth";
 import useFetchData from "../../../hooks/useFetchData";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
@@ -18,9 +18,12 @@ import useTableTitle from "../../../hooks/useTableTitle";
 import { generateDepletionYears } from "../../../util";
 import MaterialTable from "material-table";
 import { Box } from "@material-ui/core";
+import { copyToClipboard } from "../../../util";
+import useVisibility from "../../../hooks/useVisibility";
 
 const HistoricalMemberUsageReport = (props) => {
   let { viewNdx } = useParams();
+  const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
   const {
     setWaitingState,
     formSubmitting,
@@ -318,6 +321,18 @@ const HistoricalMemberUsageReport = (props) => {
           data={data}
           isLoading={formSubmitting}
           editable={{}}
+          actions={[
+            {
+              icon: CopyIcon,
+              tooltip: "Copy Data",
+              isFreeAction: true,
+              onClick: (event) => {
+                copyToClipboard(data, columns, () =>
+                  handleCopySnackbarOpen(true)
+                );
+              },
+            },
+          ]}
           options={{
             exportAllData: true,
             grouping: true,
@@ -337,6 +352,13 @@ const HistoricalMemberUsageReport = (props) => {
         handleClose={handleSnackbarClose}
         successMessage="Filters submitted successfully"
         errorMessage="Filters could not be submitted"
+      />
+
+      <FormSnackbar
+        open={copySnackbarOpen}
+        error={false}
+        handleClose={() => handleCopySnackbarOpen(false)}
+        successMessage="Copied to Clipboard"
       />
     </Layout>
   );

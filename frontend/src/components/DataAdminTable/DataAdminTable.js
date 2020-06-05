@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { Paper, makeStyles } from "@material-ui/core";
+import CopyIcon from "@material-ui/icons/FileCopy";
 import MaterialTable, { MTableBodyRow } from "material-table";
 import { useAuth0 } from "../../hooks/auth";
 import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
 import FormSnackbar from "../FormSnackbar";
+import useVisibility from "../../hooks/useVisibility";
+import { copyToClipboard } from "../../util";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -32,6 +35,7 @@ const DataAdminTable = ({
   handleRefresh = () => {},
 }) => {
   const classes = useStyles();
+  const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
   const {
     setWaitingState,
     snackbarOpen,
@@ -155,7 +159,19 @@ const DataAdminTable = ({
                 : "#FFF",
           }),
         }}
-        actions={actions}
+        actions={[
+          {
+            icon: CopyIcon,
+            tooltip: "Copy Data",
+            isFreeAction: true,
+            onClick: (event) => {
+              copyToClipboard(data, columns, () =>
+                handleCopySnackbarOpen(true)
+              );
+            },
+          },
+          ...actions,
+        ]}
       />
       <FormSnackbar
         open={snackbarOpen}
@@ -163,6 +179,12 @@ const DataAdminTable = ({
         handleClose={handleSnackbarClose}
         successMessage="Success"
         errorMessage="Error"
+      />
+      <FormSnackbar
+        open={copySnackbarOpen}
+        error={false}
+        handleClose={() => handleCopySnackbarOpen(false)}
+        successMessage="Copied to Clipboard"
       />
     </div>
   );
