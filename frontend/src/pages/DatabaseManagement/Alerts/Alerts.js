@@ -182,7 +182,9 @@ const Alerts = (props) => {
               updateHandler={setData}
               endpoint="alerts"
               ndxField="alert_request_ndx"
-              filtering={true}
+              options={{
+                filtering: true,
+              }}
               handleRefresh={handleRefresh}
             />
           </Container>

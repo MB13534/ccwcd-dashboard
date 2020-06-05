@@ -29,7 +29,6 @@ const DataAdminTable = ({
   options = {},
   components = {},
   actions = [],
-  filtering = false,
   handleRefresh = () => {},
 }) => {
   const classes = useStyles();
@@ -136,7 +135,6 @@ const DataAdminTable = ({
           ...components,
         }}
         options={{
-          filtering: filtering,
           emptyRowsWhenPaging: false,
           columnsButton: true,
           exportButton: true,

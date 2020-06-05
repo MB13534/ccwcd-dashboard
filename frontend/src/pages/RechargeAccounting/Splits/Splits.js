@@ -69,7 +69,9 @@ const WaterSlices = (props) => {
 
   useEffect(() => {
     if (Projects.length > 0) {
-      setActiveProject(Projects.filter((d) => d.recharge_project_ndx == id)[0]);
+      setActiveProject(
+        Projects.filter((d) => d.recharge_project_ndx === parseInt(id))[0]
+      );
     }
   }, [Projects, id]);
 

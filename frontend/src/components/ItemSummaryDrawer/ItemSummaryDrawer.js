@@ -4,8 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Drawer, Button, Chip, Box } from "@material-ui/core";
 import BackArrow from "@material-ui/icons/ArrowBack";
 import Autocomplete from "../Filters/Autocomplete";
-import { useMemo } from "react";
-import { unique } from "../../util";
 import { Flex } from "../Flex";
 import { Link } from "react-router-dom";
 
