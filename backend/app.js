@@ -6,6 +6,7 @@ const helmet = require("helmet");
 
 const AllThingsViewerRoutes = require("./routes/ATV");
 const HistoricalMemberUsageRoutes = require("./routes/HistoricalMemberUsage");
+const MonthlyUnlaggedRechargeRoutes = require("./routes/MonthlyUnlaggedRecharge");
 const ReportRoutes = require("./routes/Reports");
 const UserManagementRoutes = require("./routes/UserManagement");
 const MembersManagementRoutes = require("./routes/MembersManagement");
@@ -44,6 +45,7 @@ app.use(setHeaders);
 app.use("/api/user-management", UserManagementRoutes);
 app.use("/api/all-things-viewer", AllThingsViewerRoutes);
 app.use("/api/historical-member-usage", HistoricalMemberUsageRoutes);
+app.use("/api/monthly-unlagged-recharge", MonthlyUnlaggedRechargeRoutes);
 app.use("/api/members-management", MembersManagementRoutes);
 app.use("/api/reports", ReportRoutes);
 app.use("/api/files", FilesRoutes);

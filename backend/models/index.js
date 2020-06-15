@@ -92,6 +92,14 @@ db.HMU_Well_Info = require("./HistoricalMemberUsage/WellInfo")(
 );
 
 /**
+ * Monthly Unlagged Recharge Data Report models
+ */
+db.MonthlyUnlaggedRecharge = require("./MonthlyUnlaggedRecharge/MonthlyUnlaggedRecharge")(
+  sequelize,
+  Sequelize
+);
+
+/**
  * Members Management models
  */
 db.ContractsWellsMetersLanding = require("./MembersManagement/ContractsWellsMetersLanding")(
