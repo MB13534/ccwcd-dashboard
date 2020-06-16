@@ -3,7 +3,12 @@ const {
   checkAccessToken,
   checkPermission,
 } = require("../../middleware/auth.js");
-const { ListRechargeSlices } = require("../../models");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
+const {
+  ListRechargeSlices,
+  ListRechargeSlicesDownloadTool,
+} = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -18,6 +23,50 @@ router.get(
   checkPermission(["read:database-management"]),
   (req, res, next) => {
     ListRechargeSlices.findAll()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/recharge-slices/query
+// Route for returning all recharge slices
+router.get(
+  "/query",
+  checkPermission(["read:database-management"]),
+  (req, res, next) => {
+    const { decrees, projects, structures } = req.query;
+
+    const buildWhereConditions = (decrees, projects, structures) => {
+      let query = {
+        where: {},
+      };
+      if (decrees) {
+        query.where.recharge_decree_ndx = {
+          [Op.in]: decrees ? decrees.split(",") : [],
+        };
+      }
+
+      if (projects) {
+        query.where.recharge_project_ndx = {
+          [Op.in]: projects ? projects.split(",") : [],
+        };
+      }
+
+      if (structures) {
+        query.where.structure_ndx = {
+          [Op.in]: structures ? structures.split(",") : [],
+        };
+      }
+      return query;
+    };
+
+    ListRechargeSlicesDownloadTool.findAll(
+      buildWhereConditions(decrees, projects, structures)
+    )
       .then((data) => {
         res.json(data);
       })

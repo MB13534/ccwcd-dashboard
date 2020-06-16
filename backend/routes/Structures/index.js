@@ -4,7 +4,7 @@ const {
   checkPermission,
 } = require("../../middleware/auth.js");
 const Sequelize = require("sequelize");
-const { ListStructures } = require("../../models");
+const { ListStructures, RechargeListStructures } = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -19,6 +19,24 @@ router.get(
   checkPermission(["read:database-management"]),
   (req, res, next) => {
     ListStructures.findAll()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/structures/recharge
+// Route for returning all structures associated with recharge accounting
+router.get(
+  "/recharge",
+  checkPermission(["monthly-unlagged-recharge", "read:recharge-accounting"]),
+  (req, res, next) => {
+    RechargeListStructures.findAll({
+      attributes: ["structure_ndx", "structure_desc"],
+    })
       .then((data) => {
         res.json(data);
       })

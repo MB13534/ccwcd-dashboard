@@ -15,6 +15,9 @@ const AllThingsViewer = React.lazy(() =>
 const HistoricalMemberUsage = React.lazy(() =>
   import("./pages/Reports/HistoricalMemberUsage/Report")
 );
+const MonthlyRecharge = React.lazy(() =>
+  import("./pages/Reports/MonthlyRecharge/Report")
+);
 const ReportsHome = React.lazy(() => import("./pages/Reports/ReportsHome"));
 const AtvViewManagement = React.lazy(() =>
   import("./pages/Reports/AllThingsViewer/ManageView")
@@ -91,6 +94,18 @@ const App = () => {
               exact
               roles={[...DataViewerRoles, ...AdminRoles]}
               component={HistoricalMemberUsage}
+            />
+            <PrivateRouteWithRoles
+              path="/monthly-recharge"
+              exact
+              roles={[...AdminRoles]}
+              component={MonthlyRecharge}
+            />
+            <PrivateRouteWithRoles
+              path="/monthly-recharge/:viewNdx"
+              exact
+              roles={[...AdminRoles]}
+              component={MonthlyRecharge}
             />
             <PrivateRouteWithRoles
               path="/reports"

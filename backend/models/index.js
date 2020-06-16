@@ -171,6 +171,10 @@ db.ListStructures = require("./Structures/ListStructures")(
   sequelize,
   Sequelize
 );
+db.RechargeListStructures = require("./Structures/RechargeListStructures")(
+  sequelize,
+  Sequelize
+);
 db.ListStructureTypes = require("./StructureTypes/ListStructureTypes")(
   sequelize,
   Sequelize
@@ -195,6 +199,10 @@ db.ListRechargePivotGroups = require("./RechargePivotGroups/ListRechargePivotGro
   Sequelize
 );
 db.ListRechargeSlices = require("./RechargeSlices/ListRechargeSlices")(
+  sequelize,
+  Sequelize
+);
+db.ListRechargeSlicesDownloadTool = require("./RechargeSlices/ListRechargeSlicesDownloadTool")(
   sequelize,
   Sequelize
 );

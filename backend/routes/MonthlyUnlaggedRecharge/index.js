@@ -20,18 +20,11 @@ router.use(checkPermission(["monthly-unlagged-recharge"]));
 // GET /api/monthly-unlagged-recharge
 // Route for returning daily data averages
 router.get("/", (req, res, next) => {
-  const {
-    decrees,
-    projects,
-    structures,
-    start_date,
-    end_date,
-    format = "json",
-  } = req.query;
+  const { recharge_slices, start_date, end_date, format = "json" } = req.query;
 
-  if (!decrees && !projects && !structures) {
+  if (!recharge_slices) {
     let error = new Error(
-      "Query Error: Please provide a value(s) for the decrees, projects, or structures query parameters."
+      "Query Error: Please provide a value(s) for the recharge_slices query parameters."
     );
     next(error);
   }
@@ -55,18 +48,8 @@ router.get("/", (req, res, next) => {
     where: {
       [Op.or]: [
         {
-          recharge_decree_ndx: {
-            [Op.in]: decrees ? decrees.split(",") : [],
-          },
-        },
-        {
-          recharge_project_ndx: {
-            [Op.in]: projects ? projects.split(",") : [],
-          },
-        },
-        {
-          structure_ndx: {
-            [Op.in]: structures ? structures.split(",") : [],
+          recharge_slice_ndx: {
+            [Op.in]: recharge_slices ? recharge_slices.split(",") : [],
           },
         },
       ],

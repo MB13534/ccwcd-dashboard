@@ -6,19 +6,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerWidth = 345;
-
 const useStyles = makeStyles((theme) => ({
   drawer: {
     [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
+      width: (props) => props.width,
       flexShrink: 0,
-    },
-  },
-  appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
     },
   },
   menuButton: {
@@ -34,14 +26,14 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: (props) => props.width,
     overflow: `auto!important`,
     backgroundColor: "#ffffff",
   },
 }));
 
-const CustomDrawer = ({ children }) => {
-  const classes = useStyles();
+const CustomDrawer = ({ children, width = 345 }) => {
+  const classes = useStyles({ width });
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {

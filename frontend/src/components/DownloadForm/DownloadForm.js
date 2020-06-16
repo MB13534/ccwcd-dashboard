@@ -1,0 +1,109 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import { Typography, Paper, Box, Button } from "@material-ui/core";
+import { CSVLink } from "react-csv";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+  btn: {
+    marginRight: theme.spacing(1),
+  },
+  downloadBtn: {
+    boxShadow: `0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)`,
+    backgroundColor: theme.palette.primary.main,
+    color: "#ffffff",
+    textDecoration: "none",
+    padding: "8px 16px",
+    fontSize: "0.875rem",
+    minWidth: 64,
+    boxSizing: "border-box",
+    transition:
+      "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    fontWeight: 500,
+    lineHeight: 1.75,
+    borderRadius: 4,
+    letterSpacing: "0.02857em",
+    textTransform: "uppercase",
+    marginTop: theme.spacing(2),
+    "&:hover": {
+      boxShadow:
+        "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+      backgroundColor: "#303f9f",
+    },
+  },
+}));
+
+const DownloadForm = ({
+  title,
+  text,
+  data,
+  onDownload,
+  onSaveView,
+  children,
+  ...other
+}) => {
+  const classes = useStyles();
+  console.log(data);
+  return (
+    <Paper className={classes.root} {...other}>
+      {title && (
+        <Typography variant="h5" gutterBottom>
+          {title}
+        </Typography>
+      )}
+      {text && (
+        <Typography variant="body1" paragraph>
+          {text}
+        </Typography>
+      )}
+      {children}
+      <Box marginTop={2} marginBottom={2}>
+        {onDownload && (
+          // <Button
+          //   variant="contained"
+          //   color="primary"
+          //   className={classes.btn}
+          //   onClick={onDownload}
+          // >
+          //   Download
+          // </Button>
+          <CSVLink
+            data={data}
+            className={classes.downloadBtn}
+            filename={`monthly_unlagged_recharge_data.csv`}
+            target="_blank"
+            onClick={() => {}}
+          >
+            Download
+          </CSVLink>
+        )}
+        {onSaveView && (
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.btn}
+            onClick={onSaveView}
+          >
+            Save as View
+          </Button>
+        )}
+      </Box>
+    </Paper>
+  );
+};
+
+DownloadForm.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  text: PropTypes.string,
+  title: PropTypes.string,
+  onDownload: PropTypes.func,
+  onSaveView: PropTypes.func,
+};
+
+export default DownloadForm;

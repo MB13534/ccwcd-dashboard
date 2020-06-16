@@ -43,11 +43,12 @@ const ReportDetails = ({
   handleJumpToView,
   handleEditView,
   handleDeleteView,
+  ...other
 }) => {
   const classes = useStyles();
 
   return (
-    <CustomDrawer>
+    <CustomDrawer {...other}>
       <div className={classes.reportDrawer} id="report-details-drawer">
         {!selectedReport && (
           <React.Fragment>
