@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
 import {
   Box,
   Container,
@@ -8,10 +7,8 @@ import {
   Avatar,
   Typography,
 } from "@material-ui/core";
-import { CSVLink } from "react-csv";
 import Layout from "../../../components/Layout";
 import DownloadForm from "../../../components/DownloadForm";
-import StructuresFilter from "../../../components/Filters/StructuresFilter";
 import useFetchData from "../../../hooks/useFetchData";
 import DecreesFilter from "../../../components/Filters/DecreesFilter";
 import RechargeProjectsFilter from "../../../components/Filters/RechargeProjectsFilter";
@@ -20,11 +17,9 @@ import { DatePicker } from "@lrewater/lre-react";
 import { extractDate, subtractDays, unique } from "../../../util";
 import Axios from "axios";
 import { useAuth0 } from "../../../hooks/auth";
-import { useMemo } from "react";
 import StructuresSearchable from "../../../components/Filters/StructuresSearchable";
 import { Flex } from "../../../components/Flex";
 import MaterialTable from "material-table";
-import ReportDetails from "../ReportDetails";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -106,7 +101,7 @@ const buildURI = (data, uFEFF) => {
 };
 
 const MonthlyRecharge = (props) => {
-  let { viewNdx } = useParams();
+  // let { viewNdx } = useParams();
   const { getTokenSilently } = useAuth0();
   const classes = useStyles();
   const [filterValues, setFilterValues] = useState({
