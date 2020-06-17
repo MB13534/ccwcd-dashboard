@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Paper, Box, Button } from "@material-ui/core";
+import { Typography, Paper, Box, Button, lighten } from "@material-ui/core";
 import { CSVLink } from "react-csv";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +34,13 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#303f9f",
     },
   },
+  noDataAlert: {
+    borderRadius: 4,
+    margin: theme.spacing(3, 0),
+    padding: theme.spacing(2),
+    backgroundColor: lighten(theme.palette.error.main, 0.7),
+    // color: "#ffffff",
+  },
 }));
 
 const DownloadForm = ({
@@ -46,7 +53,7 @@ const DownloadForm = ({
   ...other
 }) => {
   const classes = useStyles();
-  console.log(data);
+
   return (
     <Paper className={classes.root} {...other}>
       {title && (
@@ -60,6 +67,14 @@ const DownloadForm = ({
         </Typography>
       )}
       {children}
+      {data.length === 0 && (
+        <div className={classes.noDataAlert}>
+          <Typography variant="body1">
+            Heads up! There is no data for your current period of record and
+            filter selections.
+          </Typography>
+        </div>
+      )}
       <Box marginTop={2} marginBottom={2}>
         {onDownload && (
           // <Button
