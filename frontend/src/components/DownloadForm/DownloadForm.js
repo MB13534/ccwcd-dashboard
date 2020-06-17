@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0),
     padding: theme.spacing(2),
     backgroundColor: lighten(theme.palette.error.main, 0.7),
-    // color: "#ffffff",
   },
 }));
 
@@ -77,14 +76,6 @@ const DownloadForm = ({
       )}
       <Box marginTop={2} marginBottom={2}>
         {onDownload && (
-          // <Button
-          //   variant="contained"
-          //   color="primary"
-          //   className={classes.btn}
-          //   onClick={onDownload}
-          // >
-          //   Download
-          // </Button>
           <CSVLink
             data={data}
             className={classes.downloadBtn}

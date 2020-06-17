@@ -24,7 +24,15 @@ router.get("/folders", (req, res, next) => {
       .filesListFolder({ path: "" })
       .then(function (response) {
         if (req.user.permissions.includes("read:all-files")) {
-          res.json(response.entries);
+          res.json(
+            response.entries.map((d) => {
+              let obj = { ...d };
+              obj.folderLink =
+                "https://www.dropbox.com/home/Apps/CCWCD%20Files%20Sharing%20App/" +
+                encodeURI(d.name);
+              return obj;
+            })
+          );
         } else if (req.user.permissions.includes("read:objector-files")) {
           res.json(
             response.entries.filter((d) => d.name === "WAS Objector Files")

@@ -15,8 +15,6 @@ import RechargeProjectsFilter from "../../../components/Filters/RechargeProjects
 import DownloadFormSection from "../../../components/DownloadFormSection";
 import { DatePicker } from "@lrewater/lre-react";
 import { extractDate, subtractDays, unique } from "../../../util";
-import Axios from "axios";
-import { useAuth0 } from "../../../hooks/auth";
 import StructuresSearchable from "../../../components/Filters/StructuresSearchable";
 import { Flex } from "../../../components/Flex";
 import MaterialTable from "material-table";
@@ -85,24 +83,8 @@ const slicesColumns = [
   { title: "Structure", field: "structure_desc" },
 ];
 
-const isSafari = () =>
-  /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-const buildURI = (data, uFEFF) => {
-  const type = isSafari() ? "application/csv" : "text/csv";
-  const blob = new Blob([uFEFF ? "\uFEFF" : "", data], { type });
-  const dataURI = `data:${type};charset=utf-8,${uFEFF ? "\uFEFF" : ""}${data}`;
-
-  const URL = window.URL || window.webkitURL;
-
-  return typeof URL.createObjectURL === "undefined"
-    ? dataURI
-    : URL.createObjectURL(blob);
-};
-
 const MonthlyRecharge = (props) => {
   // let { viewNdx } = useParams();
-  const { getTokenSilently } = useAuth0();
   const classes = useStyles();
   const [filterValues, setFilterValues] = useState({
     decrees: [],
@@ -133,31 +115,6 @@ const MonthlyRecharge = (props) => {
     }&format=csv`,
     [Slices, filterValues.start_date, filterValues.end_date]
   );
-  // const Decrees = useMemo(() => {
-  //   if (Slices.length > 0) {
-  //     return uniqueObjects(
-  //       Slices,
-  //       "recharge_decree_ndx",
-  //       "recharge_decree_desc"
-  //     );
-  //   }
-  //   return [];
-  // }, [Slices]);
-  // const Projects = useMemo(() => {
-  //   if (Slices.length > 0) {
-  //     return uniqueObjects(
-  //       Slices,
-  //       "recharge_project_ndx",
-  //       "recharge_project_desc"
-  //     );
-  //   }
-  //   return [];
-  // }, [Slices]);
-  // const Structures = useMemo(() => {
-  //   if (Slices.length > 0) {
-  //     return uniqueObjects(Slices, "structure_ndx", "structure_desc");
-  //   }
-  // }, [Slices]);
 
   /**
    * Event handler for the filters bar
@@ -177,38 +134,14 @@ const MonthlyRecharge = (props) => {
     });
   };
 
-  const handleDownload = async (event) => {
-    try {
-      const token = await getTokenSilently();
-      const headers = { Authorization: `Bearer ${token}` };
-      const csv = await Axios.get(
-        `${
-          process.env.REACT_APP_ENDPOINT
-        }/api/monthly-unlagged-recharge?recharge_slices=${unique(
-          Slices,
-          "recharge_slice_ndx"
-        )}&start_date=${filterValues.start_date}&end_date=${
-          filterValues.end_date
-        }&format=csv`,
-        { headers }
-      );
-      console.log(csv.data);
-      window.open(buildURI(csv.data, true));
-    } catch (err) {
-      console.error(err);
-      // setWaitingState("complete", "error");
-      // setData([]);
-    }
-  };
-
   return (
     <Layout>
       <Box marginTop={6} marginBottom={3} width="100%">
         <Container maxWidth="md">
           <DownloadForm
             title="Monthly Unlagged Recharge Data Download"
-            text="Use the following form to download Monthly Unlagged Recharge Data as csv file."
-            onDownload={handleDownload}
+            text="Use the following form to download Monthly Unlagged Recharge Data as a csv file."
+            onDownload={() => {}}
             data={DownloadData}
           >
             <DownloadFormSection
@@ -282,8 +215,8 @@ const MonthlyRecharge = (props) => {
               </Flex>
               <Box marginTop={2} marginBottom={2}>
                 <Typography variant="body1" paragraph>
-                  Preview the selected recharge slices that will be downloaded
-                  below.
+                  Preview the selected recharge slices (aka triples) that will
+                  be downloaded below.
                 </Typography>
                 <MaterialTable
                   data={Slices}
@@ -300,15 +233,6 @@ const MonthlyRecharge = (props) => {
                   }}
                 />
               </Box>
-              {/* <CSVLink
-                data={[]}
-                className={classes.downloadBtn}
-                filename={`test.csv`}
-                target="_blank"
-                onClick={() => {}}
-              >
-                Download
-              </CSVLink> */}
             </DownloadFormSection>
           </DownloadForm>
         </Container>
