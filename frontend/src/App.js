@@ -15,8 +15,8 @@ const AllThingsViewer = React.lazy(() =>
 const HistoricalMemberUsage = React.lazy(() =>
   import("./pages/Reports/HistoricalMemberUsage/Report")
 );
-const MonthlyRecharge = React.lazy(() =>
-  import("./pages/Reports/MonthlyRecharge/Report")
+const MonthlyUnlaggedRecharge = React.lazy(() =>
+  import("./pages/Reports/MonthlyUnlaggedRecharge/Report")
 );
 const ReportsHome = React.lazy(() => import("./pages/Reports/ReportsHome"));
 const AtvViewManagement = React.lazy(() =>
@@ -96,16 +96,16 @@ const App = () => {
               component={HistoricalMemberUsage}
             />
             <PrivateRouteWithRoles
-              path="/monthly-recharge"
+              path="/monthly-unlagged-recharge"
               exact
               roles={[...AdminRoles]}
-              component={MonthlyRecharge}
+              component={MonthlyUnlaggedRecharge}
             />
             <PrivateRouteWithRoles
-              path="/monthly-recharge/:viewNdx"
+              path="/monthly-unlagged-recharge/:viewNdx"
               exact
               roles={[...AdminRoles]}
-              component={MonthlyRecharge}
+              component={MonthlyUnlaggedRecharge}
             />
             <PrivateRouteWithRoles
               path="/reports"

@@ -83,7 +83,7 @@ const slicesColumns = [
   { title: "Structure", field: "structure_desc" },
 ];
 
-const MonthlyRecharge = (props) => {
+const MonthlyUnlaggedRecharge = (props) => {
   // let { viewNdx } = useParams();
   const classes = useStyles();
   const [filterValues, setFilterValues] = useState({
@@ -241,4 +241,4 @@ const MonthlyRecharge = (props) => {
   );
 };
 
-export default MonthlyRecharge;
+export default MonthlyUnlaggedRecharge;
