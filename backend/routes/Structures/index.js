@@ -18,7 +18,9 @@ router.get(
   "/",
   checkPermission(["read:database-management"]),
   (req, res, next) => {
-    ListStructures.findAll()
+    ListStructures.findAll({
+      order: [["structure_desc", "ASC"]],
+    })
       .then((data) => {
         res.json(data);
       })
