@@ -22,12 +22,12 @@ router.use(checkPermission(["monthly-unlagged-recharge"]));
 router.get("/", (req, res, next) => {
   const { recharge_slices, start_date, end_date, format = "json" } = req.query;
 
-  if (!recharge_slices) {
-    let error = new Error(
-      "Query Error: Please provide a value(s) for the recharge_slices query parameters."
-    );
-    next(error);
-  }
+  // if (!recharge_slices) {
+  //   let error = new Error(
+  //     "Query Error: Please provide a value(s) for the recharge_slices query parameters."
+  //   );
+  //   next(error);
+  // }
 
   if (!start_date || !end_date) {
     let error = new Error(
@@ -36,45 +36,53 @@ router.get("/", (req, res, next) => {
     next(error);
   }
 
-  MonthlyUnlaggedRecharge.findAll({
-    attributes: [
-      ["r_year", "year"],
-      ["r_month", "month"],
-      ["recharge_decree_desc", "decree"],
-      ["recharge_project_desc", "project"],
-      ["structure_desc", "structure"],
-      ["recharge_value_af", "value_af"],
-    ],
-    where: {
-      [Op.or]: [
-        {
-          recharge_slice_ndx: {
-            [Op.in]: recharge_slices ? recharge_slices.split(",") : [],
-          },
-        },
+  if (!recharge_slices) {
+    if (format.toLowerCase() === "csv") {
+      res.type("text/csv").send("");
+    } else {
+      res.json([]);
+    }
+  } else {
+    MonthlyUnlaggedRecharge.findAll({
+      attributes: [
+        ["r_year", "year"],
+        ["r_month", "month"],
+        ["recharge_decree_desc", "decree"],
+        ["recharge_project_desc", "project"],
+        ["structure_desc", "structure"],
+        ["recharge_value_af", "value_af"],
       ],
-      r_date: {
-        [Op.between]: [start_date, end_date],
+      where: {
+        [Op.or]: [
+          {
+            recharge_slice_ndx: {
+              [Op.in]: recharge_slices ? recharge_slices.split(",") : [],
+            },
+          },
+        ],
+        r_date: {
+          [Op.between]: [start_date, end_date],
+        },
       },
-    },
-    order: [
-      ["structure_desc", "ASC"],
-      ["recharge_project_desc", "ASC"],
-      ["recharge_decree_desc", "ASC"],
-      ["r_date", "ASC"],
-    ],
-  })
-    .then((data) => {
-      if (format.toLowerCase() === "csv") {
-        const csv = Papa.unparse(data.map((d) => d.dataValues));
-        res.type("text/csv").send(csv);
-      } else {
-        res.json(data);
-      }
+      order: [
+        ["structure_desc", "ASC"],
+        ["recharge_project_desc", "ASC"],
+        ["recharge_decree_desc", "ASC"],
+        ["r_date", "ASC"],
+      ],
     })
-    .catch((err) => {
-      next(err);
-    });
+      .then((data) => {
+        if (format.toLowerCase() === "csv") {
+          const csv = Papa.unparse(data.map((d) => d.dataValues));
+          res.type("text/csv").send(csv);
+        } else {
+          res.json(data);
+        }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
 
   // const StartDate = setAPIDate(90, req.params.end_date);
   // const EndDate = setAPIDate(0, req.params.end_date);
