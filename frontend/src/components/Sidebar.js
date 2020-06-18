@@ -158,7 +158,7 @@ const Sidebar = (props) => {
       activePath: "user-management",
       icon: AccountIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
     {
       link: "members-management/contracts-wells-meters",
@@ -221,12 +221,12 @@ const Sidebar = (props) => {
       rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
     },
     {
-      link: "database-management/recharge-projects",
+      link: "database-management/structures",
       title: "DB Lists Management",
       activePath: "database-management",
       icon: DnsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin"],
     },
   ];
 
