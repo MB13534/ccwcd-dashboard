@@ -140,28 +140,8 @@ router.get("/folders/public/:folderPath", (req, res, next) => {
   }
 });
 
+// TODO figure out how to best protect the download route
 // POST /api/files/download
-// Route for returning all files in Dropbox subfolder
-router.post("/download/", (req, res, next) => {
-  try {
-    const dbx = new Dropbox({
-      fetch,
-      accessToken: process.env.DBX_ACCESS_TOKEN,
-    });
-    dbx
-      .filesGetTemporaryLink({ path: `${req.body.filePath}` })
-      .then(function (response) {
-        res.json(response);
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  } catch (error) {
-    next(error);
-  }
-});
-
-// POST /api/files/download/public
 // Route for returning all files in Dropbox subfolder
 router.post("/download/", (req, res, next) => {
   try {
