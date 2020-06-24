@@ -12,8 +12,9 @@ import {
 import Layout from "../../components/Layout";
 import useFetchData from "../../hooks/useFetchData";
 import FoldersList from "./FoldersList";
+import { useAuth0 } from "../../hooks/auth";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     overflow: "hidden",
@@ -46,11 +47,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Files = props => {
+const Files = (props) => {
   const classes = useStyles();
-  const [Folders, isLoading] = useFetchData("files/folders", []);
+  const { user } = useAuth0();
+  const [Folders, isLoading] = useFetchData(
+    `files/folders/${user ? "" : "public"}`,
+    [],
+    user ? true : false
+  );
 
-  const LinkRouter = props => <Link {...props} component={RouterLink} />;
+  const LinkRouter = (props) => <Link {...props} component={RouterLink} />;
 
   return (
     <Layout>

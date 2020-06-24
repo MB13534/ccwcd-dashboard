@@ -217,8 +217,7 @@ const Sidebar = (props) => {
       title: "File Sharing",
       activePath: "files/",
       icon: FileIcon,
-      loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
+      loginRequired: false,
     },
     {
       link: "database-management/structures",

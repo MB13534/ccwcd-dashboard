@@ -53,7 +53,7 @@ const DatabaseManagement = React.lazy(() =>
 );
 
 const App = () => {
-  const { loading } = useAuth0();
+  const { isAuthenticated, loading } = useAuth0();
 
   const AdminRoles = ["LRE Admin", "CCWCD Admin"];
   const DataViewerRoles = ["CCWCD Data Viewer"];
@@ -69,7 +69,11 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route path="/" exact>
-              <Redirect to="/all-things-viewer" />
+              {isAuthenticated === true ? (
+                <Redirect to="/all-things-viewer" />
+              ) : (
+                <Redirect to="/files" />
+              )}
             </Route>
             <PrivateRouteWithRoles
               path="/all-things-viewer"
@@ -155,15 +159,15 @@ const App = () => {
               roles={AdminRoles}
               component={MeterCorrectionFactors}
             />
-            <PrivateRouteWithRoles
+            <Route
               path="/files"
               exact
-              roles={[...DataViewerRoles, ...AdminRoles]}
+              // roles={[...DataViewerRoles, ...AdminRoles]}
               component={Files}
             />
-            <PrivateRouteWithRoles
+            <Route
               path="/files/:folderPath"
-              roles={[...DataViewerRoles, ...AdminRoles]}
+              // roles={[...DataViewerRoles, ...AdminRoles]}
               component={FolderPage}
             />
             <PrivateRouteWithRoles

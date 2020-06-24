@@ -16,7 +16,6 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import Layout from "../../components/Layout";
-import { useAuth0 } from "../../hooks/auth";
 import useFetchData from "../../hooks/useFetchData";
 import { Link as RouterLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -31,8 +30,9 @@ import JPG from "../../images/file-types/jpg.svg";
 import PPT from "../../images/file-types/ppt.svg";
 import TXT from "../../images/file-types/txt.svg";
 import ZIP from "../../images/file-types/zip.svg";
+import { useAuth0 } from "../../hooks/auth";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     overflow: "hidden",
@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const LinkRouter = props => <Link {...props} component={RouterLink} />;
+const LinkRouter = (props) => <Link {...props} component={RouterLink} />;
 
 const FileIcon = ({ name }) => {
   const icon = useMemo(() => {
@@ -116,16 +116,21 @@ const FileIcon = ({ name }) => {
   return <img src={icon} alt={fileType} style={{ maxWidth: 35 }} />;
 };
 
-const FolderPage = props => {
+const FolderPage = (props) => {
   const classes = useStyles();
   const { folderPath } = useParams();
-  const { getTokenSilently } = useAuth0();
-  const [Data, isLoading] = useFetchData(`files/folders/${folderPath}`, []);
+  const { user } = useAuth0();
+  console.log(user);
+  const [Data, isLoading] = useFetchData(
+    `files/folders/${user ? "private" : "public"}/${folderPath}`,
+    [],
+    user ? true : false
+  );
   const [ModifiedData, setModifiedData] = useState([]);
 
   useEffect(() => {
     let newData = [...Data];
-    newData = newData.map(d => {
+    newData = newData.map((d) => {
       let rec = { ...d };
 
       rec.loading = false;
@@ -135,20 +140,17 @@ const FolderPage = props => {
     setModifiedData(newData);
   }, [Data]);
 
-  const handleDownload = async file => {
+  const handleDownload = async (file) => {
     try {
       const filePath = file.path_display;
-      const token = await getTokenSilently();
-      const headers = { Authorization: `Bearer ${token}` };
       const LinkData = await axios.post(
         `${process.env.REACT_APP_ENDPOINT}/api/files/download`,
-        { filePath },
-        { headers }
+        { filePath }
       );
       const { data } = LinkData;
-      setModifiedData(prevState => {
+      setModifiedData((prevState) => {
         let newData = [...prevState];
-        return newData.map(d => {
+        return newData.map((d) => {
           let rec = { ...d };
           if (d.path_display === file.path_display) {
             rec.loading = false;
@@ -160,9 +162,9 @@ const FolderPage = props => {
       });
     } catch (err) {
       console.error(err);
-      setModifiedData(prevState => {
+      setModifiedData((prevState) => {
         let newData = [...prevState];
-        return newData.map(d => {
+        return newData.map((d) => {
           let rec = { ...d };
           if (d.path_display === file.path_display) {
             let rec = { ...d };
