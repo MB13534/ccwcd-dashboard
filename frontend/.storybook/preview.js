@@ -1,6 +1,6 @@
 import React from "react";
 import { addDecorator } from "@storybook/react";
-import { Box, Paper, MuiThemeProvider } from "@material-ui/core";
+import { Box, MuiThemeProvider } from "@material-ui/core";
 import theme from "../src/theme";
 
 addDecorator((storyFn) => (

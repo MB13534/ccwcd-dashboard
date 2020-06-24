@@ -3,7 +3,10 @@ const {
   checkAccessToken,
   checkPermission,
 } = require("../../middleware/auth.js");
-const { ListStructureTypes } = require("../../models");
+const {
+  ListStructureTypes,
+  ListRechargeStructureTypes,
+} = require("../../models");
 
 // Create Express Router
 const router = express.Router();
@@ -18,6 +21,22 @@ router.get(
   checkPermission(["read:database-management"]),
   (req, res, next) => {
     ListStructureTypes.findAll()
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/structure-types/recharge
+// Route for returning all recharge structure types
+router.get(
+  "/recharge",
+  checkPermission(["read:database-management"]),
+  (req, res, next) => {
+    ListRechargeStructureTypes.findAll()
       .then((data) => {
         res.json(data);
       })

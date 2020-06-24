@@ -46,6 +46,7 @@ const Structures = (props) => {
   const classes = useStyles();
   const [Data, isLoading, setData] = useFetchData("structures", []);
   const [StructureTypes] = useFetchData("structure-types", []);
+  const [RechargeStructureTypes] = useFetchData("structure-types/recharge", []);
 
   const formattedStructureTypes = useMemo(() => {
     let converted = {};
@@ -56,6 +57,16 @@ const Structures = (props) => {
     }
     return converted;
   }, [StructureTypes]);
+
+  const formattedRechargeStructureTypes = useMemo(() => {
+    let converted = {};
+    if (RechargeStructureTypes.length > 0) {
+      RechargeStructureTypes.forEach((d) => {
+        converted[d.rech_structure_type_ndx] = d.rech_structure_type_desc;
+      });
+    }
+    return converted;
+  }, [RechargeStructureTypes]);
 
   const Columns = [
     {
@@ -74,7 +85,7 @@ const Structures = (props) => {
     {
       title: "Recharge Structure Type",
       field: "rech_structure_type_ndx",
-      lookup: formattedStructureTypes,
+      lookup: formattedRechargeStructureTypes,
       cellStyle: { minWidth: 200 },
     },
     {
