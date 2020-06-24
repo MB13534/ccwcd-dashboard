@@ -38,7 +38,6 @@ function formatSunburstData(data) {
       }),
     };
 
-    console.log(formattedData);
     return formattedData;
   }
   return [];

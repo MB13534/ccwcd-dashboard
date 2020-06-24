@@ -120,7 +120,6 @@ const FolderPage = (props) => {
   const classes = useStyles();
   const { folderPath } = useParams();
   const { user } = useAuth0();
-  console.log(user);
   const [Data, isLoading] = useFetchData(
     `files/folders/${user ? "private" : "public"}/${folderPath}`,
     [],
