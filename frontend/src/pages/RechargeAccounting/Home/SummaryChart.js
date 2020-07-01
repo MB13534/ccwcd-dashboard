@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@material-ui/core";
+import { Box, Typography, useTheme, CircularProgress } from "@material-ui/core";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -15,7 +15,10 @@ import useFetchData from "../../../hooks/useFetchData";
 
 const SummaryChart = (props) => {
   const theme = useTheme();
-  const [ChartData] = useFetchData("recharge-accounting/summary/monthly", []);
+  const [ChartData, isLoading] = useFetchData(
+    "recharge-accounting/summary/monthly",
+    []
+  );
 
   return (
     <Box
@@ -30,6 +33,18 @@ const SummaryChart = (props) => {
       <Typography variant="h6" gutterBottom>
         Lagged and Unlagged Recharge Summary
       </Typography>
+
+      {ChartData.length === 0 && isLoading && (
+        <Box
+          display="flex"
+          height="100%"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <CircularProgress color="secondary" />
+        </Box>
+      )}
+
       {ChartData.length > 0 && (
         <ResponsiveContainer>
           <ComposedChart
