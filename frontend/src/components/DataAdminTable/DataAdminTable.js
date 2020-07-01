@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * This component is used has a shortcut for creating a data management
+ * table using the Material Table library.
+ * For more information on the Material Table library, please visit
+ * https://material-table.com/#/
+ */
 const DataAdminTable = ({
   title,
   data,
@@ -191,21 +197,68 @@ const DataAdminTable = ({
 };
 
 DataAdminTable.propTypes = {
-  data: PropTypes.array.isRequired,
+  /**
+   * Data to display in the table.
+   * An array of objects
+   */
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  /**
+   * An array of objects representing the column
+   * configuration for the table
+   * [{ title: "Structure Name", field: "structure_name" }]
+   */
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       field: PropTypes.string.isRequired,
     })
   ),
+  /**
+   * Custom component overrides for the Material Table
+   * Find more info at https://material-table.com/#/docs/features/component-overriding
+   */
   components: PropTypes.object,
+  /**
+   * Root endpoint for the API routes related to the table
+   * i.e. "structures"
+   */
   endpoint: PropTypes.string,
-  loading: PropTypes.bool,
+  /**
+   * Name of the table field that contains the key index values
+   * for the table.
+   * i.e. "structure_ndx"
+   */
   ndxField: PropTypes.string,
-  pageSize: PropTypes.number,
-  pageSizeOptions: PropTypes.array,
+  /**
+   * Loading state for the table
+   */
+  loading: PropTypes.bool,
+  /**
+   * Title to be displayed above the table
+   */
   title: PropTypes.string,
+  /**
+   * Function that will run whenever a table row is
+   * added or modified
+   */
   updateHandler: PropTypes.func,
+  /**
+   * Configuration options for the material table
+   * All options can be found at https://material-table.com/#/docs/all-props
+   */
+  options: PropTypes.object,
+  /**
+   * An array of action configurations (i.e. add, edit) for
+   * the material table
+   * More info can be found at https://material-table.com/#/docs/features/actions
+   */
+  actions: PropTypes.array,
+  /**
+   * Function that runs whenever a table row is added or modified
+   * Handler used to tell the parent component that data should
+   * be refreshed
+   */
+  handleRefresh: PropTypes.func,
 };
 
 export default DataAdminTable;
