@@ -155,6 +155,18 @@ db.RCH_HomeChart = require("./RechargeAccounting/HomeChart")(
   sequelize,
   Sequelize
 );
+db.RCH_ReviewImports = require("./RechargeAccounting/ReviewImportsCrosstab")(
+  sequelize,
+  Sequelize
+);
+db.RCH_ListSlicesQAQCFinal = require("./RechargeAccounting/ListSlicesQAQCFinal")(
+  sequelize,
+  Sequelize
+);
+db.RCH_RechargeSplitsDefault = require("./RechargeAccounting/RechargeSplitsDefault")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Data Management Models

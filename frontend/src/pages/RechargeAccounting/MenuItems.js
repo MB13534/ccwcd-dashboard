@@ -20,6 +20,6 @@ export const MenuItems = [
     id: 5,
     title: "Recharge Data",
     path: "/recharge-accounting/data",
-    exact: true,
+    exact: false,
   },
 ];

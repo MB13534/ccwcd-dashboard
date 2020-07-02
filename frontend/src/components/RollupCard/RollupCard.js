@@ -63,6 +63,25 @@ LinkChip.propTypes = {
   state: PropTypes.string.isRequired,
 };
 
+const ActionChip = ({ state, title, onClick }) => {
+  const classes = useStyles({ state });
+  return (
+    <Chip
+      label={title}
+      variant="outlined"
+      color={state === "default" ? "primary" : "default"}
+      className={classes.linkChip}
+      onClick={onClick}
+    />
+  );
+};
+
+ActionChip.propTypes = {
+  title: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  state: PropTypes.string.isRequired,
+};
+
 const CardIllustration = ({ illustration }) => {
   const classes = useStyles();
   return (
@@ -78,6 +97,7 @@ const RollupCard = ({
   state = "default",
   loading = false,
   links = [],
+  actions = [],
   illustration,
   ...other
 }) => {
@@ -112,6 +132,9 @@ const RollupCard = ({
       {links.map(({ title, path }) => (
         <LinkChip key={title} title={title} link={path} state={state} />
       ))}
+      {actions.map(({ title, onClick }) => (
+        <ActionChip key={title} title={title} onClick={onClick} state={state} />
+      ))}
     </Paper>
   );
 };
@@ -135,12 +158,25 @@ RollupCard.propTypes = {
    */
   loading: PropTypes.bool,
   /**
-   * Action links for therollup card
+   * Navigation links for the rollup card. A LinkChip
+   * component will be rendered for each link.
    */
   links: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
+    })
+  ),
+  /**
+   * Actions for the rollup card. An ActionChip
+   * component will be rendered for each action
+   * and the provided onClick method will
+   * run when the associated chip is clicked
+   */
+  actions: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
     })
   ),
   /**

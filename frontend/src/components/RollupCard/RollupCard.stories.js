@@ -1,4 +1,5 @@
 import React from "react";
+import { action } from "@storybook/addon-actions";
 import { withKnobs, text, select, object } from "@storybook/addon-knobs/react";
 import RollupCard from "./RollupCard";
 import { BrowserRouter } from "react-router-dom";
@@ -33,6 +34,13 @@ const links = [
   { title: "Manage Water Slices", path: "/recharge-accounting/water-slices" },
 ];
 
+const actions = [
+  {
+    title: "Preview Water Slices",
+    onClick: action("Preview Water Slices click"),
+  },
+];
+
 export const Default = () => (
   <React.Fragment>
     <CssBaseline />
@@ -42,6 +50,21 @@ export const Default = () => (
         message="Some filler text about accounting"
         state="default"
         links={links}
+        style={{ width: 600 }}
+      />
+    </BrowserRouter>
+  </React.Fragment>
+);
+
+export const Actions = () => (
+  <React.Fragment>
+    <CssBaseline />
+    <BrowserRouter>
+      <RollupCard
+        title="Accounting Rollup"
+        message="Some filler text about accounting"
+        state="default"
+        actions={object("actions", actions)}
         style={{ width: 600 }}
       />
     </BrowserRouter>
@@ -117,6 +140,7 @@ export const Playground = () => (
         message={text("message", "Some filler text about accounting")}
         state={select("state", stateOptions, "default")}
         links={object("links", links)}
+        actions={object("actions", actions)}
         style={{ width: 600 }}
       />
     </BrowserRouter>

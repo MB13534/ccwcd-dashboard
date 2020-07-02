@@ -1,15 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    justifyContent: (props) => props.justifyContent,
-    alignItems: (props) => props.alignItems,
-    flexWrap: (props) => props.flexWrap,
-  },
-}));
+import { Box } from "@material-ui/core";
 
 /**
  * Component used to display elements in a row using flexbox.
@@ -24,8 +15,17 @@ const Flex = ({
   flexWrap = "nowrap",
   ...other
 }) => {
-  const classes = useStyles({ alignItems, justifyContent, flexWrap });
-  return <div className={classes.root}>{children}</div>;
+  return (
+    <Box
+      display="flex"
+      justifyContent={justifyContent}
+      alignItems={alignItems}
+      flexWrap={flexWrap}
+      {...other}
+    >
+      {children}
+    </Box>
+  );
 };
 
 Flex.propTypes = {

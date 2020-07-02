@@ -1,6 +1,10 @@
 import React from "react";
 import PrivateRouteWithRoles from "../../components/PrivateRouteWithRoles";
 import { Switch, useRouteMatch } from "react-router-dom";
+import RechargeData from "./RechargeData";
+import RechargeDataImport from "./RechargeDataProcessing/RechargeDataImport";
+import RechargeDataQAQC from "./RechargeDataProcessing/RechargeDataQAQC";
+import RechargeDataLag from "./RechargeDataProcessing/RechargeDataLag";
 
 const Home = React.lazy(() => import("./Home"));
 const WaterSlices = React.lazy(() => import("./WaterSlices"));
@@ -36,6 +40,30 @@ const RechargeAccounting = (props) => {
         roles={AdminRoles}
         component={WaterSlices}
       /> */}
+      <PrivateRouteWithRoles
+        path={`${url}/data`}
+        exact
+        roles={AdminRoles}
+        component={RechargeData}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/data/process/import`}
+        exact
+        roles={AdminRoles}
+        component={RechargeDataImport}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/data/process/qaqc`}
+        exact
+        roles={AdminRoles}
+        component={RechargeDataQAQC}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/data/process/lag`}
+        exact
+        roles={AdminRoles}
+        component={RechargeDataLag}
+      />
     </Switch>
   );
 };
