@@ -2,18 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button, Box, Avatar, Paper } from "@material-ui/core";
 import ProcessingLayout from "./ProcessingLayout";
-import UrfIcon from "@material-ui/icons/Timeline";
-import SplitsIcon from "@material-ui/icons/CallSplit";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import { Flex } from "../../../components/Flex";
-import illustration from "../../../images/undraw_personal_settings_kihd.svg";
-import useFetchData from "../../../hooks/useFetchData";
-import MaterialTable from "material-table";
-import axios from "axios";
-import { useAuth0 } from "../../../hooks/auth";
-import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import FormSnackbar from "../../../components/FormSnackbar";
-import { useState } from "react";
+
 import { Link } from "react-router-dom";
 import { Select } from "@lrewater/lre-react";
 
@@ -45,19 +34,6 @@ const useStyles = makeStyles((theme) => ({
 
 const RechargeDataLag = (props) => {
   const classes = useStyles();
-  const { getTokenSilently } = useAuth0();
-  const {
-    setWaitingState,
-    formSubmitting,
-    snackbarOpen,
-    snackbarError,
-    handleSnackbarClose,
-  } = useFormSubmitStatus();
-  const [refreshSwitch, setRefreshSwitch] = useState(false);
-  const [
-    ReviewImportsData,
-    isLoading,
-  ] = useFetchData("recharge-accounting/imports/qaqc", [refreshSwitch]);
 
   return (
     <ProcessingLayout activeStep={2}>
@@ -124,13 +100,6 @@ const RechargeDataLag = (props) => {
           </Button>
         </Box>
       </Paper>
-      <FormSnackbar
-        open={snackbarOpen}
-        error={snackbarError}
-        handleClose={handleSnackbarClose}
-        successMessage="Data successfully imported."
-        errorMessage="Error: Data could not be imported."
-      />
     </ProcessingLayout>
   );
 };
