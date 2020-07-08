@@ -8,8 +8,7 @@ import { MenuItems } from "../MenuItems";
 import ItemSummaryDrawer from "../../../components/ItemSummaryDrawer";
 
 import { useParams, useHistory, Link } from "react-router-dom";
-import { goTo, MonthsDropdown } from "../../../util";
-import { Select } from "@lrewater/lre-react";
+import { goTo } from "../../../util";
 import SplitsAdminTable from "./SplitsAdminTable";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,30 +45,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WaterSlices = (props) => {
+const DefaultSplits = (props) => {
   const classes = useStyles();
   let history = useHistory();
   let { id } = useParams();
-  const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
-  const [activeProject, setActiveProject] = useState({
-    recharge_project_ndx: 1,
-  });
-  const [activeYear, setActiveYear] = useState(new Date().getFullYear());
+  const [activeProject, setActiveProject] = useState(id);
   const [Projects] = useFetchData("recharge-projects", []);
   const [
     SplitsData,
     isSplitsDataLoading,
     setSplitsData,
   ] = useFetchData(
-    `recharge-accounting/splits/project/${activeProject.recharge_project_ndx}/${activeYear}/${activeMonth}`,
-    [activeProject, activeYear, activeMonth]
+    `recharge-accounting/splits/default/project/${activeProject.recharge_project_ndx}`,
+    [activeProject]
   );
   const SubMenuItems = useMemo(() => {
     return [
       {
         id: 1,
         title: "Recharge Splits",
-        path: `/recharge-accounting/splits/${id}`,
+        path: `/recharge-accounting/splits/${id}/default`,
         exact: true,
       },
       {
@@ -91,7 +86,7 @@ const WaterSlices = (props) => {
 
   const handleProjectChange = (event) => {
     const { value } = event.target;
-    goTo(history, `recharge-accounting/splits/${value}`);
+    goTo(history, `recharge-accounting/splits/${value}/default`);
   };
 
   return (
@@ -140,56 +135,24 @@ const WaterSlices = (props) => {
                   justifyContent="space-between"
                 >
                   <Typography variant="h6" color="primary" gutterBottom>
-                    Manage Monthly Recharge Splits
+                    Manage Default Recharge Splits
                   </Typography>
                   <Button
                     variant="outlined"
                     color="primary"
                     size="small"
                     component={Link}
-                    to={`/recharge-accounting/splits/${id}/default`}
+                    to={`/recharge-accounting/splits/${id}`}
                   >
-                    Manage Default Splits
+                    Manage Monthly Splits
                   </Button>
                 </Box>
-                <Box ml={1} mr={1}>
-                  <Select
-                    name="month"
-                    label="Month"
-                    value={activeMonth}
-                    data={MonthsDropdown}
-                    onChange={(event) => setActiveMonth(event.target.value)}
-                    valueField="ndx"
-                    displayField="display"
-                    variant="outlined"
-                    size="small"
-                  />
-                  <Select
-                    name="year"
-                    label="Calendar Year"
-                    value={activeYear}
-                    data={[
-                      {
-                        ndx: new Date().getFullYear(),
-                        display: new Date().getFullYear(),
-                      },
-                      {
-                        ndx: new Date().getFullYear() - 1,
-                        display: new Date().getFullYear() - 1,
-                      },
-                    ]}
-                    onChange={(event) => setActiveYear(event.target.value)}
-                    valueField="ndx"
-                    displayField="display"
-                    variant="outlined"
-                    size="small"
-                  />
-                </Box>
+
                 <Box m={2}>
                   <SplitsAdminTable
                     loading={isSplitsDataLoading}
                     data={SplitsData}
-                    splitsType="monthly"
+                    splitsType="default"
                     columns={[
                       {
                         title: "Structure",
@@ -221,4 +184,4 @@ const WaterSlices = (props) => {
   );
 };
 
-export default WaterSlices;
+export default DefaultSplits;

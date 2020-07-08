@@ -128,7 +128,7 @@ ItemSummaryDrawer.propTypes = {
   }),
   items: PropTypes.array,
   onChange: PropTypes.func.isRequired,
-  previousPath: PropTypes.string.isRequired,
+  previousPath: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 

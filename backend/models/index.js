@@ -179,7 +179,19 @@ db.RCH_RechargeSplitsDefault = require("./RechargeAccounting/RechargeSplitsDefau
   sequelize,
   Sequelize
 );
+db.RCH_RechargeSplitsWithSliceDesc = require("./RechargeAccounting/RechargeSplitsWithSliceDesc")(
+  sequelize,
+  Sequelize
+);
+db.RCH_RechargeSplitsDefaultWithSliceDesc = require("./RechargeAccounting/RechargeSplitsDefaultWithSliceDesc")(
+  sequelize,
+  Sequelize
+);
 db.RCH_UrfImportSliceLanding = require("./RechargeAccounting/UrfImportSliceLanding")(
+  sequelize,
+  Sequelize
+);
+db.RCH_SelectedLaggingPeriod = require("./RechargeAccounting/SelectedLaggingPeriod")(
   sequelize,
   Sequelize
 );

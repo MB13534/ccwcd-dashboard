@@ -261,6 +261,21 @@ export const Months = {
   "12": "December",
 };
 
+export const MonthsDropdown = [
+  { ndx: 1, display: "January" },
+  { ndx: 2, display: "February" },
+  { ndx: 3, display: "March" },
+  { ndx: 4, display: "April" },
+  { ndx: 5, display: "May" },
+  { ndx: 6, display: "June" },
+  { ndx: 7, display: "July" },
+  { ndx: 8, display: "August" },
+  { ndx: 9, display: "September" },
+  { ndx: 10, display: "October" },
+  { ndx: 11, display: "November" },
+  { ndx: 12, display: "December" },
+];
+
 /**
  * Utility function used to implement
  * copy to clipboard functionality

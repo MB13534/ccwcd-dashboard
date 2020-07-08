@@ -18,6 +18,9 @@ const {
   RCH_ListSlicesQAQCTimeStepsRollup,
   RCH_RechargeSplits,
   RCH_UrfImportSliceLanding,
+  RCH_RechargeSplitsWithSliceDesc,
+  RCH_RechargeSplitsDefaultWithSliceDesc,
+  RCH_SelectedLaggingPeriod,
 } = require("../../models");
 const db = require("../../models");
 
@@ -124,6 +127,25 @@ router.get("/splits/default/:id", (req, res, next) => {
 });
 
 /**
+ * GET /api/recharge-accounting/splits/default/project/:project
+ * Route for returning default recharge accounting splits for a
+ * single recharge project
+ */
+router.get("/splits/default/project/:id", (req, res, next) => {
+  RCH_RechargeSplitsDefaultWithSliceDesc.findAll({
+    where: {
+      recharge_project_ndx: req.params.id,
+    },
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+/**
  * PUT /api/recharge-accounting/splits/default/:id
  * Route for updating recharge accounting default splits for a
  * single recharge slice
@@ -198,6 +220,27 @@ router.get("/splits/:id/:year/:month", (req, res, next) => {
 });
 
 /**
+ * GET /api/recharge-accounting/splits/project/:project/:year/:month
+ * Route for returning recharge accounting splits for a
+ * single recharge project for a specific year and month
+ */
+router.get("/splits/project/:id/:year/:month", (req, res, next) => {
+  RCH_RechargeSplitsWithSliceDesc.findAll({
+    where: {
+      recharge_project_ndx: req.params.id,
+      r_year: req.params.year,
+      r_month: req.params.month,
+    },
+  })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+/**
  * PUT /api/recharge-accounting/splits/:id
  * Route for updating recharge accounting splits for a
  * single recharge slice
@@ -232,6 +275,28 @@ router.post("/urfs/import", (req, res, next) => {
   })
     .then(() => {
       return RCH_UrfImportSliceLanding.create(req.body);
+    })
+
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+/**
+ * POST /api/recharge-accounting/lag
+ * Route for writing the year and month to lag data for
+ * There is a trigger function on the landing table that
+ * kicks off the lagging process
+ */
+router.post("/lag", (req, res, next) => {
+  RCH_SelectedLaggingPeriod.destroy({
+    truncate: true,
+  })
+    .then(() => {
+      return RCH_SelectedLaggingPeriod.create(req.body);
     })
 
     .then((data) => {

@@ -202,7 +202,7 @@ TopNav.propTypes = {
   /**
    * The site title to be displayed in the navigation bar.
    */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /**
    * An array of navigation menu items
    */

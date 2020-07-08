@@ -1,8 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, REAL } = DataTypes;
-  const RechargeSplits = sequelize.define(
-    "data_recharge_splits",
+  const { INTEGER, REAL, TEXT } = DataTypes;
+  const RechargeSplitsWithSliceDesc = sequelize.define(
+    "rch_splits_with_slice_desc",
     {
+      recharge_project_ndx: {
+        type: INTEGER,
+        primaryKey: true,
+      },
+      recharge_project_desc: {
+        type: TEXT,
+      },
+      structure_desc: {
+        type: TEXT,
+      },
+      recharge_decree_desc: {
+        type: TEXT,
+      },
       recharge_slice_ndx: {
         type: INTEGER,
         primaryKey: true,
@@ -30,9 +43,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      schema: "data",
+      schema: "web",
       freezeTableName: true,
     }
   );
-  return RechargeSplits;
+  return RechargeSplitsWithSliceDesc;
 };
