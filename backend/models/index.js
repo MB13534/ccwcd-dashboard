@@ -163,7 +163,23 @@ db.RCH_ListSlicesQAQCFinal = require("./RechargeAccounting/ListSlicesQAQCFinal")
   sequelize,
   Sequelize
 );
+db.RCH_ListSlicesQAQCTimeSteps = require("./RechargeAccounting/ListSlicesQAQCTimeSteps")(
+  sequelize,
+  Sequelize
+);
+db.RCH_ListSlicesQAQCTimeStepsRollup = require("./RechargeAccounting/ListSlicesQAQCTimeStepsRollup")(
+  sequelize,
+  Sequelize
+);
+db.RCH_RechargeSplits = require("./RechargeAccounting/RechargeSplits")(
+  sequelize,
+  Sequelize
+);
 db.RCH_RechargeSplitsDefault = require("./RechargeAccounting/RechargeSplitsDefault")(
+  sequelize,
+  Sequelize
+);
+db.RCH_UrfImportSliceLanding = require("./RechargeAccounting/UrfImportSliceLanding")(
   sequelize,
   Sequelize
 );

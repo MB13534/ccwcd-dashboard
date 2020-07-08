@@ -246,6 +246,21 @@ export const EXTENDED_DISCRETE_COLOR_RANGE = [
   "#B3AD9E",
 ];
 
+export const Months = {
+  "1": "January",
+  "2": "February",
+  "3": "March",
+  "4": "April",
+  "5": "May",
+  "6": "June",
+  "7": "July",
+  "8": "August",
+  "9": "September",
+  "10": "October",
+  "11": "November",
+  "12": "December",
+};
+
 /**
  * Utility function used to implement
  * copy to clipboard functionality

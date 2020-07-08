@@ -1,10 +1,16 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Button, Box, Avatar, Paper } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Box,
+  Avatar,
+  Paper,
+  Chip,
+} from "@material-ui/core";
 import ProcessingLayout from "./ProcessingLayout";
 import UrfIcon from "@material-ui/icons/Timeline";
 import SplitsIcon from "@material-ui/icons/CallSplit";
-import RefreshIcon from "@material-ui/icons/Refresh";
 import useFetchData from "../../../hooks/useFetchData";
 import MaterialTable from "material-table";
 import { useState } from "react";
@@ -13,9 +19,11 @@ import { Flex } from "../../../components/Flex";
 import SuccessIllustration from "../../../images/undraw_celebration_0jvk.svg";
 import SplitsDialog from "./SplitsDialog";
 import useVisibility from "../../../hooks/useVisibility";
+import { Months } from "../../../util";
+import { useEffect } from "react";
+import UrfDialog from "./UrfDialog";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
   paper: {
     padding: theme.spacing(2),
     marginTop: theme.spacing(2),
@@ -44,18 +52,47 @@ const useStyles = makeStyles((theme) => ({
     width: 125,
     margin: theme.spacing(1, 1, 1, 0),
   },
+  chip: {
+    margin: theme.spacing(0, 1, 1, 0),
+    cursor: "pointer",
+  },
 }));
 
 const RechargeDataQAQC = (props) => {
   const classes = useStyles();
   const [splitsOpen, setSplitsOpen] = useVisibility(false);
-  const [activeRechargeSlice, setActiveRechargeSlice] = useState(458);
+  const [urfOpen, setUrfOpen] = useVisibility(false);
+  const [activeRechargeSlice, setActiveRechargeSlice] = useState({});
   const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [activeYear, setActiveYear] = useState(2020);
+  const [activeMonth, setActiveMonth] = useState(4);
+  const [QaqcRollupData] = useFetchData(
+    "recharge-accounting/imports/qaqc/summary",
+    []
+  );
   const [
     ReviewImportsData,
     isLoading,
-  ] = useFetchData("recharge-accounting/imports/qaqc", [refreshSwitch]);
-  // const [ReviewImportsData, isLoading] = [[], false];
+  ] = useFetchData(
+    `recharge-accounting/imports/qaqc/${activeYear}/${activeMonth}`,
+    [refreshSwitch, activeYear, activeMonth]
+  );
+
+  /**
+   * Set the initial active month and year after the
+   * QAQC rollup data has loaded
+   */
+  useEffect(() => {
+    if (QaqcRollupData.length > 0) {
+      setActiveYear(QaqcRollupData[0].r_year);
+      setActiveMonth(QaqcRollupData[0].r_month);
+    }
+  }, [QaqcRollupData]);
+
+  const handleTimeStepChange = (year, month) => {
+    setActiveYear(year);
+    setActiveMonth(month);
+  };
 
   return (
     <ProcessingLayout activeStep={1}>
@@ -65,24 +102,39 @@ const RechargeDataQAQC = (props) => {
           <Typography variant="h6">Recharge Data QAQC</Typography>
         </Box>
 
-        <Box p={2} mt={4} mb={4} bgcolor="rgb(215, 240, 217)" borderRadius={4}>
-          <Typography variant="body1">
-            If there are records in the table below, it means that there are
-            currently issues for a collection of water slices. Please review any
-            records present and resolve any issues before continuing on to the
-            next step and lagging the data. After resolving any issues, please
-            click the Refresh Data button.
-          </Typography>
-          <Box mt={2}>
-            <Button
-              variant="outlined"
-              startIcon={<RefreshIcon />}
-              onClick={() => setRefreshSwitch((state) => !state)}
-            >
-              Refresh Data
-            </Button>
+        {QaqcRollupData.length > 0 && (
+          <Box
+            p={2}
+            mt={4}
+            mb={4}
+            bgcolor="rgb(215, 240, 217)"
+            borderRadius={4}
+          >
+            <Typography variant="body1">
+              There were issues found with recharge slices for the following
+              month and year combinations. To resolve issues, select a month and
+              year combination below and then resolve any URF or Splits issues
+              in the table below.
+            </Typography>
+            <Box mt={2}>
+              {QaqcRollupData.map((issue, index) => (
+                <Chip
+                  key={issue.r_month + issue.r_year}
+                  label={`${Months[issue.r_month]} ${issue.r_year}`}
+                  color={
+                    activeMonth === issue.r_month && activeYear === issue.r_year
+                      ? "secondary"
+                      : "default"
+                  }
+                  className={classes.chip}
+                  onClick={() =>
+                    handleTimeStepChange(issue.r_year, issue.r_month)
+                  }
+                />
+              ))}
+            </Box>
           </Box>
-        </Box>
+        )}
 
         {ReviewImportsData.length === 0 && (
           <Flex
@@ -116,7 +168,7 @@ const RechargeDataQAQC = (props) => {
               },
               { title: "Decree", field: "recharge_decree_desc" },
               {
-                title: "URF Issue",
+                title: "URF Missing?",
                 field: "urf_chk",
                 render: (rowData) => {
                   if (rowData.urf_chk !== null && rowData.urf_chk !== "") {
@@ -124,11 +176,10 @@ const RechargeDataQAQC = (props) => {
                       <Button
                         size="small"
                         variant="contained"
-                        // color="secondary"
-                        // onClick={() => {
-                        //   setActiveRechargeSlice(rowData.recharge_slice_ndx);
-                        //   setSplitsOpen(true);
-                        // }}
+                        onClick={() => {
+                          setActiveRechargeSlice(rowData);
+                          setUrfOpen(true);
+                        }}
                         target="_blank"
                         rel="noreferrer"
                         startIcon={<UrfIcon />}
@@ -142,17 +193,19 @@ const RechargeDataQAQC = (props) => {
                 },
               },
               {
-                title: "Splits Issue",
-                field: "spt_chk",
+                title: "Monthly Splits Issue",
+                field: "spt_tot_chk",
                 render: (rowData) => {
-                  if (rowData.spt_chk !== null && rowData.spt_chk !== "") {
+                  if (
+                    rowData.spt_tot_chk !== null &&
+                    rowData.spt_tot_chk !== ""
+                  ) {
                     return (
                       <Button
                         size="small"
                         variant="contained"
-                        // color="secondary"
                         onClick={() => {
-                          setActiveRechargeSlice(rowData.recharge_slice_ndx);
+                          setActiveRechargeSlice(rowData);
                           setSplitsOpen(true);
                         }}
                         target="_blank"
@@ -204,6 +257,13 @@ const RechargeDataQAQC = (props) => {
       <SplitsDialog
         open={splitsOpen}
         handleClose={() => setSplitsOpen(false)}
+        handleRefresh={() => setRefreshSwitch((state) => !state)}
+        rechargeSlice={activeRechargeSlice}
+      />
+      <UrfDialog
+        open={urfOpen}
+        handleClose={() => setUrfOpen(false)}
+        handleRefresh={() => setRefreshSwitch((state) => !state)}
         rechargeSlice={activeRechargeSlice}
       />
     </ProcessingLayout>
