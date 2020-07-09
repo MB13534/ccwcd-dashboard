@@ -188,7 +188,7 @@ const TopNav = ({ title, menuItems, ...other }) => {
                 key={item.id}
                 component={RouterLink}
                 to={item.path}
-                className={handleActive(item.path, item.exact)}
+                className={handleActive(item.activePath, item.exact)}
               >
                 {item.title}
               </Link>

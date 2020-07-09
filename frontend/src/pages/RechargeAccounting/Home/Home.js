@@ -34,19 +34,19 @@ const parseFlagsData = (data) => {
     if (data[0].urfs || data[0].splits || data[0].slices) {
       let flagsArr = [
         {
+          title: "Fix Monthly Split Issues",
+          value: data[0].splits,
+          path: "/recharge-accounting/qaqc",
+        },
+        {
+          title: "Fix Default Split Issues",
+          value: data[0].def_splits,
+          path: "/recharge-accounting/splits/1/default",
+        },
+        {
           title: "Fix URF Issues",
           value: data[0].urfs,
-          path: "/recharge-accounting/water-slices/urfs",
-        },
-        {
-          title: "Fix Split Issues",
-          value: data[0].splits,
-          path: "/recharge-accounting/water-slices/splits",
-        },
-        {
-          title: "Fix Slice Issues",
-          value: data[0].slices,
-          path: "/recharge-accounting/water-slices",
+          path: "/recharge-accounting/qaqc",
         },
       ];
 

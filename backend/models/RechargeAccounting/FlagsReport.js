@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { BOOLEAN, TEXT } = DataTypes;
   const FlagsReport = sequelize.define(
-    "rch_flags_report",
+    "rch_home_flags_report",
     {
       msg: {
         type: TEXT,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       splits: {
         type: BOOLEAN,
       },
-      slices: {
+      def_splits: {
         type: BOOLEAN,
       },
     },
