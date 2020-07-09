@@ -199,6 +199,10 @@ db.RCH_UrfsData = require("./RechargeAccounting/UrfsData")(
   sequelize,
   Sequelize
 );
+db.RCH_LaggingStatus = require("./RechargeAccounting/LaggingStatus")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Data Management Models

@@ -7,6 +7,7 @@ import RechargeDataQAQC from "./RechargeDataProcessing/RechargeDataQAQC";
 import RechargeDataLag from "./RechargeDataProcessing/RechargeDataLag";
 import DefaultSplits from "./Splits/DefaultSplits";
 import URFs from "./URFs";
+import QAQC from "./QAQC";
 
 const Home = React.lazy(() => import("./Home"));
 const WaterSlices = React.lazy(() => import("./WaterSlices"));
@@ -48,12 +49,12 @@ const RechargeAccounting = (props) => {
         roles={AdminRoles}
         component={URFs}
       />
-      {/* <PrivateRouteWithRoles
-        path={`${url}/urfs/:id`}
+      <PrivateRouteWithRoles
+        path={`${url}/qaqc`}
         exact
         roles={AdminRoles}
-        component={WaterSlices}
-      /> */}
+        component={QAQC}
+      />
       <PrivateRouteWithRoles
         path={`${url}/data`}
         exact

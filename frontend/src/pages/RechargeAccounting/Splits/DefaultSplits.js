@@ -10,6 +10,8 @@ import ItemSummaryDrawer from "../../../components/ItemSummaryDrawer";
 import { useParams, useHistory, Link } from "react-router-dom";
 import { goTo } from "../../../util";
 import SplitsAdminTable from "./SplitsAdminTable";
+import DefaultSplitsDialog from "./DefaultSplitsDialog";
+import useVisibility from "../../../hooks/useVisibility";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -49,6 +51,8 @@ const DefaultSplits = (props) => {
   const classes = useStyles();
   let history = useHistory();
   let { id } = useParams();
+  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [splitsOpen, setSplitsOpen] = useVisibility(false);
   const [activeProject, setActiveProject] = useState(id);
   const [Projects] = useFetchData("recharge-projects", []);
   const [
@@ -57,7 +61,7 @@ const DefaultSplits = (props) => {
     setSplitsData,
   ] = useFetchData(
     `recharge-accounting/splits/default/project/${activeProject.recharge_project_ndx}`,
-    [activeProject]
+    [activeProject, refreshSwitch]
   );
   const SubMenuItems = useMemo(() => {
     return [
@@ -137,15 +141,26 @@ const DefaultSplits = (props) => {
                   <Typography variant="h6" color="primary" gutterBottom>
                     Manage Default Recharge Splits
                   </Typography>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    component={Link}
-                    to={`/recharge-accounting/splits/${id}`}
-                  >
-                    Manage Monthly Splits
-                  </Button>
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onClick={() => setSplitsOpen(true)}
+                      style={{ marginRight: 8 }}
+                    >
+                      + Add Default Splits
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      component={Link}
+                      to={`/recharge-accounting/splits/${id}`}
+                    >
+                      Manage Monthly Splits
+                    </Button>
+                  </Box>
                 </Box>
 
                 <Box m={2}>
@@ -177,6 +192,12 @@ const DefaultSplits = (props) => {
                 </Box>
               </Box>
             </div>
+            <DefaultSplitsDialog
+              open={splitsOpen}
+              handleClose={() => setSplitsOpen(false)}
+              handleRefresh={() => setRefreshSwitch((state) => !state)}
+              rechargeProject={activeProject.recharge_project_ndx}
+            />
           </Container>
         </div>
       </section>

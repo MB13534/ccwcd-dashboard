@@ -151,7 +151,7 @@ const TopNav = ({ title, menuItems, ...other }) => {
                 <Link
                   key={item.id}
                   onClick={handleClick}
-                  className={handleActive(item.path, item.exact)}
+                  className={handleActive(item.activePath, item.exact)}
                 >
                   <Flex>
                     {item.title}
@@ -170,7 +170,10 @@ const TopNav = ({ title, menuItems, ...other }) => {
                       key={child.title}
                       component={RouterLink}
                       to={child.path}
-                      className={handleActiveChild(child.path, child.exact)}
+                      className={handleActiveChild(
+                        child.activePath,
+                        child.exact
+                      )}
                       onClick={handleClose}
                     >
                       <MenuItem>{child.title}</MenuItem>
@@ -211,6 +214,7 @@ TopNav.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
+      activePath: PropTypes.string.isRequired,
       exact: PropTypes.boolean,
       children: PropTypes.arrayOf(
         PropTypes.shape({

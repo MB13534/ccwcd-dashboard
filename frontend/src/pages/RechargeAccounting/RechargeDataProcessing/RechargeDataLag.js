@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button, Box, Avatar, Paper } from "@material-ui/core";
 import ProcessingLayout from "./ProcessingLayout";
 
 import { Link } from "react-router-dom";
 import { Select } from "@lrewater/lre-react";
+import { MonthsDropdown } from "../../../util";
+import useFetchData from "../../../hooks/useFetchData";
+import FormSnackbar from "../../../components/FormSnackbar";
+import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
+import { useAuth0 } from "../../../hooks/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,8 +40,45 @@ const useStyles = makeStyles((theme) => ({
 
 const RechargeDataLag = (props) => {
   const classes = useStyles();
-  // const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
-  // const [activeYear, setActiveYear] = useState(new Date().getFullYear());
+  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
+  const [activeYear, setActiveYear] = useState(new Date().getFullYear());
+  const [
+    LagStatusData,
+  ] = useFetchData(
+    `recharge-accounting/lag/status/${activeYear}/${activeMonth}`,
+    [activeYear, activeMonth, refreshSwitch]
+  );
+  const { getTokenSilently } = useAuth0();
+  const {
+    setWaitingState,
+    formSubmitting,
+    snackbarOpen,
+    snackbarError,
+    handleSnackbarClose,
+  } = useFormSubmitStatus();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setWaitingState("in progress");
+    try {
+      const token = await getTokenSilently();
+      const headers = { Authorization: `Bearer ${token}` };
+      await axios.post(
+        `${process.env.REACT_APP_ENDPOINT}/api/recharge-accounting/lag`,
+        {
+          sel_year: activeYear,
+          sel_month: activeMonth,
+        },
+        { headers }
+      );
+      setWaitingState("complete", "no error");
+      setRefreshSwitch((state) => !state);
+    } catch (err) {
+      console.error(err);
+      setWaitingState("complete", "error");
+    }
+  };
 
   return (
     <ProcessingLayout activeStep={2}>
@@ -50,57 +93,76 @@ const RechargeDataLag = (props) => {
             Use the form below to select the year and month that you would like
             to lag recharge data for. Please ensure that you have resolved all
             errors in the data in the previous steps before lagging the data.
+            Note: the lagging process can take over a minute to run.
           </Typography>
         </Box>
         <Box mt={2} mb={2}>
-          <form method="post">
-            <Select
-              name="year"
-              data={[{ ndx: 2020, display: "2020" }]}
-              valueField="ndx"
-              displayField="display"
-              label="Year"
-              value={2020}
-              variant="outlined"
-              onChange={() => {}}
-            />
+          <form method="post" onSubmit={handleSubmit}>
             <Select
               name="month"
-              data={[
-                { ndx: 4, display: "April" },
-                { ndx: 5, display: "May" },
-                { ndx: 6, display: "June" },
-                { ndx: 7, display: "July" },
-                { ndx: 8, display: "August" },
-                { ndx: 9, display: "September" },
-                { ndx: 10, display: "October" },
-                { ndx: 11, display: "November" },
-                { ndx: 12, display: "December" },
-                { ndx: 1, display: "January" },
-                { ndx: 2, display: "February" },
-                { ndx: 3, display: "March" },
-              ]}
+              data={MonthsDropdown}
               valueField="ndx"
               displayField="display"
               label="Month"
-              value={7}
+              value={activeMonth}
               variant="outlined"
-              onChange={() => {}}
+              onChange={(event) => setActiveMonth(event.target.value)}
             />
+            <Select
+              name="year"
+              data={[
+                {
+                  ndx: new Date().getFullYear(),
+                  display: new Date().getFullYear(),
+                },
+                {
+                  ndx: new Date().getFullYear() - 1,
+                  display: new Date().getFullYear() - 1,
+                },
+              ]}
+              valueField="ndx"
+              displayField="display"
+              label="Calendar Year"
+              value={activeYear}
+              variant="outlined"
+              onChange={(event) => setActiveYear(event.target.value)}
+            />
+            <Box ml={1} display="inline-block">
+              <Typography variant="body2" color="textSecondary">
+                Last Lagged
+              </Typography>
+              <Typography variant="body1" color="primary" paragraph>
+                {LagStatusData.length > 0 && LagStatusData[0].last_run}
+              </Typography>
+            </Box>
+            <Box mt={2} mb={2}>
+              <Button
+                variant="contained"
+                component={Link}
+                to="/recharge-accounting/data/process/qaqc"
+              >
+                Back
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginLeft: 8 }}
+                disabled={formSubmitting}
+              >
+                Lag Data
+              </Button>
+            </Box>
           </form>
         </Box>
-        <Box mt={2} mb={2}>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/recharge-accounting/data/process/qaqc"
-          >
-            Back
-          </Button>
-          <Button variant="contained" color="primary" style={{ marginLeft: 8 }}>
-            Lag Data
-          </Button>
-        </Box>
+
+        <FormSnackbar
+          open={snackbarOpen}
+          error={snackbarError}
+          handleClose={handleSnackbarClose}
+          successMessage="Data successfully imported."
+          errorMessage="Error: Data could not be imported."
+        />
       </Paper>
     </ProcessingLayout>
   );

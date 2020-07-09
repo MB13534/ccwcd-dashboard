@@ -22,6 +22,7 @@ const {
   RCH_RechargeSplitsDefaultWithSliceDesc,
   RCH_SelectedLaggingPeriod,
   RCH_UrfsData,
+  RCH_LaggingStatus,
 } = require("../../models");
 const db = require("../../models");
 
@@ -318,6 +319,24 @@ router.post("/lag", (req, res, next) => {
       return RCH_SelectedLaggingPeriod.create(req.body);
     })
 
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/recharge-accounting/lag/status/:year/:month
+// Route for returning recharge accounting lagging status
+// for a given year and month
+router.get("/lag/status/:year/:month", (req, res, next) => {
+  RCH_LaggingStatus.findAll({
+    where: {
+      i_year: req.params.year,
+      i_month: req.params.month,
+    },
+  })
     .then((data) => {
       res.json(data);
     })

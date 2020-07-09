@@ -7,6 +7,8 @@ import ChipNav from "../../../components/ChipNav";
 import useFetchData from "../../../hooks/useFetchData";
 import DataAdminTable from "../../../components/DataAdminTable";
 import { MenuItems } from "../MenuItems";
+import { goTo } from "../../../util";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -50,6 +52,7 @@ const RelatedTablesLinks = [
 
 const WaterSlices = (props) => {
   const classes = useStyles();
+  let history = useHistory();
   const [Data, isLoading, setData] = useFetchData("recharge-slices", []);
   const [Projects] = useFetchData("recharge-projects", []);
   const [Structures] = useFetchData("structures", []);
@@ -178,7 +181,10 @@ const WaterSlices = (props) => {
                   icon: "visibility",
                   tooltip: "View Details",
                   onClick: (event, rowData) =>
-                    alert("You saved " + rowData.recharge_slice_ndx),
+                    goTo(
+                      history,
+                      `recharge-accounting/splits/${rowData.recharge_project_ndx}`
+                    ),
                 },
               ]}
             />
