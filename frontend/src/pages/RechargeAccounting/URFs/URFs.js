@@ -7,10 +7,12 @@ import useFetchData from "../../../hooks/useFetchData";
 import { MenuItems } from "../MenuItems";
 import ItemSummaryDrawer from "../../../components/ItemSummaryDrawer";
 
-import { useParams, useHistory, Link } from "react-router-dom";
-import { goTo, MonthsDropdown } from "../../../util";
+import { useParams, useHistory } from "react-router-dom";
+import { goTo } from "../../../util";
 import { Select } from "@lrewater/lre-react";
-import SplitsAdminTable from "./SplitsAdminTable";
+import MaterialTable from "material-table";
+import UrfDialog from "../RechargeDataProcessing/UrfDialog";
+import useVisibility from "../../../hooks/useVisibility";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -46,24 +48,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Splits = (props) => {
+const URFs = (props) => {
   const classes = useStyles();
   let history = useHistory();
   let { id } = useParams();
-  const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
+  const [urfOpen, setUrfOpen] = useVisibility(false);
+  const [activeRechargeSlice, setActiveRechargeSlice] = useState(
+    new Date().getMonth()
+  );
   const [activeProject, setActiveProject] = useState({
     recharge_project_ndx: 1,
   });
-  const [activeYear, setActiveYear] = useState(new Date().getFullYear());
   const [Projects] = useFetchData("recharge-projects", []);
   const [
-    SplitsData,
-    isSplitsDataLoading,
-    setSplitsData,
+    Slices,
   ] = useFetchData(
-    `recharge-accounting/splits/project/${activeProject.recharge_project_ndx}/${activeYear}/${activeMonth}`,
-    [activeProject, activeYear, activeMonth]
+    `recharge-slices/query?projects=${activeProject.recharge_project_ndx}`,
+    [activeProject]
   );
+  const [
+    UrfsData,
+    isUrfsDataLoading,
+  ] = useFetchData(`recharge-accounting/urfs/${activeRechargeSlice}`, [
+    activeRechargeSlice,
+  ]);
   const SubMenuItems = useMemo(() => {
     return [
       {
@@ -86,12 +94,15 @@ const Splits = (props) => {
       setActiveProject(
         Projects.filter((d) => d.recharge_project_ndx === parseInt(id))[0]
       );
+      if (Slices.length > 0) {
+        setActiveRechargeSlice(Slices[0].recharge_slice_ndx);
+      }
     }
-  }, [Projects, id]);
+  }, [Projects, Slices, id]);
 
   const handleProjectChange = (event) => {
     const { value } = event.target;
-    goTo(history, `recharge-accounting/splits/${value}`);
+    goTo(history, `recharge-accounting/urfs/${value}`);
   };
 
   return (
@@ -121,8 +132,7 @@ const Splits = (props) => {
                 }}
               >
                 <Typography variant="body1" paragraph>
-                  Use this page to edit monthly and default splits for recharge
-                  slices.
+                  Use this page to view and import URFs data.
                 </Typography>
                 {/* <Typography variant="body1" color="primary" paragraph>
                   Total Accrued Recharge
@@ -140,79 +150,58 @@ const Splits = (props) => {
                   justifyContent="space-between"
                 >
                   <Typography variant="h6" color="primary" gutterBottom>
-                    Manage Monthly Recharge Splits
+                    View URFs Data
                   </Typography>
                   <Button
                     variant="outlined"
                     color="primary"
                     size="small"
-                    component={Link}
-                    to={`/recharge-accounting/splits/${id}/default`}
+                    onClick={() => setUrfOpen(true)}
                   >
-                    Manage Default Splits
+                    Import URF Data
                   </Button>
                 </Box>
                 <Box ml={1} mr={1}>
                   <Select
-                    name="month"
-                    label="Month"
-                    value={activeMonth}
-                    data={MonthsDropdown}
-                    onChange={(event) => setActiveMonth(event.target.value)}
-                    valueField="ndx"
-                    displayField="display"
-                    variant="outlined"
-                    size="small"
-                  />
-                  <Select
-                    name="year"
-                    label="Calendar Year"
-                    value={activeYear}
-                    data={[
-                      {
-                        ndx: new Date().getFullYear(),
-                        display: new Date().getFullYear(),
-                      },
-                      {
-                        ndx: new Date().getFullYear() - 1,
-                        display: new Date().getFullYear() - 1,
-                      },
-                    ]}
-                    onChange={(event) => setActiveYear(event.target.value)}
-                    valueField="ndx"
-                    displayField="display"
+                    name="recharge_slice"
+                    label="Recharge Slice"
+                    value={activeRechargeSlice}
+                    data={Slices}
+                    onChange={(event) =>
+                      setActiveRechargeSlice(event.target.value)
+                    }
+                    valueField="recharge_slice_ndx"
+                    displayField="recharge_slice_desc"
                     variant="outlined"
                     size="small"
                   />
                 </Box>
                 <Box m={2}>
-                  <SplitsAdminTable
-                    loading={isSplitsDataLoading}
-                    data={SplitsData}
-                    splitsType="monthly"
+                  <MaterialTable
+                    isLoading={isUrfsDataLoading}
+                    data={UrfsData}
                     columns={[
+                      { title: "Timestep", field: "timestep" },
+                      { title: "URF Value", field: "urf_value" },
                       {
-                        title: "Structure",
-                        field: "structure_desc",
-                        editable: "never",
+                        title: "Last Updated",
+                        field: "last_updated",
+                        type: "datetime",
                       },
-                      {
-                        title: "Decree",
-                        field: "recharge_decree_desc",
-                        editable: "never",
-                      },
-                      { title: "GMS", field: "gms" },
-                      { title: "WAS", field: "was" },
-                      { title: "Owner", field: "ownr" },
-                      { title: "Ditch", field: "dtch" },
                     ]}
                     options={{
+                      padding: "dense",
                       showTitle: false,
                     }}
-                    updateHandler={setSplitsData}
                   />
                 </Box>
               </Box>
+              <UrfDialog
+                open={urfOpen}
+                handleClose={() => setUrfOpen(false)}
+                handleRefresh={() => {}}
+                rechargeSlice={activeRechargeSlice}
+              />
             </div>
           </Container>
         </div>
@@ -221,4 +210,4 @@ const Splits = (props) => {
   );
 };
 
-export default Splits;
+export default URFs;

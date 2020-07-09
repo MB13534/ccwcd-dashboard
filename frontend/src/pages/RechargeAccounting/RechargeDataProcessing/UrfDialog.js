@@ -96,10 +96,10 @@ const UrfDialog = ({ open, handleClose, handleRefresh, rechargeSlice }) => {
       maxWidth="sm"
       style={{ height: 600 }}
     >
-      <DialogTitle id="urfs-form-title">Manage Missing URF</DialogTitle>
+      <DialogTitle id="urfs-form-title">Import URF Data</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Use the following form to upload missing URF data. Open up the{" "}
+          Use the following form to import URF data. Open up the{" "}
           <Link
             href="https://docs.google.com/spreadsheets/d/1ltCTUrg0ULpAYMGALMPMQRPJu2nR_RW4BlSbluHSt7A/edit?usp=sharing"
             target="_blank"
@@ -127,7 +127,7 @@ const UrfDialog = ({ open, handleClose, handleRefresh, rechargeSlice }) => {
               disableElevation
               style={{ marginRight: 8 }}
             >
-              Import Missing URF
+              Import URF Data
             </Button>
             <Button
               type="button"

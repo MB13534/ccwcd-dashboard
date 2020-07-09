@@ -21,6 +21,7 @@ const {
   RCH_RechargeSplitsWithSliceDesc,
   RCH_RechargeSplitsDefaultWithSliceDesc,
   RCH_SelectedLaggingPeriod,
+  RCH_UrfsData,
 } = require("../../models");
 const db = require("../../models");
 
@@ -256,6 +257,24 @@ router.put("/splits/:id/:year/:month", (req, res, next) => {
   })
     .then((data) => {
       res.json(data[1][0]);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/recharge-accounting/urfs/:recharge_slice
+ * Route for returning URFs data for a single recharge slice
+ */
+router.get("/urfs/:recharge_slice", (req, res, next) => {
+  RCH_UrfsData.findAll({
+    where: {
+      recharge_slice_ndx: req.params.recharge_slice,
+    },
+  })
+    .then((data) => {
+      res.json(data);
     })
     .catch((err) => {
       next(err);

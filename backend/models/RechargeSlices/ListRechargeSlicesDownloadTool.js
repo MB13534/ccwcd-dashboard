@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      recharge_slice_desc: {
+        type: TEXT,
+      },
       recharge_project_desc: {
         type: TEXT,
       },

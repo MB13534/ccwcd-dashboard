@@ -195,6 +195,10 @@ db.RCH_SelectedLaggingPeriod = require("./RechargeAccounting/SelectedLaggingPeri
   sequelize,
   Sequelize
 );
+db.RCH_UrfsData = require("./RechargeAccounting/UrfsData")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Data Management Models
