@@ -53,6 +53,7 @@ const URFs = (props) => {
   let history = useHistory();
   let { id } = useParams();
   const [urfOpen, setUrfOpen] = useVisibility(false);
+  const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeRechargeSlice, setActiveRechargeSlice] = useState(
     new Date().getMonth()
   );
@@ -71,6 +72,7 @@ const URFs = (props) => {
     isUrfsDataLoading,
   ] = useFetchData(`recharge-accounting/urfs/${activeRechargeSlice}`, [
     activeRechargeSlice,
+    refreshSwitch,
   ]);
   const SubMenuItems = useMemo(() => {
     return [
@@ -199,7 +201,7 @@ const URFs = (props) => {
               <UrfDialog
                 open={urfOpen}
                 handleClose={() => setUrfOpen(false)}
-                handleRefresh={() => {}}
+                handleRefresh={() => setRefreshSwitch((state) => !state)}
                 rechargeSlice={activeRechargeSlice}
               />
             </div>
