@@ -176,17 +176,19 @@ const WaterSlices = (props) => {
               updateHandler={setData}
               endpoint="recharge-slices"
               ndxField="recharge_slice_ndx"
-              actions={[
-                {
-                  icon: "visibility",
-                  tooltip: "View Details",
-                  onClick: (event, rowData) =>
-                    goTo(
-                      history,
-                      `recharge-accounting/splits/${rowData.recharge_project_ndx}`
-                    ),
-                },
-              ]}
+              actions={
+                [
+                  // {
+                  //   icon: "visibility",
+                  //   tooltip: "View Details",
+                  //   onClick: (event, rowData) =>
+                  //     goTo(
+                  //       history,
+                  //       `recharge-accounting/splits/${rowData.recharge_project_ndx}`
+                  //     ),
+                  // },
+                ]
+              }
             />
           </Container>
         </div>

@@ -70,13 +70,15 @@ const Splits = (props) => {
         id: 1,
         title: "Recharge Splits",
         path: `/recharge-accounting/splits/${id}`,
-        exact: true,
+        activePath: `/recharge-accounting/splits`,
+        exact: false,
       },
       {
         id: 2,
         title: "URFs",
         path: `/recharge-accounting/urfs/${id}`,
-        exact: true,
+        activePath: `/recharge-accounting/urfs`,
+        exact: false,
       },
     ];
   }, [id]);

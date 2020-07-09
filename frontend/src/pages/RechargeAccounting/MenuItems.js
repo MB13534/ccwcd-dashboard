@@ -16,20 +16,20 @@ export const MenuItems = [
     activePath: "/recharge-accounting/water-slices",
     exact: true,
   },
-  {
-    id: 3,
-    title: "Splits",
-    path: "/recharge-accounting/splits/1",
-    activePath: "/recharge-accounting/splits",
-    exact: false,
-  },
-  {
-    id: 4,
-    title: "URFs",
-    path: "/recharge-accounting/urfs/1",
-    activePath: "/recharge-accounting/urfs",
-    exact: false,
-  },
+  // {
+  //   id: 3,
+  //   title: "Splits",
+  //   path: "/recharge-accounting/splits/1",
+  //   activePath: "/recharge-accounting/splits",
+  //   exact: false,
+  // },
+  // {
+  //   id: 4,
+  //   title: "URFs",
+  //   path: "/recharge-accounting/urfs/1",
+  //   activePath: "/recharge-accounting/urfs",
+  //   exact: false,
+  // },
   {
     id: 5,
     title: "Recharge Data & Import",
@@ -37,11 +37,11 @@ export const MenuItems = [
     activePath: "/recharge-accounting/data",
     exact: false,
   },
-  {
-    id: 6,
-    title: "QAQC",
-    path: "/recharge-accounting/qaqc",
-    activePath: "/recharge-accounting/qaqc",
-    exact: false,
-  },
+  // {
+  //   id: 6,
+  //   title: "QAQC",
+  //   path: "/recharge-accounting/qaqc",
+  //   activePath: "/recharge-accounting/qaqc",
+  //   exact: false,
+  // },
 ];
