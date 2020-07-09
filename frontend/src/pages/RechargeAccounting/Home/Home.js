@@ -38,11 +38,11 @@ const parseFlagsData = (data) => {
           value: data[0].splits,
           path: "/recharge-accounting/qaqc",
         },
-        {
-          title: "Fix Default Split Issues",
-          value: data[0].def_splits,
-          path: "/recharge-accounting/splits/1/default",
-        },
+        // {
+        //   title: "Fix Default Split Issues",
+        //   value: data[0].def_splits,
+        //   path: "/recharge-accounting/splits/1/default",
+        // },
         {
           title: "Fix URF Issues",
           value: data[0].urfs,
