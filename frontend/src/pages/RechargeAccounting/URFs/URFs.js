@@ -202,7 +202,7 @@ const URFs = (props) => {
                 open={urfOpen}
                 handleClose={() => setUrfOpen(false)}
                 handleRefresh={() => setRefreshSwitch((state) => !state)}
-                rechargeSlice={activeRechargeSlice}
+                rechargeSlice={{ recharge_slice_ndx: activeRechargeSlice }}
               />
             </div>
           </Container>

@@ -69,6 +69,7 @@ const UrfDialog = ({ open, handleClose, handleRefresh, rechargeSlice }) => {
     event.preventDefault();
     setWaitingState("in progress");
     try {
+      console.log(rechargeSlice);
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
       await axios.post(
