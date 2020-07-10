@@ -1,10 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Paper, ButtonGroup, Button, Box } from "@material-ui/core";
+import {
+  Typography,
+  Paper,
+  ButtonGroup,
+  Button,
+  Box,
+  CircularProgress,
+} from "@material-ui/core";
 import useFetchData from "../../../hooks/useFetchData";
 import Sunburst from "../../../components/Sunburst";
 import { unique } from "../../../util";
 import { useState } from "react";
+import { useMemo } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function formatSunburstData(data) {
+function formatSunburstData(data, valueField) {
   const splits = unique(data, "split");
   if (data.length > 0) {
     let formattedData = {
@@ -31,7 +39,7 @@ function formatSunburstData(data) {
               .filter((dd) => dd.split === split && dd.project === d)
               .map((dd) => ({
                 name: dd.structure,
-                value: dd.unlagged_af,
+                value: dd[valueField],
               })),
           })),
         };
@@ -49,10 +57,19 @@ function formatSunburstData(data) {
  */
 const SunburstCharts = () => {
   const classes = useStyles();
-  const [activeChart, setActiveChart] = useState("Unlagged");
-  const [UnlaggedContribution] = useFetchData(
-    "recharge-accounting/contribution/unlagged",
-    []
+  const [activeChart, setActiveChart] = useState("lagged");
+  const [
+    Contribution,
+    isContributionLoading,
+  ] = useFetchData(`recharge-accounting/contribution/${activeChart}`, [
+    activeChart,
+  ]);
+  const formattedContribution = useMemo(
+    () => {
+      return formatSunburstData(Contribution, activeChart + "_af");
+    },
+    [Contribution, activeChart],
+    activeChart
   );
 
   const handleActiveChart = (chart) => {
@@ -62,30 +79,42 @@ const SunburstCharts = () => {
   return (
     <Paper className={classes.root} elevation={0}>
       <Typography variant="h6" gutterBottom>
-        {activeChart} Recharge Contribution.
+        {activeChart === "lagged" ? "Lagged" : "Unlagged"} Recharge
+        Contribution.
       </Typography>
       <Typography variant="body1">
         Contribution by split, project and structure.
       </Typography>
-      <Sunburst
-        data={formatSunburstData(UnlaggedContribution)}
-        categoryField="name"
-        valueField="value"
-        height={225}
-      />
+      {isContributionLoading ? (
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height={225}
+        >
+          <CircularProgress color="primary" />
+        </Box>
+      ) : (
+        <Sunburst
+          data={formattedContribution}
+          categoryField="name"
+          valueField="value"
+          height={225}
+        />
+      )}
       <Box display="flex" justifyContent="center" marginTop={2}>
         <ButtonGroup disableElevation color="primary">
           <Button
-            variant={activeChart === "Lagged" ? "contained" : "outlined"}
-            disableElevation={activeChart === "Lagged"}
-            onClick={() => handleActiveChart("Lagged")}
+            variant={activeChart === "lagged" ? "contained" : "outlined"}
+            disableElevation={activeChart === "lagged"}
+            onClick={() => handleActiveChart("lagged")}
           >
             Lagged
           </Button>
           <Button
-            variant={activeChart === "Unlagged" ? "contained" : "outlined"}
-            disableElevation={activeChart === "Unlagged"}
-            onClick={() => handleActiveChart("Unlagged")}
+            variant={activeChart === "unlagged" ? "contained" : "outlined"}
+            disableElevation={activeChart === "unlagged"}
+            onClick={() => handleActiveChart("unlagged")}
           >
             Unlagged
           </Button>

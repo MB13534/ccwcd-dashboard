@@ -23,6 +23,7 @@ const {
   RCH_SelectedLaggingPeriod,
   RCH_UrfsData,
   RCH_LaggingStatus,
+  RCH_SunburstLagged,
 } = require("../../models");
 const db = require("../../models");
 
@@ -364,6 +365,18 @@ router.get("/lag/status/:year/:month", (req, res, next) => {
 // Route for returning recharge accounting flags
 router.get("/flags", (req, res, next) => {
   RCH_FlagsReport.findAll()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/recharge-accounting/contribution/lagged
+// Route for returning data for the contribution aka lagged sunburst chart
+router.get("/contribution/lagged", (req, res, next) => {
+  RCH_SunburstLagged.findAll()
     .then((data) => {
       res.json(data);
     })

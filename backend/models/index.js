@@ -143,6 +143,10 @@ db.RCH_FlagsReport = require("./RechargeAccounting/FlagsReport")(
   sequelize,
   Sequelize
 );
+db.RCH_SunburstLagged = require("./RechargeAccounting/SunburstLagged")(
+  sequelize,
+  Sequelize
+);
 db.RCH_SunburstUnlagged = require("./RechargeAccounting/SunburstUnlagged")(
   sequelize,
   Sequelize
