@@ -118,6 +118,11 @@ const RechargeDataImport = (props) => {
           data={ReviewImportsData}
           columns={[
             {
+              title: "Slice Ndx",
+              field: "recharge_slice_ndx",
+              width: 100,
+            },
+            {
               title: "Project",
               field: "recharge_project_desc",
               width: 125,
@@ -151,7 +156,7 @@ const RechargeDataImport = (props) => {
             pageSize: 10,
             pageSizeOptions: [10, 25, 50],
             fixedColumns: {
-              left: 3,
+              left: 4,
             },
             showTitle: false,
           }}

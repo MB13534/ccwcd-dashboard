@@ -112,6 +112,11 @@ const WaterSlices = (props) => {
 
   const Columns = [
     {
+      title: "Slice Ndx",
+      field: "recharge_slice_ndx",
+      editable: "never",
+    },
+    {
       title: "Description",
       field: "recharge_slice_desc",
       cellStyle: { minWidth: 250 },
