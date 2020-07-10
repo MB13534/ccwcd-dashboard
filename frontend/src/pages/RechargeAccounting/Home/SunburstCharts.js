@@ -92,7 +92,7 @@ const SunburstCharts = () => {
           justifyContent="center"
           height={225}
         >
-          <CircularProgress color="primary" />
+          <CircularProgress color="secondary" />
         </Box>
       ) : (
         <Sunburst
