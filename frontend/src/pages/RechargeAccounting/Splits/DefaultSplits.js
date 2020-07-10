@@ -125,7 +125,9 @@ const DefaultSplits = (props) => {
               >
                 <Typography variant="body1" paragraph>
                   Use this page to edit monthly and default splits for recharge
-                  slices.
+                  slices. If you do not see a recharge slice listed in the
+                  splits table, click "Add New Default Splits" to add the
+                  default splits for the missing slice.
                 </Typography>
                 {/* <Typography variant="body1" color="primary" paragraph>
                   Total Accrued Recharge
