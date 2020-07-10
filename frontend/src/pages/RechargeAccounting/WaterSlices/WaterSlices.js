@@ -7,8 +7,8 @@ import ChipNav from "../../../components/ChipNav";
 import useFetchData from "../../../hooks/useFetchData";
 import DataAdminTable from "../../../components/DataAdminTable";
 import { MenuItems } from "../MenuItems";
-import { goTo } from "../../../util";
-import { useHistory } from "react-router-dom";
+// import { goTo } from "../../../util";
+// import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -52,7 +52,7 @@ const RelatedTablesLinks = [
 
 const WaterSlices = (props) => {
   const classes = useStyles();
-  let history = useHistory();
+  // let history = useHistory();
   const [Data, isLoading, setData] = useFetchData("recharge-slices", []);
   const [Projects] = useFetchData("recharge-projects", []);
   const [Structures] = useFetchData("structures", []);
