@@ -86,6 +86,7 @@ const ItemSummaryDrawer = ({
         onChange={onChange}
         color="default"
         size="small"
+        disableClearable={true}
         classes={{
           root: classes.root,
           listbox: classes.listbox,
