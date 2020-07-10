@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Container, Stepper, StepLabel, Step } from "@material-ui/core";
@@ -12,12 +13,18 @@ const useStyles = makeStyles((theme) => ({
   },
   stepper: {
     background: "none",
-    // marginBottom: theme.spacing(4),
   },
 }));
 
+/**
+ * Array of steps that are displayed in the stepper
+ */
 const steps = ["Import Recharge Data", "Data QAQC", "Lag Data"];
 
+/**
+ * Component used for consistent layout and styling of
+ * the recharge accounting data processing pages
+ */
 const ProcessingLayout = ({ activeStep, children }) => {
   const classes = useStyles();
 
@@ -55,6 +62,19 @@ const ProcessingLayout = ({ activeStep, children }) => {
       </section>
     </Layout>
   );
+};
+
+ProcessingLayout.propTypes = {
+  /**
+   * Step number (starting at 0) that the parent
+   * page is associated with.
+   * Used to set the active step in the stepper
+   */
+  activeStep: PropTypes.number,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 export default ProcessingLayout;

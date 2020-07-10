@@ -43,7 +43,11 @@ function formatSunburstData(data) {
   return [];
 }
 
-const SunburstCharts = (props) => {
+/**
+ * This component is used to render the lagged/unlagged sunburst
+ * chart on the recharge accounting home page
+ */
+const SunburstCharts = () => {
   const classes = useStyles();
   const [activeChart, setActiveChart] = useState("Unlagged");
   const [UnlaggedContribution] = useFetchData(
@@ -90,7 +94,5 @@ const SunburstCharts = (props) => {
     </Paper>
   );
 };
-
-SunburstCharts.propTypes = {};
 
 export default SunburstCharts;

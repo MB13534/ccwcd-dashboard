@@ -148,6 +148,21 @@ router.get("/splits/default/project/:id", (req, res, next) => {
 });
 
 /**
+ * POST /api/recharge-accounting/splits/default/:id
+ * Route for creating new recharge accounting default splits for a
+ * single recharge slice
+ */
+router.post("/splits/default/:id", (req, res, next) => {
+  RCH_RechargeSplitsDefault.create(req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+/**
  * PUT /api/recharge-accounting/splits/default/:id
  * Route for updating recharge accounting default splits for a
  * single recharge slice

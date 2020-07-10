@@ -8,6 +8,7 @@ const Op = Sequelize.Op;
 const {
   ListRechargeSlices,
   ListRechargeSlicesDownloadTool,
+  ListRechargeSlicesWithoutDefaultSplits,
 } = require("../../models");
 
 // Create Express Router
@@ -66,6 +67,40 @@ router.get(
 
     ListRechargeSlicesDownloadTool.findAll(
       buildWhereConditions(decrees, projects, structures)
+    )
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/recharge-slices/missing-default-splits
+// Route for returning all recharge slices missing default splits
+router.get(
+  "/missing-default-splits",
+  checkPermission(["read:database-management"]),
+  (req, res, next) => {
+    const { projects } = req.query;
+
+    const buildWhereConditions = (projects) => {
+      let query = {
+        where: {},
+      };
+
+      if (projects) {
+        query.where.recharge_project_ndx = {
+          [Op.in]: projects ? projects.split(",") : [],
+        };
+      }
+
+      return query;
+    };
+
+    ListRechargeSlicesWithoutDefaultSplits.findAll(
+      buildWhereConditions(projects)
     )
       .then((data) => {
         res.json(data);

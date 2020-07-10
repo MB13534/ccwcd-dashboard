@@ -258,6 +258,10 @@ db.ListRechargeSlicesDownloadTool = require("./RechargeSlices/ListRechargeSlices
   sequelize,
   Sequelize
 );
+db.ListRechargeSlicesWithoutDefaultSplits = require("./RechargeSlices/ListRechargeSlicesWithoutDefaultSplits")(
+  sequelize,
+  Sequelize
+);
 db.ListAlertTypes = require("./AlertTypes/ListAlertTypes")(
   sequelize,
   Sequelize

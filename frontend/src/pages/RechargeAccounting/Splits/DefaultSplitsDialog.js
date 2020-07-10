@@ -39,7 +39,7 @@ const DefaultSplitsDialog = ({
   open,
   handleClose,
   handleRefresh,
-  rechargeProject = 1,
+  rechargeProject,
 }) => {
   const classes = useStyles();
   const { getTokenSilently } = useAuth0();
@@ -57,9 +57,13 @@ const DefaultSplitsDialog = ({
     ownr: 0,
   });
   const [splitsTotal, setSplitsTotal] = useState(0);
-  const [Slices] = useFetchData(
-    `recharge-slices/query?projects=${rechargeProject}`
+  const [
+    Slices,
+  ] = useFetchData(
+    `recharge-slices/missing-default-splits?projects=${rechargeProject}`,
+    [rechargeProject]
   );
+  // const Slices = [];
 
   /**
    * Update the splits total whenever the form values
@@ -121,112 +125,143 @@ const DefaultSplitsDialog = ({
     >
       <DialogTitle id="splits-form-title">Add Default Splits</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Use the following form to add default splits for a recharge slice. The
-          splits must total 100%.
-        </DialogContentText>
-        <form method="post" onSubmit={handleSubmit}>
-          <Box mb={0}>
-            <Select
-              name="recharge_slice_ndx"
-              label="Recharge Slice"
-              data={Slices}
-              valueField="recharge_slice_ndx"
-              displayField="recharge_slice_desc"
-              value={formValues.recharge_slice_ndx}
-              onChange={handleChange}
-              variant="outlined"
-              style={{ marginLeft: 0, width: 400 }}
-            />
-          </Box>
-          <TextField
-            variant="outlined"
-            type="number"
-            className={classes.textField}
-            name="gms"
-            label="GMS"
-            value={formValues.gms || ""}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            type="number"
-            className={classes.textField}
-            name="was"
-            label="WAS"
-            value={formValues.was || ""}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            type="number"
-            className={classes.textField}
-            name="ownr"
-            label="Owner"
-            value={formValues.ownr || ""}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            type="number"
-            className={classes.textField}
-            name="dtch"
-            label="Ditch"
-            value={formValues.dtch || ""}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="filled"
-            readOnly
-            className={classes.totalTextField}
-            name="total"
-            label="Total"
-            value={splitsTotal || ""}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-            error={splitsTotal !== 100}
-            helperText={splitsTotal !== 100 ? "Total does not equal 100%" : ""}
-          />
-          <Box mt={2} mb={2}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="secondary"
-              disableElevation
-              style={{ marginRight: 8 }}
-            >
-              Save
-            </Button>
+        {Slices.length === 0 ? (
+          <>
+            <DialogContentText>
+              Woohoo! It looks like you have set default splits for all of the
+              recharge slices associated with your currently selected project.
+              No further actions needed here!
+            </DialogContentText>
             <Button
               type="button"
               variant="contained"
               onClick={handleClose}
               disableElevation
             >
-              Cancel
+              Close
             </Button>
-          </Box>
-        </form>
-        <FormSnackbar
-          open={snackbarOpen}
-          error={snackbarError}
-          handleClose={handleSnackbarClose}
-          successMessage="Success"
-          errorMessage="Error"
-        />
+          </>
+        ) : (
+          <>
+            <DialogContentText>
+              Use the following form to add default splits for a recharge slice.
+              The splits must total 100%.
+            </DialogContentText>
+            <form method="post" onSubmit={handleSubmit}>
+              <Select
+                name="recharge_slice_ndx"
+                label="Recharge Slice"
+                data={Slices}
+                valueField="recharge_slice_ndx"
+                displayField="recharge_slice_desc"
+                value={formValues.recharge_slice_ndx}
+                onChange={handleChange}
+                variant="outlined"
+                style={{ marginLeft: 0, width: 400 }}
+              />
+              <br />
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="gms"
+                label="GMS"
+                value={formValues.gms || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="was"
+                label="WAS"
+                value={formValues.was || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="ownr"
+                label="Owner"
+                value={formValues.ownr || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="dtch"
+                label="Ditch"
+                value={formValues.dtch || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="filled"
+                readOnly
+                className={classes.totalTextField}
+                name="total"
+                label="Total"
+                value={splitsTotal || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                error={splitsTotal !== 100}
+                helperText={
+                  splitsTotal !== 100 ? "Total does not equal 100%" : ""
+                }
+              />
+              <Box mt={2} mb={2}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  disableElevation
+                  style={{ marginRight: 8 }}
+                >
+                  Save
+                </Button>
+                <Button
+                  type="button"
+                  variant="contained"
+                  onClick={handleClose}
+                  disableElevation
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </form>
+            <FormSnackbar
+              open={snackbarOpen}
+              error={snackbarError}
+              handleClose={handleSnackbarClose}
+              successMessage="Success"
+              errorMessage="Error"
+            />
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

@@ -4,6 +4,12 @@ import SunburstCharts from "./SunburstCharts";
 import SummaryTable from "./SummaryTable";
 import SummaryChart from "./SummaryChart";
 
+/**
+ * This component serves more as an organization
+ * component than as anything else.
+ * It is used to control the layout of the summary
+ * graphics on the recharge accounting home page
+ */
 const DataRollup = (props) => {
   return (
     <Box marginTop={1} marginBottom={2}>

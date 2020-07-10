@@ -13,7 +13,12 @@ import {
 } from "recharts";
 import useFetchData from "../../../hooks/useFetchData";
 
-const SummaryChart = (props) => {
+/**
+ * This component is responsible for rendering the
+ * lagged vs unlagged combo chart on the
+ * recharge accounting home page
+ */
+const SummaryChart = () => {
   const theme = useTheme();
   const [ChartData, isLoading] = useFetchData(
     "recharge-accounting/summary/monthly",

@@ -3,7 +3,12 @@ import { Paper } from "@material-ui/core";
 import MaterialTable from "material-table";
 import useFetchData from "../../../hooks/useFetchData";
 
-const SummaryTable = (props) => {
+/**
+ * This component is responsible for rendering the
+ * recharge data by year and slice summary table on
+ * the recharge accounting home page
+ */
+const SummaryTable = () => {
   const [TableData, isLoading] = useFetchData(
     "recharge-accounting/summary/annual/unlagged",
     []

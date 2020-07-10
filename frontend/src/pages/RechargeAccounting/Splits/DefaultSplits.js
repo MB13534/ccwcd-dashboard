@@ -53,7 +53,9 @@ const DefaultSplits = (props) => {
   let { id } = useParams();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [splitsOpen, setSplitsOpen] = useVisibility(false);
-  const [activeProject, setActiveProject] = useState(id);
+  const [activeProject, setActiveProject] = useState({
+    recharge_project_ndx: id || 1,
+  });
   const [Projects] = useFetchData("recharge-projects", []);
   const [
     SplitsData,
