@@ -1,4 +1,4 @@
-# CCWCD Dashboard Map
+# CCWCD Dashboard Application
 
 > Please refer to the overview and instructions below prior to starting development on this project for the first time.
 
