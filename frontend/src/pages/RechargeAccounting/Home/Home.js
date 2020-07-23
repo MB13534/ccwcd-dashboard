@@ -5,6 +5,7 @@ import Layout from "../../../components/Layout";
 import { TopNav } from "../../../components/TopNav";
 import { RollupCard } from "../../../components/RollupCard";
 import WaterSliceIllustration from "../../../images/undraw_personal_settings_kihd.svg";
+import SuccessIllustration from "../../../images/undraw_celebration_0jvk.svg";
 import ErrorIllustration from "../../../images/undraw_alert_mc7b.svg";
 import useFetchData from "../../../hooks/useFetchData";
 import DataRollup from "./DataRollup";
@@ -69,12 +70,14 @@ const parseFlagsData = (data) => {
       state: "success",
       title: "Woohoo!",
       message: "No accounting errors were found",
+      illustration: SuccessIllustration,
     };
   }
   return {
     state: "default",
     title: "Woohoo!",
     message: "No accounting errors were found",
+    illustration: SuccessIllustration,
   };
 };
 
