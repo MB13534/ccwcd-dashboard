@@ -201,7 +201,7 @@ const Sidebar = (props) => {
       activePath: "recharge-accounting",
       icon: RechargeIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin"],
+      rolesRequired: ["CCWCD Admin", "LRE Admin"],
     },
     {
       link: "depletions-modeling",
