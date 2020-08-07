@@ -4,9 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button, Box, Avatar, Paper } from "@material-ui/core";
 import ProcessingLayout from "./ProcessingLayout";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Select } from "@lrewater/lre-react";
-import { MonthsDropdown } from "../../../util";
+import { MonthsDropdown, goTo } from "../../../util";
 import useFetchData from "../../../hooks/useFetchData";
 import FormSnackbar from "../../../components/FormSnackbar";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RechargeDataLag = (props) => {
   const classes = useStyles();
+  let history = useHistory();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
   const [activeYear, setActiveYear] = useState(new Date().getFullYear());
@@ -74,6 +75,7 @@ const RechargeDataLag = (props) => {
       );
       setWaitingState("complete", "no error");
       setRefreshSwitch((state) => !state);
+      goTo(history, "recharge-accounting/data/process/export");
     } catch (err) {
       console.error(err);
       setWaitingState("complete", "error");

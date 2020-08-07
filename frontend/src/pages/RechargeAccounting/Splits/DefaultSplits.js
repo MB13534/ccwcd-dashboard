@@ -6,6 +6,7 @@ import { TopNav } from "../../../components/TopNav";
 import useFetchData from "../../../hooks/useFetchData";
 import { MenuItems } from "../MenuItems";
 import ItemSummaryDrawer from "../../../components/ItemSummaryDrawer";
+import EditIcon from "@material-ui/icons/Edit";
 
 import { useParams, useHistory, Link } from "react-router-dom";
 import { goTo } from "../../../util";
@@ -193,6 +194,17 @@ const DefaultSplits = (props) => {
                     options={{
                       showTitle: false,
                     }}
+                    editable={{}}
+                    actions={[
+                      {
+                        icon: EditIcon,
+                        tooltip: "Edit Data",
+                        // isFreeAction: true,
+                        onClick: (event) => {
+                          setSplitsOpen(true);
+                        },
+                      },
+                    ]}
                     updateHandler={setSplitsData}
                   />
                 </Box>

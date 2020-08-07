@@ -38,6 +38,7 @@ const SplitsAdminTable = ({
   components = {},
   actions = [],
   handleRefresh = () => {},
+  ...other
 }) => {
   const classes = useStyles();
   const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
@@ -155,6 +156,7 @@ const SplitsAdminTable = ({
           },
           ...actions,
         ]}
+        {...other}
       />
       <FormSnackbar
         open={snackbarOpen}

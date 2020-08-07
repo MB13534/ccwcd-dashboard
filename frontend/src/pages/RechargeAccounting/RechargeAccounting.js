@@ -5,6 +5,7 @@ import RechargeData from "./RechargeData";
 import RechargeDataImport from "./RechargeDataProcessing/RechargeDataImport";
 import RechargeDataQAQC from "./RechargeDataProcessing/RechargeDataQAQC";
 import RechargeDataLag from "./RechargeDataProcessing/RechargeDataLag";
+import RechargeDataExport from "./RechargeDataProcessing/RechargeDataExport";
 import DefaultSplits from "./Splits/DefaultSplits";
 import URFs from "./URFs";
 import QAQC from "./QAQC";
@@ -78,6 +79,12 @@ const RechargeAccounting = (props) => {
         exact
         roles={AdminRoles}
         component={RechargeDataLag}
+      />
+      <PrivateRouteWithRoles
+        path={`${url}/data/process/export`}
+        exact
+        roles={AdminRoles}
+        component={RechargeDataExport}
       />
     </Switch>
   );

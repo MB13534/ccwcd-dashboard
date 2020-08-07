@@ -343,6 +343,21 @@ router.post("/lag", (req, res, next) => {
     });
 });
 
+/**
+ * POST /api/recharge-accounting/export
+ * Route for exporting lagged data
+ */
+router.post("/export", (req, res, next) => {
+  db.sequelize
+    .query("SELECT data.recharge_lagging_export()")
+    .then((data) => {
+      res.sendStatus(204);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
 // GET /api/recharge-accounting/lag/status/:year/:month
 // Route for returning recharge accounting lagging status
 // for a given year and month

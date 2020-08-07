@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Array of steps that are displayed in the stepper
  */
-const steps = ["Import Recharge Data", "Data QAQC", "Lag Data"];
+const steps = ["Import Recharge Data", "Data QAQC", "Lag Data", "Export Data"];
 
 /**
  * Component used for consistent layout and styling of
