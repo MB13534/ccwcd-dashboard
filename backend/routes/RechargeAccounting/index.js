@@ -14,6 +14,7 @@ const {
   RCH_ReviewImports,
   RCH_ListSlicesQAQCTimeSteps,
   ListSlicesQAQCTimeStepsRollup,
+  RCH_DefaultSplitsPorLanding,
   RCH_RechargeSplitsDefault,
   RCH_ListSlicesQAQCTimeStepsRollup,
   RCH_RechargeSplits,
@@ -113,6 +114,19 @@ router.get("/splits/default", (req, res, next) => {
       next(err);
     });
 });
+/**
+ * GET /api/recharge-accounting/splits/default
+ * Route for returning recharge accounting default splits
+ */
+router.get("/splits/default", (req, res, next) => {
+  RCH_RechargeSplitsDefault.findAll()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
 
 /**
  * GET /api/recharge-accounting/splits/default/:id
@@ -149,11 +163,11 @@ router.get("/splits/default/project/:id", (req, res, next) => {
 });
 
 /**
- * POST /api/recharge-accounting/splits/default/:id
+ * POST /api/recharge-accounting/splits/default
  * Route for creating new recharge accounting default splits for a
  * single recharge slice
  */
-router.post("/splits/default/:id", (req, res, next) => {
+router.post("/splits/default", (req, res, next) => {
   RCH_RechargeSplitsDefault.create(req.body)
     .then((data) => {
       res.json(data);
@@ -169,6 +183,7 @@ router.post("/splits/default/:id", (req, res, next) => {
  * single recharge slice
  */
 router.put("/splits/default/:id", (req, res, next) => {
+  let response = [];
   RCH_RechargeSplitsDefault.update(req.body, {
     where: {
       recharge_slice_ndx: req.params.id,
@@ -176,7 +191,18 @@ router.put("/splits/default/:id", (req, res, next) => {
     returning: true,
   })
     .then((data) => {
-      res.json(data[1][0]);
+      response = data[1][0];
+    })
+    .then((data) => {
+      return RCH_DefaultSplitsPorLanding.destroy({
+        truncate: true,
+      });
+    })
+    .then(() => {
+      return RCH_DefaultSplitsPorLanding.create(req.body);
+    })
+    .then((data) => {
+      res.json(response);
     })
     .catch((err) => {
       next(err);

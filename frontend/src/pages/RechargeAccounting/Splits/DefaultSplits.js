@@ -6,7 +6,7 @@ import { TopNav } from "../../../components/TopNav";
 import useFetchData from "../../../hooks/useFetchData";
 import { MenuItems } from "../MenuItems";
 import ItemSummaryDrawer from "../../../components/ItemSummaryDrawer";
-// import EditIcon from "@material-ui/icons/Edit";
+import EditIcon from "@material-ui/icons/Edit";
 
 import { useParams, useHistory, Link } from "react-router-dom";
 import { goTo } from "../../../util";
@@ -53,7 +53,11 @@ const DefaultSplits = (props) => {
   let history = useHistory();
   let { id } = useParams();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [splitsAction, setSplitsAction] = useState("add");
   const [splitsOpen, setSplitsOpen] = useVisibility(false);
+  const [activeSlice, setActiveSlice] = useState({
+    recharge_slice_ndx: -999,
+  });
   const [activeProject, setActiveProject] = useState({
     recharge_project_ndx: id || 1,
   });
@@ -153,7 +157,11 @@ const DefaultSplits = (props) => {
                       variant="outlined"
                       color="primary"
                       size="small"
-                      onClick={() => setSplitsOpen(true)}
+                      onClick={() => {
+                        setActiveSlice({ recharge_slice_ndx: -999 });
+                        setSplitsAction("add");
+                        setSplitsOpen(true);
+                      }}
                       style={{ marginRight: 8 }}
                     >
                       + Add Default Splits
@@ -194,26 +202,30 @@ const DefaultSplits = (props) => {
                     options={{
                       showTitle: false,
                     }}
-                    // editable={{}}
-                    // actions={[
-                    //   {
-                    //     icon: EditIcon,
-                    //     tooltip: "Edit Data",
-                    //     // isFreeAction: true,
-                    //     onClick: (event) => {
-                    //       setSplitsOpen(true);
-                    //     },
-                    //   },
-                    // ]}
+                    editable={{}}
+                    actions={[
+                      {
+                        icon: EditIcon,
+                        tooltip: "Edit Data",
+                        // isFreeAction: true,
+                        onClick: (event, rowData) => {
+                          setActiveSlice(rowData);
+                          setSplitsAction("edit");
+                          setSplitsOpen(true);
+                        },
+                      },
+                    ]}
                     updateHandler={setSplitsData}
                   />
                 </Box>
               </Box>
             </div>
             <DefaultSplitsDialog
+              action={splitsAction}
               open={splitsOpen}
               handleClose={() => setSplitsOpen(false)}
               handleRefresh={() => setRefreshSwitch((state) => !state)}
+              rechargeSlice={activeSlice}
               rechargeProject={activeProject.recharge_project_ndx}
             />
           </Container>

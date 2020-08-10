@@ -191,6 +191,10 @@ db.RCH_RechargeSplitsDefaultWithSliceDesc = require("./RechargeAccounting/Rechar
   sequelize,
   Sequelize
 );
+db.RCH_DefaultSplitsPorLanding = require("./RechargeAccounting/DefaultSplitsPorLanding")(
+  sequelize,
+  Sequelize
+);
 db.RCH_UrfImportSliceLanding = require("./RechargeAccounting/UrfImportSliceLanding")(
   sequelize,
   Sequelize
