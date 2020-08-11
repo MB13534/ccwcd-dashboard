@@ -13,6 +13,7 @@ import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import FormSnackbar from "../../../components/FormSnackbar";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import InfoCard from "../../../components/InfoCard";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -105,14 +106,14 @@ const RechargeDataImport = (props) => {
           <Typography variant="h6">Review Recharge Data</Typography>
         </Box>
 
-        <Box p={2} mt={2} bgcolor="rgb(215, 240, 217)" borderRadius={4}>
+        <InfoCard mb={0}>
           <Typography variant="body1">
             Please review the data below to ensure that the imported data
             matches what you are expecting to see. If you notice any errors,
             please update the Excel Spreadsheet and start the import process
             again.
           </Typography>
-        </Box>
+        </InfoCard>
         <MaterialTable
           isLoading={isLoading}
           data={ReviewImportsData}

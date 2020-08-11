@@ -24,6 +24,7 @@ import UrfDialog from "../RechargeDataProcessing/UrfDialog";
 import Layout from "../../../components/Layout";
 import { TopNav } from "../../../components/TopNav";
 import { MenuItems } from "../MenuItems";
+import InfoCard from "../../../components/InfoCard";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -113,13 +114,7 @@ const QAQC = (props) => {
               </Box>
 
               {QaqcRollupData.length > 0 && (
-                <Box
-                  p={2}
-                  mt={4}
-                  mb={4}
-                  bgcolor="rgb(215, 240, 217)"
-                  borderRadius={4}
-                >
+                <InfoCard>
                   <Typography variant="body1">
                     There were issues found with recharge slices for the
                     following month and year combinations. To resolve issues,
@@ -144,7 +139,7 @@ const QAQC = (props) => {
                       />
                     ))}
                   </Box>
-                </Box>
+                </InfoCard>
               )}
 
               {ReviewImportsData.length === 0 && (

@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Typography, Box, Button } from "@material-ui/core";
+import { Container, Typography, Box, Button, Paper } from "@material-ui/core";
 import Layout from "../../../components/Layout";
 import { TopNav } from "../../../components/TopNav";
 import useFetchData from "../../../hooks/useFetchData";
@@ -13,6 +13,7 @@ import { goTo } from "../../../util";
 import SplitsAdminTable from "./SplitsAdminTable";
 import DefaultSplitsDialog from "./DefaultSplitsDialog";
 import useVisibility from "../../../hooks/useVisibility";
+import MaterialTable from "material-table";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -62,6 +63,10 @@ const DefaultSplits = (props) => {
     recharge_project_ndx: id || 1,
   });
   const [Projects] = useFetchData("recharge-projects", []);
+  const [DefaultSplitsFlags] = useFetchData(
+    "recharge-accounting/flags/splits/default",
+    []
+  );
   const [
     SplitsData,
     isSplitsDataLoading,
@@ -140,6 +145,24 @@ const DefaultSplits = (props) => {
               </ItemSummaryDrawer>
               <Box flexGrow={1}>
                 <TopNav menuItems={SubMenuItems} className={classes.topNav} />
+                <Box mt={3} mb={1} ml={2} mr={2}>
+                  <MaterialTable
+                    data={DefaultSplitsFlags}
+                    columns={[
+                      { title: "Structure", field: "structure_desc" },
+                      { title: "Decree", field: "recharge_decree_desc" },
+                    ]}
+                    components={{
+                      Container: (props) => (
+                        <Paper variant="outlined" {...props}></Paper>
+                      ),
+                    }}
+                    options={{
+                      padding: "dense",
+                      toolbar: false,
+                    }}
+                  />
+                </Box>
                 <Box
                   mt={3}
                   mb={1}

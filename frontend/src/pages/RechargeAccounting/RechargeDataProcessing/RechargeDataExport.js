@@ -9,6 +9,7 @@ import FormSnackbar from "../../../components/FormSnackbar";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import { goTo } from "../../../util";
+import InfoCard from "../../../components/InfoCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -77,12 +78,12 @@ const RechargeDataExport = (props) => {
           <Typography variant="h6">Export Recharge Data</Typography>
         </Box>
 
-        <Box p={2} mt={2} bgcolor="rgb(215, 240, 217)" borderRadius={4}>
+        <InfoCard mt={2}>
           <Typography variant="body1">
             The last part of the import process is to export the lagged data. Do
             so by clicking the "Export Data" button below.
           </Typography>
-        </Box>
+        </InfoCard>
         <Box mt={2} mb={2}>
           <Box mt={2} mb={2}>
             <Button

@@ -11,6 +11,7 @@ import useFetchData from "../../../hooks/useFetchData";
 import FormSnackbar from "../../../components/FormSnackbar";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
+import InfoCard from "../../../components/InfoCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -90,14 +91,14 @@ const RechargeDataLag = (props) => {
           <Typography variant="h6">Lag Recharge Data</Typography>
         </Box>
 
-        <Box p={2} mt={2} bgcolor="rgb(215, 240, 217)" borderRadius={4}>
+        <InfoCard mt={2}>
           <Typography variant="body1">
             Use the form below to select the year and month that you would like
             to lag recharge data for. Please ensure that you have resolved all
             errors in the data in the previous steps before lagging the data.
             Note: the lagging process can take over a minute to run.
           </Typography>
-        </Box>
+        </InfoCard>
         <Box mt={2} mb={2}>
           <form method="post" onSubmit={handleSubmit}>
             <Select

@@ -22,6 +22,7 @@ import useVisibility from "../../../hooks/useVisibility";
 import { Months } from "../../../util";
 import { useEffect } from "react";
 import UrfDialog from "./UrfDialog";
+import InfoCard from "../../../components/InfoCard";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -103,13 +104,7 @@ const RechargeDataQAQC = (props) => {
         </Box>
 
         {QaqcRollupData.length > 0 && (
-          <Box
-            p={2}
-            mt={4}
-            mb={4}
-            bgcolor="rgb(215, 240, 217)"
-            borderRadius={4}
-          >
+          <InfoCard mt={2} mb={2}>
             <Typography variant="body1">
               There were issues found with recharge slices for the following
               month and year combinations. To resolve issues, select a month and
@@ -133,7 +128,7 @@ const RechargeDataQAQC = (props) => {
                 />
               ))}
             </Box>
-          </Box>
+          </InfoCard>
         )}
 
         {ReviewImportsData.length === 0 && (

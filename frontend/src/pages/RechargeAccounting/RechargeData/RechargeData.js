@@ -9,6 +9,7 @@ import ImportIllustration from "../../../images/undraw_setup_wizard_r6mr.svg";
 import ReportIllustration from "../../../images/undraw_data_trends_b0wg.svg";
 import useFetchData from "../../../hooks/useFetchData";
 import MaterialTable from "material-table";
+import InfoCard from "../../../components/InfoCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -70,13 +71,13 @@ const RechargeData = (props) => {
               </Grid>
             </Grid>
             <Box mt={2} mb={2}>
-              <Box p={2} mb={2} bgcolor="rgb(215, 240, 217)">
+              <InfoCard mb={2} mt={2}>
                 <Typography variant="body1">
                   Review monthly recharge data using the table below. If you
                   notice any errors in the data, please make edits in the Excel
                   Spreadsheet accordingly and re-import the data.
                 </Typography>
-              </Box>
+              </InfoCard>
               <MaterialTable
                 isLoading={isLoading}
                 data={ReviewImportsData}
