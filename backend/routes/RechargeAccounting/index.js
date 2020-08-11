@@ -13,7 +13,6 @@ const {
   RCH_HomeChart,
   RCH_ReviewImports,
   RCH_ListSlicesQAQCTimeSteps,
-  ListSlicesQAQCTimeStepsRollup,
   RCH_DefaultSplitsPorLanding,
   RCH_RechargeSplitsDefault,
   RCH_ListSlicesQAQCTimeStepsRollup,
@@ -25,6 +24,7 @@ const {
   RCH_UrfsData,
   RCH_LaggingStatus,
   RCH_SunburstLagged,
+  RCH_RechargeLaggedQAQC,
 } = require("../../models");
 const db = require("../../models");
 
@@ -406,6 +406,18 @@ router.get("/lag/status/:year/:month", (req, res, next) => {
 // Route for returning recharge accounting flags
 router.get("/flags", (req, res, next) => {
   RCH_FlagsReport.findAll()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+// GET /api/recharge-accounting/flags/splits/default
+// Route for returning recharge accounting flags for default splits
+router.get("/flags/splits/default", (req, res, next) => {
+  RCH_RechargeLaggedQAQC.findAll()
     .then((data) => {
       res.json(data);
     })

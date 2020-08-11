@@ -211,6 +211,10 @@ db.RCH_LaggingStatus = require("./RechargeAccounting/LaggingStatus")(
   sequelize,
   Sequelize
 );
+db.RCH_RechargeLaggedQAQC = require("./RechargeAccounting/RechargeLaggedQAQC")(
+  sequelize,
+  Sequelize
+);
 
 /**
  * Data Management Models
@@ -298,6 +302,9 @@ db.UserStructuresAssoc = require("./UserManagement/UserStructuresAssoc")(
   sequelize,
   Sequelize
 );
+
+db.pgTables = require("./pgTables/pgTables")(sequelize, Sequelize);
+db.Columns = require("./pgTables/Columns")(sequelize, Sequelize);
 
 Sequelize.postgres.DECIMAL.parse = function (value) {
   return parseFloat(value);
