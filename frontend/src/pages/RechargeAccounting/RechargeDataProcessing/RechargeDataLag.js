@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 import { Typography, Button, Box, Avatar, Paper } from "@material-ui/core";
 import ProcessingLayout from "./ProcessingLayout";
-
-import { Link, useHistory } from "react-router-dom";
 import { Select } from "@lrewater/lre-react";
-import { MonthsDropdown, goTo } from "../../../util";
+import { MonthsDropdown } from "../../../util";
 import useFetchData from "../../../hooks/useFetchData";
 import FormSnackbar from "../../../components/FormSnackbar";
 import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import InfoCard from "../../../components/InfoCard";
+import MaterialTable from "material-table";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 const RechargeDataLag = (props) => {
   const classes = useStyles();
-  let history = useHistory();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeMonth, setActiveMonth] = useState(new Date().getMonth());
   const [activeYear, setActiveYear] = useState(new Date().getFullYear());
@@ -51,6 +50,10 @@ const RechargeDataLag = (props) => {
     `recharge-accounting/lag/status/${activeYear}/${activeMonth}`,
     [activeYear, activeMonth, refreshSwitch]
   );
+  const [
+    UnlaggedRechargeSlices,
+    isLoading,
+  ] = useFetchData("recharge-accounting/flags/unlagged", [refreshSwitch]);
   const { getTokenSilently } = useAuth0();
   const {
     setWaitingState,
@@ -76,7 +79,6 @@ const RechargeDataLag = (props) => {
       );
       setWaitingState("complete", "no error");
       setRefreshSwitch((state) => !state);
-      goTo(history, "recharge-accounting/data/process/export");
     } catch (err) {
       console.error(err);
       setWaitingState("complete", "error");
@@ -130,13 +132,66 @@ const RechargeDataLag = (props) => {
               variant="outlined"
               onChange={(event) => setActiveYear(event.target.value)}
             />
-            <Box ml={1} display="inline-block">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ marginLeft: 8 }}
+              disabled={formSubmitting}
+            >
+              Lag Data
+            </Button>
+            <Box ml={3} display="inline-block">
               <Typography variant="body2" color="textSecondary">
                 Last Lagged
               </Typography>
               <Typography variant="body1" color="primary" paragraph>
                 {LagStatusData.length > 0 && LagStatusData[0].last_run}
               </Typography>
+            </Box>
+            <Box mt={2} mb={2} ml={1} mr={1}>
+              <Typography variant="h6" gutterBottom>
+                Unlagged Recharge Summary
+              </Typography>
+              <Typography variant="body1">
+                The following table provides a summary of recharge data that has
+                yet to be lagged.
+              </Typography>
+              <MaterialTable
+                data={UnlaggedRechargeSlices}
+                isLoading={isLoading}
+                columns={[
+                  {
+                    title: "Project",
+                    field: "recharge_project_desc",
+                  },
+                  {
+                    title: "Structure",
+                    field: "structure_desc",
+                    cellStyle: { minWidth: 200 },
+                  },
+                  {
+                    title: "Decree",
+                    field: "recharge_decree_desc",
+                  },
+                  { title: "Year", field: "r_year" },
+                  { title: "Month", field: "r_month" },
+                  { title: "Lagged (AF)", field: "lagged_af" },
+                  { title: "Unlagged (AF)", field: "unlagged_af" },
+                  { title: "Need to Lag (AF)", field: "need_to_lag" },
+                ]}
+                components={{
+                  Container: (props) => (
+                    <Paper elevation={0} {...props}></Paper>
+                  ),
+                }}
+                options={{
+                  padding: "dense",
+                  showTitle: false,
+                  pageSize: 10,
+                  pageSizeOptions: [10, 25, 50],
+                }}
+              />
             </Box>
             <Box mt={2} mb={2}>
               <Button
@@ -147,13 +202,24 @@ const RechargeDataLag = (props) => {
                 Back
               </Button>
               <Button
-                type="submit"
                 variant="contained"
                 color="primary"
                 style={{ marginLeft: 8 }}
                 disabled={formSubmitting}
+                component={Link}
+                to="/recharge-accounting/data/process/export"
               >
-                Lag Data
+                Everything Looks Good, Let's Keep Going
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                style={{ marginLeft: 8 }}
+                disabled={formSubmitting}
+                component={Link}
+                to="/recharge-accounting/data/process/export"
+              >
+                Skip to Export
               </Button>
             </Box>
           </form>

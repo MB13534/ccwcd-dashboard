@@ -10,6 +10,8 @@ import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
 import { useAuth0 } from "../../../hooks/auth";
 import { goTo } from "../../../util";
 import InfoCard from "../../../components/InfoCard";
+import useFetchData from "../../../hooks/useFetchData";
+import MaterialTable from "material-table";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -48,6 +50,10 @@ const RechargeDataExport = (props) => {
     snackbarError,
     handleSnackbarClose,
   } = useFormSubmitStatus();
+  const [UnlaggedRechargeSlices, isLoading] = useFetchData(
+    "recharge-accounting/flags/unlagged",
+    []
+  );
 
   const handleExport = async (event) => {
     event.preventDefault();
@@ -85,11 +91,53 @@ const RechargeDataExport = (props) => {
           </Typography>
         </InfoCard>
         <Box mt={2} mb={2}>
+          <Box mt={2} mb={2} ml={1} mr={1}>
+            <Typography variant="h6" gutterBottom>
+              Unlagged Recharge Summary
+            </Typography>
+            <Typography variant="body1">
+              The following table provides a summary of recharge data that has
+              yet to be lagged.
+            </Typography>
+            <MaterialTable
+              data={UnlaggedRechargeSlices}
+              isLoading={isLoading}
+              columns={[
+                {
+                  title: "Project",
+                  field: "recharge_project_desc",
+                },
+                {
+                  title: "Structure",
+                  field: "structure_desc",
+                  cellStyle: { minWidth: 200 },
+                },
+                {
+                  title: "Decree",
+                  field: "recharge_decree_desc",
+                },
+                { title: "Year", field: "r_year" },
+                { title: "Month", field: "r_month" },
+                { title: "Lagged (AF)", field: "lagged_af" },
+                { title: "Unlagged (AF)", field: "unlagged_af" },
+                { title: "Need to Lag (AF)", field: "need_to_lag" },
+              ]}
+              components={{
+                Container: (props) => <Paper elevation={0} {...props}></Paper>,
+              }}
+              options={{
+                padding: "dense",
+                showTitle: false,
+                pageSize: 10,
+                pageSizeOptions: [10, 25, 50],
+              }}
+            />
+          </Box>
           <Box mt={2} mb={2}>
             <Button
               variant="contained"
               component={Link}
-              to="/recharge-accounting/data/process/qaqc"
+              to="/recharge-accounting/data/process/lag"
             >
               Back
             </Button>
