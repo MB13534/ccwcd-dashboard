@@ -421,12 +421,12 @@ router.get("/flags", (req, res, next) => {
     });
 });
 
-// GET /api/recharge-accounting/flags/splits/default
-// Route for returning recharge accounting flags for default splits
-router.get("/flags/splits/default", (req, res, next) => {
+// GET /api/recharge-accounting/flags/unlagged
+// Route for returning recharge accounting flags for unlagged recharge slices
+router.get("/flags/unlagged", (req, res, next) => {
   RCH_RechargeLaggedQAQC.findAll()
     .then((data) => {
-      res.json(data.map((d) => ({ ...d.dataValues, action: "fix" })));
+      res.json(data);
     })
     .catch((err) => {
       next(err);
@@ -436,7 +436,13 @@ router.get("/flags/splits/default", (req, res, next) => {
 // GET /api/recharge-accounting/contribution/lagged
 // Route for returning data for the contribution aka lagged sunburst chart
 router.get("/contribution/lagged", (req, res, next) => {
-  RCH_SunburstLagged.findAll()
+  RCH_SunburstLagged.findAll({
+    order: [
+      ["split", "desc"],
+      ["project", "asc"],
+      ["structure", "asc"],
+    ],
+  })
     .then((data) => {
       res.json(data);
     })
@@ -448,7 +454,13 @@ router.get("/contribution/lagged", (req, res, next) => {
 // GET /api/recharge-accounting/contribution/unlagged
 // Route for returning data for the contribution aka unlagged sunburst chart
 router.get("/contribution/unlagged", (req, res, next) => {
-  RCH_SunburstUnlagged.findAll()
+  RCH_SunburstUnlagged.findAll({
+    order: [
+      ["split", "desc"],
+      ["project", "asc"],
+      ["structure", "asc"],
+    ],
+  })
     .then((data) => {
       res.json(data);
     })
