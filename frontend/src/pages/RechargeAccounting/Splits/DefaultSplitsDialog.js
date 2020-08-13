@@ -190,164 +190,146 @@ const DefaultSplitsDialog = ({
           {rechargeSlice.recharge_decree_desc}
         </DialogTitle>
         <DialogContent>
-          {Slices.length === 0 ? (
-            <>
-              <DialogContentText>
-                Woohoo! It looks like you have set default splits for all of the
-                recharge slices associated with your currently selected project.
-                No further actions needed here!
-              </DialogContentText>
-              <Button
-                type="button"
-                variant="contained"
-                onClick={handleClose}
-                disableElevation
-              >
-                Close
-              </Button>
-            </>
-          ) : (
-            <>
-              <DialogContentText>
-                Use the following form to edit default splits for a recharge
-                slice. The splits must total 100% and you must select a month
-                and year to apply the default splits back to. For instance,
-                selecting "April 2018" would update the monthly split values for
-                every month back to April 2018.
-              </DialogContentText>
-              <Typography variant="h6" gutterBottom>
-                Update Splits Back To
-              </Typography>
-              <Box mb={1}>
-                <Select
-                  name="month"
-                  label="Month"
-                  data={MonthsDropdown}
-                  valueField="ndx"
-                  displayField="display"
-                  value={formValues.month}
-                  onChange={handleChange}
-                  variant="outlined"
-                  style={{ marginLeft: 0 }}
-                />
-                <Select
-                  name="year"
-                  label="Year"
-                  data={YearsDropdown}
-                  valueField="ndx"
-                  displayField="display"
-                  value={formValues.year}
-                  onChange={handleChange}
-                  variant="outlined"
-                  style={{ marginLeft: 0 }}
-                />
-              </Box>
-              <Typography variant="h6" gutterBottom>
-                Split Values
-              </Typography>
-              <form method="post" onSubmit={handleSubmit}>
-                <TextField
-                  variant="outlined"
-                  type="number"
-                  className={classes.textField}
-                  name="gms"
-                  label="GMS"
-                  value={formValues.gms || ""}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">%</InputAdornment>
-                    ),
-                  }}
-                  onChange={handleChange}
-                />
-                <TextField
-                  variant="outlined"
-                  type="number"
-                  className={classes.textField}
-                  name="was"
-                  label="WAS"
-                  value={formValues.was || ""}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">%</InputAdornment>
-                    ),
-                  }}
-                  onChange={handleChange}
-                />
-                <TextField
-                  variant="outlined"
-                  type="number"
-                  className={classes.textField}
-                  name="ownr"
-                  label="Owner"
-                  value={formValues.ownr || ""}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">%</InputAdornment>
-                    ),
-                  }}
-                  onChange={handleChange}
-                />
-                <TextField
-                  variant="outlined"
-                  type="number"
-                  className={classes.textField}
-                  name="dtch"
-                  label="Ditch"
-                  value={formValues.dtch || ""}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">%</InputAdornment>
-                    ),
-                  }}
-                  onChange={handleChange}
-                />
-                <TextField
-                  variant="filled"
-                  readOnly
-                  className={classes.totalTextField}
-                  name="total"
-                  label="Total"
-                  value={splitsTotal || ""}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">%</InputAdornment>
-                    ),
-                  }}
-                  error={splitsTotal !== 100}
-                  helperText={
-                    splitsTotal !== 100 ? "Total does not equal 100%" : ""
-                  }
-                />
-                <Box mt={2} mb={2}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="secondary"
-                    disableElevation
-                    style={{ marginRight: 8 }}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={handleClose}
-                    disableElevation
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </form>
-              <FormSnackbar
-                open={snackbarOpen}
-                error={snackbarError}
-                handleClose={handleSnackbarClose}
-                successMessage="Success"
-                errorMessage="Error"
+          <>
+            <DialogContentText>
+              Use the following form to edit default splits for a recharge
+              slice. The splits must total 100% and you must select a month and
+              year to apply the default splits back to. For instance, selecting
+              "April 2018" would update the monthly split values for every month
+              back to April 2018.
+            </DialogContentText>
+            <Typography variant="h6" gutterBottom>
+              Update Splits Back To
+            </Typography>
+            <Box mb={1}>
+              <Select
+                name="month"
+                label="Month"
+                data={MonthsDropdown}
+                valueField="ndx"
+                displayField="display"
+                value={formValues.month}
+                onChange={handleChange}
+                variant="outlined"
+                style={{ marginLeft: 0 }}
               />
-            </>
-          )}
+              <Select
+                name="year"
+                label="Year"
+                data={YearsDropdown}
+                valueField="ndx"
+                displayField="display"
+                value={formValues.year}
+                onChange={handleChange}
+                variant="outlined"
+                style={{ marginLeft: 0 }}
+              />
+            </Box>
+            <Typography variant="h6" gutterBottom>
+              Split Values
+            </Typography>
+            <form method="post" onSubmit={handleSubmit}>
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="gms"
+                label="GMS"
+                value={formValues.gms || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="was"
+                label="WAS"
+                value={formValues.was || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="ownr"
+                label="Owner"
+                value={formValues.ownr || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                type="number"
+                className={classes.textField}
+                name="dtch"
+                label="Ditch"
+                value={formValues.dtch || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="filled"
+                readOnly
+                className={classes.totalTextField}
+                name="total"
+                label="Total"
+                value={splitsTotal || ""}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">%</InputAdornment>
+                  ),
+                }}
+                error={splitsTotal !== 100}
+                helperText={
+                  splitsTotal !== 100 ? "Total does not equal 100%" : ""
+                }
+              />
+              <Box mt={2} mb={2}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  disableElevation
+                  style={{ marginRight: 8 }}
+                >
+                  Save
+                </Button>
+                <Button
+                  type="button"
+                  variant="contained"
+                  onClick={handleClose}
+                  disableElevation
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </form>
+            <FormSnackbar
+              open={snackbarOpen}
+              error={snackbarError}
+              handleClose={handleSnackbarClose}
+              successMessage="Success"
+              errorMessage="Error"
+            />
+          </>
         </DialogContent>
       </Dialog>
     );

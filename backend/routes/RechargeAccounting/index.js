@@ -290,14 +290,21 @@ router.get("/splits/project/:id/:year/:month", (req, res, next) => {
  * single recharge slice
  */
 router.put("/splits/:id/:year/:month", (req, res, next) => {
-  RCH_RechargeSplits.update(req.body, {
-    where: {
-      recharge_slice_ndx: req.params.id,
+  RCH_RechargeSplits.upsert(
+    {
+      ...req.body,
       r_year: req.params.year,
       r_month: req.params.month,
     },
-    returning: true,
-  })
+    {
+      where: {
+        recharge_slice_ndx: req.params.id,
+        r_year: req.params.year,
+        r_month: req.params.month,
+      },
+      returning: true,
+    }
+  )
     .then((data) => {
       res.json(data[1][0]);
     })
@@ -419,7 +426,7 @@ router.get("/flags", (req, res, next) => {
 router.get("/flags/splits/default", (req, res, next) => {
   RCH_RechargeLaggedQAQC.findAll()
     .then((data) => {
-      res.json(data);
+      res.json(data.map((d) => ({ ...d.dataValues, action: "fix" })));
     })
     .catch((err) => {
       next(err);

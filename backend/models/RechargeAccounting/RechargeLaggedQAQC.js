@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "rch_lagged_qaqc",
     {
       recharge_slice_ndx: { type: INTEGER, primaryKey: true },
+      recharge_project_ndx: { type: INTEGER },
       recharge_project_desc: { type: TEXT },
       structure_desc: { type: TEXT },
       recharge_decree_desc: { type: TEXT },

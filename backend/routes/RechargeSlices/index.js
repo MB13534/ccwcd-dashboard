@@ -83,9 +83,9 @@ router.get(
   "/missing-default-splits",
   checkPermission(["read:database-management"]),
   (req, res, next) => {
-    const { projects } = req.query;
+    const { projects, active } = req.query;
 
-    const buildWhereConditions = (projects) => {
+    const buildWhereConditions = (projects, active) => {
       let query = {
         where: {},
       };
@@ -96,11 +96,15 @@ router.get(
         };
       }
 
+      if (active) {
+        query.where.active = active;
+      }
+
       return query;
     };
 
     ListRechargeSlicesWithoutDefaultSplits.findAll(
-      buildWhereConditions(projects)
+      buildWhereConditions(projects, active)
     )
       .then((data) => {
         res.json(data);

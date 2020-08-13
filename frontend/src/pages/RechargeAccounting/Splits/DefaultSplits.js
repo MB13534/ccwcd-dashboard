@@ -1,19 +1,27 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Typography, Box, Button, Paper } from "@material-ui/core";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  Paper,
+  Collapse,
+} from "@material-ui/core";
+import { useParams, useHistory, Link } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import { TopNav } from "../../../components/TopNav";
 import useFetchData from "../../../hooks/useFetchData";
 import { MenuItems } from "../MenuItems";
 import ItemSummaryDrawer from "../../../components/ItemSummaryDrawer";
 import EditIcon from "@material-ui/icons/Edit";
-
-import { useParams, useHistory, Link } from "react-router-dom";
+import SplitsIcon from "@material-ui/icons/CallSplit";
 import { goTo } from "../../../util";
 import SplitsAdminTable from "./SplitsAdminTable";
 import DefaultSplitsDialog from "./DefaultSplitsDialog";
 import useVisibility from "../../../hooks/useVisibility";
 import MaterialTable from "material-table";
+import InfoCard from "../../../components/InfoCard";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -55,6 +63,7 @@ const DefaultSplits = (props) => {
   let { id } = useParams();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [splitsAction, setSplitsAction] = useState("add");
+  const [splitsFlagsOpen, setSplitsFlagsOpen] = useVisibility(true);
   const [splitsOpen, setSplitsOpen] = useVisibility(false);
   const [activeSlice, setActiveSlice] = useState({
     recharge_slice_ndx: -999,
@@ -64,7 +73,7 @@ const DefaultSplits = (props) => {
   });
   const [Projects] = useFetchData("recharge-projects", []);
   const [DefaultSplitsFlags] = useFetchData(
-    "recharge-accounting/flags/splits/default",
+    "recharge-slices/missing-default-splits?active=true",
     []
   );
   const [
@@ -146,22 +155,69 @@ const DefaultSplits = (props) => {
               <Box flexGrow={1}>
                 <TopNav menuItems={SubMenuItems} className={classes.topNav} />
                 <Box mt={3} mb={1} ml={2} mr={2}>
-                  <MaterialTable
-                    data={DefaultSplitsFlags}
-                    columns={[
-                      { title: "Structure", field: "structure_desc" },
-                      { title: "Decree", field: "recharge_decree_desc" },
-                    ]}
-                    components={{
-                      Container: (props) => (
-                        <Paper variant="outlined" {...props}></Paper>
-                      ),
-                    }}
-                    options={{
-                      padding: "dense",
-                      toolbar: false,
-                    }}
-                  />
+                  <Typography variant="h6" display="inline">
+                    Default Split Issues Found!
+                  </Typography>
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    size="small"
+                    style={{ marginLeft: 8 }}
+                    onClick={() => setSplitsFlagsOpen(false)}
+                  >
+                    {splitsFlagsOpen ? "Hide" : "Show"}
+                  </Button>
+
+                  <Collapse in={splitsFlagsOpen}>
+                    <InfoCard mt={1} mb={2}>
+                      <Typography variant="body1">
+                        Heads up! The following recharge slices are missing
+                        default splits. Select a slice from the table below to
+                        jump to the related project and resolve the issue.
+                      </Typography>
+                    </InfoCard>
+                    <MaterialTable
+                      data={DefaultSplitsFlags}
+                      columns={[
+                        { title: "Structure", field: "structure_desc" },
+                        { title: "Decree", field: "recharge_decree_desc" },
+                        {
+                          title: "Default Splits Issue?",
+                          field: "action",
+                          render: (rowData) => {
+                            return (
+                              <Button
+                                size="small"
+                                variant="contained"
+                                onClick={() => {
+                                  setActiveProject(rowData);
+                                  goTo(
+                                    history,
+                                    `recharge-accounting/splits/${rowData.recharge_project_ndx}/default`
+                                  );
+                                }}
+                                target="_blank"
+                                rel="noreferrer"
+                                startIcon={<SplitsIcon />}
+                                disableElevation
+                              >
+                                Fix Splits
+                              </Button>
+                            );
+                          },
+                        },
+                      ]}
+                      components={{
+                        Container: (props) => (
+                          <Paper variant="outlined" {...props}></Paper>
+                        ),
+                      }}
+                      options={{
+                        padding: "dense",
+                        toolbar: false,
+                      }}
+                    />
+                  </Collapse>
                 </Box>
                 <Box
                   mt={3}
