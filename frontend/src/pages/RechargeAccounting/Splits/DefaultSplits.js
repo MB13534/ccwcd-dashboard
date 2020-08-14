@@ -190,7 +190,6 @@ const DefaultSplits = (props) => {
                                 size="small"
                                 variant="contained"
                                 onClick={() => {
-                                  setActiveProject(rowData);
                                   goTo(
                                     history,
                                     `recharge-accounting/splits/${rowData.recharge_project_ndx}/default`
