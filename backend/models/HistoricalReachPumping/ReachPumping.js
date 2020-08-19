@@ -1,13 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, REAL, TEXT, BOOLEAN } = DataTypes;
   const WellPumping = sequelize.define(
-    "historical_well_pumping_report",
+    "historical_reach_pumping_report_view",
     {
-      well_index: {
+      subdistrict: {
+        type: TEXT,
+      },
+      reach_index: {
         type: INTEGER,
         primaryKey: true,
       },
-      wdid: {
+      reach_name: {
         type: TEXT,
       },
       i_year: {
@@ -18,32 +21,20 @@ module.exports = (sequelize, DataTypes) => {
         type: INTEGER,
         primaryKey: true,
       },
-      pumping_af: {
+      modeled_pumping_af: {
         type: REAL,
       },
-      fraction_metered: {
+      total_pumping_af: {
         type: REAL,
       },
-      fraction_estimated: {
+      metered_pumping_af: {
         type: REAL,
       },
-      inoperable: {
-        type: BOOLEAN,
-      },
-      plan_covered_af: {
+      estimated_pumping_af: {
         type: REAL,
       },
-      contracts: {
-        type: TEXT,
-      },
-      subdistrict: {
-        type: TEXT,
-      },
-      reach_index: {
-        type: INTEGER,
-      },
-      reach_name: {
-        type: TEXT,
+      external_plan_covered_af: {
+        type: REAL,
       },
     },
     {
