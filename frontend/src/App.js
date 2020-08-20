@@ -26,6 +26,10 @@ const HistoricalMemberUsageViewManagement = React.lazy(() =>
   import("./pages/Reports/HistoricalMemberUsage/ManageView")
 );
 
+const HistoricalReachPumping = React.lazy(() =>
+  import("./pages/Reports/HistoricalReachPumping/Report")
+);
+
 const Files = React.lazy(() => import("./pages/Files"));
 
 const FolderPage = React.lazy(() => import("./pages/Files/FolderPage"));
@@ -99,6 +103,12 @@ const App = () => {
               roles={[...DataViewerRoles, ...AdminRoles]}
               component={HistoricalMemberUsage}
             />
+            <PrivateRouteWithRoles
+              path="/historical-reach-pumping"
+              exact
+              roles={[...DataViewerRoles, ...AdminRoles]}
+              component={HistoricalReachPumping}
+            />            
             <PrivateRouteWithRoles
               path="/monthly-unlagged-recharge"
               exact
