@@ -92,6 +92,28 @@ db.HMU_Well_Info = require("./HistoricalMemberUsage/WellInfo")(
 );
 
 /**
+ * Historical Reach Pumping models
+ */
+/*
+ * db.Historical_Member_Usage_Views = require("./HistoricalMemberUsage/Views")(
+ * sequelize,
+ * Sequelize
+);
+*/
+db.HRP_Reach_Pumping = require("./HistoricalReachPumping/ReachPumping")(
+  sequelize,
+  Sequelize
+);
+db.HRP_Well_Pumping = require("./HistoricalReachPumping/ReachWellPumping")(
+  sequelize,
+  Sequelize
+);
+db.HRP_Well_List = require("./HistoricalReachPumping/ReachWellList")(
+  sequelize,
+  Sequelize
+);
+
+/**
  * Monthly Unlagged Recharge Data Report models
  */
 db.MonthlyUnlaggedRecharge = require("./MonthlyUnlaggedRecharge/MonthlyUnlaggedRecharge")(
