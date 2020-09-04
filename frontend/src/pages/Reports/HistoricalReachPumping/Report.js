@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import { FilterActions, FilterBar, FilterAdvanced } from "@lrewater/lre-react";
+//import { useParams } from "react-router-dom";
+//import { FilterActions, FilterBar, FilterAdvanced } from "@lrewater/lre-react";
+import { FilterActions, FilterBar } from "@lrewater/lre-react";
 import CopyIcon from "@material-ui/icons/FileCopy";
 import { useAuth0 } from "../../../hooks/auth";
 import useFetchData from "../../../hooks/useFetchData";
@@ -51,7 +52,7 @@ const HistoricalReachPumpingReport = (props) => {
 
   // Fetch data if the user has selected a view
   // const [view] = useFetchData(
-  //   `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
+  //   `historical-reach-pumping/views/${viewNdx ? viewNdx : -9999}`,
   //   [viewNdx]
   // );
 
@@ -212,13 +213,13 @@ const HistoricalReachPumpingReport = (props) => {
   //         const headers = { Authorization: `Bearer ${token}` };
   //         if (!filterValues.depletion_start_year) {
   //           const response = await axios.get(
-  //             `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${view.dataset}/${view.well_index}`,
+  //             `${process.env.REACT_APP_ENDPOINT}/api/historical-reach-pumping/${view.dataset}/${view.well_index}`,
   //             { headers }
   //           );
   //           setData(response.data);
   //         } else {
   //           const response = await axios.get(
-  //             `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${view.dataset}/${view.well_index}/${view.depletion_start_year}`,
+  //             `${process.env.REACT_APP_ENDPOINT}/api/historical-reach-pumping/${view.dataset}/${view.well_index}/${view.depletion_start_year}`,
   //             { headers }
   //           );
   //           setData(response.data);
@@ -234,7 +235,7 @@ const HistoricalReachPumpingReport = (props) => {
   //         const token = await getTokenSilently();
   //         const headers = { Authorization: `Bearer ${token}` };
   //         const response = await axios.get(
-  //           `${process.env.REACT_APP_ENDPOINT}/api/historical-member-usage/${filterValues.dataset}/${filterValues.well_index}/${filterValues.depletion_start_year}`,
+  //           `${process.env.REACT_APP_ENDPOINT}/api/historical-reach-pumping/${filterValues.dataset}/${filterValues.well_index}/${filterValues.depletion_start_year}`,
   //           { headers }
   //         );
   //         setData(response.data);
@@ -280,14 +281,14 @@ const HistoricalReachPumpingReport = (props) => {
         <FilterActions>
           <Submit />
           {/* <SaveFilters
-            endpoint="historical-member-usage/views"
-            redirect="historical-member-usage"
+            endpoint="historical-reach-pumping/views"
+            redirect="historical-reach-pumping"
             filterValues={prepFormValues(filterValues)}
           /> */}
         </FilterActions>
 
         {/* <FilterAdvanced>
-          <SavedViews endpoint="historical-member-usage/views" />
+          <SavedViews endpoint="historical-reach-pumping/views" />
         </FilterAdvanced> */}
       </FilterBar>
 
