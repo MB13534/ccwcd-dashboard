@@ -48,6 +48,10 @@ const MeterCorrectionFactors = React.lazy(() =>
   import("./pages/MembersDataManagement/MeterCorrectionFactors")
 );
 
+const WellAttributes = React.lazy(() =>
+  import("./pages/MembersDataManagement/WellAttributes")
+);
+
 const RechargeAccounting = React.lazy(() =>
   import("./pages/RechargeAccounting")
 );
@@ -169,7 +173,13 @@ const App = () => {
               roles={AdminRoles}
               component={MeterCorrectionFactors}
             />
-            <Route
+            <PrivateRouteWithRoles
+              path="/members-management/well-attributes"
+              exact
+              roles={AdminRoles}
+              component={WellAttributes}
+            />
+          <Route
               path="/files"
               exact
               // roles={[...DataViewerRoles, ...AdminRoles]}

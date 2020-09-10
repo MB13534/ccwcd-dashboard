@@ -193,7 +193,15 @@ const Sidebar = (props) => {
           loginRequired: true,
           rolesRequired: ["LRE Admin", "CCWCD Admin"],
         },
-      ],
+        {
+          link: "members-management/well-attributes",
+          title: "Well Attributes",
+          activePath: "members-management/well-attributes",
+          icon: ReportsIcon,
+          loginRequired: true,
+          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+        },
+                    ],
     },
     {
       link: "recharge-accounting",
