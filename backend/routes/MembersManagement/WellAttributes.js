@@ -38,7 +38,7 @@ router.get("/", (req, res, next) => {
 router.put("/", (req, res, next) => {
   WellAttributes.update(req.body, {
     where: {
-      ndx: req.body.ndx,
+      well_index: req.body.well_index,
     },
   })
     .then(data => {

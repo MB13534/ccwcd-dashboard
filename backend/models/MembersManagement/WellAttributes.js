@@ -34,7 +34,9 @@ module.exports = (sequelize, DataTypes) => {
       treat_div_as_surface: {
         type: BOOLEAN,
       },
-    },
+      inactive: {
+        type: BOOLEAN,
+      },    },
     {
       timestamps: false,
       schema: "data",

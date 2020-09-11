@@ -40,7 +40,13 @@ const WellAttributes = props => {
             Well Attributes
           </Typography>
           <Typography variant="caption" gutterBottom>
-            (NOTE New Wells must be added through the Contracts Management system)
+          NOTES:
+          <ul>
+          <li>This page allows editing attributes for existing wells.  New Wells must be added through the Contracts Management system</li>
+          <li>Inactive wells are those with historical depletions but no active pumping, therefore don't need glover factors.</li>
+          <li>Updates to reach associations will take immediate effect in the database (Reach A = 1, Reach F = 6, etc)</li>
+          <li>Updates to Glover Factors will NOT affect depletions until a new URF is developed and loaded.  Please contact Kelly at LRE.</li>
+          </ul>
           </Typography>
           <WellAttributesTable
             wells={Wells}

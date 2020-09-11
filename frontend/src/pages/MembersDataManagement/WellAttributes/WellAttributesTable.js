@@ -53,16 +53,16 @@ const WellAttributesTable = ({ refreshSwitch, meters }) => {
 //  }, [reaches]);
 
   const columns = [
-    { title: "WDID", field: "wdid" },
-    { title: "Permit No.", field: "permit_no" },
+    { title: "WDID", field: "wdid", editable: "never" },
+    { title: "Inactive", field: "inactive", editable: "never" },
+    { title: "PermitNo", field: "permit_no" },
     { title: "Reach", field: "reach_index",
 //      lookup: formattedReaches,
     },
-    { title: "Admin No.", field: "admin_no" },
+    { title: "AdminNo", field: "admin_no" },
     { title: "Glover-Xft", field: "glover_x" },
     { title: "Glover-Wft", field: "glover_w" },
     { title: "Glover-Tgpdf", field: "glover_t_gpdf" },
-    { title: "SurfaceDiv", field: "treat_div_as_surface" },
 //    { title: "Notes", field: "notes" },
   ];
 
