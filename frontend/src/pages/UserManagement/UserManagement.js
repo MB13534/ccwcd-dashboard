@@ -42,7 +42,7 @@ const UserManagement = (props) => {
   const classes = useStyles();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [userSyncRefreshSwitch, setUserSyncRefreshSwitch] = useState(false);
-  const { getTokenSilently } = useAuth0();
+  const { getTokenSilently, user } = useAuth0();
   const [Users] = useFetchData("user-management/users", [
     userSyncRefreshSwitch,
   ]);
@@ -231,17 +231,19 @@ const UserManagement = (props) => {
           <Typography variant="h5" gutterBottom>
             User Management
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={formSubmitting}
-            onClick={handleSync}
-          >
-            Sync Auth0 with Database
-            {formSubmitting && (
-              <CircularProgress size={24} className={classes.buttonProgress} />
-            )}
-          </Button>
+          {user["https://ccwcd2.org/roles"].includes("CCWCD Admin Demo") === false &&
+            <Button
+                variant="contained"
+                color="primary"
+                disabled={formSubmitting}
+                onClick={handleSync}
+            >
+              Sync Auth0 with Database
+              {formSubmitting && (
+                  <CircularProgress size={24} className={classes.buttonProgress}/>
+              )}
+            </Button>
+          }
         </Flex>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={5} className={classes.colLeft}>
