@@ -63,7 +63,7 @@ const DatabaseManagement = React.lazy(() =>
 const App = () => {
   const { isAuthenticated, loading } = useAuth0();
 
-  const AdminRoles = ["LRE Admin", "CCWCD Admin"];
+  const AdminRoles = ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"];
   const DataViewerRoles = ["CCWCD Data Viewer"];
 
   if (loading) {

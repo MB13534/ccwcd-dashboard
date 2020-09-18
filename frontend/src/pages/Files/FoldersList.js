@@ -48,7 +48,8 @@ const FoldersList = ({ data }) => {
               {item.folderLink &&
                 user &&
                 (user["https://ccwcd2.org/roles"].includes("CCWCD Admin") ||
-                  user["https://ccwcd2.org/roles"].includes("LRE Admin")) && (
+                  user["https://ccwcd2.org/roles"].includes("LRE Admin") ||
+                    user["https://ccwcd2.org/roles"].includes("CCWCD Admin Demo")) && (
                   <Button
                     color="primary"
                     href={item.folderLink}

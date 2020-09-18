@@ -141,7 +141,7 @@ const Sidebar = (props) => {
       activePath: "reports",
       icon: ReportsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer", "CCWCD Admin Demo"],
     },
     {
       link: "all-things-viewer",
@@ -150,7 +150,7 @@ const Sidebar = (props) => {
       exact: true,
       icon: EcoIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer", "CCWCD Admin Demo"],
     },
     {
       link: "user-management",
@@ -158,7 +158,7 @@ const Sidebar = (props) => {
       activePath: "user-management",
       icon: AccountIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
     },
     {
       link: "members-management/contracts-wells-meters",
@@ -166,7 +166,7 @@ const Sidebar = (props) => {
       activePath: "members-management",
       icon: DashboardIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
       visibilityVarName: "dataManagementVisibility",
       children: [
         {
@@ -175,7 +175,7 @@ const Sidebar = (props) => {
           activePath: "members-management/contracts-wells-meters",
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
         },
         {
           link: "members-management/meter-adjustments",
@@ -183,7 +183,7 @@ const Sidebar = (props) => {
           activePath: "members-management/meter-adjustments",
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
         },
         {
           link: "members-management/meter-correction-factors",
@@ -191,7 +191,7 @@ const Sidebar = (props) => {
           activePath: "members-management/meter-correction-factors",
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
         },
         {
           link: "members-management/well-attributes",
@@ -199,7 +199,7 @@ const Sidebar = (props) => {
           activePath: "members-management/well-attributes",
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin"],
+          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
         },
                     ],
     },
@@ -209,7 +209,7 @@ const Sidebar = (props) => {
       activePath: "recharge-accounting",
       icon: RechargeIcon,
       loginRequired: true,
-      rolesRequired: ["CCWCD Admin", "LRE Admin"],
+      rolesRequired: ["CCWCD Admin", "LRE Admin", "CCWCD Admin Demo"],
     },
     {
       link: "depletions-modeling",
@@ -233,7 +233,7 @@ const Sidebar = (props) => {
       activePath: "database-management",
       icon: DnsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin"],
+      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
     },
   ];
 

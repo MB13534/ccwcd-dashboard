@@ -15,7 +15,7 @@ const WaterSlices = React.lazy(() => import("./WaterSlices"));
 const Splits = React.lazy(() => import("./Splits"));
 
 const RechargeAccounting = (props) => {
-  const AdminRoles = ["LRE Admin", "CCWCD Admin"];
+  const AdminRoles = ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"];
   let { url } = useRouteMatch();
 
   return (

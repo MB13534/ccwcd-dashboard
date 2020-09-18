@@ -18,7 +18,7 @@ const Measurements = React.lazy(() => import("./Measurements"));
 const Alerts = React.lazy(() => import("./Alerts"));
 
 const DatabaseManagement = (props) => {
-  const AdminRoles = ["LRE Admin", "CCWCD Admin"];
+  const AdminRoles = ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"];
   let { url } = useRouteMatch();
 
   return (
