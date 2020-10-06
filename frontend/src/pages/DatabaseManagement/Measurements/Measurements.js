@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
 const RelatedTablesLinks = [
   {
     id: 1,
+    title: "Measurements-to-Structures Assoc",
+    path: "/database-management/structures/measurements",
+  },
+  {
+    id: 1,
     title: "Structures",
     path: "/database-management/structures",
   },
@@ -109,11 +114,6 @@ const Measurements = (props) => {
       title: "Sources",
       field: "source_ndx",
       lookup: formattedSources,
-    },
-    {
-      title: "HIDE?",
-      field: "inactive",
-      type: "boolean",
     },
     {
       title: "To Accounting?",

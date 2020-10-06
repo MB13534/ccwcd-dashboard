@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       display_order: {
         type: INTEGER,
       },
-      inactive: {
+      to_accounting: {
         type: BOOLEAN,
       },
       remark: {
