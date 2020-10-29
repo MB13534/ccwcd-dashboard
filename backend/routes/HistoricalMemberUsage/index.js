@@ -9,6 +9,7 @@ const { crosstab, setAPIDate } = require("../../util");
 const {
   Historical_Member_Usage_Views,
   HMU_Meter_Readings,
+  HMU_Meter_Pumping,
   HMU_Well_Pumping,
   HMU_Well_Depletions,
   HMU_Well_Info,
@@ -52,6 +53,24 @@ router.get("/meter-readings/:wells", (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+});
+
+// GET /api/historical-member-usage/meter-pumping/:wells
+// Route for returning meter pumping data
+router.get("/meter-pumping/:wells", (req, res, next) => {
+  HMU_Meter_Pumping.findAll({
+    where: {
+      well_index: {
+        [Op.overlap]: req.params.wells.split(","),
+      },
+    },
+  })
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
 });
 
 // GET /api/historical-member-usage/well-pumping/:wells

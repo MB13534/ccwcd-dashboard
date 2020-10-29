@@ -39,6 +39,7 @@ const HistoricalMemberUsageReport = (props) => {
   // options for the dataset dropdown
   const DatasetData = [
     { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
+    { dataset_ndx: "meter-pumping", dataset_desc: "Meter Pumping" },
     {
       dataset_ndx: "well-pumping",
       dataset_desc: "Well Pumping",
@@ -71,6 +72,7 @@ const HistoricalMemberUsageReport = (props) => {
   const TableTitle = useTableTitle(
     {
       "meter-readings": "Meter Readings",
+      "meter-pumping": "Meter Pumping",
       "well-pumping": "Well Pumping",
       "well-depletions": "Well Depletions",
       "well-info": "Well Info",
@@ -95,6 +97,15 @@ const HistoricalMemberUsageReport = (props) => {
           { title: "Source", field: "source" },
           { title: "WDIDs", field: "wdids" },
           { title: "Notes", field: "notes" },
+        ];
+      } else if (dataset === "meter-pumping") {
+        return [
+          { title: "Meter", field: "meter_sn" },
+          { title: "Year", field: "i_year" },
+          { title: "Month", field: "i_month" },
+          { title: "Pumping (AF)", field: "pumping_af" },
+          { title: "Metered Fraction", field: "fraction_metered" },
+          { title: "WDIDs", field: "wdids" },
         ];
       } else if (dataset === "well-pumping") {
         return [

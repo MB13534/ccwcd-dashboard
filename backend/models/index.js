@@ -78,6 +78,10 @@ db.HMU_Meter_Readings = require("./HistoricalMemberUsage/MeterReadings")(
   sequelize,
   Sequelize
 );
+db.HMU_Meter_Pumping = require("./HistoricalMemberUsage/MeterPumping")(
+  sequelize,
+  Sequelize
+);
 db.HMU_Well_Depletions = require("./HistoricalMemberUsage/WellDepletions")(
   sequelize,
   Sequelize
