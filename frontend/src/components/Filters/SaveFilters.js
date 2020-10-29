@@ -116,8 +116,7 @@ const SaveFilters = ({ endpoint, redirect, filterValues }) => {
         <DialogTitle>Save as New View</DialogTitle>
         <DialogContent>
           <Typography variant="body1" className={classes.helpText}>
-            Lorem ipsum dolor amet ennui jianbing taiyaki distillery everyday
-            carry, meggings tbh shoreditch tote bag salvia migas.
+            Please use the following form to save a new view.
           </Typography>
           <form onSubmit={handleSaveViewSubmit}>
             <TextField
