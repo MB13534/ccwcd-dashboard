@@ -63,7 +63,7 @@ const SavedViews = ({ endpoint }) => {
     try {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
-      const view = await axios.delete(
+      await axios.delete(
           `${process.env.REACT_APP_ENDPOINT}/api/${endpoint}/${currentChipData.view_ndx}`,
           { headers }
       );
