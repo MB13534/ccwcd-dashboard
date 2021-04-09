@@ -1,0 +1,10 @@
+{
+  "name": "ccwcd-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "npm run start:backend && npm run start:frontend",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm dev"
+  }
+}
