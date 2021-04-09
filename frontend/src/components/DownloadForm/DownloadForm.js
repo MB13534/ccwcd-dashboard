@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Paper, Box, Button, lighten } from "@material-ui/core";
-import { CSVLink } from "react-csv";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Paper, Box, Button, lighten } from '@material-ui/core';
+import { CSVLink } from 'react-csv';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(2),
   },
@@ -14,24 +14,23 @@ const useStyles = makeStyles((theme) => ({
   downloadBtn: {
     boxShadow: `0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)`,
     backgroundColor: theme.palette.primary.main,
-    color: "#ffffff",
-    textDecoration: "none",
-    padding: "8px 16px",
-    fontSize: "0.875rem",
+    color: '#ffffff',
+    textDecoration: 'none',
+    padding: '8px 16px',
+    fontSize: '0.875rem',
     minWidth: 64,
-    boxSizing: "border-box",
+    boxSizing: 'border-box',
     transition:
-      "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+      'background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     fontWeight: 500,
     lineHeight: 1.75,
     borderRadius: 4,
-    letterSpacing: "0.02857em",
-    textTransform: "uppercase",
+    letterSpacing: '0.02857em',
+    textTransform: 'uppercase',
     marginTop: theme.spacing(2),
-    "&:hover": {
-      boxShadow:
-        "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
-      backgroundColor: "#303f9f",
+    '&:hover': {
+      boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)',
+      backgroundColor: '#303f9f',
     },
   },
   noDataAlert: {
@@ -42,15 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DownloadForm = ({
-  title,
-  text,
-  data,
-  onDownload,
-  onSaveView,
-  children,
-  ...other
-}) => {
+const DownloadForm = ({ title, text, data, onDownload, onSaveView, children, ...other }) => {
   const classes = useStyles();
 
   return (
@@ -69,8 +60,7 @@ const DownloadForm = ({
       {data.length === 0 && (
         <div className={classes.noDataAlert}>
           <Typography variant="body1">
-            Heads up! There is no data for your current period of record and
-            filter selections.
+            Heads up! There is no data for your current period of record and filter selections.
           </Typography>
         </div>
       )}
@@ -87,12 +77,7 @@ const DownloadForm = ({
           </CSVLink>
         )}
         {onSaveView && (
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.btn}
-            onClick={onSaveView}
-          >
+          <Button variant="contained" color="secondary" className={classes.btn} onClick={onSaveView}>
             Save as View
           </Button>
         )}
@@ -102,10 +87,7 @@ const DownloadForm = ({
 };
 
 DownloadForm.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   text: PropTypes.string,
   title: PropTypes.string,
   onDownload: PropTypes.func,

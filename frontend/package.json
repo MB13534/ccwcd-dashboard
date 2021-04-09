@@ -17,12 +17,12 @@
     "mapbox-gl": "^1.10.1",
     "material-table": "^1.57.2",
     "papaparse": "^5.2.0",
-    "react": "^16.12.0",
+    "react": "^16.14.0",
     "react-csv": "^1.1.2",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.14.0",
     "react-joyride": "^2.2.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^4.0.0",
     "react-window": "^1.8.5",
     "recharts": "^1.8.5"
   },
@@ -32,7 +32,7 @@
     "build_local": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009 -s public",
+    "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
@@ -51,6 +51,12 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.2.7",
+    "@storybook/addon-essentials": "^6.2.7",
+    "@storybook/addon-links": "^6.2.7",
+    "@storybook/node-logger": "^6.2.7",
+    "@storybook/preset-create-react-app": "^3.1.7",
+    "@storybook/react": "^6.2.7",
     "@testing-library/react": "^9.4.0",
     "@testing-library/react-hooks": "^3.2.1",
     "@testing-library/user-event": "^8.0.3",

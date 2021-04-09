@@ -1,13 +1,13 @@
-import React from "react";
-import { default as BackNav } from "./BackNav";
-import { CssBaseline } from "@material-ui/core";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import { default as BackNav } from './BackNav';
+import { CssBaseline } from '@material-ui/core';
+import { BrowserRouter } from 'react-router-dom';
 
 export default {
-  title: "Components/BackNav",
+  title: 'Components/BackNav',
+  component: BackNav,
   parameters: {
-    component: BackNav,
-    componentSubtitle: "Component used to render a back navigation button.",
+    componentSubtitle: 'Component used to render a back navigation button.',
   },
 };
 
