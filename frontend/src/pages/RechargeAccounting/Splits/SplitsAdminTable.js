@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import axios from "axios";
-import PropTypes from "prop-types";
-import { Paper, makeStyles } from "@material-ui/core";
-import CopyIcon from "@material-ui/icons/FileCopy";
-import MaterialTable, { MTableBodyRow } from "material-table";
-import { useAuth0 } from "../../../hooks/auth";
-import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import FormSnackbar from "../../../components/FormSnackbar";
-import useVisibility from "../../../hooks/useVisibility";
-import { copyToClipboard } from "../../../util";
+import React, { useState } from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { Paper, makeStyles } from '@material-ui/core';
+import CopyIcon from '@material-ui/icons/FileCopy';
+import MaterialTable, { MTableBodyRow } from 'material-table';
+import { useAuth0 } from '../../../hooks/auth';
+import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
+import FormSnackbar from '../../../components/FormSnackbar';
+import useVisibility from '../../../hooks/useVisibility';
+import { copyToClipboard as copyToClipboardFunc } from '../../../util';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   table: {
-    "& th": {
+    '& th': {
       paddingLeft: theme.spacing(2),
     },
-    "& td": {
+    '& td': {
       paddingLeft: `${theme.spacing(2)}px!important`,
     },
   },
@@ -32,8 +32,9 @@ const SplitsAdminTable = ({
   data,
   columns,
   loading,
+  copyToClipboard,
   updateHandler,
-  splitsType = "monthly",
+  splitsType = 'monthly',
   options = {},
   components = {},
   actions = [],
@@ -42,12 +43,7 @@ const SplitsAdminTable = ({
 }) => {
   const classes = useStyles();
   const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
-  const {
-    setWaitingState,
-    snackbarOpen,
-    snackbarError,
-    handleSnackbarClose,
-  } = useFormSubmitStatus();
+  const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
   const [selectedRow, setSelectedRow] = useState(null);
 
@@ -58,8 +54,31 @@ const SplitsAdminTable = ({
    * file name lower case
    * @param {string} title
    */
-  const setFileName = (title = "") => {
-    return title.toLowerCase().replace(/ /gi, "_");
+  const setFileName = (title = '') => {
+    return title.toLowerCase().replace(/ /gi, '_');
+  };
+
+  /**
+   * Utility function used to generate table actions based on
+   * if the custom copyToClipboard action is enabled and any other
+   * provided custom actions
+   * @param {array} actions array of table actions
+   * @param {boolean} copyToClipboard whether the copyToClipboard action is enabled
+   * @returns {array} returns an array of material table actions
+   */
+  const getTableActions = (actions, copyToClipboard) => {
+    if (!copyToClipboard) return actions;
+    return [
+      {
+        icon: CopyIcon,
+        tooltip: 'Copy Data',
+        isFreeAction: true,
+        onClick: event => {
+          copyToClipboardFunc(data, columns, () => handleCopySnackbarOpen(true));
+        },
+      },
+      ...actions,
+    ];
   };
 
   /**
@@ -69,37 +88,37 @@ const SplitsAdminTable = ({
    */
   const handleUpdate = (newData, oldData) => {
     return (async () => {
-      setWaitingState("in progress");
+      setWaitingState('in progress');
       try {
         if (oldData) {
           const token = await getTokenSilently();
           const headers = { Authorization: `Bearer ${token}` };
-          if (splitsType === "monthly") {
+          if (splitsType === 'monthly') {
             await axios.put(
               `${process.env.REACT_APP_ENDPOINT}/api/recharge-accounting/splits/${newData.recharge_slice_ndx}/${newData.r_year}/${newData.r_month}`,
               newData,
               { headers }
             );
-          } else if (splitsType === "default") {
+          } else if (splitsType === 'default') {
             await axios.put(
               `${process.env.REACT_APP_ENDPOINT}/api/recharge-accounting/splits/default/${newData.recharge_slice_ndx}`,
               newData,
               { headers }
             );
           }
-          updateHandler((prevState) => {
+          updateHandler(prevState => {
             const data = [...prevState];
             data[data.indexOf(oldData)] = newData;
             return data;
           });
           handleRefresh();
-          setWaitingState("complete", "no error");
+          setWaitingState('complete', 'no error');
         } else {
-          setWaitingState("complete", "error");
+          setWaitingState('complete', 'error');
         }
       } catch (err) {
         console.error(err);
-        setWaitingState("complete", "error");
+        setWaitingState('complete', 'error');
       }
     })();
   };
@@ -118,8 +137,8 @@ const SplitsAdminTable = ({
           onRowUpdate: handleUpdate,
         }}
         components={{
-          Row: (props) => <MTableBodyRow {...props} />,
-          Container: (props) => <Paper variant="outlined" {...props}></Paper>,
+          Row: props => <MTableBodyRow {...props} />,
+          Container: props => <Paper variant="outlined" {...props}></Paper>,
           ...components,
         }}
         options={{
@@ -128,34 +147,19 @@ const SplitsAdminTable = ({
           exportButton: true,
           exportAllData: true,
           exportFileName: setFileName(title),
-          addRowPosition: "first",
-          actionsCellStyle: { justifyContent: "center" },
+          addRowPosition: 'first',
+          actionsCellStyle: { justifyContent: 'center' },
           actionsColumnIndex: 0,
           pageSize: options.pageSize || 30,
           pageSizeOptions: options.pageSizeOptions || [15, 30, 45],
           maxBodyHeight: data.length < 20 ? 525 : 625,
-          padding: "dense",
+          padding: 'dense',
           ...options,
-          rowStyle: (rowData) => ({
-            backgroundColor:
-              selectedRow && selectedRow.tableData.id === rowData.tableData.id
-                ? "#EEE"
-                : "#FFF",
+          rowStyle: rowData => ({
+            backgroundColor: selectedRow && selectedRow.tableData.id === rowData.tableData.id ? '#EEE' : '#FFF',
           }),
         }}
-        actions={[
-          {
-            icon: CopyIcon,
-            tooltip: "Copy Data",
-            isFreeAction: true,
-            onClick: (event) => {
-              copyToClipboard(data, columns, () =>
-                handleCopySnackbarOpen(true)
-              );
-            },
-          },
-          ...actions,
-        ]}
+        actions={getTableActions(actions, copyToClipboard)}
         {...other}
       />
       <FormSnackbar
@@ -201,7 +205,7 @@ SplitsAdminTable.propTypes = {
    * Splits type
    * i.e. "monthly", "default"
    */
-  splitsType: PropTypes.oneOf(["monthly", "default"]),
+  splitsType: PropTypes.oneOf(['monthly', 'default']),
   /**
    * Name of the table field that contains the key index values
    * for the table.

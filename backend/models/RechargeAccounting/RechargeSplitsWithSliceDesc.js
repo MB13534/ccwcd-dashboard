@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, REAL, TEXT } = DataTypes;
   const RechargeSplitsWithSliceDesc = sequelize.define(
-    "rch_splits_with_slice_desc",
+    'rch_splits_with_slice_desc',
     {
       recharge_project_ndx: {
         type: INTEGER,
@@ -40,10 +40,28 @@ module.exports = (sequelize, DataTypes) => {
       dtch: {
         type: REAL,
       },
+      total_split: {
+        type: REAL,
+      },
+      gms_af: {
+        type: REAL,
+      },
+      was_af: {
+        type: REAL,
+      },
+      ownr_af: {
+        type: REAL,
+      },
+      dtch_af: {
+        type: REAL,
+      },
+      total_af: {
+        type: REAL,
+      },
     },
     {
       timestamps: false,
-      schema: "web",
+      schema: 'web',
       freezeTableName: true,
     }
   );

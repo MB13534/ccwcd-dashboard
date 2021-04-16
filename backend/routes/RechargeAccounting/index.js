@@ -1,11 +1,8 @@
-const express = require("express");
-const {
-  checkAccessToken,
-  checkPermission,
-} = require("../../middleware/auth.js");
-const Sequelize = require("sequelize");
+const express = require('express');
+const { checkAccessToken, checkPermission } = require('../../middleware/auth.js');
+const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const { crosstab, setAPIDate } = require("../../util");
+const { crosstab, setAPIDate } = require('../../util');
 const {
   RCH_FlagsReport,
   RCH_SunburstUnlagged,
@@ -25,8 +22,8 @@ const {
   RCH_LaggingStatus,
   RCH_SunburstLagged,
   RCH_RechargeLaggedQAQC,
-} = require("../../models");
-const db = require("../../models");
+} = require('../../models');
+const db = require('../../models');
 
 // Create Express Router
 const router = express.Router();
@@ -35,34 +32,32 @@ const router = express.Router();
 router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 
 // Attach middleware to ensure that the user has the proper permissions
-router.use(
-  checkPermission(["read:recharge-accounting", "write:recharge-accounting"])
-);
+router.use(checkPermission(['read:recharge-accounting', 'write:recharge-accounting']));
 
 /**
  * POST /api/recharge-accounting/import
  * Route for importing recharge data from
  * Ruthanne's Excel spreadsheet
  */
-router.post("/import", (req, res, next) => {
+router.post('/import', (req, res, next) => {
   db.sequelize
-    .query("SELECT data.import_recharge()")
-    .then((data) => {
+    .query('SELECT data.import_recharge()')
+    .then(data => {
       res.sendStatus(204);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
 
 // GET /api/recharge-accounting/imports
 // Route for returning recharge accounting imports data
-router.get("/imports", (req, res, next) => {
+router.get('/imports', (req, res, next) => {
   RCH_ReviewImports.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -71,12 +66,12 @@ router.get("/imports", (req, res, next) => {
  * GET /api/recharge-accounting/imports/qaqc/summary
  * Route for returning recharge accounting imports slices qaqc data rollup
  */
-router.get("/imports/qaqc/summary", (req, res, next) => {
+router.get('/imports/qaqc/summary', (req, res, next) => {
   RCH_ListSlicesQAQCTimeStepsRollup.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -86,17 +81,17 @@ router.get("/imports/qaqc/summary", (req, res, next) => {
  * Route for returning recharge accounting imports slices qaqc data
  * for the provided year and month combo
  */
-router.get("/imports/qaqc/:year/:month", (req, res, next) => {
+router.get('/imports/qaqc/:year/:month', (req, res, next) => {
   RCH_ListSlicesQAQCTimeSteps.findAll({
     where: {
       r_year: req.params.year,
       r_month: req.params.month,
     },
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -105,12 +100,12 @@ router.get("/imports/qaqc/:year/:month", (req, res, next) => {
  * GET /api/recharge-accounting/splits/default
  * Route for returning recharge accounting default splits
  */
-router.get("/splits/default", (req, res, next) => {
+router.get('/splits/default', (req, res, next) => {
   RCH_RechargeSplitsDefault.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -118,12 +113,12 @@ router.get("/splits/default", (req, res, next) => {
  * GET /api/recharge-accounting/splits/default
  * Route for returning recharge accounting default splits
  */
-router.get("/splits/default", (req, res, next) => {
+router.get('/splits/default', (req, res, next) => {
   RCH_RechargeSplitsDefault.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -133,12 +128,12 @@ router.get("/splits/default", (req, res, next) => {
  * Route for returning recharge accounting default splits for a
  * single recharge slice
  */
-router.get("/splits/default/:id", (req, res, next) => {
+router.get('/splits/default/:id', (req, res, next) => {
   RCH_RechargeSplitsDefault.findByPk(req.params.id)
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -148,16 +143,16 @@ router.get("/splits/default/:id", (req, res, next) => {
  * Route for returning default recharge accounting splits for a
  * single recharge project
  */
-router.get("/splits/default/project/:id", (req, res, next) => {
+router.get('/splits/default/project/:id', (req, res, next) => {
   RCH_RechargeSplitsDefaultWithSliceDesc.findAll({
     where: {
       recharge_project_ndx: req.params.id,
     },
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -167,12 +162,12 @@ router.get("/splits/default/project/:id", (req, res, next) => {
  * Route for creating new recharge accounting default splits for a
  * single recharge slice
  */
-router.post("/splits/default", (req, res, next) => {
+router.post('/splits/default', (req, res, next) => {
   RCH_RechargeSplitsDefault.create(req.body)
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -182,7 +177,7 @@ router.post("/splits/default", (req, res, next) => {
  * Route for updating recharge accounting default splits for a
  * single recharge slice
  */
-router.put("/splits/default/:id", (req, res, next) => {
+router.put('/splits/default/:id', (req, res, next) => {
   let response = [];
   RCH_RechargeSplitsDefault.update(req.body, {
     where: {
@@ -190,10 +185,10 @@ router.put("/splits/default/:id", (req, res, next) => {
     },
     returning: true,
   })
-    .then((data) => {
+    .then(data => {
       response = data[1][0];
     })
-    .then((data) => {
+    .then(data => {
       return RCH_DefaultSplitsPorLanding.destroy({
         truncate: true,
       });
@@ -201,10 +196,10 @@ router.put("/splits/default/:id", (req, res, next) => {
     .then(() => {
       return RCH_DefaultSplitsPorLanding.create(req.body);
     })
-    .then((data) => {
+    .then(data => {
       res.json(response);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -213,12 +208,12 @@ router.put("/splits/default/:id", (req, res, next) => {
  * GET /api/recharge-accounting/splits
  * Route for returning recharge accounting splits
  */
-router.get("/splits", (req, res, next) => {
+router.get('/splits', (req, res, next) => {
   RCH_RechargeSplits.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -228,16 +223,16 @@ router.get("/splits", (req, res, next) => {
  * Route for returning recharge accounting splits for a
  * single recharge slice
  */
-router.get("/splits/:id", (req, res, next) => {
+router.get('/splits/:id', (req, res, next) => {
   RCH_RechargeSplits.findAll({
     where: {
       recharge_slice_ndx: req.params.id,
     },
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -247,7 +242,7 @@ router.get("/splits/:id", (req, res, next) => {
  * Route for returning recharge accounting splits for a
  * single recharge slice for a specific year and month
  */
-router.get("/splits/:id/:year/:month", (req, res, next) => {
+router.get('/splits/:id/:year/:month', (req, res, next) => {
   RCH_RechargeSplits.findAll({
     where: {
       recharge_slice_ndx: req.params.id,
@@ -255,10 +250,10 @@ router.get("/splits/:id/:year/:month", (req, res, next) => {
       r_month: req.params.month,
     },
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -268,18 +263,22 @@ router.get("/splits/:id/:year/:month", (req, res, next) => {
  * Route for returning recharge accounting splits for a
  * single recharge project for a specific year and month
  */
-router.get("/splits/project/:id/:year/:month", (req, res, next) => {
+router.get('/splits/project/:id/:year/:month', (req, res, next) => {
+  const { excludeNullTotals } = req.query;
+  const where = {
+    recharge_project_ndx: req.params.id,
+    r_year: req.params.year,
+    r_month: req.params.month,
+  };
+
+  if (excludeNullTotals) where.total_af = { [Op.not]: null };
   RCH_RechargeSplitsWithSliceDesc.findAll({
-    where: {
-      recharge_project_ndx: req.params.id,
-      r_year: req.params.year,
-      r_month: req.params.month,
-    },
+    where: where,
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -289,7 +288,7 @@ router.get("/splits/project/:id/:year/:month", (req, res, next) => {
  * Route for updating recharge accounting splits for a
  * single recharge slice
  */
-router.put("/splits/:id/:year/:month", (req, res, next) => {
+router.put('/splits/:id/:year/:month', (req, res, next) => {
   RCH_RechargeSplits.upsert(
     {
       ...req.body,
@@ -305,10 +304,10 @@ router.put("/splits/:id/:year/:month", (req, res, next) => {
       returning: true,
     }
   )
-    .then((data) => {
+    .then(data => {
       res.json(data[1][0]);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -317,16 +316,16 @@ router.put("/splits/:id/:year/:month", (req, res, next) => {
  * GET /api/recharge-accounting/urfs/:recharge_slice
  * Route for returning URFs data for a single recharge slice
  */
-router.get("/urfs/:recharge_slice", (req, res, next) => {
+router.get('/urfs/:recharge_slice', (req, res, next) => {
   RCH_UrfsData.findAll({
     where: {
       recharge_slice_ndx: req.params.recharge_slice,
     },
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -338,7 +337,7 @@ router.get("/urfs/:recharge_slice", (req, res, next) => {
  * There is a trigger function on the landing table that
  * kicks off the URF import process
  */
-router.post("/urfs/import", (req, res, next) => {
+router.post('/urfs/import', (req, res, next) => {
   RCH_UrfImportSliceLanding.destroy({
     truncate: true,
   })
@@ -346,10 +345,10 @@ router.post("/urfs/import", (req, res, next) => {
       return RCH_UrfImportSliceLanding.create(req.body);
     })
 
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -360,7 +359,7 @@ router.post("/urfs/import", (req, res, next) => {
  * There is a trigger function on the landing table that
  * kicks off the lagging process
  */
-router.post("/lag", (req, res, next) => {
+router.post('/lag', (req, res, next) => {
   RCH_SelectedLaggingPeriod.destroy({
     truncate: true,
   })
@@ -368,10 +367,10 @@ router.post("/lag", (req, res, next) => {
       return RCH_SelectedLaggingPeriod.create(req.body);
     })
 
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -380,13 +379,13 @@ router.post("/lag", (req, res, next) => {
  * POST /api/recharge-accounting/export
  * Route for exporting lagged data
  */
-router.post("/export", (req, res, next) => {
+router.post('/export', (req, res, next) => {
   db.sequelize
-    .query("SELECT data.recharge_lagging_export()")
-    .then((data) => {
+    .query('SELECT data.recharge_lagging_export()')
+    .then(data => {
       res.sendStatus(204);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -394,77 +393,77 @@ router.post("/export", (req, res, next) => {
 // GET /api/recharge-accounting/lag/status/:year/:month
 // Route for returning recharge accounting lagging status
 // for a given year and month
-router.get("/lag/status/:year/:month", (req, res, next) => {
+router.get('/lag/status/:year/:month', (req, res, next) => {
   RCH_LaggingStatus.findAll({
     where: {
       i_year: req.params.year,
       i_month: req.params.month,
     },
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
 
 // GET /api/recharge-accounting/flags
 // Route for returning recharge accounting flags
-router.get("/flags", (req, res, next) => {
+router.get('/flags', (req, res, next) => {
   RCH_FlagsReport.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
 
 // GET /api/recharge-accounting/flags/unlagged
 // Route for returning recharge accounting flags for unlagged recharge slices
-router.get("/flags/unlagged", (req, res, next) => {
+router.get('/flags/unlagged', (req, res, next) => {
   RCH_RechargeLaggedQAQC.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
 
 // GET /api/recharge-accounting/contribution/lagged
 // Route for returning data for the contribution aka lagged sunburst chart
-router.get("/contribution/lagged", (req, res, next) => {
+router.get('/contribution/lagged', (req, res, next) => {
   RCH_SunburstLagged.findAll({
     order: [
-      ["split", "desc"],
-      ["project", "asc"],
-      ["structure", "asc"],
+      ['split', 'desc'],
+      ['project', 'asc'],
+      ['structure', 'asc'],
     ],
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
 
 // GET /api/recharge-accounting/contribution/unlagged
 // Route for returning data for the contribution aka unlagged sunburst chart
-router.get("/contribution/unlagged", (req, res, next) => {
+router.get('/contribution/unlagged', (req, res, next) => {
   RCH_SunburstUnlagged.findAll({
     order: [
-      ["split", "desc"],
-      ["project", "asc"],
-      ["structure", "asc"],
+      ['split', 'desc'],
+      ['project', 'asc'],
+      ['structure', 'asc'],
     ],
   })
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
@@ -472,32 +471,28 @@ router.get("/contribution/unlagged", (req, res, next) => {
 // GET /api/recharge-accounting/summary/monthly
 // Route for returning a rolled up lagged vs unlagged summary for
 // each month
-router.get("/summary/monthly", (req, res, next) => {
+router.get('/summary/monthly', (req, res, next) => {
   RCH_HomeChart.findAll()
-    .then((data) => {
+    .then(data => {
       res.json(data);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });
 
 // GET /api/recharge-accounting/summary/annual/unlagged
 // Route for returning annual unlagged summaries for a project - structure combo
-router.get("/summary/annual/unlagged", (req, res, next) => {
+router.get('/summary/annual/unlagged', (req, res, next) => {
   RCH_HomeTable.findAll()
-    .then((data) => {
-      const crosstabbed = crosstab(
-        data,
-        "web_record_key",
-        "op_year",
-        "annual_af",
-        "non-date",
-        ["recharge_project_desc", "structure_desc"]
-      );
+    .then(data => {
+      const crosstabbed = crosstab(data, 'web_record_key', 'op_year', 'annual_af', 'non-date', [
+        'recharge_project_desc',
+        'structure_desc',
+      ]);
       res.json(crosstabbed);
     })
-    .catch((err) => {
+    .catch(err => {
       next(err);
     });
 });

@@ -5,6 +5,6 @@
   "scripts": {
     "start": "npm run start:backend && npm run start:frontend",
     "start:frontend": "cd frontend && npm start",
-    "start:backend": "cd backend && npm dev"
+    "start:backend": "cd backend && npm run dev"
   }
 }

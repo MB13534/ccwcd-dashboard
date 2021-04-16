@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import loading from '../images/loading.svg';
 
 const style = {

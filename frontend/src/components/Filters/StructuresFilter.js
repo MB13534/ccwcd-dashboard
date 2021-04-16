@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { MultiSelect } from "@lrewater/lre-react";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { MultiSelect } from '@lrewater/lre-react';
 
-const StructuresFilter = ({ data, value, onChange }) => {
+const StructuresFilter = ({ data, value, onChange, ...rest }) => {
   return (
     <MultiSelect
       name="structures"
@@ -16,6 +16,7 @@ const StructuresFilter = ({ data, value, onChange }) => {
       value={value}
       onChange={onChange}
       width={200}
+      {...rest}
     />
   );
 };
