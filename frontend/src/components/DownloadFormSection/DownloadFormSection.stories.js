@@ -2,6 +2,7 @@ import React from 'react';
 import { default as DownloadFormSection } from './DownloadFormSection';
 import { CssBaseline, Box } from '@material-ui/core';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/DownloadFormSection',
   component: DownloadFormSection,

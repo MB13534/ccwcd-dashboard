@@ -6,6 +6,7 @@ import { CssBaseline, Box } from '@material-ui/core';
 import BasicIllustration from '../../images/undraw_personal_settings_kihd.svg';
 import ErrorIllustration from '../../images/undraw_alert_mc7b.svg';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/RollupCard',
   component: RollupCard,

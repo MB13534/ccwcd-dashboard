@@ -4,6 +4,7 @@ import { CssBaseline, Box } from '@material-ui/core';
 import DownloadFormSection from '../DownloadFormSection';
 import StructureTypesFilter from '../Filters/StructureTypesFilter';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/DownloadForm',
   component: DownloadForm,

@@ -3,6 +3,7 @@ import { default as ChipNav } from './ChipNav';
 import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline } from '@material-ui/core';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/ChipNav',
   component: ChipNav,

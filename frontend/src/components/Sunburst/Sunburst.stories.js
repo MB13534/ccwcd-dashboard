@@ -2,6 +2,7 @@ import React from 'react';
 import { CssBaseline, Box } from '@material-ui/core';
 import Sunburst from './Sunburst';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/Sunburst',
   parameters: {

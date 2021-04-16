@@ -2,6 +2,7 @@ import React from 'react';
 import { default as InfoCard } from './InfoCard';
 import { CssBaseline, Typography } from '@material-ui/core';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/InfoCard',
   component: InfoCard,

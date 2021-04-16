@@ -3,6 +3,7 @@ import { default as BackNav } from './BackNav';
 import { CssBaseline } from '@material-ui/core';
 import { BrowserRouter } from 'react-router-dom';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/BackNav',
   component: BackNav,

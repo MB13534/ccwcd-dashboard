@@ -18,6 +18,7 @@ const alignItemsOptions = {
   stretch: 'stretch',
 };
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/Flex',
   component: Flex,

@@ -12,6 +12,7 @@ const data = [
   { ndx: 6, display: 'Item 6', group: 'Group C', project: 'Project C' },
 ];
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/ItemSummaryDrawer',
   component: ItemSummaryDrawer,
