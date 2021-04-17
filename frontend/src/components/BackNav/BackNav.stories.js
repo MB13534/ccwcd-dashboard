@@ -12,11 +12,17 @@ export default {
   },
 };
 
-export const Default = () => (
+const template = args => (
   <>
     <BrowserRouter>
       <CssBaseline />
-      <BackNav title="Return" path="/" />
+      <BackNav {...args} />
     </BrowserRouter>
   </>
 );
+
+export const Default = template.bind({});
+Default.args = {
+  path: '/',
+  text: 'Back',
+};

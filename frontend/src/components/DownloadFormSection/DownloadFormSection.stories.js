@@ -11,11 +11,17 @@ export default {
   },
 };
 
-export const Default = () => (
+const template = args => (
   <Box bgcolor="#e1e1e1" padding={3}>
     <div>
       <CssBaseline />
-      <DownloadFormSection title="Data Download" text="Some example data download instructions." />
+      <DownloadFormSection {...args} />
     </div>
   </Box>
 );
+
+export const Default = template.bind({});
+Default.args = {
+  title: 'Data Download',
+  text: 'Some example data download instructions.',
+};

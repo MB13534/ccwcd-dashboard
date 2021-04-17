@@ -33,49 +33,23 @@ const NestedItems = [
   { id: 3, title: 'Item 3', path: '/item-3' },
 ];
 
-export const Default = () => (
+const template = args => (
   <div>
     <CssBaseline />
     <BrowserRouter>
-      <TopNav title="CCWCD Dashboard" menuItems={MenuItems} />
+      <TopNav {...args} />
     </BrowserRouter>
   </div>
 );
 
-export const NestedMenuItems = () => (
-  <div>
-    <CssBaseline />
-    <BrowserRouter>
-      <TopNav title="CCWCD Dashboard" menuItems={NestedItems} />
-    </BrowserRouter>
-  </div>
-);
-
-NestedMenuItems.story = {
-  parameters: {
-    docs: {
-      storyDescription: 'You can nest menu items as well. Nested menu items will be displayed in a menu dropdown.',
-    },
-  },
+export const Default = template.bind({});
+Default.args = {
+  title: 'CCWCD Dashboard',
+  menuItems: MenuItems,
 };
 
-// export const Playground = () => (
-//   <div>
-//     <CssBaseline />
-//     <BrowserRouter>
-//       <TopNav
-//         title={text("title", "CCWCD Dashboard")}
-//         menuItems={object("menuItems", MenuItems)}
-//       />
-//     </BrowserRouter>
-//   </div>
-// );
-
-// Playground.story = {
-//   parameters: {
-//     docs: {
-//       storyDescription:
-//         "You can explore the different props available to the TopNav component by selecting the Playground story and selecting the Canvas tab.",
-//     },
-//   },
-// };
+export const NestedMenuItems = template.bind({});
+NestedMenuItems.args = {
+  title: 'CCWCD Dashboard',
+  menuItems: NestedItems,
+};

@@ -13,17 +13,11 @@ export default {
   },
 };
 
-export const Default = () => (
+const template = args => (
   <Box bgcolor="#e1e1e1" padding={3}>
     <div>
       <CssBaseline />
-      <DownloadForm
-        data={[]}
-        title="Monthly Unlagged Recharge Data Download"
-        text="Use the following form to download Monthly Unlagged Recharge Data as csv file."
-        onDownload={() => alert('Download!')}
-        onSaveView={() => alert('Save view!')}
-      >
+      <DownloadForm {...args}>
         <DownloadFormSection
           title="Primary Filters"
           text="Filter the available data by decree(s), project(s), and/or structure(s)."
@@ -40,3 +34,12 @@ export const Default = () => (
     </div>
   </Box>
 );
+
+export const Default = template.bind({});
+Default.args = {
+  data: [],
+  title: 'Monthly Unlagged Recharge Data Download',
+  text: 'Use the following form to download Monthly Unlagged Recharge Data as csv file.',
+  onDownload: () => alert('Download!'),
+  onSaveView: () => alert('Save view!'),
+};

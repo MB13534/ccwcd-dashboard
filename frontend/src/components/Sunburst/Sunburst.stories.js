@@ -121,9 +121,14 @@ function formatSunburstData(data, splits) {
 
 const splits = ['GMS', 'WAS', 'Ditch', 'Owner'];
 
-export const Default = () => (
+const template = args => (
   <Box width="100%" padding={4}>
     <CssBaseline />
-    <Sunburst data={formatSunburstData(DummyData, splits)} />
+    <Sunburst {...args} />
   </Box>
 );
+
+export const Default = template.bind({});
+Default.args = {
+  data: formatSunburstData(DummyData, splits),
+};

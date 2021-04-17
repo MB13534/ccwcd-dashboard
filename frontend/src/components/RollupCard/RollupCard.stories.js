@@ -31,114 +31,68 @@ const actions = [
   },
 ];
 
-export const Default = () => (
+const template = args => (
   <React.Fragment>
     <CssBaseline />
     <BrowserRouter>
-      <RollupCard
-        title="Accounting Rollup"
-        message="Some filler text about accounting"
-        state="default"
-        links={links}
-        style={{ width: 600 }}
-      />
+      <RollupCard {...args} />
     </BrowserRouter>
   </React.Fragment>
 );
 
-export const Actions = () => (
-  <React.Fragment>
-    <CssBaseline />
-    <BrowserRouter>
-      <RollupCard
-        title="Accounting Rollup"
-        message="Some filler text about accounting"
-        state="default"
-        actions={actions}
-        style={{ width: 600 }}
-      />
-    </BrowserRouter>
-  </React.Fragment>
-);
+export const Default = template.bind({});
+Default.args = {
+  title: 'Accounting Rollup',
+  message: 'Some filler text about accounting',
+  state: 'default',
+  links: links,
+  style: { width: 600 },
+};
 
-export const Illustration = () => (
-  <React.Fragment>
-    <CssBaseline />
-    <BrowserRouter>
-      <RollupCard
-        title={'Accounting Rollup'}
-        message={'Some filler text about accounting'}
-        state="default"
-        links={[]}
-        illustration={BasicIllustration}
-        style={{ width: 600 }}
-      />
-    </BrowserRouter>
-  </React.Fragment>
-);
+export const Actions = template.bind({});
+Actions.args = {
+  title: 'Accounting Rollup',
+  message: 'Some filler text about accounting',
+  state: 'default',
+  actions: actions,
+  style: { width: 600 },
+};
 
-export const Success = () => (
-  <React.Fragment>
-    <CssBaseline />
-    <BrowserRouter>
-      <RollupCard
-        title={'Woohoo!'}
-        message={'We could not find any accounting errors.'}
-        state="success"
-        links={[]}
-        style={{ width: 600 }}
-      />
-    </BrowserRouter>
-  </React.Fragment>
-);
+export const Illustration = template.bind({});
+Illustration.args = {
+  title: 'Accounting Rollup',
+  message: 'Some filler text about accounting',
+  state: 'default',
+  links: [],
+  illustration: BasicIllustration,
+  style: { width: 600 },
+};
 
-export const Error = () => (
-  <React.Fragment>
-    <CssBaseline />
-    <BrowserRouter>
-      <RollupCard
-        title={'Heads up!'}
-        message={'We noticed a couple of flags related to your recharge accounting.'}
-        state="error"
-        links={[
-          {
-            title: 'Fix URF Issues',
-            link: '/recharge-accounting/water-slices/urfs',
-          },
-          {
-            title: 'Fix Splits Issues',
-            link: '/recharge-accounting/water-slices/splits',
-          },
-          { title: 'Fix Data Issues', link: '/recharge-accounting/data' },
-        ]}
-        illustration={ErrorIllustration}
-        style={{ width: 700 }}
-      />
-    </BrowserRouter>
-  </React.Fragment>
-);
+export const Success = template.bind({});
+Success.args = {
+  title: 'Woohoo!',
+  message: 'We could not find any accounting errors.',
+  state: 'success',
+  links: [],
+  style: { width: 600 },
+};
 
-// export const Playground = () => (
-//   <React.Fragment>
-//     <CssBaseline />
-//     <BrowserRouter>
-//       <RollupCard
-//         title={text("title", "Accounting Rollup")}
-//         message={text("message", "Some filler text about accounting")}
-//         state={select("state", stateOptions, "default")}
-//         links={object("links", links)}
-//         actions={object("actions", actions)}
-//         style={{ width: 600 }}
-//       />
-//     </BrowserRouter>
-//   </React.Fragment>
-// );
-
-// Playground.story = {
-//   parameters: {
-//     docs: {
-//       storyDescription:
-//         "You can explore the different props available to the RollupCard component by selecting the Playground story and selecting the Canvas tab.",
-//     },
-//   },
-// };
+export const Error = template.bind({});
+Error.args = {
+  title: 'Heads up!',
+  message: 'We noticed a couple of flags related to your recharge accounting.',
+  state: 'error',
+  links: [
+    {
+      title: 'Fix URF Issues',
+      link: '/recharge-accounting/water-slices/urfs',
+    },
+    {
+      title: 'Fix Splits Issues',
+      link: '/recharge-accounting/water-slices/splits',
+    },
+    { title: 'Fix Data Issues', link: '/recharge-accounting/data' },
+  ],
+  illustration: ErrorIllustration,
+  style: { width: 700 },
+};

@@ -12,6 +12,14 @@ const data = [
   { ndx: 6, display: 'Item 6', group: 'Group C', project: 'Project C' },
 ];
 
+let activeItem = { ...data[3] };
+
+const handleChange = event => {
+  const { value } = event.target;
+  const newActiveItem = data.find(d => d.ndx === value);
+  activeItem = newActiveItem;
+};
+
 /* eslint-disable import/no-anonymous-default-export */
 export default {
   title: 'Components/ItemSummaryDrawer',
@@ -22,36 +30,29 @@ export default {
   },
 };
 
-export const Default = () => {
-  const [activeItem, setActiveItem] = useState(data[3]);
+const template = args => (
+  <React.Fragment>
+    <CssBaseline />
+    <BrowserRouter>
+      <ItemSummaryDrawer {...args} />
+    </BrowserRouter>
+  </React.Fragment>
+);
 
-  const handleChange = event => {
-    const { value } = event.target;
-    const newActiveItem = data.filter(d => d.ndx === value)[0];
-    setActiveItem(newActiveItem);
-  };
-
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <BrowserRouter>
-        <ItemSummaryDrawer
-          items={data}
-          activeItem={activeItem}
-          itemSelect={{
-            valueField: 'ndx',
-            displayField: 'display',
-            label: 'Items',
-          }}
-          columns={[
-            { title: 'Name', field: 'display' },
-            { title: 'Project', field: 'project' },
-            { title: 'Group', field: 'group' },
-          ]}
-          previousPath="/"
-          onChange={handleChange}
-        />
-      </BrowserRouter>
-    </React.Fragment>
-  );
+export const Default = template.bind({});
+Default.args = {
+  items: data,
+  activeItem: activeItem,
+  itemSelect: {
+    valueField: 'ndx',
+    displayField: 'display',
+    label: 'Items',
+  },
+  columns: [
+    { title: 'Name', field: 'display' },
+    { title: 'Project', field: 'project' },
+    { title: 'Group', field: 'group' },
+  ],
+  previousPath: '/',
+  onChange: handleChange,
 };
