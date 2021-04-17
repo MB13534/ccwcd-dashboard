@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Paper } from '@material-ui/core';
 import useFetchData from '../../../hooks/useFetchData';
 import MaterialTable from 'material-table';
@@ -77,8 +78,8 @@ const columns = [
   ...getMonthColumns(),
 ];
 
-const ReviewRechargeTable = () => {
-  const [ReviewImportsData, isLoading] = useFetchData('recharge-accounting/imports', []);
+const ReviewRechargeTable = ({ refresh }) => {
+  const [ReviewImportsData, isLoading] = useFetchData('recharge-accounting/imports', [refresh]);
 
   return (
     <MaterialTable
@@ -101,6 +102,11 @@ const ReviewRechargeTable = () => {
       }}
     />
   );
+};
+
+ReviewRechargeTable.propTypes = {
+  /** A refresh switch that can be used to trigger a data refresh for the table */
+  refresh: PropTypes.bool,
 };
 
 export default ReviewRechargeTable;

@@ -5,7 +5,6 @@ import ProcessingLayout from './ProcessingLayout';
 import ImportIcon from '@material-ui/icons/ImportExport';
 import { Flex } from '../../../components/Flex';
 import illustration from '../../../images/undraw_personal_settings_kihd.svg';
-import useFetchData from '../../../hooks/useFetchData';
 import axios from 'axios';
 import { useAuth0 } from '../../../hooks/auth';
 import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
@@ -45,7 +44,6 @@ const RechargeDataImport = props => {
   const { getTokenSilently } = useAuth0();
   const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
-  const [ReviewImportsData, isLoading] = useFetchData('recharge-accounting/imports', [refreshSwitch]);
 
   const handleImport = async () => {
     setWaitingState('in progress');
@@ -98,7 +96,7 @@ const RechargeDataImport = props => {
             notice any errors, please update the Excel Spreadsheet and start the import process again.
           </Typography>
         </InfoCard>
-        <ReviewRechargeTable />
+        <ReviewRechargeTable refresh={refreshSwitch} />
         <Box mt={2} mb={2}>
           <Button variant="contained" color="primary" component={Link} to="/recharge-accounting/data/process/splits">
             Everything looks good, let's keep going

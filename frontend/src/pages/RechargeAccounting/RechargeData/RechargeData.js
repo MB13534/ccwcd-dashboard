@@ -7,7 +7,6 @@ import { MenuItems } from '../MenuItems';
 import { RollupCard } from '../../../components/RollupCard';
 import ImportIllustration from '../../../images/undraw_setup_wizard_r6mr.svg';
 import ReportIllustration from '../../../images/undraw_data_trends_b0wg.svg';
-import useFetchData from '../../../hooks/useFetchData';
 import InfoCard from '../../../components/InfoCard';
 import ReviewRechargeTable from './ReviewRechargeTable';
 
@@ -20,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 
 const RechargeData = () => {
   const classes = useStyles();
-  const [ReviewImportsData, isLoading] = useFetchData('recharge-accounting/imports', []);
 
   return (
     <Layout>
