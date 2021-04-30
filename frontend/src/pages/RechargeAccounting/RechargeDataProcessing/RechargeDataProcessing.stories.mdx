@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/addon-docs/blocks";
+import { Meta } from '@storybook/addon-docs/blocks';
 
 <Meta title="Recharge Accounting/Recharge Data Processing and Import" />
 
@@ -9,6 +9,10 @@ The Recharge Accounting Data Processing and Import tool provides a multi-step to
 ## Initial Import and Review
 
 The process begins by clicking the "Import Data" button which runs a function in the PostgreSQL database that copies data from Ruthanne's Excel Spreadsheet to a data table in the database. The user can then review the imported data in the table below. If they notice any errors in the data, they need to make edits to the Excel Spreadsheet and re-import the data.
+
+## Review Splits
+
+This step can be used to review existing monthly splits for recharge slices. Ruthanne can select a recharge project, month, and calendar year. This will return all recharge slices that match the filter combination with their percentage splits (GMS, WAS, Owner, and Ditch) and some recharge statistics for each split. She can then edit the splits for any slice for any month/year combo. The table and the calculated fields automatically refresh whenever the table is edited. If she makes entering splits (i.e. they don't total to 100%) they will flagged in the QAQC step.
 
 ## Recharge Slices QAQC
 

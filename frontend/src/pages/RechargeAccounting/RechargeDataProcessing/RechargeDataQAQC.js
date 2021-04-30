@@ -1,30 +1,23 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Typography,
-  Button,
-  Box,
-  Avatar,
-  Paper,
-  Chip,
-} from "@material-ui/core";
-import ProcessingLayout from "./ProcessingLayout";
-import UrfIcon from "@material-ui/icons/Timeline";
-import SplitsIcon from "@material-ui/icons/CallSplit";
-import useFetchData from "../../../hooks/useFetchData";
-import MaterialTable from "material-table";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Flex } from "../../../components/Flex";
-import SuccessIllustration from "../../../images/undraw_celebration_0jvk.svg";
-import SplitsDialog from "./SplitsDialog";
-import useVisibility from "../../../hooks/useVisibility";
-import { Months } from "../../../util";
-import { useEffect } from "react";
-import UrfDialog from "./UrfDialog";
-import InfoCard from "../../../components/InfoCard";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Button, Box, Avatar, Paper, Chip } from '@material-ui/core';
+import ProcessingLayout from './ProcessingLayout';
+import UrfIcon from '@material-ui/icons/Timeline';
+import SplitsIcon from '@material-ui/icons/CallSplit';
+import useFetchData from '../../../hooks/useFetchData';
+import MaterialTable from 'material-table';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Flex } from '../../../components/Flex';
+import SuccessIllustration from '../../../images/undraw_celebration_0jvk.svg';
+import SplitsDialog from './SplitsDialog';
+import useVisibility from '../../../hooks/useVisibility';
+import { Months } from '../../../util';
+import { useEffect } from 'react';
+import UrfDialog from './UrfDialog';
+import InfoCard from '../../../components/InfoCard';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     marginTop: theme.spacing(2),
@@ -44,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 350,
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
-    "& img": {
-      maxWidth: "100%",
+    '& img': {
+      maxWidth: '100%',
     },
     marginLeft: theme.spacing(1),
   },
@@ -55,11 +48,11 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: theme.spacing(0, 1, 1, 0),
-    cursor: "pointer",
+    cursor: 'pointer',
   },
 }));
 
-const RechargeDataQAQC = (props) => {
+const RechargeDataQAQC = props => {
   const classes = useStyles();
   const [splitsOpen, setSplitsOpen] = useVisibility(false);
   const [urfOpen, setUrfOpen] = useVisibility(false);
@@ -67,17 +60,12 @@ const RechargeDataQAQC = (props) => {
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeYear, setActiveYear] = useState(2020);
   const [activeMonth, setActiveMonth] = useState(4);
-  const [QaqcRollupData] = useFetchData(
-    "recharge-accounting/imports/qaqc/summary",
-    []
-  );
-  const [
-    ReviewImportsData,
-    isLoading,
-  ] = useFetchData(
-    `recharge-accounting/imports/qaqc/${activeYear}/${activeMonth}`,
-    [refreshSwitch, activeYear, activeMonth]
-  );
+  const [QaqcRollupData] = useFetchData('recharge-accounting/imports/qaqc/summary', []);
+  const [ReviewImportsData, isLoading] = useFetchData(`recharge-accounting/imports/qaqc/${activeYear}/${activeMonth}`, [
+    refreshSwitch,
+    activeYear,
+    activeMonth,
+  ]);
 
   /**
    * Set the initial active month and year after the
@@ -96,7 +84,7 @@ const RechargeDataQAQC = (props) => {
   };
 
   return (
-    <ProcessingLayout activeStep={1}>
+    <ProcessingLayout activeStep={2}>
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>3</Avatar>
@@ -106,25 +94,18 @@ const RechargeDataQAQC = (props) => {
         {QaqcRollupData.length > 0 && (
           <InfoCard mt={2} mb={2}>
             <Typography variant="body1">
-              There were issues found with recharge slices for the following
-              month and year combinations. To resolve issues, select a month and
-              year combination below and then resolve any URF or Splits issues
-              in the table below.
+              There were issues found with recharge slices for the following month and year combinations. To resolve
+              issues, select a month and year combination below and then resolve any URF or Splits issues in the table
+              below.
             </Typography>
             <Box mt={2}>
               {QaqcRollupData.map((issue, index) => (
                 <Chip
                   key={issue.r_month + issue.r_year}
                   label={`${Months[issue.r_month]} ${issue.r_year}`}
-                  color={
-                    activeMonth === issue.r_month && activeYear === issue.r_year
-                      ? "secondary"
-                      : "default"
-                  }
+                  color={activeMonth === issue.r_month && activeYear === issue.r_year ? 'secondary' : 'default'}
                   className={classes.chip}
-                  onClick={() =>
-                    handleTimeStepChange(issue.r_year, issue.r_month)
-                  }
+                  onClick={() => handleTimeStepChange(issue.r_year, issue.r_month)}
                 />
               ))}
             </Box>
@@ -132,13 +113,7 @@ const RechargeDataQAQC = (props) => {
         )}
 
         {ReviewImportsData.length === 0 && (
-          <Flex
-            mt={2}
-            mb={2}
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
-          >
+          <Flex mt={2} mb={2} alignItems="center" justifyContent="center" flexDirection="column">
             <Typography variant="h6" gutterBottom>
               Woohoo! No Issues Found.
             </Typography>
@@ -154,19 +129,19 @@ const RechargeDataQAQC = (props) => {
             data={ReviewImportsData}
             columns={[
               {
-                title: "Project",
-                field: "recharge_project_desc",
+                title: 'Project',
+                field: 'recharge_project_desc',
               },
               {
-                title: "Structure",
-                field: "structure_desc",
+                title: 'Structure',
+                field: 'structure_desc',
               },
-              { title: "Decree", field: "recharge_decree_desc" },
+              { title: 'Decree', field: 'recharge_decree_desc' },
               {
-                title: "URF Missing?",
-                field: "urf_chk",
-                render: (rowData) => {
-                  if (rowData.urf_chk !== null && rowData.urf_chk !== "") {
+                title: 'URF Missing?',
+                field: 'urf_chk',
+                render: rowData => {
+                  if (rowData.urf_chk !== null && rowData.urf_chk !== '') {
                     return (
                       <Button
                         size="small"
@@ -184,17 +159,14 @@ const RechargeDataQAQC = (props) => {
                       </Button>
                     );
                   }
-                  return "";
+                  return '';
                 },
               },
               {
-                title: "Monthly Splits Issue",
-                field: "spt_tot_chk",
-                render: (rowData) => {
-                  if (
-                    rowData.spt_tot_chk !== null &&
-                    rowData.spt_tot_chk !== ""
-                  ) {
+                title: 'Monthly Splits Issue',
+                field: 'spt_tot_chk',
+                render: rowData => {
+                  if (rowData.spt_tot_chk !== null && rowData.spt_tot_chk !== '') {
                     return (
                       <Button
                         size="small"
@@ -212,17 +184,17 @@ const RechargeDataQAQC = (props) => {
                       </Button>
                     );
                   }
-                  return "";
+                  return '';
                 },
               },
             ]}
             components={{
-              Container: (props) => {
+              Container: props => {
                 return <Paper elevation={0} {...props} />;
               },
             }}
             options={{
-              padding: "dense",
+              padding: 'dense',
               pageSize: 10,
               pageSizeOptions: [10, 25, 50],
 
@@ -231,11 +203,7 @@ const RechargeDataQAQC = (props) => {
           />
         )}
         <Box mt={2} mb={2}>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/recharge-accounting/data/process/import"
-          >
+          <Button variant="contained" component={Link} to="/recharge-accounting/data/process/splits">
             Back
           </Button>
           <Button
@@ -252,13 +220,13 @@ const RechargeDataQAQC = (props) => {
       <SplitsDialog
         open={splitsOpen}
         handleClose={() => setSplitsOpen(false)}
-        handleRefresh={() => setRefreshSwitch((state) => !state)}
+        handleRefresh={() => setRefreshSwitch(state => !state)}
         rechargeSlice={activeRechargeSlice}
       />
       <UrfDialog
         open={urfOpen}
         handleClose={() => setUrfOpen(false)}
-        handleRefresh={() => setRefreshSwitch((state) => !state)}
+        handleRefresh={() => setRefreshSwitch(state => !state)}
         rechargeSlice={activeRechargeSlice}
       />
     </ProcessingLayout>

@@ -1,21 +1,28 @@
-import React from "react";
-import { default as BackNav } from "./BackNav";
-import { CssBaseline } from "@material-ui/core";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import { default as BackNav } from './BackNav';
+import { CssBaseline } from '@material-ui/core';
+import { BrowserRouter } from 'react-router-dom';
 
+/* eslint-disable import/no-anonymous-default-export */
 export default {
-  title: "Components/BackNav",
+  title: 'Components/BackNav',
+  component: BackNav,
   parameters: {
-    component: BackNav,
-    componentSubtitle: "Component used to render a back navigation button.",
+    componentSubtitle: 'Component used to render a back navigation button.',
   },
 };
 
-export const Default = () => (
+const template = args => (
   <>
     <BrowserRouter>
       <CssBaseline />
-      <BackNav title="Return" path="/" />
+      <BackNav {...args} />
     </BrowserRouter>
   </>
 );
+
+export const Default = template.bind({});
+Default.args = {
+  path: '/',
+  text: 'Back',
+};
