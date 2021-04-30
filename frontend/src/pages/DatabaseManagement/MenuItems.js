@@ -44,13 +44,13 @@ export const MenuItems = [
       },
       {
         id: 7,
-        title: "Sources",
+        title: "Data Sources",
         path: "/database-management/sources",
         exact: true,
       },
       {
         id: 11,
-        title: "Reaches",
+        title: "Impact Reaches",
         path: "/database-management/reaches",
         exact: true,
       },
@@ -82,6 +82,12 @@ export const MenuItems = [
         id: 14,
         title: "Alerts",
         path: "/database-management/alerts",
+        exact: true,
+      },
+      {
+        id: 15,
+        title: "Import Data Files",
+        path: "/database-management/dataimports",
         exact: true,
       },
     ],
