@@ -62,12 +62,10 @@ This application relies on Git and Github for version control. To publish change
 
 ### Deploying the Frontend
 
-The application frontend is hosted on Netlify (https://www.netlify.com/) which makes hosting and deploying an application about as easy as it can be. Changes to the frontend are automatically redeployed whenever a commit is pushed to the Github repository. No additional work required.
+The application frontend is hosted on Netlify (https://www.netlify.com/) which makes hosting and deploying an application about as easy as it can be. Changes to the frontend are automatically redeployed whenever a commit is pushed to the `master` branch of the Github repository. No additional work required!
 
 ### Deploying the Backend
 
-The application backend is hosted on Heroku (https://heroku.com). After making your changes to the backend application, commit your changes with a helpful commit message and then push the commit. Next, open up a new terminal and navigate into the root of the backend directory and run the following command:
+The application backend is hosted on Heroku (https://heroku.com). Changes to the backend are automatically deployed whenever a commit is pushed to the `master` branch on the Github repo. No additional work required!
 
-`git subtree push --prefix backend/ heroku master`
-
-This will kick off a deploy. All you need to do at this point is sit back and wait for the re-deploy to complete.
+To see how automatic deploys were setup for the backend, reference the fantastic deployment docs that Doug Kulak wrote in the LRE Knowledge Base. You can access these at https://lre-knowledge-base.netlify.app/lre-starter-kit/getting-started/deploying-the-application.
