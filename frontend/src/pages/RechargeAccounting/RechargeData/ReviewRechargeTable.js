@@ -33,9 +33,11 @@ const monthsLookup = {
  * @returns {array} returns an array of column configs for the Material Table
  * columns prop properly ordered so it is a rolling 12 month view
  */
-const getMonthColumns = () => {
+const getMonthColumns = ({ rolling = false }) => {
+  const startMonth = rolling ? new Date().getMonth() + 1 : 4;
+
   // add 1 to the current month because JS is weird and treats January as month 0 and Dec as 11
-  let currentMonth = new Date().getMonth() + 1;
+  let currentMonth = startMonth;
   const columns = Array(12)
     .fill({})
     .map(() => {
@@ -43,7 +45,7 @@ const getMonthColumns = () => {
       const column = {
         title: monthName,
         field: monthName,
-        width: 75,
+        width: 60,
       };
       currentMonth = currentMonth === 12 ? 1 : currentMonth + 1;
       return column;
@@ -58,24 +60,24 @@ const columns = [
   {
     title: 'Slice Ndx',
     field: 'recharge_slice_ndx',
-    width: 100,
+    width: 40,
   },
   {
     title: 'Project',
     field: 'recharge_project_desc',
-    width: 125,
+    width: 75,
   },
   {
     title: 'Structure',
     field: 'structure_desc',
-    width: 175,
+    width: 100,
   },
   {
     title: 'Decree',
     field: 'recharge_decree_desc',
     width: 150,
   },
-  ...getMonthColumns(),
+  ...getMonthColumns({ rolling: false }),
 ];
 
 const ReviewRechargeTable = ({ refresh }) => {
@@ -99,6 +101,7 @@ const ReviewRechargeTable = ({ refresh }) => {
         fixedColumns: {
           left: 4,
         },
+        tableLayout: 'fixed',
       }}
     />
   );
