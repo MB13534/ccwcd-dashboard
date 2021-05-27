@@ -274,6 +274,8 @@ db.ListRechargeStructureTypes = require("./StructureTypes/ListRechargeStructureT
   Sequelize
 );
 db.ListUnits = require("./Units/ListUnits")(sequelize, Sequelize);
+db.ListDelimiters = require("./Delimiters/ListDelimiters")(sequelize, Sequelize);
+db.ListDataImports = require("./DataImports/ListDataImports")(sequelize, Sequelize);
 db.ListSources = require("./Sources/ListSources")(sequelize, Sequelize);
 db.ListMeasurementTypes = require("./MeasurementTypes/ListMeasurementTypes")(
   sequelize,
