@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, STRING, ARRAY, TEXT } = DataTypes;
+  const { INTEGER, BOOLEAN, ARRAY, TEXT } = DataTypes;
   const ReportsView = sequelize.define(
-    "list_reports",
+    'list_reports',
     {
       report_ndx: {
         type: INTEGER,
@@ -20,10 +20,16 @@ module.exports = (sequelize, DataTypes) => {
       assoc_role_id: {
         type: ARRAY(TEXT),
       },
+      report_enabled: {
+        type: BOOLEAN,
+      },
+      views_enabled: {
+        type: BOOLEAN,
+      },
     },
     {
       timestamps: false,
-      schema: "web",
+      schema: 'web',
       freezeTableName: true,
     }
   );
