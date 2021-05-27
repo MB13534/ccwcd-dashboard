@@ -1,70 +1,49 @@
-import React, { Suspense } from "react";
-import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { useAuth0 } from "./hooks/auth";
+import React, { Suspense } from 'react';
+import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { useAuth0 } from './hooks/auth';
 // import PrivateRoute from "./components/PrivateRoute";
-import PrivateRouteWithRoles from "./components/PrivateRouteWithRoles";
-import NotFound from "./components/NotFound";
-import Loading from "./components/Loading";
-import theme from "./theme";
+import PrivateRouteWithRoles from './components/PrivateRouteWithRoles';
+import NotFound from './components/NotFound';
+import Loading from './components/Loading';
+import theme from './theme';
 
-const AllThingsViewer = React.lazy(() =>
-  import("./pages/Reports/AllThingsViewer/Report")
-);
-const HistoricalMemberUsage = React.lazy(() =>
-  import("./pages/Reports/HistoricalMemberUsage/Report")
-);
-const MonthlyUnlaggedRecharge = React.lazy(() =>
-  import("./pages/Reports/MonthlyUnlaggedRecharge/Report")
-);
-const ReportsHome = React.lazy(() => import("./pages/Reports/ReportsHome"));
-const AtvViewManagement = React.lazy(() =>
-  import("./pages/Reports/AllThingsViewer/ManageView")
-);
+const AllThingsViewer = React.lazy(() => import('./pages/Reports/AllThingsViewer/Report'));
+const HistoricalMemberUsage = React.lazy(() => import('./pages/Reports/HistoricalMemberUsage/Report'));
+const MonthlyUnlaggedRecharge = React.lazy(() => import('./pages/Reports/MonthlyUnlaggedRecharge/Report'));
+const ReportsHome = React.lazy(() => import('./pages/Reports/ReportsHome'));
+const AtvViewManagement = React.lazy(() => import('./pages/Reports/AllThingsViewer/ManageView'));
 const HistoricalMemberUsageViewManagement = React.lazy(() =>
-  import("./pages/Reports/HistoricalMemberUsage/ManageView")
+  import('./pages/Reports/HistoricalMemberUsage/ManageView')
 );
 
-const HistoricalReachPumping = React.lazy(() =>
-  import("./pages/Reports/HistoricalReachPumping/Report")
-);
+const HistoricalReachPumping = React.lazy(() => import('./pages/Reports/HistoricalReachPumping/Report'));
 
-const Files = React.lazy(() => import("./pages/Files"));
+const Files = React.lazy(() => import('./pages/Files'));
 
-const FolderPage = React.lazy(() => import("./pages/Files/FolderPage"));
+const FolderPage = React.lazy(() => import('./pages/Files/FolderPage'));
 
-const UserManagement = React.lazy(() => import("./pages/UserManagement"));
+const UserManagement = React.lazy(() => import('./pages/UserManagement'));
 
-const ContractsWellsMeters = React.lazy(() =>
-  import("./pages/MembersDataManagement/ContractsWellsMeters")
-);
+const ContractsWellsMeters = React.lazy(() => import('./pages/MembersDataManagement/ContractsWellsMeters'));
 
-const MeterAdjustments = React.lazy(() =>
-  import("./pages/MembersDataManagement/MeterAdjustments")
-);
+const MeterAdjustments = React.lazy(() => import('./pages/MembersDataManagement/MeterAdjustments'));
 
-const MeterCorrectionFactors = React.lazy(() =>
-  import("./pages/MembersDataManagement/MeterCorrectionFactors")
-);
+const MeterCorrectionFactors = React.lazy(() => import('./pages/MembersDataManagement/MeterCorrectionFactors'));
 
-const WellAttributes = React.lazy(() =>
-  import("./pages/MembersDataManagement/WellAttributes")
-);
+const WellAttributes = React.lazy(() => import('./pages/MembersDataManagement/WellAttributes'));
 
-const RechargeAccounting = React.lazy(() =>
-  import("./pages/RechargeAccounting")
-);
+const RechargeAccounting = React.lazy(() => import('./pages/RechargeAccounting'));
 
-const DatabaseManagement = React.lazy(() =>
-  import("./pages/DatabaseManagement")
-);
+const DatabaseManagement = React.lazy(() => import('./pages/DatabaseManagement'));
+const ExampleGDSReport = React.lazy(() => import('./pages/Reports/ExampleGDSReport/Report'));
 
 const App = () => {
   const { isAuthenticated, loading } = useAuth0();
 
-  const AdminRoles = ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"];
-  const DataViewerRoles = ["CCWCD Data Viewer"];
+  const AdminRoles = ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'];
+  const DataViewerRoles = ['CCWCD Data Viewer'];
 
   if (loading) {
     return <Loading />;
@@ -77,11 +56,7 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route path="/" exact>
-              {isAuthenticated === true ? (
-                <Redirect to="/all-things-viewer" />
-              ) : (
-                <Redirect to="/files" />
-              )}
+              {isAuthenticated === true ? <Redirect to="/all-things-viewer" /> : <Redirect to="/files" />}
             </Route>
             <PrivateRouteWithRoles
               path="/all-things-viewer"
@@ -112,7 +87,7 @@ const App = () => {
               exact
               roles={[...DataViewerRoles, ...AdminRoles]}
               component={HistoricalReachPumping}
-            />            
+            />
             <PrivateRouteWithRoles
               path="/monthly-unlagged-recharge"
               exact
@@ -179,7 +154,7 @@ const App = () => {
               roles={AdminRoles}
               component={WellAttributes}
             />
-          <Route
+            <Route
               path="/files"
               exact
               // roles={[...DataViewerRoles, ...AdminRoles]}
@@ -190,30 +165,13 @@ const App = () => {
               // roles={[...DataViewerRoles, ...AdminRoles]}
               component={FolderPage}
             />
-            <PrivateRouteWithRoles
-              path="/user-management"
-              exact
-              roles={AdminRoles}
-              component={UserManagement}
-            />
+            <PrivateRouteWithRoles path="/user-management" exact roles={AdminRoles} component={UserManagement} />
 
-            <PrivateRouteWithRoles
-              path="/recharge-accounting"
-              roles={AdminRoles}
-              component={RechargeAccounting}
-            />
+            <PrivateRouteWithRoles path="/recharge-accounting" roles={AdminRoles} component={RechargeAccounting} />
 
-            <PrivateRouteWithRoles
-              path="/database-management"
-              roles={AdminRoles}
-              component={DatabaseManagement}
-            />
+            <PrivateRouteWithRoles path="/database-management" roles={AdminRoles} component={DatabaseManagement} />
 
-            <Route
-              path="/docs"
-              exact
-              render={() => <Redirect to="docs/overview" />}
-            />
+            <PrivateRouteWithRoles path="/gds" exact roles={[...AdminRoles]} component={ExampleGDSReport} />
 
             <Route path="*">
               <NotFound />
