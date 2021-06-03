@@ -2,7 +2,6 @@ const express = require('express');
 const { checkAccessToken, checkPermission } = require('../../middleware/auth.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const { crosstab, setAPIDate } = require('../../util');
 const {
   Mobile_Stations_Data_Last_Report,
   Mobile_Stations_Data_15_Minute,
@@ -20,7 +19,7 @@ router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 router.use(checkPermission(['read:all-things-viewer']));
 
 // GET /api/mobile-stations/stations
-// Route for returning a set of stations for the report
+// Route for returning a list of stations associated with the report
 router.get('/stations', (req, res, next) => {
   Mobile_Stations_List_Stations.findAll({
     attributes: ['station_ndx', 'station_name', 'station_group_desc'],
@@ -48,7 +47,7 @@ router.post('/stations', (req, res, next) => {
 });
 
 // GET /api/mobile-stations/stations/active
-// Route for returning a set of stations for the report
+// Route for returning a set the user's selected stations for the report
 router.get('/stations/active', (req, res, next) => {
   Mobile_Stations_Assoc_Users_to_Stations.findOne({
     where: {
@@ -64,8 +63,9 @@ router.get('/stations/active', (req, res, next) => {
 });
 
 // GET /api/mobile-stations/last-report/:stations
-// Route for returning most recent values for the specified stations
+// Route for returning the last reported for a specified set of stations
 router.get('/last-report/:stations', (req, res, next) => {
+  if (!req.params.stations || req.params.stations === 'undefined') res.json([]);
   Mobile_Stations_Data_Last_Report.findAll({
     where: {
       station_ndx: {
@@ -82,7 +82,7 @@ router.get('/last-report/:stations', (req, res, next) => {
 });
 
 // GET /api/mobile-stations/time-series/:stations
-// Route for returning 15 minute time series data
+// Route for returning 15 minute time series data for a specified set of stations
 router.get('/time-series/:stations', (req, res, next) => {
   if (!req.params.stations || req.params.stations === 'undefined') res.json([]);
   Mobile_Stations_Data_15_Minute.findAll({

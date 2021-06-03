@@ -18,9 +18,9 @@ const MobileStationsReport = () => {
   const [filterValues, setFilterValues] = useState({
     stations: [29, 38],
   });
-  const [stationSelections] = useFetchData('mobile-stations/stations/active', []);
-  const [lastReportData, isLastReportLoading] = useFetchData(
-    `mobile-stations/last-report/${filterValues.stations.join(',')}`,
+  const [savedStationSelections] = useFetchData('mobile-stations/stations/active', []);
+  const [lastReportData, isLastReportLoading, setLastReportData] = useFetchData(
+    `mobile-stations/last-report/${filterValues.stations.join(',') || 'undefined'}`,
     [filterValues]
   );
   const [
@@ -30,15 +30,19 @@ const MobileStationsReport = () => {
   ] = useFetchData(`mobile-stations/time-series/${activeRow?.station_ndx}`, [activeRow]);
   const [Stations] = useFetchData('mobile-stations/stations', []);
 
+  /**
+   * Pre-populate the station filters using the user's
+   * existing saved station selections
+   */
   useEffect(() => {
-    if (stationSelections?.length > 0) {
+    if (savedStationSelections?.length > 0) {
       setFilterValues(prevState => {
         let newValues = { ...prevState };
-        newValues.stations = stationSelections;
+        newValues.stations = savedStationSelections;
         return newValues;
       });
     }
-  }, [stationSelections]);
+  }, [savedStationSelections]);
 
   /**
    * Event handle for de-selecting all stations
@@ -50,6 +54,7 @@ const MobileStationsReport = () => {
       return newValues;
     });
     setActiveRow(null);
+    setLastReportData([]);
     setTimeSeriesData([]);
   };
 
@@ -63,6 +68,7 @@ const MobileStationsReport = () => {
       return newValues;
     });
     setActiveRow(null);
+    setLastReportData([]);
     setTimeSeriesData([]);
   };
 
@@ -89,11 +95,12 @@ const MobileStationsReport = () => {
       return newValues;
     });
     setActiveRow(null);
+    setLastReportData([]);
     setTimeSeriesData([]);
   };
 
   /**
-   * Handle form submit
+   * Handle the stations filter form submit
    * @param {Object} event
    */
   const handleSubmit = async event => {

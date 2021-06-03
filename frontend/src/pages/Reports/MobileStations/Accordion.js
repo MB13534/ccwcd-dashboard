@@ -11,21 +11,17 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import slugify from 'slugify';
 
 const useStyles = makeStyles(theme => ({
-  accordionDetailsRoot: {
+  accordionDetails: {
     display: 'block',
   },
 }));
 
-const AccordionDetailBlock = ({ children, ...rest }) => {
-  const classes = useStyles();
-
-  return (
-    <AccordionDetails className={classes.accordionDetailsRoot} {...rest}>
-      {children}
-    </AccordionDetails>
-  );
-};
-
+/**
+ * Utility for converting the accordion title into a slug
+ * that can then be used for the various accessibility props
+ * @param {string} text
+ * @returns string
+ */
 const createSlug = text => {
   return slugify(text, {
     replacement: '-',
@@ -33,8 +29,13 @@ const createSlug = text => {
   });
 };
 
+/**
+ * Utility component used to abstract away and standardize some of the logic
+ * and UI for each collapsible section of the Mobile Stations Report
+ */
 const Accordion = ({ title, content, ...rest }) => {
   const [panelName, setPanelName] = useState(createSlug(title));
+  const classes = useStyles();
 
   useEffect(() => {
     setPanelName(createSlug(title));
@@ -49,7 +50,7 @@ const Accordion = ({ title, content, ...rest }) => {
       >
         <Typography variant="h6">{title}</Typography>
       </AccordionSummary>
-      <AccordionDetailBlock>{content}</AccordionDetailBlock>
+      <AccordionDetails className={classes.accordionDetails}>{content}</AccordionDetails>
     </MaterialAccordion>
   );
 };

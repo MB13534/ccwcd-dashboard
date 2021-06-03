@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import BaseTable from './BaseTable';
 
@@ -8,7 +9,7 @@ const columns = [
   { title: 'Value', field: 'measured_value' },
 ];
 
-const TimeSeriesTable = ({ data, isLoading, onRowClick }) => {
+const TimeSeriesTable = ({ data, isLoading }) => {
   if (!data?.length > 0 && !isLoading) {
     return (
       <Typography variant="body1">
@@ -16,9 +17,12 @@ const TimeSeriesTable = ({ data, isLoading, onRowClick }) => {
       </Typography>
     );
   }
-  return (
-    <BaseTable id="time-series-table" columns={columns} data={data} isLoading={isLoading} onRowClick={onRowClick} />
-  );
+  return <BaseTable id="time-series-table" columns={columns} data={data} isLoading={isLoading} />;
+};
+
+TimeSeriesTable.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default TimeSeriesTable;
