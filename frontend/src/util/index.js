@@ -1,5 +1,5 @@
-import copy from "copy-to-clipboard";
-import Papa from "papaparse";
+import copy from 'copy-to-clipboard';
+import Papa from 'papaparse';
 
 /**
  * Utility function for returning a list of objects associated with an
@@ -9,11 +9,11 @@ import Papa from "papaparse";
  * @param {string} assocField field name that contains the associations
  */
 export const getAssociations = (associations, data, assocField) => {
-  return data.filter((d) => {
-    if (typeof d[assocField] !== "object") {
+  return data.filter(d => {
+    if (typeof d[assocField] !== 'object') {
       return associations.includes(d[assocField]);
     }
-    return d[assocField].filter((dd) => associations.includes(dd)).length > 0;
+    return d[assocField].filter(dd => associations.includes(dd)).length > 0;
   });
 };
 
@@ -23,7 +23,23 @@ export const getAssociations = (associations, data, assocField) => {
  * @param {array} data array of objects to parse
  * @param {string} field property name to return unique values for
  */
-export const unique = (data, field) => [...new Set(data.map((d) => d[field]))];
+export const unique = (data, field) => [...new Set(data.map(d => d[field]))];
+
+export const uniqBy = (arr, predicate) => {
+  const cb = typeof predicate === 'function' ? predicate : o => o[predicate];
+
+  return [
+    ...arr
+      .reduce((map, item) => {
+        const key = item === null || item === undefined ? item : cb(item);
+
+        map.has(key) || map.set(key, item);
+
+        return map;
+      }, new Map())
+      .values(),
+  ];
+};
 
 /**
  * Utility function used for a descending sort
@@ -53,7 +69,7 @@ export const stableSort = (array, cmp) => {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis.map(el => el[0]);
 };
 
 /**
@@ -62,9 +78,7 @@ export const stableSort = (array, cmp) => {
  * @param {*} orderBy
  */
 export const getSorting = (order, orderBy) => {
-  return order === "desc"
-    ? (a, b) => desc(a, b, orderBy)
-    : (a, b) => -desc(a, b, orderBy);
+  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 };
 
 /**
@@ -72,21 +86,15 @@ export const getSorting = (order, orderBy) => {
  * Ideal for extracting the date for a Material-UI date picker
  * @param {*} date
  */
-export const extractDate = (date) => {
+export const extractDate = date => {
   if (date) {
     const properDate = new Date(date);
     const year = properDate.getFullYear();
-    const month =
-      properDate.getMonth() + 1 < 10
-        ? `0${properDate.getMonth() + 1}`
-        : properDate.getMonth() + 1;
-    const day =
-      properDate.getDate() < 10
-        ? `0${properDate.getDate()}`
-        : properDate.getDate();
+    const month = properDate.getMonth() + 1 < 10 ? `0${properDate.getMonth() + 1}` : properDate.getMonth() + 1;
+    const day = properDate.getDate() < 10 ? `0${properDate.getDate()}` : properDate.getDate();
     return `${year}-${month}-${day}`;
   }
-  return "";
+  return '';
 };
 
 /**
@@ -108,8 +116,8 @@ export const subtractDays = (date, days = 30) => {
 export const calculateStartDate = (days, date = new Date()) => {
   const initDate = new Date(`${date} 00:00:00`) || new Date();
   return extractDate(
-    subtractDays(initDate, days).toLocaleString("en-US", {
-      timeZone: "America/Denver",
+    subtractDays(initDate, days).toLocaleString('en-US', {
+      timeZone: 'America/Denver',
     })
   );
 };
@@ -144,17 +152,12 @@ export const validateDependentSelections = ({
   if (previousParentSelections.length > newParentSelections.length) {
     // get a list of values that match the users new selections
     const filteredSelections = childData
-      .filter((d) => {
-        return (
-          d[assocField].filter((dd) => newParentSelections.includes(dd))
-            .length > 0
-        );
+      .filter(d => {
+        return d[assocField].filter(dd => newParentSelections.includes(dd)).length > 0;
       })
-      .map((d) => d[valueField]);
+      .map(d => d[valueField]);
 
-    return previousChildSelections.filter((d) =>
-      filteredSelections.includes(d)
-    );
+    return previousChildSelections.filter(d => filteredSelections.includes(d));
   }
   return previousChildSelections;
 };
@@ -172,12 +175,11 @@ export const goTo = (history, route) => {
  * Utility function used to format date in MM/DD/YYYY format
  * @param {*} date
  */
-export const formatDate = (date, format = "mm/dd/yyyy") => {
+export const formatDate = (date, format = 'mm/dd/yyyy') => {
   const newDate = new Date(date);
-  if (format.toLowerCase() === "mm/dd/yyyy") {
-    return `${newDate.getMonth() +
-      1}/${newDate.getDate()}/${newDate.getFullYear()}`;
-  } else if (format.toLowerCase() === "mm/dd") {
+  if (format.toLowerCase() === 'mm/dd/yyyy') {
+    return `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
+  } else if (format.toLowerCase() === 'mm/dd') {
     return `${newDate.getMonth() + 1}/${newDate.getDate()}`;
   }
 };
@@ -186,9 +188,10 @@ export const formatDate = (date, format = "mm/dd/yyyy") => {
  * Utility function used to format date in MM/DD/YYYY HH:MM:SS format
  * @param {*} date
  */
-export const formatTimestamp = (date) => {
-  return `${date.getMonth() +
-    1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+export const formatTimestamp = date => {
+  return `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 };
 
 /**
@@ -213,67 +216,61 @@ export const generateDepletionYears = (yearsBack, yearsCount) => {
 };
 
 // Color scale used for 5 or less series
-export const DISCRETE_COLOR_RANGE = [
-  "#12939A",
-  "#79C7E3",
-  "#1A3177",
-  "#FF9833",
-  "#EF5D28",
-];
+export const DISCRETE_COLOR_RANGE = ['#12939A', '#79C7E3', '#1A3177', '#FF9833', '#EF5D28'];
 
 // Color scale used for 6 or more series
 export const EXTENDED_DISCRETE_COLOR_RANGE = [
-  "#19CDD7",
-  "#DDB27C",
-  "#88572C",
-  "#FF991F",
-  "#F15C17",
-  "#223F9A",
-  "#DA70BF",
-  "#125C77",
-  "#4DC19C",
-  "#776E57",
-  "#12939A",
-  "#17B8BE",
-  "#F6D18A",
-  "#B7885E",
-  "#FFCB99",
-  "#F89570",
-  "#829AE3",
-  "#E79FD5",
-  "#1E96BE",
-  "#89DAC1",
-  "#B3AD9E",
+  '#19CDD7',
+  '#DDB27C',
+  '#88572C',
+  '#FF991F',
+  '#F15C17',
+  '#223F9A',
+  '#DA70BF',
+  '#125C77',
+  '#4DC19C',
+  '#776E57',
+  '#12939A',
+  '#17B8BE',
+  '#F6D18A',
+  '#B7885E',
+  '#FFCB99',
+  '#F89570',
+  '#829AE3',
+  '#E79FD5',
+  '#1E96BE',
+  '#89DAC1',
+  '#B3AD9E',
 ];
 
 export const Months = {
-  "1": "January",
-  "2": "February",
-  "3": "March",
-  "4": "April",
-  "5": "May",
-  "6": "June",
-  "7": "July",
-  "8": "August",
-  "9": "September",
-  "10": "October",
-  "11": "November",
-  "12": "December",
+  1: 'January',
+  2: 'February',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December',
 };
 
 export const MonthsDropdown = [
-  { ndx: 1, display: "January" },
-  { ndx: 2, display: "February" },
-  { ndx: 3, display: "March" },
-  { ndx: 4, display: "April" },
-  { ndx: 5, display: "May" },
-  { ndx: 6, display: "June" },
-  { ndx: 7, display: "July" },
-  { ndx: 8, display: "August" },
-  { ndx: 9, display: "September" },
-  { ndx: 10, display: "October" },
-  { ndx: 11, display: "November" },
-  { ndx: 12, display: "December" },
+  { ndx: 1, display: 'January' },
+  { ndx: 2, display: 'February' },
+  { ndx: 3, display: 'March' },
+  { ndx: 4, display: 'April' },
+  { ndx: 5, display: 'May' },
+  { ndx: 6, display: 'June' },
+  { ndx: 7, display: 'July' },
+  { ndx: 8, display: 'August' },
+  { ndx: 9, display: 'September' },
+  { ndx: 10, display: 'October' },
+  { ndx: 11, display: 'November' },
+  { ndx: 12, display: 'December' },
 ];
 
 /**
@@ -284,14 +281,14 @@ export const MonthsDropdown = [
  * @param {function} callback
  */
 export const copyToClipboard = (data, columns, callback) => {
-  const columnOrder = columns.map((d) => d.field);
+  const columnOrder = columns.map(d => d.field);
   copy(
     Papa.unparse(data, {
-      delimiter: "\t",
+      delimiter: '\t',
       columns: columnOrder,
     }),
     {
-      format: "text/plain",
+      format: 'text/plain',
     }
   );
   callback();

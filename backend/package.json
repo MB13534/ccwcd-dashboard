@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "data-spring": "^0.1.11",
     "jest": "^25.1.0",
     "nodemon": "^1.19.1"
   },

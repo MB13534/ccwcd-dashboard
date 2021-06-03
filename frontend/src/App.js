@@ -17,6 +17,7 @@ const AtvViewManagement = React.lazy(() => import('./pages/Reports/AllThingsView
 const HistoricalMemberUsageViewManagement = React.lazy(() =>
   import('./pages/Reports/HistoricalMemberUsage/ManageView')
 );
+const MobileStations = React.lazy(() => import('./pages/Reports/MobileStations/Report'));
 
 const HistoricalReachPumping = React.lazy(() => import('./pages/Reports/HistoricalReachPumping/Report'));
 
@@ -69,6 +70,12 @@ const App = () => {
               exact
               roles={[...DataViewerRoles, ...AdminRoles]}
               component={AllThingsViewer}
+            />
+            <PrivateRouteWithRoles
+              path="/mobile-stations-report"
+              exact
+              roles={[...AdminRoles]}
+              component={MobileStations}
             />
             <PrivateRouteWithRoles
               path="/historical-member-usage"
@@ -166,13 +173,9 @@ const App = () => {
               component={FolderPage}
             />
             <PrivateRouteWithRoles path="/user-management" exact roles={AdminRoles} component={UserManagement} />
-
             <PrivateRouteWithRoles path="/recharge-accounting" roles={AdminRoles} component={RechargeAccounting} />
-
             <PrivateRouteWithRoles path="/database-management" roles={AdminRoles} component={DatabaseManagement} />
-
             <PrivateRouteWithRoles path="/gds" exact roles={[...AdminRoles]} component={ExampleGDSReport} />
-
             <Route path="*">
               <NotFound />
             </Route>
