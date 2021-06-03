@@ -65,39 +65,45 @@ router.get('/stations/active', (req, res, next) => {
 // GET /api/mobile-stations/last-report/:stations
 // Route for returning the last reported for a specified set of stations
 router.get('/last-report/:stations', (req, res, next) => {
-  if (!req.params.stations || req.params.stations === 'undefined') res.json([]);
-  Mobile_Stations_Data_Last_Report.findAll({
-    where: {
-      station_ndx: {
-        [Op.in]: req.params.stations.split(','),
+  if (!req.params.stations || req.params.stations === 'undefined') {
+    res.json([]);
+  } else {
+    Mobile_Stations_Data_Last_Report.findAll({
+      where: {
+        station_ndx: {
+          [Op.in]: req.params.stations.split(','),
+        },
       },
-    },
-  })
-    .then(data => {
-      res.json(data);
     })
-    .catch(err => {
-      next(err);
-    });
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
 });
 
 // GET /api/mobile-stations/time-series/:stations
 // Route for returning 15 minute time series data for a specified set of stations
 router.get('/time-series/:stations', (req, res, next) => {
-  if (!req.params.stations || req.params.stations === 'undefined') res.json([]);
-  Mobile_Stations_Data_15_Minute.findAll({
-    where: {
-      station_ndx: {
-        [Op.in]: req.params.stations.split(','),
+  if (!req.params.stations || req.params.stations === 'undefined') {
+    res.json([]);
+  } else {
+    Mobile_Stations_Data_15_Minute.findAll({
+      where: {
+        station_ndx: {
+          [Op.in]: req.params.stations.split(','),
+        },
       },
-    },
-  })
-    .then(data => {
-      res.json(data);
     })
-    .catch(err => {
-      next(err);
-    });
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
 });
 
 module.exports = router;
