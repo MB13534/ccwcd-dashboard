@@ -37,7 +37,13 @@ const ReviewFlags = props => {
           <Button variant="contained" component={Link} to="/depletions/pumping">
             Back
           </Button>
-          <Button variant="contained" color="primary" component={Link} to="/depletions/flags" style={{ marginLeft: 8 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/depletions/run-model"
+            style={{ marginLeft: 8 }}
+          >
             Everything looks good, let's keep going
           </Button>
         </Box>

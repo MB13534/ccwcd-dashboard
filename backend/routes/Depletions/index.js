@@ -72,4 +72,20 @@ router.get('/pumping/high-to-low', (req, res, next) => {
     });
 });
 
+/**
+ * POST /api/depletions/run-model
+ * Route for running the depletions model
+ */
+router.post('/run-model', (req, res, next) => {
+  const { year } = req.body;
+  db.sequelize
+    .query(`SELECT depletions_model._lag_pumping_wrapper(${year})`)
+    .then(data => {
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 module.exports = router;
