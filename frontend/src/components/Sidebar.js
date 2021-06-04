@@ -1,52 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import Collapse from "@material-ui/core/Collapse";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import DnsIcon from "@material-ui/icons/Dns";
-import FileIcon from "@material-ui/icons/AttachFile";
-import LogoutIcon from "@material-ui/icons/ExitToApp";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import RechargeIcon from "@material-ui/icons/Opacity";
-import DepletionsIcon from "@material-ui/icons/TrackChanges";
-import AccountIcon from "@material-ui/icons/AccountCircle";
-import EcoIcon from "@material-ui/icons/Eco";
-import ReportsIcon from "@material-ui/icons/Assignment";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import Collapse from '@material-ui/core/Collapse';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import DnsIcon from '@material-ui/icons/Dns';
+import FileIcon from '@material-ui/icons/AttachFile';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import RechargeIcon from '@material-ui/icons/Opacity';
+import DepletionsIcon from '@material-ui/icons/TrackChanges';
+import AccountIcon from '@material-ui/icons/AccountCircle';
+import EcoIcon from '@material-ui/icons/Eco';
+import ReportsIcon from '@material-ui/icons/Assignment';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
-import logo from "../images/ccwcd_logo.png";
-import { useAuth0 } from "../hooks/auth";
-import useVisibility from "../hooks/useVisibility";
+import logo from '../images/ccwcd_logo.png';
+import { useAuth0 } from '../hooks/auth';
+import useVisibility from '../hooks/useVisibility';
 
 const drawerWidth = 270;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   drawer: {
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
     marginLeft: drawerWidth,
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
   menuButton: {
     marginRight: 20,
-    [theme.breakpoints.up("md")]: {
-      display: "none",
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
     },
   },
   mobileToolbar: {
@@ -54,17 +54,17 @@ const useStyles = makeStyles((theme) => ({
     color: `#ffffff`,
   },
   toolbar: {
-    textAlign: "center",
+    textAlign: 'center',
     padding: theme.spacing(4, 0),
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
     ...theme.mixins.toolbar,
   },
   drawerPaper: {
     width: drawerWidth,
     overflowY: `auto!important`,
-    overflowX: "hidden",
+    overflowX: 'hidden',
     backgroundColor: theme.palette.primary.main,
-    borderRight: "1px solid #ddd",
+    borderRight: '1px solid #ddd',
   },
   content: {
     flexGrow: 1,
@@ -80,12 +80,12 @@ const useStyles = makeStyles((theme) => ({
     color: `#ffffff`,
   },
   navText: {
-    "& span": {
+    '& span': {
       fontSize: `18px!important`,
     },
   },
   nestedNavText: {
-    "& span": {
+    '& span': {
       fontSize: `14px!important`,
     },
   },
@@ -94,19 +94,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Sidebar = (props) => {
+const Sidebar = props => {
   const classes = useStyles();
   let history = useHistory();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
-  const [
-    dataManagementVisibility,
-    handleDataManagementVisibility,
-  ] = useVisibility(false);
+  const [dataManagementVisibility, handleDataManagementVisibility] = useVisibility(false);
   let location = useLocation();
 
   useEffect(() => {
-    if (location.pathname.includes("members-management")) {
+    if (location.pathname.includes('members-management')) {
       handleDataManagementVisibility(true);
     }
   }, [location]); //eslint-disable-line
@@ -116,16 +113,16 @@ const Sidebar = (props) => {
   };
 
   // function for naviating to a specific page in the app
-  const goTo = (route) => {
+  const goTo = route => {
     history.push(`/${route}`);
-    localStorage.setItem("last_url", history.location.pathname);
+    localStorage.setItem('last_url', history.location.pathname);
   };
 
   /**
    * Utility function used to determine if a menu link is active
    * @param {*} item
    */
-  const setActive = (item) => {
+  const setActive = item => {
     if (item.exact) {
       return history.location.pathname === `/${item.activePath}`;
     } else {
@@ -136,123 +133,116 @@ const Sidebar = (props) => {
   // Configure sidebar menu items
   const MenuItems = [
     {
-      link: "reports",
-      title: "Reports",
-      activePath: "reports",
+      link: 'reports',
+      title: 'Reports',
+      activePath: 'reports',
       icon: ReportsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer", "CCWCD Admin Demo"],
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Data Viewer', 'CCWCD Admin Demo'],
     },
     {
-      link: "all-things-viewer",
-      title: "All Things Viewer",
-      activePath: "all-things-viewer",
+      link: 'all-things-viewer',
+      title: 'All Things Viewer',
+      activePath: 'all-things-viewer',
       exact: true,
       icon: EcoIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Data Viewer", "CCWCD Admin Demo"],
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Data Viewer', 'CCWCD Admin Demo'],
     },
     {
-      link: "user-management",
-      title: "User Management",
-      activePath: "user-management",
+      link: 'user-management',
+      title: 'User Management',
+      activePath: 'user-management',
       icon: AccountIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
     },
     {
-      link: "members-management/contracts-wells-meters",
-      title: "Data Management",
-      activePath: "members-management",
+      link: 'members-management/contracts-wells-meters',
+      title: 'Data Management',
+      activePath: 'members-management',
       icon: DashboardIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
-      visibilityVarName: "dataManagementVisibility",
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
+      visibilityVarName: 'dataManagementVisibility',
       children: [
         {
-          link: "members-management/contracts-wells-meters",
-          title: "Contract Associations",
-          activePath: "members-management/contracts-wells-meters",
+          link: 'members-management/contracts-wells-meters',
+          title: 'Contract Associations',
+          activePath: 'members-management/contracts-wells-meters',
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
+          rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
         },
         {
-          link: "members-management/meter-adjustments",
-          title: "Meter Adjustments",
-          activePath: "members-management/meter-adjustments",
+          link: 'members-management/meter-adjustments',
+          title: 'Meter Adjustments',
+          activePath: 'members-management/meter-adjustments',
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
+          rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
         },
         {
-          link: "members-management/meter-correction-factors",
-          title: "Meter Correction Factors",
-          activePath: "members-management/meter-correction-factors",
+          link: 'members-management/meter-correction-factors',
+          title: 'Meter Correction Factors',
+          activePath: 'members-management/meter-correction-factors',
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
+          rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
         },
         {
-          link: "members-management/well-attributes",
-          title: "Well Attributes",
-          activePath: "members-management/well-attributes",
+          link: 'members-management/well-attributes',
+          title: 'Well Attributes',
+          activePath: 'members-management/well-attributes',
           icon: ReportsIcon,
           loginRequired: true,
-          rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
+          rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
         },
-                    ],
+      ],
     },
     {
-      link: "recharge-accounting",
-      title: "Recharge Accounting",
-      activePath: "recharge-accounting",
+      link: 'recharge-accounting',
+      title: 'Recharge Accounting',
+      activePath: 'recharge-accounting',
       icon: RechargeIcon,
       loginRequired: true,
-      rolesRequired: ["CCWCD Admin", "LRE Admin", "CCWCD Admin Demo"],
+      rolesRequired: ['CCWCD Admin', 'LRE Admin', 'CCWCD Admin Demo'],
     },
     {
-      link: "depletions-modeling",
-      title: "Depletions Model",
-      activePath: "depletions-modeling",
-      exact: true,
+      link: 'depletions/pumping',
+      title: 'Depletions Model',
+      activePath: 'depletions',
+      // exact: true,
       icon: DepletionsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin"],
+      rolesRequired: ['LRE Admin'],
     },
     {
-      link: "files/",
-      title: "File Sharing",
-      activePath: "files/",
+      link: 'files/',
+      title: 'File Sharing',
+      activePath: 'files/',
       icon: FileIcon,
       loginRequired: false,
     },
     {
-      link: "database-management/structures",
-      title: "DB Lists Management",
-      activePath: "database-management",
+      link: 'database-management/structures',
+      title: 'DB Lists Management',
+      activePath: 'database-management',
       icon: DnsIcon,
       loginRequired: true,
-      rolesRequired: ["LRE Admin", "CCWCD Admin", "CCWCD Admin Demo"],
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
     },
   ];
 
   const returnMenuItem = (item, isAuthenticated, user) => {
     const li = (
       <ListItem button selected={setActive(item)}>
-        <ListItemIcon
-          className={classes.navIcon}
-          onClick={() => goTo(item.link)}
-        >
+        <ListItemIcon className={classes.navIcon} onClick={() => goTo(item.link)}>
           <item.icon />
         </ListItemIcon>
-        <ListItemText
-          className={classes.navText}
-          primary={item.title}
-          onClick={() => goTo(item.link)}
-        />
+        <ListItemText className={classes.navText} primary={item.title} onClick={() => goTo(item.link)} />
 
-        {item.visibilityVarName === "dataManagementVisibility" &&
+        {item.visibilityVarName === 'dataManagementVisibility' &&
           (dataManagementVisibility ? (
             <ExpandLess onClick={handleDataManagementVisibility} />
           ) : (
@@ -262,14 +252,11 @@ const Sidebar = (props) => {
     );
 
     const NestedUl = () => {
-      if (
-        item.visibilityVarName === "dataManagementVisibility" &&
-        item.children
-      ) {
+      if (item.visibilityVarName === 'dataManagementVisibility' && item.children) {
         return (
           <Collapse in={dataManagementVisibility} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {item.children.map((child) => (
+              {item.children.map(child => (
                 <ListItem
                   button
                   onClick={() => goTo(child.link)}
@@ -277,10 +264,7 @@ const Sidebar = (props) => {
                   key={Math.random() * 9999999}
                   className={classes.nested}
                 >
-                  <ListItemText
-                    className={classes.nestedNavText}
-                    primary={child.title}
-                  />
+                  <ListItemText className={classes.nestedNavText} primary={child.title} />
                 </ListItem>
               ))}
             </List>
@@ -299,8 +283,8 @@ const Sidebar = (props) => {
     if (item.loginRequired && item.rolesRequired && user) {
       let roleSwitch = false;
       const roles = [...item.rolesRequired];
-      roles.forEach((role) => {
-        if (user["https://ccwcd2.org/roles"].includes(role)) {
+      roles.forEach(role => {
+        if (user['https://ccwcd2.org/roles'].includes(role)) {
           roleSwitch = true;
         }
       });
@@ -322,28 +306,20 @@ const Sidebar = (props) => {
         <img src={logo} className={classes.logo} alt="Logo" />
       </div>
       <List className={classes.nav}>
-        {MenuItems.map((item) => returnMenuItem(item, isAuthenticated, user))}
+        {MenuItems.map(item => returnMenuItem(item, isAuthenticated, user))}
         {isAuthenticated ? (
           <ListItem button>
             <ListItemIcon className={classes.navIcon}>
               <LogoutIcon />
             </ListItemIcon>
-            <ListItemText
-              className={classes.navText}
-              primary="Logout"
-              onClick={() => logout()}
-            />
+            <ListItemText className={classes.navText} primary="Logout" onClick={() => logout()} />
           </ListItem>
         ) : (
           <ListItem button>
             <ListItemIcon className={classes.navIcon}>
               <AccountIcon />
             </ListItemIcon>
-            <ListItemText
-              className={classes.navText}
-              primary="Login"
-              onClick={() => loginWithRedirect()}
-            />
+            <ListItemText className={classes.navText} primary="Login" onClick={() => loginWithRedirect()} />
           </ListItem>
         )}
       </List>
