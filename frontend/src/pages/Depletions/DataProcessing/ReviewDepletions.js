@@ -27,7 +27,7 @@ const ReviewFlags = props => {
     <ProcessingLayout activeStep={3}>
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
-          <Avatar className={classes.avatar}>3</Avatar>
+          <Avatar className={classes.avatar}>5</Avatar>
           <Typography variant="h6">Review Depletions</Typography>
         </Box>
         <InfoCard mb={0}>

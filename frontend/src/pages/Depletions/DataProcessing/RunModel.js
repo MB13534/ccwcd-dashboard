@@ -76,7 +76,7 @@ const RunModel = props => {
     <ProcessingLayout activeStep={2}>
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
-          <Avatar className={classes.avatar}>3</Avatar>
+          <Avatar className={classes.avatar}>4</Avatar>
           <Typography variant="h6">Run Model</Typography>
         </Box>
         <InfoCard mb={0}>
@@ -133,8 +133,8 @@ const RunModel = props => {
           open={snackbarOpen}
           error={snackbarError}
           handleClose={handleSnackbarClose}
-          successMessage="Data successfully imported."
-          errorMessage="Error: Data could not be imported."
+          successMessage="Model successfully run."
+          errorMessage="Error: the model could not be run."
         />
       </Paper>
     </ProcessingLayout>

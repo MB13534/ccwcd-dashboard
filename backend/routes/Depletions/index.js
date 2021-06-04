@@ -88,4 +88,19 @@ router.post('/run-model', (req, res, next) => {
     });
 });
 
+/**
+ * POST /api/depletions/export
+ * Route for sending the final depletions data to accounting
+ */
+router.post('/export', (req, res, next) => {
+  db.sequelize
+    .query('SELECT accounting_support.send_to_accounting_depletions()')
+    .then(data => {
+      res.sendStatus(204);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 module.exports = router;
