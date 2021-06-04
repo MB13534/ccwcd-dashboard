@@ -3,7 +3,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Container, Stepper, StepLabel, Step } from '@material-ui/core';
 import Layout from '../../../components/Layout';
-import BackNav from '../../../components/BackNav';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,18 +30,16 @@ const ProcessingLayout = ({ activeStep, children }) => {
       <section className={classes.root}>
         <div className={classes.content}>
           <Container maxWidth="lg" className={classes.container}>
-            <Box marginTop={3} marginBottom={2}>
-              <BackNav text="Return to Recharge Data" path="/recharge-accounting/data" />
+            <Box mt={3}>
+              <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
+                {steps.map(step => (
+                  <Step key={step}>
+                    <StepLabel>{step}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              {children}
             </Box>
-
-            <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
-              {steps.map(step => (
-                <Step key={step}>
-                  <StepLabel>{step}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            {children}
           </Container>
         </div>
       </section>
