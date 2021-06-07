@@ -152,7 +152,7 @@ const Sidebar = props => {
     {
       link: 'user-management',
       title: 'User Management',
-      activePath: 'user-management/users-to-structures',
+      activePath: 'user-management/',
       icon: AccountIcon,
       loginRequired: true,
       rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
