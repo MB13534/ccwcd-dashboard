@@ -1,19 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  Box,
-  Divider,
-  Button,
-  Collapse,
-} from "@material-ui/core";
-import useVisibility from "../../hooks/useVisibility";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, FormGroup, FormControlLabel, Checkbox, Box, Divider, Button, Collapse } from '@material-ui/core';
+import useVisibility from '../../hooks/useVisibility';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   divider: {
     marginTop: theme.spacing(2),
   },
@@ -23,13 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StructureAssociations = ({
-  title,
-  data,
-  defaultVisibility,
-  selections,
-  onCheck,
-}) => {
+const CheckboxForm = ({ title, data, valueField, displayField, defaultVisibility, selections, onCheck }) => {
   const classes = useStyles();
   const [visibility, setVisibility] = useVisibility(defaultVisibility);
 
@@ -39,25 +24,24 @@ const StructureAssociations = ({
         {title}
       </Typography>
       <Button size="small" className={classes.btn} onClick={setVisibility}>
-        {visibility ? "Hide" : "Show"}
+        {visibility ? 'Hide' : 'Show'}
       </Button>
 
       <Collapse in={visibility}>
         <FormGroup row>
-          {data.map((d) => (
+          {data.map(d => (
             <FormControlLabel
-              key={d.structure_ndx}
+              key={d[valueField]}
               control={
                 <Checkbox
                   color="default"
-                  // color="primary"
-                  checked={selections.includes(d.structure_ndx)}
+                  checked={selections.includes(d[valueField])}
                   onChange={onCheck}
-                  name={d.structure_desc}
-                  value={d.structure_ndx}
+                  name={d[displayField]}
+                  value={d[valueField]}
                 />
               }
-              label={d.structure_desc}
+              label={d[displayField]}
             />
           ))}
         </FormGroup>
@@ -67,12 +51,14 @@ const StructureAssociations = ({
   );
 };
 
-StructureAssociations.propTypes = {
+CheckboxForm.propTypes = {
   title: PropTypes.string.isRequired,
   data: PropTypes.array.isRequired,
+  valueField: PropTypes.string.isRequired,
+  displayField: PropTypes.string.isRequired,
   defaultVisibility: PropTypes.bool,
   selections: PropTypes.array.isRequired,
   onCheck: PropTypes.func.isRequired,
 };
 
-export default StructureAssociations;
+export default CheckboxForm;

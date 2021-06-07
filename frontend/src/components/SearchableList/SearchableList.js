@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Box,
@@ -14,14 +14,14 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import SortIcon from "@material-ui/icons/SortByAlpha";
-import UpIcon from "@material-ui/icons/ArrowDropUp";
-import DownIcon from "@material-ui/icons/ArrowDropDown";
-import { Flex } from "../../components/Flex";
+} from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import SortIcon from '@material-ui/icons/SortByAlpha';
+import UpIcon from '@material-ui/icons/ArrowDropUp';
+import DownIcon from '@material-ui/icons/ArrowDropDown';
+import { Flex } from '../../components/Flex';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: theme.palette.secondary.main,
     width: 35,
@@ -35,22 +35,15 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
   },
   list: {
-    overflowY: "scroll",
-    maxHeight: 600,
+    overflowY: 'scroll',
+    maxHeight: 700,
   },
 }));
 
-const SearchableList = ({
-  data = [],
-  valueField,
-  displayField,
-  title,
-  active = {},
-  onClick = () => {},
-}) => {
+const SearchableList = ({ data = [], valueField, displayField, title, active = {}, onClick = () => {} }) => {
   const classes = useStyles();
-  const [searchText, setSearchText] = useState("");
-  const [sortDirection, setSortDirection] = useState("asc");
+  const [searchText, setSearchText] = useState('');
+  const [sortDirection, setSortDirection] = useState('asc');
 
   if (data.length === 0) {
     return (
@@ -63,13 +56,13 @@ const SearchableList = ({
     );
   }
 
-  const handleSearch = (event) => {
+  const handleSearch = event => {
     const { value } = event.target;
     setSearchText(value);
   };
 
   const handleSortDirection = () => {
-    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
   };
 
   return (
@@ -95,11 +88,11 @@ const SearchableList = ({
             }
           />
         </FormControl>
-        <Flex justifyContent="flex-start">
+        <Flex justifyContent="start">
           <IconButton onClick={handleSortDirection}>
             <SortIcon color="primary" size="large" />
           </IconButton>
-          {sortDirection === "asc" ? (
+          {sortDirection === 'asc' ? (
             <UpIcon size="small" color="disabled" />
           ) : (
             <DownIcon size="small" color="disabled" />
@@ -109,11 +102,9 @@ const SearchableList = ({
 
       <List className={classes.list}>
         {data
-          .filter((record) =>
-            record[displayField].toLowerCase().includes(searchText)
-          )
+          .filter(record => record[displayField].toLowerCase().includes(searchText))
           .sort((a, b) => {
-            if (sortDirection === "asc") {
+            if (sortDirection === 'asc') {
               if (a[displayField] < b[displayField]) {
                 return -1;
               }
@@ -131,7 +122,7 @@ const SearchableList = ({
               return 0;
             }
           })
-          .map((record) => (
+          .map(record => (
             <ListItem
               key={record[displayField]}
               button
@@ -139,9 +130,7 @@ const SearchableList = ({
               onClick={() => onClick(record)}
             >
               <ListItemAvatar>
-                <Avatar className={classes.avatar}>
-                  {record[displayField].charAt(0)}
-                </Avatar>
+                <Avatar className={classes.avatar}>{record[displayField].charAt(0)}</Avatar>
               </ListItemAvatar>
               <ListItemText primary={record[displayField]} />
             </ListItem>

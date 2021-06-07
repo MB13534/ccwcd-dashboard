@@ -25,7 +25,8 @@ const Files = React.lazy(() => import('./pages/Files'));
 
 const FolderPage = React.lazy(() => import('./pages/Files/FolderPage'));
 
-const UserManagement = React.lazy(() => import('./pages/UserManagement'));
+const UserToStructuresManagement = React.lazy(() => import('./pages/UserManagement/UserToStructures'));
+const StructureToUsersManagement = React.lazy(() => import('./pages/UserManagement/StructureToUsers'));
 
 const ContractsWellsMeters = React.lazy(() => import('./pages/MembersDataManagement/ContractsWellsMeters'));
 
@@ -161,18 +162,27 @@ const App = () => {
               roles={AdminRoles}
               component={WellAttributes}
             />
-            <Route
-              path="/files"
+            <Route path="/files" exactå component={Files} />
+            <Route path="/files/:folderPath" component={FolderPage} />
+            <PrivateRouteWithRoles path="/user-management" exact roles={AdminRoles}>
+              {isAuthenticated === true ? (
+                <Redirect to="/user-management/users-to-structures" />
+              ) : (
+                <Redirect to="/files" />
+              )}
+            </PrivateRouteWithRoles>
+            <PrivateRouteWithRoles
+              path="/user-management/users-to-structures"
               exact
-              // roles={[...DataViewerRoles, ...AdminRoles]}
-              component={Files}
+              roles={AdminRoles}
+              component={UserToStructuresManagement}
             />
-            <Route
-              path="/files/:folderPath"
-              // roles={[...DataViewerRoles, ...AdminRoles]}
-              component={FolderPage}
+            <PrivateRouteWithRoles
+              path="/user-management/structures-to-users"
+              exact
+              roles={AdminRoles}
+              component={StructureToUsersManagement}
             />
-            <PrivateRouteWithRoles path="/user-management" exact roles={AdminRoles} component={UserManagement} />
             <PrivateRouteWithRoles path="/recharge-accounting" roles={AdminRoles} component={RechargeAccounting} />
             <PrivateRouteWithRoles path="/database-management" roles={AdminRoles} component={DatabaseManagement} />
             <PrivateRouteWithRoles path="/gds" exact roles={[...AdminRoles]} component={ExampleGDSReport} />

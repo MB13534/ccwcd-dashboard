@@ -1,68 +1,48 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  Container,
-  Typography,
-  Grid,
-  Box,
-  Chip,
-  CircularProgress,
-} from "@material-ui/core";
-import Layout from "../../components/Layout";
-import { useAuth0 } from "../../hooks/auth";
-import UsersList from "./UsersList";
-import useFetchData from "../../hooks/useFetchData";
-import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
-import StructureAssociations from "./StructureAssociations";
-import NoSelectionsIllustrations from "../../images/undraw_setup_wizard_r6mr.svg";
-import { Flex } from "../../components/Flex";
-import AssociationControls from "./AssociationControls";
-import FormSnackbar from "../../components/FormSnackbar";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { Button, Container, Typography, Grid, Box, Chip, CircularProgress } from '@material-ui/core';
+import Layout from '../../../components/Layout';
+import { useAuth0 } from '../../../hooks/auth';
+import useFetchData from '../../../hooks/useFetchData';
+import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
+import NoSelectionsIllustrations from '../../../images/undraw_setup_wizard_r6mr.svg';
+import { Flex } from '../../../components/Flex';
+import AssociationControls from '../AssociationControls';
+import FormSnackbar from '../../../components/FormSnackbar';
+import SearchableList from '../../../components/SearchableList';
+import CheckboxForm from '../../../components/CheckboxForm';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
   colLeft: {
-    borderRight: "1px solid #dddddd",
+    borderRight: '1px solid #dddddd',
   },
   buttonProgress: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
     marginTop: -12,
     marginLeft: -12,
   },
 }));
 
-const UserManagement = (props) => {
+const UserToStructures = props => {
   const classes = useStyles();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [userSyncRefreshSwitch, setUserSyncRefreshSwitch] = useState(false);
   const { getTokenSilently, user } = useAuth0();
-  const [Users] = useFetchData("user-management/users", [
-    userSyncRefreshSwitch,
-  ]);
-  const [StructureTypes] = useFetchData(
-    "all-things-viewer/structure-types",
-    []
-  );
+  const [Users] = useFetchData('user-management/users', [userSyncRefreshSwitch]);
+  const [StructureTypes] = useFetchData('all-things-viewer/structure-types', []);
   const [Structures] = useFetchData(`all-things-viewer/structures/all`, []);
-  const [
-    UserStructureAssociations,
-  ] = useFetchData("user-management/users/assoc/structures", [refreshSwitch]);
+  const [UserStructureAssociations] = useFetchData('user-management/users/assoc/structures', [refreshSwitch]);
   const [activeUser, setActiveUser] = useState({});
   const [associatedStructures, setAssociatedStructures] = useState([]);
-  const {
-    formSubmitting,
-    setWaitingState,
-    snackbarOpen,
-    snackbarError,
-    handleSnackbarClose,
-  } = useFormSubmitStatus();
+  const { formSubmitting, setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
 
   /**
    * Logic used to pre-populate the structure association checkboxes
@@ -71,9 +51,7 @@ const UserManagement = (props) => {
    * the active user changes
    */
   useEffect(() => {
-    const activeAssociations = UserStructureAssociations.filter(
-      (d) => activeUser.auth0_user_id === d.auth0_user_id
-    );
+    const activeAssociations = UserStructureAssociations.filter(d => activeUser.auth0_user_id === d.auth0_user_id);
 
     if (activeAssociations.length > 0) {
       setAssociatedStructures(activeAssociations[0].assoc_structure_ndx);
@@ -81,11 +59,11 @@ const UserManagement = (props) => {
   }, [UserStructureAssociations, activeUser]);
 
   const handleRefresh = () => {
-    setRefreshSwitch((state) => !state);
+    setRefreshSwitch(state => !state);
   };
 
   const handleUserSyncRefresh = () => {
-    setUserSyncRefreshSwitch((state) => !state);
+    setUserSyncRefreshSwitch(state => !state);
   };
 
   /**
@@ -97,7 +75,7 @@ const UserManagement = (props) => {
   const handleSync = () => {
     // Set up a cancellation source
     let didCancel = false;
-    setWaitingState("in progress");
+    setWaitingState('in progress');
     async function writeData() {
       try {
         const token = await getTokenSilently();
@@ -105,15 +83,11 @@ const UserManagement = (props) => {
         // Create request headers with token authorization
         const headers = { Authorization: `Bearer ${token}` };
 
-        await axios.post(
-          `${process.env.REACT_APP_ENDPOINT}/api/user-management/auth0-sync`,
-          {},
-          { headers }
-        );
+        await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/user-management/auth0-sync`, {}, { headers });
         if (!didCancel) {
           // Ignore if we started fetching something else
-          console.log("success");
-          setWaitingState("complete", "no error");
+          console.log('success');
+          setWaitingState('complete', 'no error');
           handleUserSyncRefresh();
         }
       } catch (err) {
@@ -122,7 +96,7 @@ const UserManagement = (props) => {
           console.log(`call was cancelled`);
         } else {
           console.error(err);
-          setWaitingState("complete", "error");
+          setWaitingState('complete', 'error');
         }
         didCancel = true;
       }
@@ -135,7 +109,7 @@ const UserManagement = (props) => {
    * Event handler for selecting a user from the users list
    * @param {object} user selected user
    */
-  const handleUserSelect = (user) => {
+  const handleUserSelect = user => {
     setAssociatedStructures([]);
     setActiveUser(user);
   };
@@ -145,9 +119,9 @@ const UserManagement = (props) => {
    * from the structure associations component
    * @param {*} event
    */
-  const handleStructureSelect = (event) => {
+  const handleStructureSelect = event => {
     const { value, checked } = event.target;
-    setAssociatedStructures((prevState) => {
+    setAssociatedStructures(prevState => {
       let newValues = [...prevState];
       if (checked) {
         newValues.push(+value);
@@ -167,8 +141,7 @@ const UserManagement = (props) => {
   /**
    * Event handler for selecting all structures
    */
-  const handleSelectAll = () =>
-    setAssociatedStructures(Structures.map((d) => d.structure_ndx));
+  const handleSelectAll = () => setAssociatedStructures(Structures.map(d => d.structure_ndx));
 
   /**
    * Utility function used to merge the active user
@@ -190,7 +163,7 @@ const UserManagement = (props) => {
   const handleSubmit = () => {
     // Set up a cancellation source
     let didCancel = false;
-    setWaitingState("in progress");
+    setWaitingState('in progress');
     async function writeData() {
       try {
         const token = await getTokenSilently();
@@ -205,8 +178,8 @@ const UserManagement = (props) => {
         );
         if (!didCancel) {
           // Ignore if we started fetching something else
-          console.log("success");
-          setWaitingState("complete", "no error");
+          console.log('success');
+          setWaitingState('complete', 'no error');
           handleRefresh();
         }
       } catch (err) {
@@ -215,7 +188,7 @@ const UserManagement = (props) => {
           console.log(`call was cancelled`);
         } else {
           console.error(err);
-          setWaitingState("complete", "error");
+          setWaitingState('complete', 'error');
         }
         didCancel = true;
       }
@@ -231,25 +204,28 @@ const UserManagement = (props) => {
           <Typography variant="h5" gutterBottom>
             User Management
           </Typography>
-          {user["https://ccwcd2.org/roles"].includes("CCWCD Admin Demo") === false &&
-            <Button
-                variant="contained"
-                color="primary"
-                disabled={formSubmitting}
-                onClick={handleSync}
-            >
-              Sync Auth0 with Database
-              {formSubmitting && (
-                  <CircularProgress size={24} className={classes.buttonProgress}/>
-              )}
-            </Button>
-          }
+          <Flex>
+            <Box mr={1}>
+              <Button variant="contained" color="primary" to="/user-management/structures-to-users" component={Link}>
+                Structures to Users
+              </Button>
+            </Box>
+            {user['https://ccwcd2.org/roles'].includes('CCWCD Admin Demo') === false && (
+              <Button variant="contained" color="primary" disabled={formSubmitting} onClick={handleSync}>
+                Sync Auth0 with Database
+                {formSubmitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+              </Button>
+            )}
+          </Flex>
         </Flex>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={5} className={classes.colLeft}>
-            <UsersList
-              users={Users}
-              activeUser={activeUser}
+            <SearchableList
+              data={Users}
+              title="Users List"
+              valueField="auth0_email"
+              displayField="auth0_email"
+              active={activeUser}
               onClick={handleUserSelect}
             />
           </Grid>
@@ -277,12 +253,12 @@ const UserManagement = (props) => {
 
               {activeUser.auth0_email ? (
                 StructureTypes.map((st, index) => (
-                  <StructureAssociations
+                  <CheckboxForm
                     key={st.structure_type_ndx}
                     title={st.structure_type_desc}
-                    data={Structures.filter((d) =>
-                      d.assoc_structure_type_ndx.includes(st.structure_type_ndx)
-                    )}
+                    data={Structures.filter(d => d.assoc_structure_type_ndx.includes(st.structure_type_ndx))}
+                    valueField="structure_ndx"
+                    displayField="structure_desc"
                     defaultVisibility={true}
                     selections={associatedStructures}
                     onCheck={handleStructureSelect}
@@ -291,20 +267,10 @@ const UserManagement = (props) => {
               ) : (
                 <>
                   <Typography variant="body1" paragraph>
-                    Please select a user from the Users List to associate them
-                    with structures.
+                    Please select a user from the Users List to associate them with structures.
                   </Typography>
-                  <Box
-                    maxWidth={300}
-                    marginLeft="auto"
-                    marginRight="auto"
-                    marginTop={4}
-                  >
-                    <img
-                      src={NoSelectionsIllustrations}
-                      alt="No Selections"
-                      style={{ maxWidth: "100%" }}
-                    />
+                  <Box maxWidth={300} marginLeft="auto" marginRight="auto" marginTop={4}>
+                    <img src={NoSelectionsIllustrations} alt="No Selections" style={{ maxWidth: '100%' }} />
                   </Box>
                 </>
               )}
@@ -323,4 +289,4 @@ const UserManagement = (props) => {
   );
 };
 
-export default UserManagement;
+export default UserToStructures;
