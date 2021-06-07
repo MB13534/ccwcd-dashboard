@@ -1,20 +1,12 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Link as RouterLink, useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Typography,
-  AppBar,
-  Toolbar,
-  Divider,
-  Link,
-  Menu,
-  MenuItem,
-} from "@material-ui/core";
-import DropdownIcon from "@material-ui/icons/KeyboardArrowDown";
-import { Flex } from "../Flex";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, AppBar, Toolbar, Divider, Link, Menu, MenuItem } from '@material-ui/core';
+import DropdownIcon from '@material-ui/icons/KeyboardArrowDown';
+import { Flex } from '../Flex';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
@@ -29,20 +21,20 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     borderRadius: 4,
     textDecoration: `none`,
-    "&:hover": {
+    '&:hover': {
       backgroundColor: `#e9e9e9`,
       textDecoration: `none`,
     },
   },
   link: {
     fontSize: 17,
-    color: "#777777",
+    color: '#777777',
     margin: theme.spacing(0.5),
     padding: theme.spacing(1),
     borderRadius: 4,
     textDecoration: `none`,
-    "&:hover": {
-      backgroundColor: "#e9e9e9",
+    '&:hover': {
+      backgroundColor: '#e9e9e9',
       textDecoration: `none`,
     },
   },
@@ -52,18 +44,18 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 17,
     borderRadius: 4,
     textDecoration: `none`,
-    "&:hover": {
+    '&:hover': {
       backgroundColor: `#e9e9e9`,
       textDecoration: `none`,
     },
   },
   childLink: {
     fontSize: 17,
-    color: "#777777",
+    color: '#777777',
     borderRadius: 4,
     textDecoration: `none`,
-    "&:hover": {
-      backgroundColor: "#e9e9e9",
+    '&:hover': {
+      backgroundColor: '#e9e9e9',
       textDecoration: `none`,
     },
   },
@@ -77,7 +69,7 @@ const TopNav = ({ title, menuItems, ...other }) => {
   let history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -131,56 +123,37 @@ const TopNav = ({ title, menuItems, ...other }) => {
   };
 
   return (
-    <AppBar
-      position="static"
-      color="transparent"
-      className={classes.root}
-      elevation={0}
-      {...other}
-    >
+    <AppBar position="static" color="transparent" className={classes.root} elevation={0} {...other}>
       <Toolbar>
         {title && (
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
         )}
-        {menuItems.map((item) => {
+        {menuItems.map(item => {
           if (item.children && item.children.length > 0) {
             return (
-              <>
-                <Link
-                  key={item.id}
-                  onClick={handleClick}
-                  className={handleActive(item.activePath, item.exact)}
-                >
+              <React.Fragment key={item.id}>
+                <Link onClick={handleClick} className={handleActive(item.activePath, item.exact)}>
                   <Flex>
                     {item.title}
                     <DropdownIcon style={{ marginLeft: 4 }} />
                   </Flex>
                 </Link>
-                <Menu
-                  id={item.title}
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  {item.children.map((child) => (
+                <Menu id={item.title} anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                  {item.children.map(child => (
                     <Link
                       key={child.title}
                       component={RouterLink}
                       to={child.path}
-                      className={handleActiveChild(
-                        child.activePath,
-                        child.exact
-                      )}
+                      className={handleActiveChild(child.activePath, child.exact)}
                       onClick={handleClose}
                     >
                       <MenuItem>{child.title}</MenuItem>
                     </Link>
                   ))}
                 </Menu>
-              </>
+              </React.Fragment>
             );
           } else {
             return (
@@ -214,12 +187,11 @@ TopNav.propTypes = {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       title: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
-      activePath: PropTypes.string.isRequired,
+      activePath: PropTypes.string,
       exact: PropTypes.boolean,
       children: PropTypes.arrayOf(
         PropTypes.shape({
-          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-            .isRequired,
+          id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
           title: PropTypes.string.isRequired,
           path: PropTypes.string.isRequired,
           exact: PropTypes.boolean,
