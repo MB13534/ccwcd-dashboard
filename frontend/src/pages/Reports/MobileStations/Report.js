@@ -146,7 +146,6 @@ const MobileStationsReport = () => {
           }
         />
         <Accordion
-          defaultExpanded
           title="Station Filters"
           content={
             <StationFilter
