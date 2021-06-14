@@ -75,7 +75,7 @@ const App = () => {
             <PrivateRouteWithRoles
               path="/mobile-stations-report"
               exact
-              roles={[...AdminRoles]}
+              roles={[...DataViewerRoles, ...AdminRoles]}
               component={MobileStations}
             />
             <PrivateRouteWithRoles
