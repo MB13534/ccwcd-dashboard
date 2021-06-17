@@ -6,7 +6,8 @@ import BaseTable from './BaseTable';
 const columns = [
   { title: 'Station', field: 'station_name' },
   { title: 'Value', field: 'last_value_received' },
-  { title: 'Target', field: 'target_value' },
+//  { title: 'Target', field: 'target_value' },
+  { title: 'Type', field: 'type_chip' },
 ];
 
 const LastReportTable = ({ data, activeRow, isLoading, onRowClick }) => {

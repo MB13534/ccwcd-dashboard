@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       target_value: {
         type: REAL,
       },
+      type_chip: {
+        type: TEXT,
+      }
     },
     {
       timestamps: false,

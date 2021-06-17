@@ -74,6 +74,10 @@ router.get('/last-report/:stations', (req, res, next) => {
           [Op.in]: req.params.stations.split(','),
         },
       },
+      order: [
+        ["type_chip", "ASC"],
+        ["station_name", "ASC"]
+        ],
     })
       .then(data => {
         res.json(data);
