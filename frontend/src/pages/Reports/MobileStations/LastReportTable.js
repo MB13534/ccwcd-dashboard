@@ -69,7 +69,12 @@ const LastReportTable = ({ data, activeRow, isLoading, onRowClick, onTypeChange 
           <Chip label={x.type_chip} color="primary" className={clsx(classes.chip, selectedChips.indexOf(x.type_chip) !== -1 ? classes.chipActive : classes.chipInactive)} />
         </Link>
       ))}
-      <BaseTable id="last-report-table" columns={columns} data={data} isLoading={isLoading} onRowClick={onRowClick} />
+      {((!data?.length > 0 && !isLoading) || selectedChips.length === 0) && (
+        <Typography variant="body1" style={{marginTop:'12px'}}>No data could be found for the selected stations and/or types.</Typography>
+      )}
+      {data?.length > 0 && !isLoading && selectedChips.length > 0 && (
+        <BaseTable id="last-report-table" columns={columns} data={data} isLoading={isLoading} onRowClick={onRowClick} />
+      )}
     </Box>
   );
 };
