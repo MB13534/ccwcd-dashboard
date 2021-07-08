@@ -2,15 +2,23 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import groupBy from 'lodash.groupby';
 import { Box, Button, FormGroup, FormControlLabel, Checkbox, Typography, makeStyles } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(theme => ({
   controlBtn: {
     marginRight: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
+  subControlBtn: {
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  divider: {
+    marginBottom: theme.spacing(1),
+  }
 }));
 
-const StationFilter = ({ options, value, disabled, onChange, onSelectAll, onSelectNone, onSave }) => {
+const StationFilter = ({ options, value, disabled, onChange, onSelectAll, onSelectNone, onSubSelectAll, onSubSelectNone, onSave }) => {
   const classes = useStyles();
   const groupedStructures = useMemo(() => {
     if (options?.length > 0) {
@@ -41,13 +49,22 @@ const StationFilter = ({ options, value, disabled, onChange, onSelectAll, onSele
       {groupedStructures &&
         Object.entries(groupedStructures).map(([group, options]) => (
           <Box my={2} key={group}>
+            <Divider className={classes.divider} />
             <Typography variant="h6" color="primary" display="inline" gutterBottom>
               {group}
             </Typography>
+            <Box mt={1}>
+              <Button className={classes.subControlBtn} size="small" variant="outlined" onClick={x => onSubSelectAll(options.map(y => y.station_ndx))}>
+                Select All
+              </Button>
+              <Button className={classes.subControlBtn} size="small" variant="outlined" onClick={x => onSubSelectNone(options.map(y => y.station_ndx))}>
+                Select None
+              </Button>
+            </Box>
             <FormGroup row>
               {options.map(d => (
                 <FormControlLabel
-                  key={d.station_ndx}
+                  key={Math.random() * 99999999}
                   control={
                     <Checkbox
                       color="default"

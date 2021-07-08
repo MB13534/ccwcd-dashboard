@@ -17,7 +17,7 @@ const TimeSeriesTable = ({ data, isLoading }) => {
       </Typography>
     );
   }
-  return <BaseTable id="time-series-table" columns={columns} data={data} isLoading={isLoading} />;
+  return <BaseTable id="time-series-table" columns={columns} data={data} isLoading={isLoading} search={false} />;
 };
 
 TimeSeriesTable.propTypes = {

@@ -8,7 +8,7 @@ import MaterialTable from 'material-table';
  * Helps ensure that we are being consistent with how we have the
  * tables setup
  */
-const BaseTable = ({ id, columns, data, isLoading, onRowClick }) => {
+const BaseTable = ({ id, columns, data, isLoading, onRowClick = () => {}, search = true }) => {
   return (
     <MaterialTable
       id={id}
@@ -28,6 +28,7 @@ const BaseTable = ({ id, columns, data, isLoading, onRowClick }) => {
         padding: 'dense',
         searchFieldAlignment: 'left',
         showTitle: false,
+        search: search,
       }}
       onRowClick={(_, row) => {
         onRowClick(row);

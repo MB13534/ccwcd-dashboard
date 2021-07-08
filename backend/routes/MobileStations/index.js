@@ -64,20 +64,26 @@ router.get('/stations/active', (req, res, next) => {
 
 // GET /api/mobile-stations/last-report/:stations
 // Route for returning the last reported for a specified set of stations
-router.get('/last-report/:stations', (req, res, next) => {
+router.get('/last-report/:stations/:types', (req, res, next) => {
   if (!req.params.stations || req.params.stations === 'undefined') {
     res.json([]);
   } else {
-    Mobile_Stations_Data_Last_Report.findAll({
-      where: {
-        station_ndx: {
-          [Op.in]: req.params.stations.split(','),
-        },
+    const where = {
+      station_ndx: {
+        [Op.in]: req.params.stations.split(','),
       },
+    };
+    if (req.params.types && req.params.types !== 'undefined') {
+      where.type_chip = {
+        [Op.in]: req.params.types.split(',')
+      };
+    }
+    Mobile_Stations_Data_Last_Report.findAll({
+      where: where,
       order: [
-        ["type_chip", "ASC"],
-        ["station_name", "ASC"]
-        ],
+        ['type_chip', 'ASC'],
+        ['station_name', 'ASC'],
+      ],
     })
       .then(data => {
         res.json(data);
@@ -94,12 +100,13 @@ router.get('/time-series/:stations', (req, res, next) => {
   if (!req.params.stations || req.params.stations === 'undefined') {
     res.json([]);
   } else {
-    Mobile_Stations_Data_15_Minute.findAll({
-      where: {
-        station_ndx: {
-          [Op.in]: req.params.stations.split(','),
-        },
+    const where = {
+      station_ndx: {
+        [Op.in]: req.params.stations.split(','),
       },
+    };
+    Mobile_Stations_Data_15_Minute.findAll({
+      where: where,
     })
       .then(data => {
         res.json(data);
@@ -108,6 +115,21 @@ router.get('/time-series/:stations', (req, res, next) => {
         next(err);
       });
   }
+});
+
+// GET /api/mobile-stations/last-report-types
+// Route for returning a list of types available
+router.get('/last-report-types', (req, res, next) => {
+  Mobile_Stations_Data_Last_Report.findAll({
+    attributes: ['type_chip'],
+    group: ['type_chip'],
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 module.exports = router;

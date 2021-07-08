@@ -17,10 +17,11 @@ const MobileStationsReport = () => {
   const [activeRow, setActiveRow] = useState();
   const [filterValues, setFilterValues] = useState({
     stations: [29, 38],
+    types: null,
   });
   const [savedStationSelections] = useFetchData('mobile-stations/stations/active', []);
   const [lastReportData, isLastReportLoading, setLastReportData] = useFetchData(
-    `mobile-stations/last-report/${filterValues.stations.join(',') || 'undefined'}`,
+    `mobile-stations/last-report/${filterValues.stations.join(',') || 'undefined'}/${(filterValues.types !== null && filterValues.types.join(',')) || 'undefined'}`,
     [filterValues]
   );
   const [
@@ -29,6 +30,9 @@ const MobileStationsReport = () => {
     setTimeSeriesData,
   ] = useFetchData(`mobile-stations/time-series/${activeRow?.station_ndx}`, [activeRow]);
   const [Stations] = useFetchData('mobile-stations/stations', []);
+  const [isLastReportExpanded, setIsLastReportExpanded] = useState(true);
+  const [isTimeSeriesExpanded, setIsTimeSeriesExpanded] = useState(false);
+  const [isStationsExpanded, setIsStationsExpanded] = useState(false);
 
   /**
    * Pre-populate the station filters using the user's
@@ -43,6 +47,24 @@ const MobileStationsReport = () => {
       });
     }
   }, [savedStationSelections]);
+
+  useEffect(() => {
+    if (activeRow) {
+      setIsLastReportExpanded(false);
+      setIsTimeSeriesExpanded(true);
+      setTimeout(() => {
+        document.getElementById('timeSeriesView').scrollIntoView();
+      }, 500);
+    }
+  }, [activeRow]);
+
+  const handleTypeChange = (types) => {
+    setFilterValues((prevState) => {
+      let newValues = {...prevState};
+      newValues.types = types;
+      return newValues;
+    })
+  };
 
   /**
    * Event handle for de-selecting all stations
@@ -65,6 +87,36 @@ const MobileStationsReport = () => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
       newValues.stations = Stations.map(({ station_ndx }) => station_ndx);
+      return newValues;
+    });
+    setActiveRow(null);
+    setLastReportData([]);
+    setTimeSeriesData([]);
+  };
+
+  const handleStationSubSelectAll = (stations) => {
+    setFilterValues(prevState => {
+      let newValues = { ...prevState };
+      let newStations = newValues.stations;
+      stations.forEach(x => {
+        if (stations.indexOf(x) !== -1) newStations.push(x);
+      })
+      newValues.stations = newStations;
+      return newValues;
+    });
+    setActiveRow(null);
+    setLastReportData([]);
+    setTimeSeriesData([]);
+  };
+
+  const handleStationSubSelectNone = (stations) => {
+    setFilterValues(prevState => {
+      let newValues = { ...prevState };
+      let newStations = [];
+      newValues.stations.forEach(x => {
+        if (stations.indexOf(x) === -1) newStations.push(x);
+      })
+      newValues.stations = newStations;
       return newValues;
     });
     setActiveRow(null);
@@ -125,28 +177,36 @@ const MobileStationsReport = () => {
     <Layout>
       <Box m={2}>
         <Accordion
-          defaultExpanded
+          expanded={isLastReportExpanded}
+          onChange={() => { setIsLastReportExpanded(!isLastReportExpanded)} }
           title="Last Report"
           content={
             <LastReportTable
               activeRow={activeRow}
               data={lastReportData}
               isLoading={isLastReportLoading}
+              onTypeChange={handleTypeChange}
               onRowClick={row => setActiveRow(row)}
             />
           }
         />
         <Accordion
           title="Time Series View"
+          id={'timeSeriesView'}
+          expanded={isTimeSeriesExpanded}
+          onChange={() => { setIsTimeSeriesExpanded(!isTimeSeriesExpanded)} }
           content={
             <TimeSeriesTable
               data={timeSeriesData.filter(({ station_ndx }) => station_ndx === activeRow?.station_ndx)}
               isLoading={isTimeSeriesLoading}
+              onRowClick={() => {}}
             />
           }
         />
         <Accordion
           title="Station Filters"
+          expanded={isStationsExpanded}
+          onChange={() => { setIsStationsExpanded(!isStationsExpanded)} }
           content={
             <StationFilter
               options={Stations}
@@ -155,6 +215,8 @@ const MobileStationsReport = () => {
               onChange={handleFilterChange}
               onSelectAll={handleStationSelectAll}
               onSelectNone={handleStationSelectNone}
+              onSubSelectAll={handleStationSubSelectAll}
+              onSubSelectNone={handleStationSubSelectNone}
               onSave={handleSubmit}
             />
           }

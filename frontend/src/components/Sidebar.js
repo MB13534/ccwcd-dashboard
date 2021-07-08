@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import DnsIcon from '@material-ui/icons/Dns';
 import FileIcon from '@material-ui/icons/AttachFile';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
+import PhoneIcon from '@material-ui/icons/Phone';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import RechargeIcon from '@material-ui/icons/Opacity';
 import DepletionsIcon from '@material-ui/icons/TrackChanges';
@@ -150,6 +151,16 @@ const Sidebar = props => {
       rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Data Viewer', 'CCWCD Admin Demo'],
     },
     {
+      link: 'mobile-stations-report',
+      title: 'Mobile Viewer',
+      activePath: 'mobile-stations-report',
+      exact: true,
+      icon: PhoneIcon,
+      loginRequired: true,
+      mobileOnly: true,
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'Mobile Page Landing'],
+    },
+    {
       link: 'user-management',
       title: 'User Management',
       activePath: 'user-management/',
@@ -275,7 +286,16 @@ const Sidebar = props => {
 
     const list = (
       <React.Fragment key={Math.random() * 9999999}>
-        {li}
+        {item.mobileOnly && (
+          <Hidden smUp>
+            {li}
+          </Hidden>
+        )}
+        {!item.mobileOnly && (
+          <>
+          {li}
+          </>
+        )}
         {NestedUl()}
       </React.Fragment>
     );

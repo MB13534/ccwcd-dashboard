@@ -34,6 +34,11 @@ export const Auth0Provider = ({
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
         setUser(user);
+
+        // force redirect to mobile landing page upon login if user has the role
+        if (user['https://ccwcd2.org/roles'].includes('Mobile Page Landing')) {
+          window.history.replaceState({}, document.title, '/mobile-stations-report');
+        }
       }
 
       setLoading(false);
