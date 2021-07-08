@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DownloadForm = ({ title, text, data, onDownload, onSaveView, children, ...other }) => {
+const DownloadForm = ({ title, text, data, onDownload, onSaveView, children, csvTitle, ...other }) => {
   const classes = useStyles();
 
   return (
@@ -72,7 +72,7 @@ const DownloadForm = ({ title, text, data, onDownload, onSaveView, children, ...
           <CSVLink
             data={data}
             className={classes.downloadBtn}
-            filename={`monthly_unlagged_recharge_data.csv`}
+            filename={`${csvTitle}.csv`}
             target="_blank"
             onClick={() => {}}
           >

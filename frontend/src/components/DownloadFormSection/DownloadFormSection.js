@@ -26,7 +26,7 @@ DownloadFormSection.propTypes = {
     PropTypes.node,
   ]),
   text: PropTypes.string,
-  title: PropTypes.string,
+  // title: PropTypes.string,
 };
 
 export default DownloadFormSection;

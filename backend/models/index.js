@@ -94,6 +94,11 @@ db.HRP_Well_List = require('./HistoricalReachPumping/ReachWellList')(sequelize, 
 db.MonthlyUnlaggedRecharge = require('./MonthlyUnlaggedRecharge/MonthlyUnlaggedRecharge')(sequelize, Sequelize);
 
 /**
+ * Monthly Lagged Recharge Data Report models
+ */
+ db.MonthlyLaggedRecharge = require('./MonthlyLaggedRecharge/MonthlyLaggedRecharge')(sequelize, Sequelize);
+
+/**
  * Members Management models
  */
 db.ContractsWellsMetersLanding = require('./MembersManagement/ContractsWellsMetersLanding')(sequelize, Sequelize);
@@ -144,6 +149,7 @@ db.RCH_RechargeLaggedQAQC = require('./RechargeAccounting/RechargeLaggedQAQC')(s
  */
 db.ListRechargeProjects = require('./RechargeProjects/ListRechargeProjects')(sequelize, Sequelize);
 db.ListRechargeDecrees = require('./RechargeDecrees/ListRechargeDecrees')(sequelize, Sequelize);
+db.ListRechargePlans = require('./RechargePlans/ListRechargePlans')(sequelize, Sequelize);
 db.ListStructures = require('./Structures/ListStructures')(sequelize, Sequelize);
 db.RechargeListStructures = require('./Structures/RechargeListStructures')(sequelize, Sequelize);
 db.ListStructureTypes = require('./StructureTypes/ListStructureTypes')(sequelize, Sequelize);

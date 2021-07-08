@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, TEXT, REAL } = DataTypes;
   const ListRechargeSlicesDownloadTool = sequelize.define(
-    "rch_list_slices_download_tool",
+    "rch_list_slices_with_plan_download_tool",
     {
       recharge_slice_ndx: {
         type: INTEGER,
@@ -40,6 +40,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       recharge_decree_ndx: {
         type: INTEGER,
+      },
+      plan: {
+        type: TEXT,
       },
     },
     {
