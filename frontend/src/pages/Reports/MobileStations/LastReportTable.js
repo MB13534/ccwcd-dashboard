@@ -51,10 +51,6 @@ const LastReportTable = ({ data, activeRow, isLoading, onRowClick, onTypeChange 
     onTypeChange(myTypes);
   };
 
-  if (!data?.length > 0 && !isLoading) {
-    return <Typography variant="body1">No data could be found for the selected stations.</Typography>;
-  }
-
   return (
     <Box style={{textAlign: 'center'}}>
       {activeRow?.por_end && (
