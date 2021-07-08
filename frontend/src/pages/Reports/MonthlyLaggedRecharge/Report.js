@@ -11,6 +11,7 @@ import Layout from "../../../components/Layout";
 import DownloadForm from "../../../components/DownloadForm";
 import useFetchData from "../../../hooks/useFetchData";
 import DecreesFilter from "../../../components/Filters/DecreesFilter";
+import PlansFilter from "../../../components/Filters/PlansFilter";
 import RechargeProjectsFilter from "../../../components/Filters/RechargeProjectsFilter";
 import DownloadFormSection from "../../../components/DownloadFormSection";
 import { DatePicker } from "@lrewater/lre-react";
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const buildQueryString = (decrees, projects, structures) => {
+const buildQueryString = (decrees, projects, structures, plans) => {
   let query = "recharge-slices/query?";
   let queries = [];
 
@@ -71,6 +72,10 @@ const buildQueryString = (decrees, projects, structures) => {
     queries.push(`structures=${structures.join(",")}`);
   }
 
+  if (plans) {
+    queries.push(`plans=${plans.join(",")}`);
+  }
+
   if (queries.length > 0) {
     return query + queries.join("&");
   }
@@ -78,42 +83,50 @@ const buildQueryString = (decrees, projects, structures) => {
 };
 
 const slicesColumns = [
-  { title: "Decree", field: "recharge_decree_desc" },
   { title: "Project", field: "recharge_project_desc" },
   { title: "Structure", field: "structure_desc" },
+  { title: "Decree", field: "recharge_decree_desc" },
+  { title: "Plan", field: "plan" }
 ];
 
-const MonthlyUnlaggedRecharge = (props) => {
+const MonthlyLaggedRecharge = (props) => {
   // let { viewNdx } = useParams();
   const classes = useStyles();
   const [filterValues, setFilterValues] = useState({
     decrees: [],
     projects: [],
     structures: [],
+    plans: ['G','W','O','D'],
     start_date: extractDate(subtractDays(new Date(), 366)),
     end_date: extractDate(new Date()),
   });
+  //api/recharge-slices/query //ListRechargeSlicesDownloadTool model
   const [Slices, slicesLoading] = useFetchData(
     buildQueryString(
       filterValues.decrees,
       filterValues.projects,
-      filterValues.structures
+      filterValues.structures, 
+      filterValues.plans
     ),
-    [filterValues.decrees, filterValues.projects, filterValues.structures]
+    [filterValues.decrees, filterValues.projects, filterValues.structures, filterValues.plans]
   );
+
   const [Decrees] = useFetchData("recharge-decrees", []);
   const [Projects] = useFetchData("recharge-projects", []);
+  //api/recharge-plans //ListRechargePlans model
+  const [Plans] = useFetchData("recharge-plans", []);
   const [Structures] = useFetchData("structures/recharge", []);
   const [
-    DownloadData,
+    DownloadData
+    //api/monthly-lagged-recharge //MonthlyLaggedRecharge model
   ] = useFetchData(
-    `monthly-unlagged-recharge?recharge_slices=${unique(
+    `monthly-lagged-recharge?recharge_slices=${unique(
       Slices,
       "recharge_slice_ndx"
     )}&start_date=${filterValues.start_date}&end_date=${
       filterValues.end_date
-    }&format=csv`,
-    [Slices, filterValues.start_date, filterValues.end_date]
+    }&plans=${filterValues.plans}&format=csv`,
+    [Slices, filterValues.start_date, filterValues.end_date, filterValues.plans]
   );
 
   /**
@@ -139,11 +152,11 @@ const MonthlyUnlaggedRecharge = (props) => {
       <Box marginTop={6} marginBottom={3} width="100%">
         <Container maxWidth="md">
           <DownloadForm
-            title="Monthly Unlagged Recharge Data Download"
-            text="Use the following form to download Monthly Unlagged Recharge Data as a csv file."
+            title="Monthly Lagged Recharge Report"
+            text="Use the following form to download Monthly Lagged Recharge Data as a csv file."
             onDownload={() => {}}
             data={DownloadData}
-            csvTitle={'monthly_unlagged_recharge_data'}
+            csvTitle={'monthly_lagged_recharge_data'}
           >
             <DownloadFormSection
               title={
@@ -182,6 +195,9 @@ const MonthlyUnlaggedRecharge = (props) => {
                 width={200}
               />
             </DownloadFormSection>
+
+
+
             <DownloadFormSection
               title={
                 <Box
@@ -191,17 +207,41 @@ const MonthlyUnlaggedRecharge = (props) => {
                   marginBottom={2}
                 >
                   <Avatar className={classes.avatar}>2</Avatar>
+                  <Typography variant="body1">
+                    Select Allocations
+                  </Typography>
+                </Box>
+              }
+              text="Filter the data by field plan."
+            >
+
+              <Flex alignItems="start">
+                <PlansFilter
+                  data={Plans || []}
+                  value={filterValues.plans}
+                  onChange={handleFilter}
+                />
+              </Flex>
+
+            </DownloadFormSection>
+
+
+
+            <DownloadFormSection
+              title={
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginTop={2}
+                  marginBottom={2}
+                >
+                  <Avatar className={classes.avatar}>3</Avatar>
                   <Typography variant="body1">Refine Dataset</Typography>
                 </Box>
               }
               text="Filter the available data by decree(s), project(s), and/or structure(s)."
             >
               <Flex alignItems="start">
-                <DecreesFilter
-                  data={Decrees || []}
-                  value={filterValues.decrees}
-                  onChange={handleFilter}
-                />
                 <RechargeProjectsFilter
                   data={Projects || []}
                   value={filterValues.projects}
@@ -212,6 +252,11 @@ const MonthlyUnlaggedRecharge = (props) => {
                   value={filterValues.structures}
                   onChange={handleFilter}
                   multiple={true}
+                />
+                <DecreesFilter
+                  data={Decrees || []}
+                  value={filterValues.decrees}
+                  onChange={handleFilter}
                 />
               </Flex>
               <Box marginTop={2} marginBottom={2}>
@@ -242,4 +287,4 @@ const MonthlyUnlaggedRecharge = (props) => {
   );
 };
 
-export default MonthlyUnlaggedRecharge;
+export default MonthlyLaggedRecharge;

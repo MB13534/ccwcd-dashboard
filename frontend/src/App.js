@@ -12,6 +12,7 @@ import theme from './theme';
 const AllThingsViewer = React.lazy(() => import('./pages/Reports/AllThingsViewer/Report'));
 const HistoricalMemberUsage = React.lazy(() => import('./pages/Reports/HistoricalMemberUsage/Report'));
 const MonthlyUnlaggedRecharge = React.lazy(() => import('./pages/Reports/MonthlyUnlaggedRecharge/Report'));
+const MonthlyLaggedRecharge = React.lazy(() => import('./pages/Reports/MonthlyLaggedRecharge/Report'));
 const ReportsHome = React.lazy(() => import('./pages/Reports/ReportsHome'));
 const AtvViewManagement = React.lazy(() => import('./pages/Reports/AllThingsViewer/ManageView'));
 const HistoricalMemberUsageViewManagement = React.lazy(() =>
@@ -42,7 +43,7 @@ const DatabaseManagement = React.lazy(() => import('./pages/DatabaseManagement')
 const ExampleGDSReport = React.lazy(() => import('./pages/Reports/ExampleGDSReport/Report'));
 
 const App = () => {
-  const { isAuthenticated, loading } = useAuth0();
+  const { isAuthenticated, loading, user } = useAuth0();
 
   const AdminRoles = ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'];
   const DataViewerRoles = ['CCWCD Data Viewer'];
@@ -58,7 +59,12 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route path="/" exact>
-              {isAuthenticated === true ? <Redirect to="/all-things-viewer" /> : <Redirect to="/files" />}
+            {isAuthenticated === true ? <Redirect to="/all-things-viewer" /> : <Redirect to="/files" />}
+              {/* {
+                isAuthenticated === true && user["https://ccwcd2.org/roles"].includes('Mobile Page Landing') ? <Redirect to="/mobile-stations-report" /> 
+                : isAuthenticated === true ? <Redirect to="/all-things-viewer" /> 
+                : <Redirect to="/files" />
+              } */}
             </Route>
             <PrivateRouteWithRoles
               path="/all-things-viewer"
@@ -108,6 +114,20 @@ const App = () => {
               roles={[...AdminRoles]}
               component={MonthlyUnlaggedRecharge}
             />
+            
+            {/* <PrivateRouteWithRoles
+              path="/monthly-lagged-recharge"
+              exact
+              roles={[...AdminRoles]}
+              component={MonthlyLaggedRecharge}
+            />
+            <PrivateRouteWithRoles
+              path="/monthly-lagged-recharge/:viewNdx"
+              exact
+              roles={[...AdminRoles]}
+              component={MonthlyLaggedRecharge}
+            /> */}
+            
             <PrivateRouteWithRoles
               path="/reports"
               exact

@@ -39,15 +39,21 @@ router.get(
   "/query",
   checkPermission(["read:database-management"]),
   (req, res, next) => {
-    const { decrees, projects, structures } = req.query;
+    const { decrees, projects, structures, plans } = req.query;
 
-    const buildWhereConditions = (decrees, projects, structures) => {
+    const buildWhereConditions = (decrees, projects, structures, plans) => {
       let query = {
         where: {},
       };
       if (decrees) {
         query.where.recharge_decree_ndx = {
           [Op.in]: decrees ? decrees.split(",") : [],
+        };
+      }
+
+      if (plans) {
+        query.where.plan = {
+          [Op.in]: plans ? plans.split(",") : [],
         };
       }
 
@@ -66,7 +72,7 @@ router.get(
     };
 
     ListRechargeSlicesDownloadTool.findAll(
-      buildWhereConditions(decrees, projects, structures)
+      buildWhereConditions(decrees, projects, structures, plans)
     )
       .then((data) => {
         res.json(data);
