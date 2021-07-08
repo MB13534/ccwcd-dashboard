@@ -43,7 +43,10 @@ const DatabaseManagement = React.lazy(() => import('./pages/DatabaseManagement')
 const ExampleGDSReport = React.lazy(() => import('./pages/Reports/ExampleGDSReport/Report'));
 
 const App = () => {
-  const { isAuthenticated, loading, user } = useAuth0();
+  const { 
+    isAuthenticated, loading, 
+    // user 
+  } = useAuth0();
 
   const AdminRoles = ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'];
   const DataViewerRoles = ['CCWCD Data Viewer'];
