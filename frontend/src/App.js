@@ -115,7 +115,7 @@ const App = () => {
               component={MonthlyUnlaggedRecharge}
             />
             
-            {/* <PrivateRouteWithRoles
+            <PrivateRouteWithRoles
               path="/monthly-lagged-recharge"
               exact
               roles={[...AdminRoles]}
@@ -126,7 +126,7 @@ const App = () => {
               exact
               roles={[...AdminRoles]}
               component={MonthlyLaggedRecharge}
-            /> */}
+            />
             
             <PrivateRouteWithRoles
               path="/reports"
