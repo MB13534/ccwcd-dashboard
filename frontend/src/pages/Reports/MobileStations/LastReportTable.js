@@ -5,6 +5,9 @@ import BaseTable from './BaseTable';
 import useFetchData from '../../../hooks/useFetchData';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import MaterialTable from 'material-table';
+import Loading from '../../../components/Loading';
+import loading from '../../../images/loading.svg';
 
 const useStyles = makeStyles((theme) => ({
   chipActive: {
@@ -18,14 +21,22 @@ const useStyles = makeStyles((theme) => ({
     '& span': {
       padding: '0 8px',
     }
+  },
+  loading: {
+    position: 'relative',
+    width: '150px',
+    height: '150px',
+    margin: '0 auto',
+    padding: '20px',
+    boxSizing: 'border-box',
   }
 }));
 
 const columns = [
-  { title: 'Station', field: 'station_name' },
+  { title: 'Station', field: 'station_name', width: '100%', },
   { title: 'Value', field: 'last_value_received' },
 //  { title: 'Target', field: 'target_value' },
-  { title: 'Type', field: 'type_chip' },
+  //{ title: 'Type', field: 'type_chip' },
 ];
 
 const LastReportTable = ({ data, activeRow, isLoading, onRowClick, onTypeChange }) => {
@@ -68,8 +79,34 @@ const LastReportTable = ({ data, activeRow, isLoading, onRowClick, onTypeChange 
       {((!data?.length > 0 && !isLoading) || selectedChips.length === 0) && (
         <Typography variant="body1" style={{marginTop:'12px'}}>No data could be found for the selected stations and/or types.</Typography>
       )}
+      {isLoading && (
+        <div className={classes.loading}><img src={loading} alt="loading" /></div>
+      )}
       {data?.length > 0 && !isLoading && selectedChips.length > 0 && (
-        <BaseTable id="last-report-table" columns={columns} data={data} isLoading={isLoading} onRowClick={onRowClick} />
+        <MaterialTable
+          id={'last-report-table'}
+          columns={columns}
+          data={data}
+          isLoading={isLoading}
+          components={{
+            Container: props => <div {...props}></div>,
+          }}
+          options={{
+            emptyRowsWhenPaging: false,
+            exportAllData: true,
+            exportButton: true,
+            maxBodyHeight: 400,
+            pageSize: 30,
+            pageSizeOptions: [15, 30, 60],
+            padding: 'dense',
+            searchFieldAlignment: 'left',
+            showTitle: false,
+            search: true,
+          }}
+          onRowClick={(_, row) => {
+            onRowClick(row);
+          }}
+        />
       )}
     </Box>
   );
