@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-  { title: 'Station', field: 'station_name' },
   { title: 'Date', field: 'collect_timestamp', type: 'datetime' },
   { title: 'Value', field: 'measured_value' },
 ];
