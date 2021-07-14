@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Box } from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import Layout from '../../../components/Layout';
 import { TopNav } from '../../../components/TopNav';
 import DataAdminTable from '../../../components/DataAdminTable';
@@ -63,6 +65,26 @@ const DataImports = props => {
       title: 'Station Name',
       field: 'station_ndx',
       lookup: formattedMeasurements,
+      editComponent: (props) => (
+        <Select
+          {...props}
+          value={props.value === undefined ? '' : props.value}
+          onChange={(event) => props.onChange(event.target.value)}
+          style={{
+            fontSize: 13,
+          }}
+          SelectDisplayProps={{ 'aria-label': props.columnDef.title }}
+        >
+          {
+            Object.entries(props.columnDef.lookup)
+              .sort(([k1, v1], [k2, v2]) => v1.localeCompare(v2))
+              .map(([key, value]) => (
+                <MenuItem key={key} value={key}>
+                  {value}
+                </MenuItem>
+              ))}
+        </Select>
+      ),
     },
     {
       title: 'Enabled',
@@ -76,13 +98,6 @@ const DataImports = props => {
       cellStyle: { minWidth: 200 },
       editable: 'never',
     },
-    // {
-    //   title: 'Next Retreival',
-    //   field: 'next_retreival',
-    //   type: 'datetime',
-    //   cellStyle: { minWidth: 200 },
-    //   editable: 'never',
-    // },
     {
       title: 'File Path',
       field: 'file_path',
@@ -141,11 +156,12 @@ const DataImports = props => {
       type: 'numeric',
       initialEditValue: 1
     },
-    // {
-    //   title: 'Frequency',
-    //   field: 'frequency',
-    //   type: 'string',
-    // },
+    {
+      title: 'Frequency',
+      field: 'frequency',
+      type: 'string',
+      initialEditValue: '45 minutes'
+    },
     {
       title: 'Run Now',
       field: 'run_now',

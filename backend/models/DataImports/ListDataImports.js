@@ -19,9 +19,6 @@ module.exports = (sequelize, SequelizeDataTypes) => {
       last_retreival: {
         type: DATE,
       },
-      next_retreival: {
-        type: DATE,
-      },
       file_path: {
         type: TEXT,
       },
