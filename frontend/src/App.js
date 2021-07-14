@@ -39,6 +39,8 @@ const WellAttributes = React.lazy(() => import('./pages/MembersDataManagement/We
 
 const RechargeAccounting = React.lazy(() => import('./pages/RechargeAccounting'));
 
+const Depletions = React.lazy(() => import('./pages/Depletions'));
+
 const DatabaseManagement = React.lazy(() => import('./pages/DatabaseManagement'));
 const ExampleGDSReport = React.lazy(() => import('./pages/Reports/ExampleGDSReport/Report'));
 
@@ -207,6 +209,7 @@ const App = () => {
               component={StructureToUsersManagement}
             />
             <PrivateRouteWithRoles path="/recharge-accounting" roles={AdminRoles} component={RechargeAccounting} />
+            <PrivateRouteWithRoles path="/depletions" roles={AdminRoles} component={Depletions} />
             <PrivateRouteWithRoles path="/database-management" roles={AdminRoles} component={DatabaseManagement} />
             <PrivateRouteWithRoles path="/gds" exact roles={[...AdminRoles]} component={ExampleGDSReport} />
             <Route path="*">

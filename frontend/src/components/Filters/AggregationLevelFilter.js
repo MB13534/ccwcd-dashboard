@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Select } from "@lrewater/lre-react";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Select } from '@lrewater/lre-react';
 
 const AggregationLevelFilter = ({ data, value, onChange, ...other }) => {
   return (

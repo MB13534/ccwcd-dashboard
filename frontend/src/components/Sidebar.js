@@ -163,7 +163,7 @@ const Sidebar = props => {
     {
       link: 'user-management',
       title: 'User Management',
-      activePath: 'user-management/',
+      activePath: 'user-management',
       icon: AccountIcon,
       loginRequired: true,
       rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
@@ -220,10 +220,10 @@ const Sidebar = props => {
       rolesRequired: ['CCWCD Admin', 'LRE Admin', 'CCWCD Admin Demo'],
     },
     {
-      link: 'depletions-modeling',
+      link: 'depletions/pumping',
       title: 'Depletions Model',
-      activePath: 'depletions-modeling',
-      exact: true,
+      activePath: 'depletions',
+      // exact: true,
       icon: DepletionsIcon,
       loginRequired: true,
       rolesRequired: ['LRE Admin'],
