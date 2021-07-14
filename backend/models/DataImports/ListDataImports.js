@@ -1,5 +1,7 @@
-module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, TEXT, DATE, BOOLEAN } = DataTypes;
+const withInterval = require('sequelize-interval-postgres');
+
+module.exports = (sequelize, SequelizeDataTypes) => {
+  const { INTEGER, TEXT, DATE, BOOLEAN, INTERVAL } = withInterval(SequelizeDataTypes);
   const ListDataImports = sequelize.define(
     "import_data_sources",
     {
@@ -44,6 +46,31 @@ module.exports = (sequelize, DataTypes) => {
       notes: {
         type: TEXT,
       },
+      local_file_name: {
+        type: TEXT
+      },
+      dwr_station: {
+        type: TEXT
+      },
+      dwr_metadata: {
+        type: TEXT
+      },
+      retain_days: {
+        type: INTEGER
+      },
+      history_days: {
+        type: INTEGER
+      },
+      frequency: {
+        type: INTERVAL
+      },
+      run_now: {
+        type: BOOLEAN
+      },
+      tail_override: {
+        type: BOOLEAN
+      }
+      
     },
 
     {

@@ -31,6 +31,8 @@
     "papaparse": "^5.2.0",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^5.21.3"
+    "postgres-interval": "^3.0.0",
+    "sequelize": "^5.21.3",
+    "sequelize-interval-postgres": "^1.0.0"
   }
 }

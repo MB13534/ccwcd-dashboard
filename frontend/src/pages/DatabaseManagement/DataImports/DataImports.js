@@ -41,13 +41,13 @@ const DataImports = props => {
   const formattedMeasurements = useMemo(() => {
     let converted = {};
     if (Measurements.length > 0) {
-      Measurements.forEach(d => {
+      Measurements.forEach((d) => {
         converted[d.station_ndx] = d.station_name;
       });
     }
     return converted;
   }, [Measurements]);
-
+  
   const formattedDelimiters = useMemo(() => {
     let converted = {};
     if (Delimiters.length > 0) {
@@ -76,13 +76,13 @@ const DataImports = props => {
       cellStyle: { minWidth: 200 },
       editable: 'never',
     },
-    {
-      title: 'Next Retreival',
-      field: 'next_retreival',
-      type: 'datetime',
-      cellStyle: { minWidth: 200 },
-      editable: 'never',
-    },
+    // {
+    //   title: 'Next Retreival',
+    //   field: 'next_retreival',
+    //   type: 'datetime',
+    //   cellStyle: { minWidth: 200 },
+    //   editable: 'never',
+    // },
     {
       title: 'File Path',
       field: 'file_path',
@@ -117,6 +117,49 @@ const DataImports = props => {
       type: 'numeric',
     },
     { title: 'Notes', field: 'notes' },
+    {
+      title: 'Local File Name',
+      field: 'local_file_name',
+    },
+    {
+      title: 'DWR Station',
+      field: 'dwr_station',
+    },
+    {
+      title: 'DWR Metadata',
+      field: 'dwr_metadata',
+    },
+    {
+      title: 'Retain Days',
+      field: 'retain_days',
+      type: 'numeric',
+      initialEditValue: -1
+    },
+    {
+      title: 'History Days',
+      field: 'history_days',
+      type: 'numeric',
+      initialEditValue: 1
+    },
+    // {
+    //   title: 'Frequency',
+    //   field: 'frequency',
+    //   type: 'string',
+    // },
+    {
+      title: 'Run Now',
+      field: 'run_now',
+      type: 'boolean',
+      initialEditValue: true
+    },
+    {
+      title: 'Tail Override',
+      field: 'tail_override',
+      type: 'boolean',
+      initialEditValue: false
+    },
+    
+    
   ];
 
   return (

@@ -1,4 +1,5 @@
 const express = require("express");
+const parse = require('postgres-interval')
 const {
   checkAccessToken,
   checkPermission,
@@ -21,6 +22,11 @@ router.get(
   (req, res, next) => {
     ListDataImports.findAll()
       .then((data) => {
+
+        data.map(d => {
+          d.frequency = d.frequency.toPostgres()
+        })
+
         res.json(data);
       })
       .catch((err) => {
@@ -37,7 +43,7 @@ router.get(
   (req, res, next) => {
     ListDataImports.findByPk(req.params.id)
       .then((data) => {
-        res.json(data);
+        res.json(data);       
       })
       .catch((err) => {
         next(err);
@@ -51,6 +57,9 @@ router.post(
   "/",
   checkPermission(["read:database-management", "write:database-management"]),
   (req, res, next) => {
+    if(!req.body.local_file_name){
+      req.body.local_file_name = req.body.file_name
+    }
     ListDataImports.create(req.body)
       .then((data) => {
         res.json(data);
@@ -67,6 +76,9 @@ router.put(
   "/:id",
   checkPermission(["read:database-management", "write:database-management"]),
   (req, res, next) => {
+    if(!req.body.local_file_name){
+      req.body.local_file_name = req.body.file_name
+    }
     ListDataImports.update(req.body, {
       where: {
         data_source_ndx: req.params.id,
