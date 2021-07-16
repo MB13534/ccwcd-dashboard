@@ -28,6 +28,7 @@ const tabViewLookup = {
   0: 'recent',
   1: 'low-to-high',
   2: 'high-to-low',
+  3: 'stale-readings',
 };
 
 const useStyles = makeStyles(theme => ({
@@ -141,6 +142,7 @@ const ReviewPumping = props => {
             <Tab label="Pumping - Recent" {...a11yProps(0)} />
             <Tab label="Pumping - Low to High" {...a11yProps(1)} />
             <Tab label="Pumping - High to Low" {...a11yProps(2)} />
+            <Tab label="Pumping - Stale Readings" {...a11yProps(3)} />
           </Tabs>
           <TabPanel value={activeTab} index={0}>
             <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
@@ -149,6 +151,9 @@ const ReviewPumping = props => {
             <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
           </TabPanel>
           <TabPanel value={activeTab} index={2}>
+            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
+          </TabPanel>
+          <TabPanel value={activeTab} index={3}>
             <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
           </TabPanel>
         </Box>

@@ -150,6 +150,7 @@ db.RCH_RechargeLaggedQAQC = require('./RechargeAccounting/RechargeLaggedQAQC')(s
 db.DEPL_ReviewByRecent = require('./DepletionsModel/DeplReviewByRecent')(sequelize, Sequelize);
 db.DEPL_ReviewByLowToHigh = require('./DepletionsModel/DeplReviewByLowToHigh')(sequelize, Sequelize);
 db.DEPL_ReviewByHighToLow = require('./DepletionsModel/DeplReviewByHighToLow')(sequelize, Sequelize);
+db.DEPL_ReviewByStaleReadings = require('./DepletionsModel/DeplStaleReadings')(sequelize, Sequelize);
 
 /**
  * Data Management Models

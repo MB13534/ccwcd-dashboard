@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const { REAL, INTEGER, DATE, TEXT } = DataTypes;
+  const { INTEGER, DATE, TEXT } = DataTypes;
   const StaleReadings = sequelize.define(
     "pump_05_stale_readings",
     {

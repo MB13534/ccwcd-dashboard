@@ -7,6 +7,16 @@ import MaterialTable from 'material-table';
 import useVisibility from '../../../hooks/useVisibility';
 import { copyToClipboard } from '../../../util';
 
+
+  const staleReadingColumns = [
+    { title: 'Year', field: 'i_year' },
+    { title: 'Month', field: 'i_month'},
+    { title: 'Well Index', field: 'well_index' },
+    { title: 'WDID', field: 'wdid'},
+    { title: 'Contracts', field: 'contracts' },
+    { title: 'Meters', field: 'meters' },
+    { title: 'Last Reading Date', field: 'last_reading_date' },
+  ]
 const columns = [
   { title: 'Year', field: 'op_year' },
   { title: 'Created', field: 'created', type: 'datetime' },
@@ -27,16 +37,17 @@ const columns = [
   { title: 'Last Updated', field: 'last_updated', type: 'datetime' },
   { title: 'Reach', field: 'reach_name' },
   { title: 'Subdistrict', field: 'subdistrict' },
-];
+]
 
 const PumpingTable = ({ refresh, view }) => {
   const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
   const [pumpingData, isPumpingDataLoading] = useFetchData(`depletions/pumping/${view}`, [view, refresh]);
+  
   return (
     <>
       <MaterialTable
         id="pumping-review-table"
-        columns={columns}
+        columns={view === 'stale-readings' ? staleReadingColumns : columns}
         data={pumpingData}
         isLoading={isPumpingDataLoading}
         editable={{}}
@@ -78,7 +89,7 @@ const PumpingTable = ({ refresh, view }) => {
 
 PumpingTable.propTypes = {
   refresh: PropTypes.bool,
-  view: PropTypes.oneOf(['recent', 'low-to-high', 'high-to-low']).isRequired,
+  view: PropTypes.oneOf(['recent', 'low-to-high', 'high-to-low', 'stale-readings']).isRequired,
 };
 
 export default PumpingTable;

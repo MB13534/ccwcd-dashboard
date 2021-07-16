@@ -3,7 +3,7 @@ const { checkAccessToken, checkPermission } = require('../../middleware/auth.js'
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { crosstab, setAPIDate } = require('../../util');
-const { DEPL_ReviewByRecent, DEPL_ReviewByLowToHigh, DEPL_ReviewByHighToLow } = require('../../models');
+const { DEPL_ReviewByRecent, DEPL_ReviewByLowToHigh, DEPL_ReviewByHighToLow, DEPL_ReviewByStaleReadings } = require('../../models');
 const db = require('../../models');
 
 // Create Express Router
@@ -65,6 +65,41 @@ router.get('/pumping/low-to-high', (req, res, next) => {
 router.get('/pumping/high-to-low', (req, res, next) => {
   DEPL_ReviewByHighToLow.findAll()
     .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/stale-readings
+ * Route for returning recent pumping data associated with the depletions modeling
+ */
+ router.get('/pumping/stale-readings', (req, res, next) => {
+
+  DEPL_ReviewByStaleReadings.findAll()
+    .then((data) => {
+      // const monthsLookup = {
+      //   '1':"January",
+      //   '2':"February",
+      //   '3':"March",
+      //   '4':"April",
+      //   '5':"May",
+      //   '6':"June",
+      //   '7':"July",
+      //   '8':"August",
+      //   '9':"September",
+      //   '10':"October",
+      //   '11':"November",
+      //   '12':"December"
+      // }
+      // const transformedData = data.map((d) => {
+      //   let rec = {...d.dataValues}
+      //   rec.i_month = monthsLookup[rec.i_month]
+      //   return rec
+      // })
+      
       res.json(data);
     })
     .catch(err => {
