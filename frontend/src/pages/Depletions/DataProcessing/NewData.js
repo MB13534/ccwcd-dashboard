@@ -11,7 +11,7 @@ import ProcessingLayout from './ProcessingLayout';
 // import FormSnackbar from '../../../components/FormSnackbar';
 import { Link } from 'react-router-dom';
 import InfoCard from '../../../components/InfoCard';
-import PumpingTable from './PumpingTable';
+// import PumpingTable from './PumpingTable';
 
 function a11yProps(index) {
   return {
@@ -24,10 +24,10 @@ function a11yProps(index) {
  * Handy lookup that maps the tab indexes to the value
  * associated with the endpoint value for each pumping view
  */
-const tabViewLookup = {
-  0: 'overview',
-  1: 'details',
-};
+// const tabViewLookup = {
+//   0: 'overview',
+//   1: 'details',
+// };
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -71,7 +71,7 @@ const TabPanel = ({ children, value, index, ...other }) => (
 
 const NewData = props => {
   const classes = useStyles();
-  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  // const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -86,9 +86,7 @@ const NewData = props => {
           <Typography variant="h6">New Meter Data Since Last Model Run</Typography>
         </Box>
         <InfoCard mb={0}>
-          <Typography variant="body1">
-          PLACEHOLDER
-          </Typography>
+          <Typography variant="body1">PLACEHOLDER</Typography>
         </InfoCard>
         <Box mt={2}>
           <Tabs
@@ -102,12 +100,10 @@ const NewData = props => {
             <Tab label="Details" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={activeTab} index={0}>
-            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}
-            1
+            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}1
           </TabPanel>
           <TabPanel value={activeTab} index={1}>
-            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}
-            2
+            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}2
           </TabPanel>
         </Box>
         <Box mt={2} mb={2}>
