@@ -17,7 +17,7 @@ function a11yProps(index) {
  * Handy lookup that maps the tab indexes to the value
  * associated with the endpoint value for each pumping view
  */
- const tabViewLookup = {
+const tabViewLookup = {
   0: 'overview',
   1: 'pumping-data-flags',
   2: 'well-attributes-flags',
@@ -52,7 +52,7 @@ const TabPanel = ({ children, value, index, ...other }) => (
 
 const ReviewFlags = props => {
   const classes = useStyles();
-  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [refreshSwitch, setRefreshSwitch] = useState(false); // eslint-disable-line
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -61,7 +61,7 @@ const ReviewFlags = props => {
 
   return (
     <ProcessingLayout activeStep={2}>
-<Paper elevation={0} className={classes.paper}>
+      <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>3</Avatar>
           <Typography variant="h6">Review Flags</Typography>
@@ -82,7 +82,6 @@ const ReviewFlags = props => {
             <Tab label="Flags - Overview" {...a11yProps(0)} />
             <Tab label="Flags - Pumping Data Flags" {...a11yProps(1)} />
             <Tab label="Flags - Well Attributes Flags" {...a11yProps(2)} />
-
           </Tabs>
           <TabPanel value={activeTab} index={0}>
             <FlagsTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
@@ -90,15 +89,21 @@ const ReviewFlags = props => {
           <TabPanel value={activeTab} index={1}>
             <FlagsTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
           </TabPanel>
-           <TabPanel value={activeTab} index={2}>
+          <TabPanel value={activeTab} index={2}>
             <FlagsTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
           </TabPanel>
         </Box>
         <Box mt={2} mb={2}>
-        <Button variant="contained" component={Link} to="/depletions/pumping">
+          <Button variant="contained" component={Link} to="/depletions/pumping">
             Back
           </Button>
-          <Button variant="contained" color="primary" component={Link} to="/depletions/run-model" style={{ marginLeft: 8 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/depletions/run-model"
+            style={{ marginLeft: 8 }}
+          >
             Everything looks good, let's keep going
           </Button>
         </Box>

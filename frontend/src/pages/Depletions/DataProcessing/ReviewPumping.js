@@ -105,7 +105,8 @@ const ReviewPumping = props => {
         </Box>
         <Flex>
           <Typography variant="body1" className={classes.importText} paragraph>
-          To refresh the data behind these reports, click the button and wait until it turns blue again to indicate processing is complete.
+            To refresh the data behind these reports, click the button and wait until it turns blue again to indicate
+            processing is complete.
           </Typography>
           <div className={classes.illustrationWrapper}>
             <img src={illustration} alt="Import illustration" />
@@ -158,7 +159,7 @@ const ReviewPumping = props => {
           </TabPanel>
         </Box>
         <Box mt={2} mb={2}>
-        <Button variant="contained" component={Link} to="/depletions/new-data">
+          <Button variant="contained" component={Link} to="/depletions/new-data">
             Back
           </Button>
           <Button variant="contained" color="primary" component={Link} to="/depletions/flags" style={{ marginLeft: 8 }}>
