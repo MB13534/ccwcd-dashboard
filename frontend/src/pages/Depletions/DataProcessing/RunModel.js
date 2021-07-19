@@ -73,7 +73,7 @@ const RunModel = props => {
   };
 
   return (
-    <ProcessingLayout activeStep={2}>
+    <ProcessingLayout activeStep={3}>
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>4</Avatar>

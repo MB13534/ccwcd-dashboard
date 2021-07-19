@@ -24,7 +24,7 @@ const ReviewFlags = props => {
   const classes = useStyles();
 
   return (
-    <ProcessingLayout activeStep={3}>
+    <ProcessingLayout activeStep={4}>
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>5</Avatar>

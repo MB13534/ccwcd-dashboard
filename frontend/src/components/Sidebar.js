@@ -220,7 +220,7 @@ const Sidebar = props => {
       rolesRequired: ['CCWCD Admin', 'LRE Admin', 'CCWCD Admin Demo'],
     },
     {
-      link: 'depletions/pumping',
+      link: 'depletions/new-data',
       title: 'Depletions Model',
       activePath: 'depletions',
       // exact: true,

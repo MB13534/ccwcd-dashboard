@@ -41,7 +41,7 @@ const Export = props => {
       await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/export`, {}, { headers });
       setWaitingState('complete', 'no error');
       setTimeout(() => {
-        goTo(history, 'depletions/pumping');
+        goTo(history, 'depletions/new-data');
       }, 1500);
     } catch (err) {
       console.error(err);
@@ -50,7 +50,7 @@ const Export = props => {
   };
 
   return (
-    <ProcessingLayout activeStep={4}>
+    <ProcessingLayout activeStep={5}>
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>6</Avatar>

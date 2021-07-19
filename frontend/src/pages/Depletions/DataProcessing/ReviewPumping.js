@@ -97,15 +97,15 @@ const ReviewPumping = props => {
   };
 
   return (
-    <ProcessingLayout activeStep={0}>
+    <ProcessingLayout activeStep={1}>
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center">
-          <Avatar className={classes.avatar}>1</Avatar>
+          {/* <Avatar className={classes.avatar}>1/2</Avatar> */}
           <Typography variant="h6">Refresh Pumping Data (Optional)</Typography>
         </Box>
         <Flex>
           <Typography variant="body1" className={classes.importText} paragraph>
-            You can optionally choose to pull in the latest data using the import button below.
+          To refresh the data behind these reports, click the button and wait until it turns blue again to indicate processing is complete.
           </Typography>
           <div className={classes.illustrationWrapper}>
             <img src={illustration} alt="Import illustration" />
@@ -158,7 +158,10 @@ const ReviewPumping = props => {
           </TabPanel>
         </Box>
         <Box mt={2} mb={2}>
-          <Button variant="contained" color="primary" component={Link} to="/depletions/flags">
+        <Button variant="contained" component={Link} to="/depletions/new-data">
+            Back
+          </Button>
+          <Button variant="contained" color="primary" component={Link} to="/depletions/flags" style={{ marginLeft: 8 }}>
             Everything looks good, let's keep going
           </Button>
         </Box>

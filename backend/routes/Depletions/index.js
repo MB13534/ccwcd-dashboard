@@ -3,7 +3,7 @@ const { checkAccessToken, checkPermission } = require('../../middleware/auth.js'
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { crosstab, setAPIDate } = require('../../util');
-const { DEPL_ReviewByRecent, DEPL_ReviewByLowToHigh, DEPL_ReviewByHighToLow, DEPL_ReviewByStaleReadings } = require('../../models');
+const { DEPL_ReviewByRecent, DEPL_ReviewByLowToHigh, DEPL_ReviewByHighToLow, DEPL_ReviewByStaleReadings, DEPL_ReviewFlagsOverview, DEPL_ReviewPumpingDataFlags, DEPL_ReviewWellAttributesFlags } = require('../../models');
 const db = require('../../models');
 
 // Create Express Router
@@ -100,6 +100,48 @@ router.get('/pumping/high-to-low', (req, res, next) => {
       //   return rec
       // })
       
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/flags/overview
+ * Route for returning recent pumping data associated with the depletions modeling
+ */
+ router.get('/flags/overview', (req, res, next) => {
+  DEPL_ReviewFlagsOverview.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/flags/pumping-data-flags
+ * Route for returning recent pumping data associated with the depletions modeling
+ */
+ router.get('/flags/pumping-data-flags', (req, res, next) => {
+  DEPL_ReviewPumpingDataFlags.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/flags/well-attributes-flags
+ * Route for returning recent pumping data associated with the depletions modeling
+ */
+ router.get('/flags/well-attributes-flags', (req, res, next) => {
+  DEPL_ReviewWellAttributesFlags.findAll()
+    .then(data => {
       res.json(data);
     })
     .catch(err => {

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const { BOOLEAN, TEXT } = DataTypes;
-  const DeplFlagsReport = sequelize.define(
+  const DeplFlagsOverview = sequelize.define(
     "dpl_flags_report",
     {
       msg: {
@@ -16,6 +16,15 @@ module.exports = (sequelize, DataTypes) => {
       metered_inoperable: {
         type: BOOLEAN,
       },
+      glover_or_urf_missing: {
+        type: BOOLEAN,
+      },
+      reach_missing: {
+        type: BOOLEAN,
+      },
+      admin_number_missing: {
+        type: BOOLEAN,
+      },
     },
     {
       timestamps: false,
@@ -23,5 +32,5 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true,
     }
   );
-  return DeplFlagsReport;
+  return DeplFlagsOverview;
 };

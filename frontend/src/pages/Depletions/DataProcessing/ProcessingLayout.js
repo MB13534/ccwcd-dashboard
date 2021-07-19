@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 /**
  * Array of steps that are displayed in the stepper
  */
-const steps = ['Review Pumping', 'Review Flags', 'Run Model', 'Review Depletions', 'Send to Accounting'];
+const steps = ['New Data', 'Review Pumping', 'Review Flags', 'Run Model', 'Review Depletions', 'Send to Accounting'];
 
 /**
  * Component used for consistent layout and styling of

@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography, Box, Avatar, Paper, Tabs, Tab } from '@material-ui/core';
+import { Typography, Button, Box, Avatar, Paper, Tab, Tabs } from '@material-ui/core';
 import ProcessingLayout from './ProcessingLayout';
+// import ImportIcon from '@material-ui/icons/ImportExport';
+// import { Flex } from '../../../components/Flex';
+// import illustration from '../../../images/undraw_personal_settings_kihd.svg';
+// import axios from 'axios';
+// import { useAuth0 } from '../../../hooks/auth';
+// import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
+// import FormSnackbar from '../../../components/FormSnackbar';
+import { Link } from 'react-router-dom';
 import InfoCard from '../../../components/InfoCard';
-import FlagsTable from './FlagsTable';
+import PumpingTable from './PumpingTable';
 
 function a11yProps(index) {
   return {
@@ -17,10 +24,9 @@ function a11yProps(index) {
  * Handy lookup that maps the tab indexes to the value
  * associated with the endpoint value for each pumping view
  */
- const tabViewLookup = {
+const tabViewLookup = {
   0: 'overview',
-  1: 'pumping-data-flags',
-  2: 'well-attributes-flags',
+  1: 'details',
 };
 
 const useStyles = makeStyles(theme => ({
@@ -36,6 +42,19 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     marginRight: theme.spacing(1),
   },
+  importText: {
+    maxWidth: 400,
+  },
+  illustrationWrapper: {
+    maxWidth: 135,
+    '& img': {
+      maxWidth: '100%',
+    },
+    marginLeft: theme.spacing(1),
+  },
+  tabs: {
+    backgroundColor: '#fafafa',
+  },
 }));
 
 const TabPanel = ({ children, value, index, ...other }) => (
@@ -50,7 +69,7 @@ const TabPanel = ({ children, value, index, ...other }) => (
   </div>
 );
 
-const ReviewFlags = props => {
+const NewData = props => {
   const classes = useStyles();
   const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
@@ -60,15 +79,15 @@ const ReviewFlags = props => {
   };
 
   return (
-    <ProcessingLayout activeStep={2}>
-<Paper elevation={0} className={classes.paper}>
+    <ProcessingLayout activeStep={0}>
+      <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
-          <Avatar className={classes.avatar}>3</Avatar>
-          <Typography variant="h6">Review Flags</Typography>
+          <Avatar className={classes.avatar}>1</Avatar>
+          <Typography variant="h6">New Meter Data Since Last Model Run</Typography>
         </Box>
         <InfoCard mb={0}>
           <Typography variant="body1">
-            Please review the data below to ensure that the pumping data matches what you are expecting to see.
+          PLACEHOLDER
           </Typography>
         </InfoCard>
         <Box mt={2}>
@@ -79,26 +98,20 @@ const ReviewFlags = props => {
             onChange={handleTabChange}
             aria-label="Pumping Table"
           >
-            <Tab label="Flags - Overview" {...a11yProps(0)} />
-            <Tab label="Flags - Pumping Data Flags" {...a11yProps(1)} />
-            <Tab label="Flags - Well Attributes Flags" {...a11yProps(2)} />
-
+            <Tab label="Overview" {...a11yProps(0)} />
+            <Tab label="Details" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={activeTab} index={0}>
-            <FlagsTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
+            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}
+            1
           </TabPanel>
           <TabPanel value={activeTab} index={1}>
-            <FlagsTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
-          </TabPanel>
-           <TabPanel value={activeTab} index={2}>
-            <FlagsTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
+            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}
+            2
           </TabPanel>
         </Box>
         <Box mt={2} mb={2}>
-        <Button variant="contained" component={Link} to="/depletions/pumping">
-            Back
-          </Button>
-          <Button variant="contained" color="primary" component={Link} to="/depletions/run-model" style={{ marginLeft: 8 }}>
+          <Button variant="contained" color="primary" component={Link} to="/depletions/pumping">
             Everything looks good, let's keep going
           </Button>
         </Box>
@@ -107,4 +120,4 @@ const ReviewFlags = props => {
   );
 };
 
-export default ReviewFlags;
+export default NewData;

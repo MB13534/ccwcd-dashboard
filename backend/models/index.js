@@ -151,6 +151,10 @@ db.DEPL_ReviewByRecent = require('./DepletionsModel/DeplReviewByRecent')(sequeli
 db.DEPL_ReviewByLowToHigh = require('./DepletionsModel/DeplReviewByLowToHigh')(sequelize, Sequelize);
 db.DEPL_ReviewByHighToLow = require('./DepletionsModel/DeplReviewByHighToLow')(sequelize, Sequelize);
 db.DEPL_ReviewByStaleReadings = require('./DepletionsModel/DeplStaleReadings')(sequelize, Sequelize);
+db.DEPL_ReviewFlagsOverview = require('./DepletionsModel/DeplFlagsOverview')(sequelize, Sequelize);
+db.DEPL_ReviewPumpingDataFlags = require('./DepletionsModel/DeplPumpingDataFlags')(sequelize, Sequelize);
+db.DEPL_ReviewWellAttributesFlags = require('./DepletionsModel/DeplWellAttributesFlags')(sequelize, Sequelize);
+
 
 /**
  * Data Management Models
