@@ -64,7 +64,7 @@ router.get('/stations/active', (req, res, next) => {
 
 // GET /api/mobile-stations/last-report/:stations
 // Route for returning the last reported for a specified set of stations
-router.get('/last-report/:stations/:types', (req, res, next) => {
+router.get('/last-report/:stations', (req, res, next) => {
   if (!req.params.stations || req.params.stations === 'undefined') {
     res.json([]);
   } else {
@@ -73,11 +73,6 @@ router.get('/last-report/:stations/:types', (req, res, next) => {
         [Op.in]: req.params.stations.split(','),
       },
     };
-    if (req.params.types && req.params.types !== 'undefined') {
-      where.type_chip = {
-        [Op.in]: req.params.types.split(',')
-      };
-    }
     Mobile_Stations_Data_Last_Report.findAll({
       where: where,
       order: [

@@ -6,7 +6,7 @@ import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   lastValue: {
     position: 'absolute',
     top: '-16px',
@@ -15,19 +15,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const columns = [
-  { title: 'Date', field: 'collect_timestamp', type: 'datetime' },
-  { title: 'Value', field: 'measured_value' },
+  { title: 'Date', field: 'formatted_timestamp', type: 'datetime', width: '100%' },
+  { title: 'Value', field: 'value', width: '0' },
 ];
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="custom-tooltip" style={{
-        backgroundColor: 'rgba(255,255,255,0.8)',
-        borderRadius: '8px',
-        padding: '0 4px',
-      }}>
-        <p className="label">{payload[0].payload.formatted_timestamp}<br/><strong style={{color:'#8884d8'}}>{payload[0].value}</strong></p>
+      <div
+        className="custom-tooltip"
+        style={{
+          backgroundColor: 'rgba(255,255,255,0.8)',
+          borderRadius: '8px',
+          padding: '0 4px',
+        }}
+      >
+        <p className="label">
+          {payload[0].payload.formatted_timestamp}
+          <br />
+          <strong style={{ color: '#8884d8' }}>{payload[0].value}</strong>
+        </p>
       </div>
     );
   }
@@ -42,7 +49,7 @@ const TimeSeriesTable = ({ data, isLoading }) => {
   useEffect(() => {
     if (data?.length > 0 && !isLoading) {
       const myData = [];
-      data.forEach((x) => {
+      data.forEach(x => {
         myData.push({
           name: x.station_name,
           timestamp: x.collect_timestamp,
@@ -63,28 +70,28 @@ const TimeSeriesTable = ({ data, isLoading }) => {
     );
   }
 
-  return <>
-    <div style={{ width: '100%', height: 60, position: 'relative' }}>
-      {chartData.length > 0 && (
-        <div className={classes.lastValue}>Last: {chartData[chartData.length-1].value}</div>
-      )}
-      <ResponsiveContainer>
-        <AreaChart
-          data={chartData}
-          margin={{
-            top: 5,
-            right: 0,
-            left: 0,
-            bottom: 5,
-          }}
-        >
-          <Tooltip content={<CustomTooltip />}  />
-          <Area type="monotone" dataKey="value" strokeWidth="2" stroke="#8884d8" fill="#8884d8" />
-        </AreaChart>
-      </ResponsiveContainer>
-    </div>
-    <BaseTable id="time-series-table" columns={columns} data={data} isLoading={isLoading} search={false} />
-  </>;
+  return (
+    <>
+      <div style={{ width: '100%', height: 60, position: 'relative' }}>
+        {chartData.length > 0 && <div className={classes.lastValue}>Last: {chartData[chartData.length - 1].value}</div>}
+        <ResponsiveContainer>
+          <AreaChart
+            data={chartData}
+            margin={{
+              top: 5,
+              right: 0,
+              left: 0,
+              bottom: 5,
+            }}
+          >
+            <Tooltip content={<CustomTooltip />} />
+            <Area type="monotone" dataKey="value" strokeWidth="2" stroke="#8884d8" fill="#8884d8" />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+      <BaseTable id="time-series-table" columns={columns} data={chartData} isLoading={isLoading} search={false} />
+    </>
+  );
 };
 
 TimeSeriesTable.propTypes = {

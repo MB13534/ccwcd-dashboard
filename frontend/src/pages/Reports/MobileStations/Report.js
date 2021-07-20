@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   activeRowToolbar: {
     height: '64px',
     backgroundColor: theme.palette.primary[500],
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     right: 0,
     color: 'white',
-  }
+  },
 }));
 
 const MobileStationsReport = () => {
@@ -43,13 +43,12 @@ const MobileStationsReport = () => {
   const classes = useStyles();
   const [activeRow, setActiveRow] = useState();
   const [filterValues, setFilterValues] = useState({
-    stations: [29, 38],
-    types: null,
+    stations: [],
   });
   const [savedStationSelections] = useFetchData('mobile-stations/stations/active', []);
   const [lastReportData, isLastReportLoading, setLastReportData] = useFetchData(
-    `mobile-stations/last-report/${filterValues.stations.join(',') || 'undefined'}/${(filterValues.types !== null && filterValues.types.join(',')) || 'undefined'}`,
-    [filterValues],
+    `mobile-stations/last-report/${filterValues.stations.join(',') || 'undefined'}`,
+    [filterValues]
   );
   const [
     timeSeriesData,
@@ -75,15 +74,7 @@ const MobileStationsReport = () => {
     }
   }, [savedStationSelections]);
 
-  const handleTypeChange = (types) => {
-    setFilterValues((prevState) => {
-      let newValues = { ...prevState };
-      newValues.types = types;
-      return newValues;
-    });
-  };
-
-  const handleRowClick = (row) => {
+  const handleRowClick = row => {
     setIsLastReportExpanded(false);
     setIsTimeSeriesExpanded(true);
     setActiveRow(row);
@@ -125,7 +116,7 @@ const MobileStationsReport = () => {
     setTimeSeriesData([]);
   };
 
-  const handleStationSubSelectAll = (stations) => {
+  const handleStationSubSelectAll = stations => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
       let newStations = newValues.stations;
@@ -140,7 +131,7 @@ const MobileStationsReport = () => {
     setTimeSeriesData([]);
   };
 
-  const handleStationSubSelectNone = (stations) => {
+  const handleStationSubSelectNone = stations => {
     setFilterValues(prevState => {
       let newValues = { ...prevState };
       let newStations = [];
@@ -195,7 +186,7 @@ const MobileStationsReport = () => {
       await axios.post(
         `${process.env.REACT_APP_ENDPOINT}/api/mobile-stations/stations`,
         { assoc_station_ndx: filterValues.stations },
-        { headers },
+        { headers }
       );
       setWaitingState('complete', 'no error');
     } catch (err) {
@@ -208,10 +199,12 @@ const MobileStationsReport = () => {
     <Layout>
       {activeRow !== null && typeof activeRow !== 'undefined' && (
         <div className={classes.activeRowToolbar}>
-          <Typography variant={'body1'}><strong>{activeRow?.station_name}</strong></Typography>
+          <Typography variant={'body1'}>
+            <strong>{activeRow?.station_name}</strong>
+          </Typography>
           <Typography variant={'body1'}>{activeRow?.last_value_received}</Typography>
           <IconButton className={classes.activeRowToolbarCloseBtn} onClick={handleActiveRowToolbarCloseClick}>
-            <CloseIcon/>
+            <CloseIcon />
           </IconButton>
         </div>
       )}
@@ -231,7 +224,7 @@ const MobileStationsReport = () => {
               activeRow={activeRow}
               data={lastReportData}
               isLoading={isLastReportLoading}
-              onTypeChange={handleTypeChange}
+              // onTypeChange={handleTypeChange}
               onRowClick={row => handleRowClick(row)}
             />
           }
@@ -249,14 +242,13 @@ const MobileStationsReport = () => {
               // use the css transitionend event to mark the finish of a transition
               node.addEventListener('transitionend', done, false);
             },
-            onEntered: () => window.scrollTo(0, 64 + 2)
+            onEntered: () => window.scrollTo(0, 64 + 2),
           }}
           content={
             <TimeSeriesTable
               data={timeSeriesData.filter(({ station_ndx }) => station_ndx === activeRow?.station_ndx)}
               isLoading={isTimeSeriesLoading}
-              onRowClick={() => {
-              }}
+              onRowClick={() => {}}
             />
           }
         />
