@@ -1,6 +1,6 @@
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
-const axios = require("axios");
+const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
+const axios = require('axios');
 
 function checkAccessToken(issuer, audience) {
   return jwt({
@@ -14,14 +14,14 @@ function checkAccessToken(issuer, audience) {
     // Validate the audience and the issuer.
     audience: audience,
     issuer: `https://${issuer}/`,
-    algorithms: ["RS256"],
+    algorithms: ['RS256'],
   });
 }
 
 function checkPermission(providedPermissions) {
   return (req, res, next) => {
     const { permissions } = req.user;
-    const permissionsArray = providedPermissions.map((permission) => {
+    const permissionsArray = providedPermissions.map(permission => {
       if (permissions.includes(permission)) {
         return true;
       }
@@ -33,20 +33,16 @@ function checkPermission(providedPermissions) {
 }
 
 async function getAuth0APIToken() {
-  const getTokenHeader = { "content-type": "application/json" };
+  // const getTokenHeader = { 'content-type': 'application/json' };
   const getTokenBody = {
-    client_id: process.env.CLIENT_ID,
-    client_secret: process.env.CLIENT_SECRET,
+    client_id: process.env.USER_MANAGEMENT_CLIENT_ID,
+    client_secret: process.env.USER_MANAGEMENT_CLIENT_SECRET,
     audience: process.env.USER_MANAGEMENT_AUDIENCE,
-    grant_type: "client_credentials",
+    grant_type: 'client_credentials',
   };
-
+  const URL = `https://${process.env.AUTH0_DOMAIN}/oauth/token`;
   try {
-    const tokenResponse = await axios.post(
-      `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
-      { headers: getTokenHeader },
-      { data: getTokenBody }
-    );
+    const tokenResponse = await axios.post(URL, getTokenBody);
     const { access_token } = tokenResponse.data;
     return access_token;
   } catch (err) {

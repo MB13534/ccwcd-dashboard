@@ -12,6 +12,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#ccc',
   },
   chip: {
+    cursor: 'pointer',
     margin: '0 1px',
     '& span': {
       padding: '0 8px',
