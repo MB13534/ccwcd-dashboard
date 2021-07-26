@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const columns = [
-  { title: 'Date', field: 'formatted_timestamp', type: 'datetime', width: '100%' },
+  { title: 'Date', field: 'formatted_timestamp', type: 'datetime', width: '100%', defaultSort: 'desc' },
   { title: 'Value', field: 'value', width: '0' },
 ];
 

@@ -45,13 +45,15 @@ const DatabaseManagement = React.lazy(() => import('./pages/DatabaseManagement')
 const ExampleGDSReport = React.lazy(() => import('./pages/Reports/ExampleGDSReport/Report'));
 
 const App = () => {
-  const { 
-    isAuthenticated, loading, 
-    // user 
+  const {
+    isAuthenticated,
+    loading,
+    // user
   } = useAuth0();
 
   const AdminRoles = ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'];
   const DataViewerRoles = ['CCWCD Data Viewer'];
+  const MobilePageRoles = ['Mobile Page Landing', 'Mobile Page Not-Landing'];
 
   if (loading) {
     return <Loading />;
@@ -64,12 +66,7 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <Switch>
             <Route path="/" exact>
-            {isAuthenticated === true ? <Redirect to="/all-things-viewer" /> : <Redirect to="/files" />}
-              {/* {
-                isAuthenticated === true && user["https://ccwcd2.org/roles"].includes('Mobile Page Landing') ? <Redirect to="/mobile-stations-report" /> 
-                : isAuthenticated === true ? <Redirect to="/all-things-viewer" /> 
-                : <Redirect to="/files" />
-              } */}
+              {isAuthenticated === true ? <Redirect to="/all-things-viewer" /> : <Redirect to="/files" />}
             </Route>
             <PrivateRouteWithRoles
               path="/all-things-viewer"
@@ -86,7 +83,7 @@ const App = () => {
             <PrivateRouteWithRoles
               path="/mobile-stations-report"
               exact
-              roles={[...DataViewerRoles, ...AdminRoles]}
+              roles={[...AdminRoles, ...MobilePageRoles]}
               component={MobileStations}
             />
             <PrivateRouteWithRoles
@@ -119,7 +116,7 @@ const App = () => {
               roles={[...AdminRoles]}
               component={MonthlyUnlaggedRecharge}
             />
-            
+
             <PrivateRouteWithRoles
               path="/monthly-lagged-recharge"
               exact
@@ -132,7 +129,7 @@ const App = () => {
               roles={[...AdminRoles]}
               component={MonthlyLaggedRecharge}
             />
-            
+
             <PrivateRouteWithRoles
               path="/reports"
               exact

@@ -158,7 +158,7 @@ const Sidebar = props => {
       icon: PhoneIcon,
       loginRequired: true,
       mobileOnly: true,
-      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'Mobile Page Landing'],
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'Mobile Page Landing', 'Mobile Page Not-Landing'],
     },
     {
       link: 'user-management',
@@ -286,16 +286,8 @@ const Sidebar = props => {
 
     const list = (
       <React.Fragment key={Math.random() * 9999999}>
-        {item.mobileOnly && (
-          <Hidden smUp>
-            {li}
-          </Hidden>
-        )}
-        {!item.mobileOnly && (
-          <>
-          {li}
-          </>
-        )}
+        {item.mobileOnly && <Hidden smUp>{li}</Hidden>}
+        {!item.mobileOnly && <>{li}</>}
         {NestedUl()}
       </React.Fragment>
     );
