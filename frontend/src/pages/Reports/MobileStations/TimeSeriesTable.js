@@ -15,7 +15,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const columns = [
-  { title: 'Date', field: 'formatted_timestamp', type: 'datetime', width: '100%', defaultSort: 'desc' },
+  {
+    title: 'Date',
+    field: 'formatted_timestamp',
+    type: 'datetime',
+    width: '100%',
+  },
   { title: 'Value', field: 'value', width: '0' },
 ];
 
@@ -53,11 +58,11 @@ const TimeSeriesTable = ({ data, isLoading }) => {
         myData.push({
           name: x.station_name,
           timestamp: x.collect_timestamp,
-          formatted_timestamp: moment(x.collect_timestamp).format('M/D/YY @ h:mma'),
+          formatted_timestamp: moment(x.collect_timestamp).format('M/D/YY @ HH:mm'),
           value: x.measured_value,
         });
       });
-      setChartData(myData.reverse());
+      setChartData(myData);
     }
   }, [data, isLoading]);
 
@@ -76,7 +81,7 @@ const TimeSeriesTable = ({ data, isLoading }) => {
         {chartData.length > 0 && <div className={classes.lastValue}>Last: {chartData[chartData.length - 1].value}</div>}
         <ResponsiveContainer>
           <AreaChart
-            data={chartData}
+            data={[...chartData].reverse()}
             margin={{
               top: 5,
               right: 0,
