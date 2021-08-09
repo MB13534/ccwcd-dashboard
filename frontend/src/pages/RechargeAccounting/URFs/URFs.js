@@ -61,10 +61,8 @@ const URFs = (props) => {
     recharge_project_ndx: 1,
   });
   const [Projects] = useFetchData("recharge-projects", []);
-  const [
-    Slices,
-  ] = useFetchData(
-    `recharge-slices/query?projects=${activeProject.recharge_project_ndx}`,
+  const [Slices] = useFetchData(
+    `recharge-slices/query-distinct-slices?projects=${activeProject.recharge_project_ndx}`,
     [activeProject]
   );
   const [
@@ -86,7 +84,7 @@ const URFs = (props) => {
       {
         id: 2,
         title: "URFs",
-        path: `/rech arge-accounting/urfs/${id}`,
+        path: `/recharge-accounting/urfs/${id}`,
         activePath: `/recharge-accounting/urfs`,
         exact: false,
       },

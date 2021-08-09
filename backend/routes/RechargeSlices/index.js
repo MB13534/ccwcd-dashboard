@@ -40,7 +40,6 @@ router.get(
   checkPermission(["read:database-management"]),
   (req, res, next) => {
     const { decrees, projects, structures, plans } = req.query;
-
     const buildWhereConditions = (decrees, projects, structures, plans) => {
       let query = {
         where: {},
@@ -50,19 +49,16 @@ router.get(
           [Op.in]: decrees ? decrees.split(",") : [],
         };
       }
-
       if (plans) {
         query.where.plan = {
           [Op.in]: plans ? plans.split(",") : [],
         };
       }
-
       if (projects) {
         query.where.recharge_project_ndx = {
           [Op.in]: projects ? projects.split(",") : [],
         };
       }
-
       if (structures) {
         query.where.structure_ndx = {
           [Op.in]: structures ? structures.split(",") : [],
@@ -71,8 +67,39 @@ router.get(
       return query;
     };
 
-    ListRechargeSlicesDownloadTool.findAll(
-      buildWhereConditions(decrees, projects, structures, plans)
+//    ListRechargeSlicesDownloadTool.findAll(
+      ListRechargeSlicesDownloadTool.findAll(
+        buildWhereConditions(decrees, projects, structures, plans)
+    )
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/recharge-slices/query-distinct-slices
+// Route for returning all recharge slices without the plan field
+router.get(
+  "/query-distinct-slices",
+  checkPermission(["read:database-management"]),
+  (req, res, next) => {
+    const { projects } = req.query;
+    const buildWhereConditions = (projects) => {
+      let query = {
+        where: {},
+      };
+      if (projects) {
+        query.where.recharge_project_ndx = {
+          [Op.in]: projects ? projects.split(",") : [],
+        };
+      }
+      return query;
+    };
+      ListRechargeSlices.findAll(
+        buildWhereConditions(projects)
     )
       .then((data) => {
         res.json(data);
