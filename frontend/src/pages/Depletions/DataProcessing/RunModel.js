@@ -45,7 +45,7 @@ const RunModel = props => {
   const [LastRunData] = useFetchData(`depletions/model/status/`, [refreshSwitch]);
   const { getTokenSilently } = useAuth0();
 
-  const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
+  const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
 
   const handleChange = e => {
     setYear(e?.target?.value);
