@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Avatar, Paper, Tab, Tabs } from '@material-ui/core';
 import ProcessingLayout from './ProcessingLayout';
-import ImportIcon from '@material-ui/icons/ImportExport';
-import { Flex } from '../../../components/Flex';
-import illustration from '../../../images/undraw_personal_settings_kihd.svg';
-import axios from 'axios';
-import { useAuth0 } from '../../../hooks/auth';
-import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
-import FormSnackbar from '../../../components/FormSnackbar';
+// import ImportIcon from '@material-ui/icons/ImportExport';
+// import { Flex } from '../../../components/Flex';
+// import illustration from '../../../images/undraw_personal_settings_kihd.svg';
+// import axios from 'axios';
+// import { useAuth0 } from '../../../hooks/auth';
+// import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
+// import FormSnackbar from '../../../components/FormSnackbar';
 import { Link } from 'react-router-dom';
 import InfoCard from '../../../components/InfoCard';
 import PumpingTable from './PumpingTable';
@@ -25,10 +25,10 @@ function a11yProps(index) {
  * associated with the endpoint value for each pumping view
  */
 const tabViewLookup = {
-  0: 'recent',
-  1: 'low-to-high',
-  2: 'high-to-low',
-  3: 'stale-readings',
+  // 0: 'recent',
+  0: 'low-to-high',
+  1: 'high-to-low',
+  2: 'stale-readings',
 };
 
 const useStyles = makeStyles(theme => ({
@@ -73,24 +73,24 @@ const TabPanel = ({ children, value, index, ...other }) => (
 
 const ReviewPumping = props => {
   const classes = useStyles();
-  const { getTokenSilently } = useAuth0();
-  const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
-  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  // const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
+  // const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
 
-  const handleImport = async () => {
-    setWaitingState('in progress');
-    try {
-      const token = await getTokenSilently();
-      const headers = { Authorization: `Bearer ${token}` };
-      await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
-      setWaitingState('complete', 'no error');
-      setRefreshSwitch(state => !state);
-    } catch (err) {
-      console.error(err);
-      setWaitingState('complete', 'error');
-    }
-  };
+  //this is the function to handle the import which is curently disabled because it is automated once a night
+  // const handleImport = async () => {
+  //   setWaitingState('in progress');
+  //   try {
+  //     const token = await getTokenSilently();
+  //     const headers = { Authorization: `Bearer ${token}` };
+  //     await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
+  //     setWaitingState('complete', 'no error');
+  //     setRefreshSwitch(state => !state);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setWaitingState('complete', 'error');
+  //   }
+  // };
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -98,9 +98,9 @@ const ReviewPumping = props => {
 
   return (
     <ProcessingLayout activeStep={1}>
-      <Paper elevation={0} className={classes.paper}>
+      {/* this used to show a button to refresh data with the DB. It is currently being automated on a nighly basis */}
+      {/* <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center">
-          {/* <Avatar className={classes.avatar}>1/2</Avatar> */}
           <Typography variant="h6">Refresh Pumping Data (Optional)</Typography>
         </Box>
         <Flex>
@@ -121,7 +121,7 @@ const ReviewPumping = props => {
         >
           Refresh Data
         </Button>
-      </Paper>
+      </Paper> */}
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>2</Avatar>
@@ -140,23 +140,35 @@ const ReviewPumping = props => {
             onChange={handleTabChange}
             aria-label="Pumping Table"
           >
-            <Tab label="Pumping - Recent" {...a11yProps(0)} />
-            <Tab label="Pumping - Low to High" {...a11yProps(1)} />
-            <Tab label="Pumping - High to Low" {...a11yProps(2)} />
-            <Tab label="Pumping - Stale Readings" {...a11yProps(3)} />
+            {/* <Tab label="Pumping - Recent" {...a11yProps(0)} /> */}
+            <Tab label="Pumping - Low to High" {...a11yProps(0)} />
+            <Tab label="Pumping - High to Low" {...a11yProps(1)} />
+            <Tab label="Pumping - Stale Readings" {...a11yProps(2)} />
           </Tabs>
           <TabPanel value={activeTab} index={0}>
-            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
+            <PumpingTable
+              // refresh={refreshSwitch}
+              view={tabViewLookup[activeTab]}
+            />
           </TabPanel>
           <TabPanel value={activeTab} index={1}>
-            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
+            <PumpingTable
+              // refresh={refreshSwitch}
+              view={tabViewLookup[activeTab]}
+            />
           </TabPanel>
           <TabPanel value={activeTab} index={2}>
-            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
+            <PumpingTable
+              // refresh={refreshSwitch}
+              view={tabViewLookup[activeTab]}
+            />
           </TabPanel>
-          <TabPanel value={activeTab} index={3}>
-            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
-          </TabPanel>
+          {/* <TabPanel value={activeTab} index={3}>
+            <PumpingTable
+              // refresh={refreshSwitch}
+              view={tabViewLookup[activeTab]}
+            />
+          </TabPanel> */}
         </Box>
         <Box mt={2} mb={2}>
           <Button variant="contained" component={Link} to="/depletions/new-data">
@@ -167,13 +179,13 @@ const ReviewPumping = props => {
           </Button>
         </Box>
       </Paper>
-      <FormSnackbar
+      {/* <FormSnackbar
         open={snackbarOpen}
         error={snackbarError}
         handleClose={handleSnackbarClose}
         successMessage="Data successfully refreshed."
         errorMessage="Error: Data could not be refreshed."
-      />
+      /> */}
     </ProcessingLayout>
   );
 };

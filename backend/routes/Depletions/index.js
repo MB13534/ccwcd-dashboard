@@ -3,7 +3,17 @@ const { checkAccessToken, checkPermission } = require('../../middleware/auth.js'
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { crosstab, setAPIDate } = require('../../util');
-const { DEPL_ReviewByRecent, DEPL_ReviewByLowToHigh, DEPL_ReviewByHighToLow, DEPL_ReviewByStaleReadings, DEPL_ReviewFlagsOverview, DEPL_ReviewPumpingDataFlags, DEPL_ReviewWellAttributesFlags } = require('../../models');
+const {
+  DEPL_NewDataDetails,
+  DEPL_NewDataOverview,
+  DEPL_ReviewByRecent,
+  DEPL_ReviewByLowToHigh,
+  DEPL_ReviewByHighToLow,
+  DEPL_ReviewByStaleReadings,
+  DEPL_ReviewFlagsOverview,
+  DEPL_ReviewPumpingDataFlags,
+  DEPL_ReviewWellAttributesFlags,
+} = require('../../models');
 const db = require('../../models');
 
 // Create Express Router
@@ -31,7 +41,35 @@ router.post('/refresh', (req, res, next) => {
 });
 
 /**
- * GET /api/depletions/pumping
+ * GET /api/depletions/new-data/details
+ * Route for returning recent pumping data associated with the depletions modeling
+ */
+router.get('/new-data/details', (req, res, next) => {
+  DEPL_NewDataDetails.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/new-data/overview
+ * Route for returning recent pumping data associated with the depletions modeling
+ */
+router.get('/new-data/overview', (req, res, next) => {
+  DEPL_NewDataOverview.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/pumping/recent
  * Route for returning recent pumping data associated with the depletions modeling
  */
 router.get('/pumping/recent', (req, res, next) => {
@@ -45,7 +83,7 @@ router.get('/pumping/recent', (req, res, next) => {
 });
 
 /**
- * GET /api/depletions/low-to-high
+ * GET /api/depletions/pumping/low-to-high
  * Route for returning recent pumping data associated with the depletions modeling
  */
 router.get('/pumping/low-to-high', (req, res, next) => {
@@ -59,7 +97,7 @@ router.get('/pumping/low-to-high', (req, res, next) => {
 });
 
 /**
- * GET /api/depletions/high-to-low
+ * GET /api/depletions/pumping/high-to-low
  * Route for returning recent pumping data associated with the depletions modeling
  */
 router.get('/pumping/high-to-low', (req, res, next) => {
@@ -73,13 +111,12 @@ router.get('/pumping/high-to-low', (req, res, next) => {
 });
 
 /**
- * GET /api/depletions/stale-readings
+ * GET /api/depletions/pumping/stale-readings
  * Route for returning recent pumping data associated with the depletions modeling
  */
- router.get('/pumping/stale-readings', (req, res, next) => {
-
+router.get('/pumping/stale-readings', (req, res, next) => {
   DEPL_ReviewByStaleReadings.findAll()
-    .then((data) => {
+    .then(data => {
       // const monthsLookup = {
       //   '1':"January",
       //   '2':"February",
@@ -99,7 +136,7 @@ router.get('/pumping/high-to-low', (req, res, next) => {
       //   rec.i_month = monthsLookup[rec.i_month]
       //   return rec
       // })
-      
+
       res.json(data);
     })
     .catch(err => {
@@ -111,7 +148,7 @@ router.get('/pumping/high-to-low', (req, res, next) => {
  * GET /api/depletions/flags/overview
  * Route for returning recent pumping data associated with the depletions modeling
  */
- router.get('/flags/overview', (req, res, next) => {
+router.get('/flags/overview', (req, res, next) => {
   DEPL_ReviewFlagsOverview.findAll()
     .then(data => {
       res.json(data);
@@ -125,7 +162,7 @@ router.get('/pumping/high-to-low', (req, res, next) => {
  * GET /api/depletions/flags/pumping-data-flags
  * Route for returning recent pumping data associated with the depletions modeling
  */
- router.get('/flags/pumping-data-flags', (req, res, next) => {
+router.get('/flags/pumping-data-flags', (req, res, next) => {
   DEPL_ReviewPumpingDataFlags.findAll()
     .then(data => {
       res.json(data);
@@ -139,7 +176,7 @@ router.get('/pumping/high-to-low', (req, res, next) => {
  * GET /api/depletions/flags/well-attributes-flags
  * Route for returning recent pumping data associated with the depletions modeling
  */
- router.get('/flags/well-attributes-flags', (req, res, next) => {
+router.get('/flags/well-attributes-flags', (req, res, next) => {
   DEPL_ReviewWellAttributesFlags.findAll()
     .then(data => {
       res.json(data);

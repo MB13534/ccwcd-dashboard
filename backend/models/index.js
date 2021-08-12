@@ -96,7 +96,7 @@ db.MonthlyUnlaggedRecharge = require('./MonthlyUnlaggedRecharge/MonthlyUnlaggedR
 /**
  * Monthly Lagged Recharge Data Report models
  */
- db.MonthlyLaggedRecharge = require('./MonthlyLaggedRecharge/MonthlyLaggedRecharge')(sequelize, Sequelize);
+db.MonthlyLaggedRecharge = require('./MonthlyLaggedRecharge/MonthlyLaggedRecharge')(sequelize, Sequelize);
 
 /**
  * Members Management models
@@ -147,6 +147,8 @@ db.RCH_RechargeLaggedQAQC = require('./RechargeAccounting/RechargeLaggedQAQC')(s
 /**
  * Depletions Models
  */
+db.DEPL_NewDataDetails = require('./DepletionsModel/DeplNewDataDetails')(sequelize, Sequelize);
+db.DEPL_NewDataOverview = require('./DepletionsModel/DeplNewDataOverview')(sequelize, Sequelize);
 db.DEPL_ReviewByRecent = require('./DepletionsModel/DeplReviewByRecent')(sequelize, Sequelize);
 db.DEPL_ReviewByLowToHigh = require('./DepletionsModel/DeplReviewByLowToHigh')(sequelize, Sequelize);
 db.DEPL_ReviewByHighToLow = require('./DepletionsModel/DeplReviewByHighToLow')(sequelize, Sequelize);
@@ -154,7 +156,6 @@ db.DEPL_ReviewByStaleReadings = require('./DepletionsModel/DeplStaleReadings')(s
 db.DEPL_ReviewFlagsOverview = require('./DepletionsModel/DeplFlagsOverview')(sequelize, Sequelize);
 db.DEPL_ReviewPumpingDataFlags = require('./DepletionsModel/DeplPumpingDataFlags')(sequelize, Sequelize);
 db.DEPL_ReviewWellAttributesFlags = require('./DepletionsModel/DeplWellAttributesFlags')(sequelize, Sequelize);
-
 
 /**
  * Data Management Models

@@ -100,7 +100,8 @@ const RunModel = props => {
                 variant="contained"
                 color="primary"
                 style={{ marginLeft: 8 }}
-                disabled={formSubmitting}
+                // disabled={formSubmitting}
+                disabled={true}
               >
                 Run Model
               </Button>

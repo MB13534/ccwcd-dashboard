@@ -11,12 +11,12 @@ import ProcessingLayout from './ProcessingLayout';
 // import FormSnackbar from '../../../components/FormSnackbar';
 import { Link } from 'react-router-dom';
 import InfoCard from '../../../components/InfoCard';
-// import PumpingTable from './PumpingTable';
+import NewDataTable from './NewDataTable';
 
 function a11yProps(index) {
   return {
-    id: `pumping-tab-${index}`,
-    'aria-controls': `pumping-tabpanel-${index}`,
+    id: `new-data-tab-${index}`,
+    'aria-controls': `new-data-tabpanel-${index}`,
   };
 }
 
@@ -24,10 +24,10 @@ function a11yProps(index) {
  * Handy lookup that maps the tab indexes to the value
  * associated with the endpoint value for each pumping view
  */
-// const tabViewLookup = {
-//   0: 'overview',
-//   1: 'details',
-// };
+const tabViewLookup = {
+  0: 'overview',
+  1: 'details',
+};
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -61,8 +61,8 @@ const TabPanel = ({ children, value, index, ...other }) => (
   <div
     role="tabpanel"
     hidden={value !== index}
-    id={`pumping-tabpanel-${index}`}
-    aria-labelledby={`pumping-tab-${index}`}
+    id={`new-data-tabpanel-${index}`}
+    aria-labelledby={`new-data-tab-${index}`}
     {...other}
   >
     {value === index && <Box p={3}>{children}</Box>}
@@ -86,7 +86,9 @@ const NewData = props => {
           <Typography variant="h6">New Meter Data Since Last Model Run</Typography>
         </Box>
         <InfoCard mb={0}>
-          <Typography variant="body1">PLACEHOLDER</Typography>
+          <Typography variant="body1">
+            Please review the data below to ensure that the new meter data matches what you are expecting to see.
+          </Typography>
         </InfoCard>
         <Box mt={2}>
           <Tabs
@@ -94,16 +96,16 @@ const NewData = props => {
             indicatorColor="primary"
             value={activeTab}
             onChange={handleTabChange}
-            aria-label="Pumping Table"
+            aria-label="New Data Table"
           >
             <Tab label="Overview" {...a11yProps(0)} />
             <Tab label="Details" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={activeTab} index={0}>
-            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}1
+            <NewDataTable view={tabViewLookup[activeTab]} />
           </TabPanel>
           <TabPanel value={activeTab} index={1}>
-            {/* <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} /> */}2
+            <NewDataTable view={tabViewLookup[activeTab]} />
           </TabPanel>
         </Box>
         <Box mt={2} mb={2}>
