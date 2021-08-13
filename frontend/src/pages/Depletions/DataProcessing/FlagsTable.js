@@ -9,9 +9,9 @@ import { copyToClipboard } from '../../../util';
 
 const handleCellStyle = (cellData, rowData) => {
   if (cellData) {
-    return { color: "white", backgroundColor: 'red', fontWeight: 'bold' };
-  } 
-}
+    return { color: 'white', backgroundColor: 'red', fontWeight: 'bold' };
+  }
+};
 
 const FlagsTable = ({ refresh, view }) => {
   const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
@@ -19,11 +19,11 @@ const FlagsTable = ({ refresh, view }) => {
 
   const overviewColumns = [
     {
-      title: "Message",
-      field: "msg",
+      title: 'Message',
+      field: 'msg',
       cellStyle: (cellData, rowData) => {
-        if (cellData === "Data Flags Found") {
-          return { color: "white", backgroundColor: 'red', fontWeight: 'bold' };
+        if (cellData === 'Data Flags Found') {
+          return { color: 'white', backgroundColor: 'red', fontWeight: 'bold' };
         }
       },
     },
@@ -33,7 +33,7 @@ const FlagsTable = ({ refresh, view }) => {
     { title: 'Glover or URF Missing', field: 'glover_or_urf_missing', type: 'boolean', cellStyle: handleCellStyle },
     { title: 'Reach Missing', field: 'reach_missing', type: 'boolean', cellStyle: handleCellStyle },
     { title: 'Admin Number Missing', field: 'admin_number_missing', type: 'boolean', cellStyle: handleCellStyle },
-  ]
+  ];
 
   const pumpingColumns = [
     { title: 'Flag', field: 'flag' },
@@ -50,7 +50,7 @@ const FlagsTable = ({ refresh, view }) => {
     { title: 'Override Pumping', field: 'override_pumping' },
     { title: 'Fraction Metered', field: 'fraction_metered' },
     { title: 'Plan Type', field: 'plan_type' },
-  ]
+  ];
 
   const wellColumns = [
     { title: 'Glv Chk', field: 'glv_chk' },
@@ -65,17 +65,13 @@ const FlagsTable = ({ refresh, view }) => {
     { title: 'Reach Name', field: 'reach_name' },
     { title: 'Admin No', field: 'admin_no' },
     { title: 'Well Index', field: 'well_index' },
-  ]
+  ];
 
-  const columns = 
-    view === 'overview' ? overviewColumns :
-    (view === 'pumping-data-flags' ? pumpingColumns : wellColumns)
+  const columns = view === 'overview' ? overviewColumns : view === 'pumping-data-flags' ? pumpingColumns : wellColumns;
 
-  
   return (
     <>
       <MaterialTable
-      
         id="flags-review-table"
         columns={columns}
         data={flagsData}
@@ -102,7 +98,7 @@ const FlagsTable = ({ refresh, view }) => {
           pageSize: 10,
           pageSizeOptions: [10, 30, 60],
           padding: 'dense',
-          searchFieldAlignment: view === 'overview' ? 'false' : 'left',
+          searchFieldAlignment: 'left',
           showTitle: false,
         }}
       />

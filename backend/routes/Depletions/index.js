@@ -13,6 +13,7 @@ const {
   DEPL_ReviewFlagsOverview,
   DEPL_ReviewPumpingDataFlags,
   DEPL_ReviewWellAttributesFlags,
+  DEPL_RunModelAnnualQuota,
 } = require('../../models');
 const db = require('../../models');
 
@@ -34,6 +35,20 @@ router.post('/refresh', (req, res, next) => {
     .query('SELECT pumpingcalcs._recalculate_pumping()')
     .then(data => {
       res.sendStatus(204);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/run-model/annual-quota
+ * Route for returning data for annual quota
+ */
+router.get('/run-model/annual-quota', (req, res, next) => {
+  DEPL_RunModelAnnualQuota.findAll()
+    .then(data => {
+      res.json(data);
     })
     .catch(err => {
       next(err);

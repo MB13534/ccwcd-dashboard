@@ -6,11 +6,12 @@ import { Button, Typography, Box, Avatar, Paper } from '@material-ui/core';
 import { Select } from '@lrewater/lre-react';
 import ProcessingLayout from './ProcessingLayout';
 import { useAuth0 } from '../../../hooks/auth';
-import useFetchData from '../../../hooks/useFetchData';
+// import useFetchData from '../../../hooks/useFetchData';
 import FormSnackbar from '../../../components/FormSnackbar';
 import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
 import InfoCard from '../../../components/InfoCard';
 import { Flex } from '../../../components/Flex';
+import AnnualQuotaTable from './AnnualQuotaTable';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,9 +41,9 @@ const years = (() => {
 const RunModel = props => {
   const classes = useStyles();
   const [year, setYear] = useState(new Date().getFullYear());
-  const [refreshSwitch, setRefreshSwitch] = useState(false);
+
   // TODO wire this up
-  const [LastRunData] = useFetchData(`depletions/model/status/`, [refreshSwitch]);
+  // const [LastRunData] = useFetchData(`depletions/model/status/`, [refreshSwitch]);
   const { getTokenSilently } = useAuth0();
 
   const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
@@ -65,7 +66,7 @@ const RunModel = props => {
         { headers }
       );
       setWaitingState('complete', 'no error');
-      setRefreshSwitch(state => !state);
+      // setRefreshSwitch(state => !state);
     } catch (err) {
       console.error(err);
       setWaitingState('complete', 'error');
@@ -110,11 +111,14 @@ const RunModel = props => {
                   Last Run
                 </Typography>
                 <Typography variant="body1" color="primary" paragraph>
-                  {LastRunData.length > 0 && LastRunData[0].last_run}
+                  {/* {LastRunData.length > 0 && LastRunData[0].last_run} */}
                 </Typography>
               </Box>
             </Flex>
           </form>
+        </Box>
+        <Box mt={2}>
+          <AnnualQuotaTable year={year} />
         </Box>
         <Box mt={2} mb={2}>
           <Button variant="contained" component={Link} to="/depletions/flags">
