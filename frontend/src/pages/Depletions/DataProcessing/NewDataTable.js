@@ -13,8 +13,8 @@ const NewDataTable = ({ refresh, view }) => {
 
   const overviewColumns = [
     { title: 'Entry Counts', field: 'entry_count' },
-    { title: 'Collect Timestamp', field: 'from_collect_date', type: 'datetime' },
-    { title: 'Entry Date', field: 'from_entry_date', type: 'datetime' },
+    { title: 'Oldest Unprocessed Reading', field: 'from_collect_date', type: 'datetime' },
+    { title: 'Most Recent Reading', field: 'from_entry_date', type: 'datetime' },
     { title: 'Total Pumped', field: 'total_pumped' },
   ];
   const detailsColumns = [
