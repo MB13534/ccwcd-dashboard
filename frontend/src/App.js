@@ -44,6 +44,8 @@ const Depletions = React.lazy(() => import('./pages/Depletions'));
 const DatabaseManagement = React.lazy(() => import('./pages/DatabaseManagement'));
 const ExampleGDSReport = React.lazy(() => import('./pages/Reports/ExampleGDSReport/Report'));
 
+const UsersGuidePage = React.lazy(() => import('./pages/UsersGuide'));
+
 const App = () => {
   const {
     isAuthenticated,
@@ -209,6 +211,13 @@ const App = () => {
             <PrivateRouteWithRoles path="/depletions" roles={AdminRoles} component={Depletions} />
             <PrivateRouteWithRoles path="/database-management" roles={AdminRoles} component={DatabaseManagement} />
             <PrivateRouteWithRoles path="/gds" exact roles={[...AdminRoles]} component={ExampleGDSReport} />
+            <PrivateRouteWithRoles
+              path="/users-guide"
+              exact
+              roles={[...DataViewerRoles, ...AdminRoles]}
+              component={UsersGuidePage}
+            />
+
             <Route path="*">
               <NotFound />
             </Route>

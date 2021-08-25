@@ -14,6 +14,7 @@ const {
   DEPL_ReviewPumpingDataFlags,
   DEPL_ReviewWellAttributesFlags,
   DEPL_RunModelAnnualQuota,
+  DEPL_RunModelUserInput,
 } = require('../../models');
 const db = require('../../models');
 
@@ -40,6 +41,79 @@ router.post('/refresh', (req, res, next) => {
       next(err);
     });
 });
+
+/**
+ * GET /api/depletions/run-model/user-input
+ * Route for returning data for run model requests
+ */
+router.get('/run-model/user-input', (req, res, next) => {
+  DEPL_RunModelUserInput.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * POST /api/depletions/run-model/user-input
+ * Route for adding a user that does not already exist, default false flag
+ */
+router.post('/run-model/user-input', (req, res, next) => {
+  DEPL_RunModelUserInput.create({
+    auth0_user_id: req.body.userId,
+    run_pumping_flag: true,
+    year_to_run: req.body.year,
+    // last_run_timestamp: new Date(),
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * PUT /api/depletions/run-model/user-input
+ * Route for changing users flag from false to true
+ */
+router.put('/run-model/user-input', (req, res, next) => {
+  DEPL_RunModelUserInput.update(
+    {
+      run_pumping_flag: req.body.flag,
+    },
+    {
+      where: {
+        auth0_user_id: req.body.userId,
+        year_to_run: req.body.year,
+      },
+    }
+  )
+    .then(data => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+// // POST /api/alerts
+// // Route for creating a new alert
+// router.post(
+//   "/",
+//   checkPermission(["read:database-management", "write:database-management"]),
+//   (req, res, next) => {
+//     AlertsRequestsConfig.create(req.body)
+//       .then((data) => {
+//         res.json(data);
+//       })
+//       .catch((err) => {
+//         next(err);
+//       });
+//   }
+// );
 
 /**
  * GET /api/depletions/run-model/annual-quota

@@ -157,6 +157,7 @@ db.DEPL_ReviewFlagsOverview = require('./DepletionsModel/DeplFlagsOverview')(seq
 db.DEPL_ReviewPumpingDataFlags = require('./DepletionsModel/DeplPumpingDataFlags')(sequelize, Sequelize);
 db.DEPL_ReviewWellAttributesFlags = require('./DepletionsModel/DeplWellAttributesFlags')(sequelize, Sequelize);
 db.DEPL_RunModelAnnualQuota = require('./DepletionsModel/DeplRunModelAnnualQuota')(sequelize, Sequelize);
+db.DEPL_RunModelUserInput = require('./DepletionsModel/DeplRunModelUserInput')(sequelize, Sequelize);
 
 /**
  * Data Management Models
