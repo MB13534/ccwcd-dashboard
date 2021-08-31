@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography, Box, Avatar, Paper } from '@material-ui/core';
+import { Button, Typography, Box, Avatar, Paper, Checkbox } from '@material-ui/core';
 import { Select } from '@lrewater/lre-react';
 import ProcessingLayout from './ProcessingLayout';
 import { useAuth0 } from '../../../hooks/auth';
-import useFetchData from '../../../hooks/useFetchData';
+// import useFetchData from '../../../hooks/useFetchData';
 import FormSnackbar from '../../../components/FormSnackbar';
 import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
 import InfoCard from '../../../components/InfoCard';
 import { Flex } from '../../../components/Flex';
+import AnnualQuotaTable from './AnnualQuotaTable';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -39,38 +40,104 @@ const years = (() => {
 
 const RunModel = props => {
   const classes = useStyles();
+
+  const { getTokenSilently, user } = useAuth0();
+  const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
+
   const [year, setYear] = useState(new Date().getFullYear());
-  const [refreshSwitch, setRefreshSwitch] = useState(false);
-  // TODO wire this up
-  const [LastRunData] = useFetchData(`depletions/model/status/`, [refreshSwitch]);
-  const { getTokenSilently } = useAuth0();
+  const [checked, setChecked] = useState(false);
+  const [usersData, setUsersData] = useState([]);
+  const [comboInDB, setComboInDB] = useState(false);
 
-  const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
+  async function fetchData() {
+    const token = await getTokenSilently();
+    const fetchedData = await axios.get(`${process.env.REACT_APP_ENDPOINT}/api/depletions/run-model/user-input`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    const { data } = fetchedData;
+    setUsersData(data);
+  }
 
-  const handleChange = e => {
+  const handleYearChange = e => {
     setYear(e?.target?.value);
   };
 
-  const handleSubmit = async event => {
-    event.preventDefault();
-    setWaitingState('in progress');
-    try {
-      const token = await getTokenSilently();
-      const headers = { Authorization: `Bearer ${token}` };
-      await axios.post(
-        `${process.env.REACT_APP_ENDPOINT}/api/depletions/run-model`,
-        {
-          year: year,
-        },
-        { headers }
-      );
-      setWaitingState('complete', 'no error');
-      setRefreshSwitch(state => !state);
-    } catch (err) {
-      console.error(err);
-      setWaitingState('complete', 'error');
-    }
+  const formatDate = origDate => {
+    const date = new Date(origDate);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    // ${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}
   };
+
+  //fetch all of the user selections from the DB
+  useEffect(() => {
+    fetchData();
+  }, []); //eslint-disable-line
+
+  //check if user ID has an entry in the DB that also matches the current selected year
+  useEffect(() => {
+    if (user && usersData.length > 0) {
+      const currentEntry = usersData.filter(entry => user.sub === entry.auth0_user_id && year === entry.year_to_run);
+      if (currentEntry.length > 0) {
+        //if there is a user, track the user and set selection to that users current bool
+        setComboInDB(true);
+        setChecked(currentEntry[0].run_pumping_flag);
+      } else {
+        setComboInDB(false);
+        setChecked(false);
+      }
+    }
+  }, [user, usersData, year]);
+
+  const handleClick = async event => {
+    event.persist();
+    setChecked(event.target.checked);
+    setWaitingState('in progress');
+    //if the user/year is in the DB, update the entry
+    if (comboInDB) {
+      try {
+        const token = await getTokenSilently();
+        const headers = { Authorization: `Bearer ${token}` };
+        await axios.put(
+          `${process.env.REACT_APP_ENDPOINT}/api/depletions/run-model/user-input`,
+          {
+            userId: user.sub,
+            year: year,
+            flag: event.target.checked,
+          },
+          { headers }
+        );
+        setWaitingState('complete', 'no error');
+      } catch (err) {
+        console.error(err);
+        setWaitingState('complete', 'error');
+      }
+    }
+    //if the user/year is not in the DB, add the entry
+    else {
+      try {
+        const token = await getTokenSilently();
+        const headers = { Authorization: `Bearer ${token}` };
+        await axios.post(
+          `${process.env.REACT_APP_ENDPOINT}/api/depletions/run-model/user-input`,
+          {
+            userId: user.sub,
+            year: year,
+          },
+          { headers }
+        );
+        setWaitingState('complete', 'no error');
+      } catch (err) {
+        console.error(err);
+        setWaitingState('complete', 'error');
+      }
+    }
+
+    //update out data since we change the DB
+    fetchData();
+  };
+  //SAVE
 
   return (
     <ProcessingLayout activeStep={3}>
@@ -80,40 +147,41 @@ const RunModel = props => {
           <Typography variant="h6">Run Model</Typography>
         </Box>
         <InfoCard mb={0}>
-          <Typography variant="body1">Select a year to run the depletions model for.</Typography>
+          <Typography variant="body1">
+            Select a year. Check the box to run the depletions model for that year on the next process cycle.
+          </Typography>
         </InfoCard>
         <Box my={2}>
-          <form method="post" onSubmit={handleSubmit}>
-            <Flex>
-              <Select
-                name="year"
-                label="Year"
-                variant="outlined"
-                valueField="value"
-                displayField="display"
-                data={years}
-                value={year}
-                onChange={handleChange}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                style={{ marginLeft: 8 }}
-                disabled={formSubmitting}
-              >
-                Run Model
-              </Button>
-              <Box ml={3} display="inline-block">
-                <Typography variant="body2" color="textSecondary">
-                  Last Run
-                </Typography>
-                <Typography variant="body1" color="primary" paragraph>
-                  {LastRunData.length > 0 && LastRunData[0].last_run}
-                </Typography>
-              </Box>
-            </Flex>
-          </form>
+          {/* <form method="post" onSubmit={handleClick}> */}
+          <Flex>
+            <Select
+              name="year"
+              label="Year"
+              variant="outlined"
+              valueField="value"
+              displayField="display"
+              data={years}
+              value={year}
+              onChange={handleYearChange}
+            />
+            <Checkbox checked={checked} onChange={handleClick} />
+            <Box ml={3} display="inline-block">
+              <Typography variant="body2" color="textSecondary">
+                Last Run
+              </Typography>
+              <Typography variant="body1" color="primary" paragraph>
+                {usersData.length > 0 && usersData.find(el => el.year_to_run === year && el['last_run_timestamp'])
+                  ? formatDate(
+                      usersData.find(el => el.year_to_run === year && el['last_run_timestamp']).last_run_timestamp
+                    )
+                  : 'This year has not been run.'}
+              </Typography>
+            </Box>
+          </Flex>
+          {/* </form> */}
+        </Box>
+        <Box mt={2}>
+          <AnnualQuotaTable year={year} />
         </Box>
         <Box mt={2} mb={2}>
           <Button variant="contained" component={Link} to="/depletions/flags">
@@ -133,8 +201,12 @@ const RunModel = props => {
           open={snackbarOpen}
           error={snackbarError}
           handleClose={handleSnackbarClose}
-          successMessage="Model successfully run."
-          errorMessage="Error: the model could not be run."
+          successMessage={
+            checked
+              ? `Model will run during next server update for the year ${year}`
+              : `Model will NOT run during next server update for the year ${year}`
+          }
+          errorMessage="Error: your request could not be processed."
         />
       </Paper>
     </ProcessingLayout>

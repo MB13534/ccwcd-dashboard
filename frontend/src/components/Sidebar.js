@@ -18,6 +18,7 @@ import RechargeIcon from '@material-ui/icons/Opacity';
 import DepletionsIcon from '@material-ui/icons/TrackChanges';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import EcoIcon from '@material-ui/icons/Eco';
+import GuideIcon from '@material-ui/icons/MenuBook';
 import ReportsIcon from '@material-ui/icons/Assignment';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -242,6 +243,14 @@ const Sidebar = props => {
       icon: DnsIcon,
       loginRequired: true,
       rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
+    },
+    {
+      link: 'users-guide',
+      title: "Users' Guide",
+      activePath: 'users-guide',
+      icon: GuideIcon,
+      loginRequired: true,
+      rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo', 'CCWCD Data Viewer'],
     },
   ];
 
