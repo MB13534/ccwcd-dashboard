@@ -202,17 +202,25 @@ router.get('/views/:id', (req, res, next) => {
 
 // POST /api/all-things-viewer/views
 // Route for creating a new view
-router.post('/views', (req, res, next) => {
+router.post('/views', async (req, res, next) => {
   let data = { ...req.body };
+
   data.assoc_user_id = [req.user.sub];
   data.assoc_report_ndx = 1;
-  ATV_Views.upsert(data, { returning: true })
-    .then(data => {
-      res.json(data[0].dataValues);
-    })
-    .catch(err => {
-      next(err);
-    });
+  try {
+    await ATV_Views.update(
+      { view_default: false },
+      {
+        where: {
+          assoc_user_id: data.assoc_user_id,
+        },
+      }
+    );
+    const response = await ATV_Views.upsert(data, { returning: true });
+    res.json(response[0].dataValues);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // DELETE /api/all-things-viewer/views

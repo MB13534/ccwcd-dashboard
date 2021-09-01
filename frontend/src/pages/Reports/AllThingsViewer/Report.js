@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Typography, Divider, Button, Box, Paper } from '@material-ui/core';
@@ -32,10 +33,16 @@ const AllThingsViewer = props => {
   const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
   const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
+
+  //Request data for the user's saved views
+  let match = useRouteMatch();
+  const [refreshViews, setRefreshViews] = useState(false);
+  const [savedViews] = useFetchData('all-things-viewer/views', [match, refreshViews]);
+
   const [filterValues, setFilterValues] = useState({
-    structure_types: [5],
-//    structures: [13, 14, 15, 16, 17, 19, 20, 31, 32, 35, 37, 12, 52, 53, 55, 62, 63],
-    structures: [215,213,214,216,221],
+    structure_types: [5, 1],
+    //    structures: [13, 14, 15, 16, 17, 19, 20, 31, 32, 35, 37, 12, 52, 53, 55, 62, 63],
+    structures: [215, 213, 214, 216, 221],
     measurement_types: [3],
     aggregation_level: 'daily-averages',
     end_date: extractDate(new Date()),
@@ -247,7 +254,12 @@ const AllThingsViewer = props => {
 
         <FilterActions>
           <Submit />
-          <SaveFilters endpoint="all-things-viewer/views" redirect="all-things-viewer" filterValues={filterValues} />
+          <SaveFilters
+            endpoint="all-things-viewer/views"
+            redirect="all-things-viewer"
+            filterValues={filterValues}
+            savedViews={savedViews}
+          />
         </FilterActions>
 
         <FilterAdvanced>
@@ -277,7 +289,13 @@ const AllThingsViewer = props => {
 
           <Divider style={{ margin: '16px 0' }} />
 
-          <SavedViews endpoint="all-things-viewer/views" />
+          <SavedViews
+            endpoint="all-things-viewer/views"
+            match={match}
+            savedViews={savedViews}
+            refreshViews={refreshViews}
+            setRefreshViews={setRefreshViews}
+          />
         </FilterAdvanced>
       </FilterBar>
 

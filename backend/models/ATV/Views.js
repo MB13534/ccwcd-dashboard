@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, DATE, ARRAY, TEXT } = DataTypes;
+  const { INTEGER, DATE, ARRAY, TEXT, BOOLEAN } = DataTypes;
   const ReportsView = sequelize.define(
-    "report_views_atv",
+    'report_views_atv',
     {
       view_ndx: {
         type: INTEGER,
@@ -35,10 +35,13 @@ module.exports = (sequelize, DataTypes) => {
       aggregation_level: {
         type: TEXT,
       },
+      view_default: {
+        type: BOOLEAN,
+      },
     },
     {
       timestamps: false,
-      schema: "web",
+      schema: 'web',
       freezeTableName: true,
     }
   );

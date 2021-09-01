@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { BOOLEAN, DATE, TEXT, INTEGER } = DataTypes;
   const RunModelUserInput = sequelize.define(
-    '_user_input_run_depletions_dirty_flag_test',
+    '_user_input_run_depletions_dirty_flag',
     {
       auth0_user_id: {
         type: TEXT,

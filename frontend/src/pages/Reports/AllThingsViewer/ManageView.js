@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Paper,
@@ -12,24 +12,25 @@ import {
   Button,
   Grid,
   Chip,
-} from "@material-ui/core";
-import { TextField, TextArea } from "@lrewater/lre-react";
-import Layout from "../../../components/Layout";
-import FormSnackbar from "../../../components/FormSnackbar";
-import useFetchData from "../../../hooks/useFetchData";
-import useFilterAssoc from "../../../hooks/useFilterAssoc";
-import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import { useAuth0 } from "../../../hooks/auth";
-import { validateDependentSelections } from "../../../util";
-import StructureTypesFilter from "../../../components/Filters/StructureTypesFilter";
-import StructuresFilter from "../../../components/Filters/StructuresFilter";
-import MeasurementTypesFilter from "../../../components/Filters/MeasurementTypesFilter";
-import AggregationLevelFilter from "../../../components/Filters/AggregationLevelFilter";
+  Switch,
+} from '@material-ui/core';
+import { TextField, TextArea } from '@lrewater/lre-react';
+import Layout from '../../../components/Layout';
+import FormSnackbar from '../../../components/FormSnackbar';
+import useFetchData from '../../../hooks/useFetchData';
+import useFilterAssoc from '../../../hooks/useFilterAssoc';
+import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
+import { useAuth0 } from '../../../hooks/auth';
+import { validateDependentSelections } from '../../../util';
+import StructureTypesFilter from '../../../components/Filters/StructureTypesFilter';
+import StructuresFilter from '../../../components/Filters/StructuresFilter';
+import MeasurementTypesFilter from '../../../components/Filters/MeasurementTypesFilter';
+import AggregationLevelFilter from '../../../components/Filters/AggregationLevelFilter';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    overflow: "hidden",
+    display: 'flex',
+    overflow: 'hidden',
   },
   content: {
     flexGrow: 1,
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   outlinedLabel: {
     color: theme.palette.primary.main,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   formGroup: {
     margin: theme.spacing(0, 1, 1, 1),
@@ -64,17 +65,17 @@ const useStyles = makeStyles((theme) => ({
   },
   viewSummary: {
     padding: theme.spacing(2),
-    backgroundColor: "#222434",
-    color: "#b7b7b7",
-    borderLeft: "1px solid #dddddd",
+    backgroundColor: '#222434',
+    color: '#b7b7b7',
+    borderLeft: '1px solid #dddddd',
   },
   viewSummaryTitle: {
-    color: "#afbaf2",
+    color: '#afbaf2',
     fontWeight: 400,
   },
   chipCloud: {
-    display: "flex",
-    flexWrap: "wrap",
+    display: 'flex',
+    flexWrap: 'wrap',
     marginBottom: theme.spacing(2),
   },
   chip: {
@@ -83,93 +84,72 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ManageView = (props) => {
+const ManageView = props => {
   const classes = useStyles();
   const { viewNdx } = useParams();
 
-  const {
-    setWaitingState,
-    snackbarOpen,
-    snackbarError,
-    handleSnackbarClose,
-  } = useFormSubmitStatus();
+  const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
   const [activeStep, setActiveStep] = useState(0);
   const [filterValues, setFilterValues] = useState({
     structure_types: [],
     structures: [],
     measurement_types: [],
-    aggregation_level: "daily-averages",
+    aggregation_level: 'daily-averages',
     view_ndx: null,
-    view_name: "",
-    view_description: "",
+    view_name: '',
+    view_description: '',
+    view_default: true,
   });
 
   // Request data for the filters
-  const [StructureTypes] = useFetchData(
-    "all-things-viewer/structure-types",
-    []
-  );
-  const [Structures] = useFetchData("all-things-viewer/structures", []);
-  const [MeasurementTypes] = useFetchData(
-    "all-things-viewer/measurement-types",
-    []
-  );
+  const [StructureTypes] = useFetchData('all-things-viewer/structure-types', []);
+  const [Structures] = useFetchData('all-things-viewer/structures', []);
+  const [MeasurementTypes] = useFetchData('all-things-viewer/measurement-types', []);
   const AggregationData = [
-    { aggregation_ndx: "daily-averages", aggregation_desc: "Daily - Average" },
+    { aggregation_ndx: 'daily-averages', aggregation_desc: 'Daily - Average' },
     {
-      aggregation_ndx: "daily-end-of-day",
-      aggregation_desc: "Daily - End of Day",
+      aggregation_ndx: 'daily-end-of-day',
+      aggregation_desc: 'Daily - End of Day',
     },
   ];
-  const [view] = useFetchData(
-    `all-things-viewer/views/${viewNdx ? viewNdx : -9999}`,
-    [viewNdx]
-  );
+  const [view] = useFetchData(`all-things-viewer/views/${viewNdx ? viewNdx : -9999}`, [viewNdx]);
 
   /**
    * Use the useFilterAssoc hook to populate the structures dropdown
    * Returns structures data associated with the user's selected
    * structure types
    */
-  const filteredStructures = useFilterAssoc(
-    filterValues.structure_types,
-    Structures,
-    "assoc_structure_type_ndx"
-  );
+  const filteredStructures = useFilterAssoc(filterValues.structure_types, Structures, 'assoc_structure_type_ndx');
 
   /**
    * Use the useFilterAssoc hook to populate the measurement types dropdown
    * Returns measurement types data associated with the user's selected
    * structures
    */
-  const filteredMeasurementTypes = useFilterAssoc(
-    filterValues.structures,
-    MeasurementTypes,
-    "assoc_structure_ndx"
-  );
+  const filteredMeasurementTypes = useFilterAssoc(filterValues.structures, MeasurementTypes, 'assoc_structure_ndx');
 
   /**
    * Event handler for the filters bar
    * The values state is updated whenever a filter changes
    * @param {object} event JavaScript event object
    */
-  const handleFilter = (event) => {
+  const handleFilter = event => {
     const { name, value, type, checked } = event.target;
-    setFilterValues((prevState) => {
+    setFilterValues(prevState => {
       let newValues = { ...prevState };
 
-      if (!value.includes("all/none")) {
+      if (!value.includes('all/none')) {
         // logic that clears selections for structures and measurement types
         // that should no longer show up if a structure type is removed
-        if (name === "structure_types") {
+        if (name === 'structure_types') {
           const newStructureSelections = validateDependentSelections({
             previousParentSelections: newValues[name],
             newParentSelections: value,
             childData: Structures,
             previousChildSelections: filterValues.structures,
-            assocField: "assoc_structure_type_ndx",
-            valueField: "structure_ndx",
+            assocField: 'assoc_structure_type_ndx',
+            valueField: 'structure_ndx',
           });
 
           const newMeasurementTypeSelections = validateDependentSelections({
@@ -177,8 +157,8 @@ const ManageView = (props) => {
             newParentSelections: newStructureSelections,
             childData: MeasurementTypes,
             previousChildSelections: filterValues.measurement_types,
-            assocField: "assoc_structure_ndx",
-            valueField: "measure_type_ndx",
+            assocField: 'assoc_structure_ndx',
+            valueField: 'measure_type_ndx',
           });
 
           newValues.structures = newStructureSelections;
@@ -187,18 +167,18 @@ const ManageView = (props) => {
 
         // logic that clears selections for measurement types
         // that should no longer show up if a structure is removed
-        if (name === "structures") {
+        if (name === 'structures') {
           newValues.measurement_types = validateDependentSelections({
             previousParentSelections: newValues[name],
             newParentSelections: value,
             childData: MeasurementTypes,
             previousChildSelections: filterValues.measurement_types,
-            assocField: "assoc_structure_ndx",
-            valueField: "measure_type_ndx",
+            assocField: 'assoc_structure_ndx',
+            valueField: 'measure_type_ndx',
           });
         }
 
-        if (type === "checkbox") {
+        if (type === 'checkbox') {
           newValues[name] = checked;
         } else {
           newValues[name] = value;
@@ -208,7 +188,7 @@ const ManageView = (props) => {
     });
   };
 
-  const handleStep = (index) => {
+  const handleStep = index => {
     setActiveStep(index);
   };
 
@@ -216,14 +196,14 @@ const ManageView = (props) => {
    * Handler for advancing to the next step
    */
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
   /**
    * Handler for returning to the previous step
    */
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   /**
@@ -233,7 +213,7 @@ const ManageView = (props) => {
    * @param {string || number} value value associated with the deleted chip
    */
   const handleChipFilterDelete = (name, value) => {
-    setFilterValues((prevState) => {
+    setFilterValues(prevState => {
       let newValues = { ...prevState };
       const newFilterValues = [...newValues[name]];
       const index = newValues[name].indexOf(value);
@@ -241,14 +221,14 @@ const ManageView = (props) => {
 
       // logic that clears selections for structures and measurement types
       // that should no longer show up if a structure type is removed
-      if (name === "structure_types") {
+      if (name === 'structure_types') {
         const newStructureSelections = validateDependentSelections({
           previousParentSelections: newValues[name],
           newParentSelections: newFilterValues,
           childData: Structures,
           previousChildSelections: filterValues.structures,
-          assocField: "assoc_structure_type_ndx",
-          valueField: "structure_ndx",
+          assocField: 'assoc_structure_type_ndx',
+          valueField: 'structure_ndx',
         });
 
         const newMeasurementTypeSelections = validateDependentSelections({
@@ -256,8 +236,8 @@ const ManageView = (props) => {
           newParentSelections: newStructureSelections,
           childData: MeasurementTypes,
           previousChildSelections: filterValues.measurement_types,
-          assocField: "assoc_structure_ndx",
-          valueField: "measure_type_ndx",
+          assocField: 'assoc_structure_ndx',
+          valueField: 'measure_type_ndx',
         });
 
         newValues.structures = newStructureSelections;
@@ -266,14 +246,14 @@ const ManageView = (props) => {
 
       // logic that clears selections for measurement types
       // that should no longer show up if a structure is removed
-      if (name === "structures") {
+      if (name === 'structures') {
         newValues.measurement_types = validateDependentSelections({
           previousParentSelections: newValues[name],
           newParentSelections: newFilterValues,
           childData: MeasurementTypes,
           previousChildSelections: filterValues.measurement_types,
-          assocField: "assoc_structure_ndx",
-          valueField: "measure_type_ndx",
+          assocField: 'assoc_structure_ndx',
+          valueField: 'measure_type_ndx',
         });
       }
 
@@ -287,7 +267,7 @@ const ManageView = (props) => {
    * for submission to the database
    * @param {object} values
    */
-  const prepFormValues = (values) => {
+  const prepFormValues = values => {
     const {
       view_ndx,
       view_name,
@@ -296,6 +276,7 @@ const ManageView = (props) => {
       structures,
       measurement_types,
       aggregation_level,
+      view_default,
     } = values;
     return {
       view_ndx,
@@ -305,6 +286,7 @@ const ManageView = (props) => {
       structures,
       measurement_types,
       aggregation_level,
+      view_default,
     };
   };
 
@@ -312,22 +294,21 @@ const ManageView = (props) => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    setWaitingState("in progress");
+    setWaitingState('in progress');
     try {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
-      await axios.post(
-        `${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/views`,
-        prepFormValues(filterValues),
-        { headers }
-      );
+      await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/all-things-viewer/views`, prepFormValues(filterValues), {
+        headers,
+      });
       // resetForm();
-      setWaitingState("complete", "no error");
+
+      setWaitingState('complete', 'no error');
     } catch (err) {
       console.error(err);
-      setWaitingState("complete", "error");
+      setWaitingState('complete', 'error');
     }
   };
 
@@ -345,6 +326,7 @@ const ManageView = (props) => {
         structures: view.structures,
         measurement_types: view.measurement_types,
         aggregation_level: view.aggregation_level,
+        view_default: view.view_default,
       });
     }
   }, [view]);
@@ -360,20 +342,11 @@ const ManageView = (props) => {
             <Grid container>
               <Grid item xs={12} md={7}>
                 <form onSubmit={handleSubmit}>
-                  <Stepper
-                    nonLinear
-                    activeStep={activeStep}
-                    orientation="vertical"
-                  >
+                  <Stepper nonLinear activeStep={activeStep} orientation="vertical">
                     <Step>
-                      <StepButton onClick={() => handleStep(0)}>
-                        Details
-                      </StepButton>
+                      <StepButton onClick={() => handleStep(0)}>Details</StepButton>
                       <StepContent>
-                        <Typography
-                          variant="body1"
-                          className={classes.helpText}
-                        >
+                        <Typography variant="body1" className={classes.helpText}>
                           Provide a name and description for the view.
                         </Typography>
                         <TextField
@@ -399,19 +372,10 @@ const ManageView = (props) => {
                         />
                         <div className={classes.actionsContainer}>
                           <div>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={handleBack}
-                              className={classes.button}
-                            >
+                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                               Back
                             </Button>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={handleNext}
-                              className={classes.button}
-                            >
+                            <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
                               Next
                             </Button>
                           </div>
@@ -419,17 +383,11 @@ const ManageView = (props) => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepButton onClick={() => handleStep(1)}>
-                        Measurements
-                      </StepButton>
+                      <StepButton onClick={() => handleStep(1)}>Measurements</StepButton>
                       <StepContent>
-                        <Typography
-                          variant="body1"
-                          className={classes.helpText}
-                        >
-                          Select the structure types, structures, and
-                          measurement types that you would like to be associated
-                          with this view.
+                        <Typography variant="body1" className={classes.helpText}>
+                          Select the structure types, structures, and measurement types that you would like to be
+                          associated with this view.
                         </Typography>
                         {/* Structure Types filter */}
                         <StructureTypesFilter
@@ -453,34 +411,21 @@ const ManageView = (props) => {
                         />
                         <div className={classes.actionsContainer}>
                           <div>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={handleBack}
-                              className={classes.button}
-                            >
+                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                               Back
                             </Button>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={handleNext}
-                              className={classes.button}
-                            >
+                            <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
                               Next
                             </Button>
                           </div>
                         </div>
                       </StepContent>
                     </Step>
+
                     <Step>
-                      <StepButton onClick={() => handleStep(2)}>
-                        Dataset Aggregation
-                      </StepButton>
+                      <StepButton onClick={() => handleStep(2)}>Dataset Aggregation</StepButton>
                       <StepContent>
-                        <Typography
-                          variant="body1"
-                          className={classes.helpText}
-                        >
+                        <Typography variant="body1" className={classes.helpText}>
                           Select a dataset aggregation level
                         </Typography>
                         {/* Aggregation Level Filter */}
@@ -490,14 +435,36 @@ const ManageView = (props) => {
                           onChange={handleFilter}
                           width={300}
                         />
+                        <div className={classes.actionsContainer}>
+                          <div>
+                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                              Back
+                            </Button>
+                            <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
+                              Next
+                            </Button>
+                          </div>
+                        </div>
+                      </StepContent>
+                    </Step>
+
+                    <Step>
+                      <StepButton onClick={() => handleStep(3)}>Default</StepButton>
+                      <StepContent>
+                        <Typography variant="body1" className={classes.helpText}>
+                          Would you like to set this as your default view?
+                        </Typography>
+                        <Switch
+                          // disabled={savedViews.length > 0 ? false : true}
+                          checked={filterValues.view_default}
+                          onChange={handleFilter}
+                          name="view_default"
+                          color="primary"
+                        />
 
                         <div className={classes.actionsContainer}>
                           <div>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={handleBack}
-                              className={classes.button}
-                            >
+                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                               Back
                             </Button>
                             <Button
@@ -524,125 +491,91 @@ const ManageView = (props) => {
                   <Typography variant="body1" paragraph>
                     This panel provides a summary of current view.
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     View Name
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {filterValues.view_name || "None"}
+                    {filterValues.view_name || 'None'}
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     View Description
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {filterValues.view_description || "None"}
+                    {filterValues.view_description || 'None'}
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     Structure Types
                   </Typography>
                   <div className={classes.chipCloud}>
-                    {filterValues.structure_types.length === 0 && "None"}
-                    {StructureTypes.filter((d) =>
-                      filterValues.structure_types.includes(
-                        d.structure_type_ndx
+                    {filterValues.structure_types.length === 0 && 'None'}
+                    {StructureTypes.filter(d => filterValues.structure_types.includes(d.structure_type_ndx)).map(
+                      chip => (
+                        <Chip
+                          key={chip.structure_type_ndx}
+                          label={chip.structure_type_desc}
+                          className={classes.chip}
+                          onDelete={() => handleChipFilterDelete('structure_types', chip.structure_type_ndx)}
+                        />
                       )
-                    ).map((chip) => (
-                      <Chip
-                        key={chip.structure_type_ndx}
-                        label={chip.structure_type_desc}
-                        className={classes.chip}
-                        onDelete={() =>
-                          handleChipFilterDelete(
-                            "structure_types",
-                            chip.structure_type_ndx
-                          )
-                        }
-                      />
-                    ))}
+                    )}
                   </div>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     Structures
                   </Typography>
                   <div className={classes.chipCloud}>
-                    {filterValues.structures.length === 0 && "None"}
-                    {Structures.filter((d) =>
-                      filterValues.structures.includes(d.structure_ndx)
-                    ).map((chip) => (
+                    {filterValues.structures.length === 0 && 'None'}
+                    {Structures.filter(d => filterValues.structures.includes(d.structure_ndx)).map(chip => (
                       <Chip
                         key={chip.structure_ndx}
                         label={chip.structure_desc}
                         className={classes.chip}
-                        onDelete={() =>
-                          handleChipFilterDelete(
-                            "structures",
-                            chip.structure_ndx
-                          )
-                        }
+                        onDelete={() => handleChipFilterDelete('structures', chip.structure_ndx)}
                       />
                     ))}
                   </div>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     Measurement Types
                   </Typography>
                   <div className={classes.chipCloud}>
-                    {filterValues.measurement_types.length === 0 && "None"}
-                    {MeasurementTypes.filter((d) =>
-                      filterValues.measurement_types.includes(
-                        d.measure_type_ndx
+                    {filterValues.measurement_types.length === 0 && 'None'}
+                    {MeasurementTypes.filter(d => filterValues.measurement_types.includes(d.measure_type_ndx)).map(
+                      chip => (
+                        <Chip
+                          key={chip.measure_type_ndx}
+                          label={chip.measure_type_desc}
+                          className={classes.chip}
+                          onDelete={() => handleChipFilterDelete('measurement_types', chip.measure_type_ndx)}
+                        />
                       )
-                    ).map((chip) => (
-                      <Chip
-                        key={chip.measure_type_ndx}
-                        label={chip.measure_type_desc}
-                        className={classes.chip}
-                        onDelete={() =>
-                          handleChipFilterDelete(
-                            "measurement_types",
-                            chip.measure_type_ndx
-                          )
-                        }
-                      />
-                    ))}
+                    )}
                   </div>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     Aggregation Level
                   </Typography>
                   <Typography variant="body1" paragraph>
                     {
-                      AggregationData.filter(
-                        (d) =>
-                          filterValues.aggregation_level === d.aggregation_ndx
-                      )[0].aggregation_desc
+                      AggregationData.filter(d => filterValues.aggregation_level === d.aggregation_ndx)[0]
+                        .aggregation_desc
                     }
                   </Typography>
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
+                    View Default
+                  </Typography>
+
+                  <Switch
+                    // disabled={savedViews.length > 0 ? false : true}
+                    checked={filterValues.view_default}
+                    onChange={handleFilter}
+                    name="view_default"
+                    color="primary"
+                  />
                 </div>
               </Grid>
             </Grid>
           </Paper>
         </div>
       </section>
-      <FormSnackbar
-        open={snackbarOpen}
-        error={snackbarError}
-        handleClose={handleSnackbarClose}
-      />
+      <FormSnackbar open={snackbarOpen} error={snackbarError} handleClose={handleSnackbarClose} />
     </Layout>
   );
 };

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Button,
   Dialog,
@@ -11,14 +11,16 @@ import {
   DialogTitle,
   TextField,
   Typography,
-} from "@material-ui/core";
-import FormSnackbar from "../FormSnackbar";
-import useVisibility from "../../hooks/useVisibility";
-import useFormSubmitStatus from "../../hooks/useFormSubmitStatus";
-import { useAuth0 } from "../../hooks/auth";
-import { goTo } from "../../util";
+  Switch,
+  FormControlLabel,
+} from '@material-ui/core';
+import FormSnackbar from '../FormSnackbar';
+import useVisibility from '../../hooks/useVisibility';
+import useFormSubmitStatus from '../../hooks/useFormSubmitStatus';
+import { useAuth0 } from '../../hooks/auth';
+import { goTo } from '../../util';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   btn: {
     marginRight: theme.spacing(1),
   },
@@ -26,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   dialogActions: {
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
     marginBottom: theme.spacing(2),
     marginLeft: theme.spacing(2),
   },
@@ -35,35 +37,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SaveFilters = ({ endpoint, redirect, filterValues }) => {
+const SaveFilters = ({ endpoint, redirect, filterValues, savedViews }) => {
   const classes = useStyles();
   let history = useHistory();
   const [saveViewVisibility, handleSaveViewVisibility] = useVisibility(false);
   const { getTokenSilently } = useAuth0();
   const [formValues, setFormValues] = useState({
-    view_name: "",
-    view_description: "",
+    view_name: '',
+    view_description: '',
+    view_default: true,
   });
-  const {
-    setWaitingState,
-    snackbarOpen,
-    snackbarError,
-    handleSnackbarClose,
-  } = useFormSubmitStatus();
-
-  const handleChange = (event) => {
+  const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
+  const handleChange = event => {
+    event.persist();
     const { name, value } = event.target;
-    setFormValues((prevState) => {
+    setFormValues(prevState => {
       let newValues = { ...prevState };
-      newValues[name] = value;
+      newValues[name] = name === 'view_default' ? event.target.checked : value;
       return newValues;
     });
   };
 
-  const prepFormValues = (values) => {
+  const prepFormValues = values => {
     let newValues = { ...values };
     newValues.view_name = formValues.view_name;
     newValues.view_description = formValues.view_description;
+    newValues.view_default = formValues.view_default;
     return newValues;
   };
 
@@ -71,25 +70,23 @@ const SaveFilters = ({ endpoint, redirect, filterValues }) => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSaveViewSubmit = async (event) => {
+  const handleSaveViewSubmit = async event => {
     event.preventDefault();
-    setWaitingState("in progress");
+    setWaitingState('in progress');
     try {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
-      const view = await axios.post(
-        `${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`,
-        prepFormValues(filterValues),
-        { headers }
-      );
+      const view = await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/${endpoint}`, prepFormValues(filterValues), {
+        headers,
+      });
       // resetForm();
       handleSaveViewVisibility();
-      setWaitingState("complete", "no error");
-      setFormValues({ view_name: "", view_description: "" });
+      setWaitingState('complete', 'no error');
+      setFormValues({ view_name: '', view_description: '', view_default: true });
       goTo(history, `${redirect}/${view.data.view_ndx}`);
     } catch (err) {
       console.error(err);
-      setWaitingState("complete", "error");
+      setWaitingState('complete', 'error');
     }
   };
 
@@ -149,20 +146,23 @@ const SaveFilters = ({ endpoint, redirect, filterValues }) => {
                 shrink: true,
               }}
             />
+            <FormControlLabel
+              control={
+                <Switch
+                  // disabled={savedViews.length > 0 ? false : true}
+                  checked={formValues.view_default}
+                  onChange={handleChange}
+                  name="view_default"
+                  color="primary"
+                />
+              }
+              label="Set as Default View"
+            />
             <DialogActions>
-              <Button
-                type="submit"
-                color="secondary"
-                variant="contained"
-                className={classes.marginTop}
-              >
+              <Button type="submit" color="secondary" variant="contained" className={classes.marginTop}>
                 Save
               </Button>
-              <Button
-                onClick={handleSaveViewVisibility}
-                variant="contained"
-                className={classes.marginTop}
-              >
+              <Button onClick={handleSaveViewVisibility} variant="contained" className={classes.marginTop}>
                 Cancel
               </Button>
             </DialogActions>
@@ -182,10 +182,7 @@ const SaveFilters = ({ endpoint, redirect, filterValues }) => {
 };
 
 SaveFilters.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
 };
 
 export default SaveFilters;
