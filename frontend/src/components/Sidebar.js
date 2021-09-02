@@ -227,7 +227,7 @@ const Sidebar = props => {
       // exact: true,
       icon: DepletionsIcon,
       loginRequired: true,
-      rolesRequired: ['LRE Admin'],
+      rolesRequired: ['CCWCD Admin', 'LRE Admin', 'CCWCD Admin Demo'],
     },
     {
       link: 'files/',

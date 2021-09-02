@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(
-    "list_users",
+    'users_list',
     {
       auth0_user_id: {
         type: DataTypes.STRING,
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      schema: "data",
+      schema: 'web',
       freezeTableName: true,
     }
   );
