@@ -1,14 +1,12 @@
 import React from 'react';
 import CopyIcon from '@material-ui/icons/FileCopy';
-import useFetchData from '../../../hooks/useFetchData';
 import FormSnackbar from '../../../components/FormSnackbar';
 import MaterialTable from 'material-table';
 import useVisibility from '../../../hooks/useVisibility';
 import { copyToClipboard } from '../../../util';
 
-const AnnualQuotaTable = ({ year }) => {
+const AnnualQuotaTable = ({ year, annualQuotaData, isDataLoading }) => {
   const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
-  const [annualQuotaData, isDataLoading] = useFetchData(`depletions/run-model/annual-quota`);
 
   const columns = [
     { title: 'Year', field: 'op_year' },

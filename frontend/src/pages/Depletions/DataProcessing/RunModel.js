@@ -6,7 +6,7 @@ import { Button, Typography, Box, Avatar, Paper, Checkbox } from '@material-ui/c
 import { Select } from '@lrewater/lre-react';
 import ProcessingLayout from './ProcessingLayout';
 import { useAuth0 } from '../../../hooks/auth';
-// import useFetchData from '../../../hooks/useFetchData';
+import useFetchData from '../../../hooks/useFetchData';
 import FormSnackbar from '../../../components/FormSnackbar';
 import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
 import InfoCard from '../../../components/InfoCard';
@@ -28,18 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const years = (() => {
-  const start = 2014;
-  const end = new Date().getFullYear() + 1;
-  const years = [];
-  for (let i = start; i < end; i++) {
-    years.push({ value: i, display: i });
-  }
-  return years;
-})();
-
 const RunModel = props => {
   const classes = useStyles();
+  const [annualQuotaData, isDataLoading] = useFetchData(`depletions/run-model/annual-quota`);
 
   const { getTokenSilently, user } = useAuth0();
   const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
@@ -49,6 +40,22 @@ const RunModel = props => {
   const [usersData, setUsersData] = useState([]);
   const [comboInDB, setComboInDB] = useState(false);
 
+  const years = (() => {
+    if (annualQuotaData.length > 0) {
+      return [...new Set(annualQuotaData.map(item => item.op_year))].map(year => ({
+        value: year,
+        display: year,
+      }));
+    }
+    return [{ value: 2021, display: 2021 }];
+  })();
+
+  const checkboxStatus = (() => {
+    if (annualQuotaData.length > 0) {
+      return annualQuotaData.find(item => item.op_year === year).run_enabled;
+    }
+  })();
+
   async function fetchData() {
     const token = await getTokenSilently();
     const fetchedData = await axios.get(`${process.env.REACT_APP_ENDPOINT}/api/depletions/run-model/user-input`, {
@@ -57,6 +64,7 @@ const RunModel = props => {
       },
     });
     const { data } = fetchedData;
+
     setUsersData(data);
   }
 
@@ -66,8 +74,13 @@ const RunModel = props => {
 
   const formatDate = origDate => {
     const date = new Date(origDate);
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    // ${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${hours}:${minutes} ${ampm}`;
   };
 
   //fetch all of the user selections from the DB
@@ -164,7 +177,7 @@ const RunModel = props => {
               value={year}
               onChange={handleYearChange}
             />
-            <Checkbox checked={checked} onChange={handleClick} />
+            <Checkbox checked={checked} onChange={handleClick} disabled={!checkboxStatus} />
             <Box ml={3} display="inline-block">
               <Typography variant="body2" color="textSecondary">
                 Last Run
@@ -181,7 +194,7 @@ const RunModel = props => {
           {/* </form> */}
         </Box>
         <Box mt={2}>
-          <AnnualQuotaTable year={year} />
+          <AnnualQuotaTable year={year} annualQuotaData={annualQuotaData} isDataLoading={isDataLoading} />
         </Box>
         <Box mt={2} mb={2}>
           <Button variant="contained" component={Link} to="/depletions/flags">

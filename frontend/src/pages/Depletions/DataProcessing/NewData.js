@@ -9,6 +9,7 @@ import ProcessingLayout from './ProcessingLayout';
 // import { useAuth0 } from '../../../hooks/auth';
 // import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
 // import FormSnackbar from '../../../components/FormSnackbar';
+import useFetchData from '../../../hooks/useFetchData';
 import { Link } from 'react-router-dom';
 import InfoCard from '../../../components/InfoCard';
 import NewDataTable from './NewDataTable';
@@ -73,9 +74,23 @@ const NewData = props => {
   const classes = useStyles();
   // const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [usersData] = useFetchData('depletions/run-model/user-input', []);
+
+  console.log(usersData);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
+  };
+
+  const formatDate = origDate => {
+    const date = new Date(origDate);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${hours}:${minutes} ${ampm}`;
   };
 
   return (
@@ -90,6 +105,14 @@ const NewData = props => {
             Please review the data below to ensure that the new meter data matches what you are expecting to see.
           </Typography>
         </InfoCard>
+        <Box my={2} ml={1}>
+          <Typography variant="body2" color="textSecondary">
+            Last Run
+          </Typography>
+          <Typography variant="body1" color="primary" paragraph>
+            {usersData.length > 0 ? formatDate(usersData[0].last_run_timestamp) : 'The current year has not been run.'}
+          </Typography>
+        </Box>
         <Box mt={2}>
           <Tabs
             className={classes.tabs}

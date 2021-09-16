@@ -54,7 +54,7 @@ const Export = props => {
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>6</Avatar>
-          <Typography variant="h6">Send to Accounting</Typography>
+          <Typography variant="h6">Review Pumping Changes</Typography>
         </Box>
         <InfoCard mb={0}>
           <Typography variant="body1">PLACEHOLDER</Typography>

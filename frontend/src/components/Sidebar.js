@@ -74,6 +74,7 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     maxWidth: 160,
+    marginBottom: '15px',
   },
   nav: {
     color: `#ffffff`,
@@ -325,6 +326,12 @@ const Sidebar = props => {
     <div id="sidebar">
       <div className={classes.toolbar}>
         <img src={logo} className={classes.logo} alt="Logo" />
+        <br />
+        <strong>Welcome</strong>
+
+        <Typography variant="h6" color="inherit">
+          {user?.nickname}
+        </Typography>
       </div>
       <List className={classes.nav}>
         {MenuItems.map(item => returnMenuItem(item, isAuthenticated, user))}

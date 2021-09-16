@@ -47,7 +47,9 @@ router.post('/refresh', (req, res, next) => {
  * Route for returning data for run model requests
  */
 router.get('/run-model/user-input', (req, res, next) => {
-  DEPL_RunModelUserInput.findAll()
+  DEPL_RunModelUserInput.findAll({
+    order: [['last_run_timestamp', 'asc']],
+  })
     .then(data => {
       res.json(data);
     })

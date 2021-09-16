@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, REAL, TEXT } = DataTypes;
+  const { INTEGER, REAL, TEXT, BOOLEAN } = DataTypes;
   const AnnualQuota = sequelize.define(
-    'data_annual_quota',
+    'dpl_annual_quota',
     {
       op_year: {
         type: INTEGER,
@@ -17,10 +17,13 @@ module.exports = (sequelize, DataTypes) => {
       notes: {
         type: TEXT,
       },
+      run_enabled: {
+        type: BOOLEAN,
+      },
     },
     {
       timestamps: false,
-      schema: 'data',
+      schema: 'web',
       freezeTableName: true,
     }
   );
