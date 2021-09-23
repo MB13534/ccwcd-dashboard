@@ -27,7 +27,8 @@ function a11yProps(index) {
  */
 const tabViewLookup = {
   0: 'overview',
-  1: 'details',
+  1: 'estimates-v-actual',
+  2: 'details',
 };
 
 const useStyles = makeStyles(theme => ({
@@ -74,9 +75,8 @@ const NewData = props => {
   const classes = useStyles();
   // const [refreshSwitch, setRefreshSwitch] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
-  const [usersData] = useFetchData('depletions/run-model/user-input', []);
-
-  console.log(usersData);
+  const [usersData] = useFetchData('depletions/run-model/user-input', [])
+  
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -92,6 +92,7 @@ const NewData = props => {
     minutes = minutes < 10 ? '0' + minutes : minutes;
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${hours}:${minutes} ${ampm}`;
   };
+
 
   return (
     <ProcessingLayout activeStep={0}>
@@ -110,7 +111,7 @@ const NewData = props => {
             Last Run
           </Typography>
           <Typography variant="body1" color="primary" paragraph>
-            {usersData.length > 0 ? formatDate(usersData[0].last_run_timestamp) : 'The current year has not been run.'}
+            {usersData.length > 0 ? formatDate(usersData.filter(item => item.last_run_timestamp)[0].last_run_timestamp) : 'The current year has not been run.'}
           </Typography>
         </Box>
         <Box mt={2}>
@@ -122,12 +123,18 @@ const NewData = props => {
             aria-label="New Data Table"
           >
             <Tab label="Overview" {...a11yProps(0)} />
-            <Tab label="Details" {...a11yProps(1)} />
+            <Tab label="Reach Estimates v Actual" {...a11yProps(1)} />
+            <Tab label="Details" {...a11yProps(2)} />
           </Tabs>
           <TabPanel value={activeTab} index={0}>
             <NewDataTable view={tabViewLookup[activeTab]} />
           </TabPanel>
+
           <TabPanel value={activeTab} index={1}>
+            <NewDataTable view={tabViewLookup[activeTab]} />
+          </TabPanel>
+
+          <TabPanel value={activeTab} index={2}>
             <NewDataTable view={tabViewLookup[activeTab]} />
           </TabPanel>
         </Box>

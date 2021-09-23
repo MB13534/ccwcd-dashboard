@@ -133,7 +133,7 @@ router.post('/auth0-sync', checkPermission(['read:users', 'write:users']), async
         authorization: `Bearer ${access_token}`,
       },
     });
-    console.log(usersResponse);
+
     const users = usersResponse.data;
     const usersWithRoles = await getUserRoles(users, access_token);
     const roles = await getRoles(access_token);

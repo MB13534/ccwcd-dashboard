@@ -6,6 +6,9 @@ import FormSnackbar from '../../../components/FormSnackbar';
 import MaterialTable from 'material-table';
 import useVisibility from '../../../hooks/useVisibility';
 import { copyToClipboard } from '../../../util';
+import { Box, Typography } from "@material-ui/core";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 
 const NewDataTable = ({ refresh, view }) => {
   const [copySnackbarOpen, handleCopySnackbarOpen] = useVisibility(false);
@@ -37,6 +40,46 @@ const NewDataTable = ({ refresh, view }) => {
 
   return (
     <>
+    {view === 'estimates-v-actual' ? (
+      <Box
+      marginTop={2}
+      marginBottom={2}
+      padding={2}
+      width="100%"
+      height={300}
+      borderRadius={4}
+      bgcolor="#ffffff"
+    >
+      <Typography variant="h6" color="inherit" align='center' noWrap>
+          Unprocessed Meter Readings
+        </Typography>
+          <ResponsiveContainer width="100%" height="100%">
+          
+           <BarChart
+             width={500}
+             height={300}
+             data={newDataData}
+             margin={{
+               top: 5,
+               right: 30,
+               left: 20,
+               bottom: 5,
+             }}
+        
+           >
+             <Tooltip labelFormatter={item => `Reach: ${item}`} />
+             <CartesianGrid strokeDasharray="3 3" />
+             <XAxis dataKey="reach_name" />
+             <YAxis label={{ value: 'Acre-feet', angle: -90, position: 'insideLeft' }} />
+             <Tooltip />
+             <Legend />
+             <Bar dataKey="estimates_af" name="Estimates" fill="#8884d8" />
+             <Bar dataKey="actual_af" name="Actual" fill="#82ca9d" />
+           </BarChart>
+         </ResponsiveContainer>
+         </Box>
+    
+    ) : (
       <MaterialTable
         id="new-data-table"
         columns={columns}
@@ -68,6 +111,8 @@ const NewDataTable = ({ refresh, view }) => {
           showTitle: false,
         }}
       />
+    )}
+      
 
       <FormSnackbar
         open={copySnackbarOpen}
@@ -81,7 +126,7 @@ const NewDataTable = ({ refresh, view }) => {
 
 NewDataTable.propTypes = {
   refresh: PropTypes.bool,
-  view: PropTypes.oneOf(['overview', 'details']).isRequired,
+  view: PropTypes.oneOf(['overview', 'estimates-v-actual', 'details']).isRequired,
 };
 
 export default NewDataTable;

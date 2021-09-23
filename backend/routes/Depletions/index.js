@@ -4,6 +4,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const { crosstab, setAPIDate } = require('../../util');
 const {
+  DEPL_NewDataReachEstimatesVActual,
   DEPL_NewDataDetails,
   DEPL_NewDataOverview,
   DEPL_ReviewByRecent,
@@ -48,7 +49,7 @@ router.post('/refresh', (req, res, next) => {
  */
 router.get('/run-model/user-input', (req, res, next) => {
   DEPL_RunModelUserInput.findAll({
-    order: [['last_run_timestamp', 'asc']],
+    order: [['last_run_timestamp', 'desc']],
   })
     .then(data => {
       res.json(data);
@@ -123,6 +124,20 @@ router.put('/run-model/user-input', (req, res, next) => {
  */
 router.get('/run-model/annual-quota', (req, res, next) => {
   DEPL_RunModelAnnualQuota.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/new-data/estimates-v-actual
+ * Route for returning recent pumping data associated with the depletions modeling
+ */
+ router.get('/new-data/estimates-v-actual', (req, res, next) => {
+  DEPL_NewDataReachEstimatesVActual.findAll()
     .then(data => {
       res.json(data);
     })
