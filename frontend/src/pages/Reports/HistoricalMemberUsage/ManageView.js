@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Paper,
@@ -12,20 +12,21 @@ import {
   Button,
   Grid,
   Chip,
-} from "@material-ui/core";
-import Layout from "../../../components/Layout";
-import FormSnackbar from "../../../components/FormSnackbar";
-import useFetchData from "../../../hooks/useFetchData";
-import useFormSubmitStatus from "../../../hooks/useFormSubmitStatus";
-import { useAuth0 } from "../../../hooks/auth";
-import { TextField, TextArea } from "@lrewater/lre-react";
-import DatasetFilter from "../../../components/Filters/DatasetFilter";
-import WellsFilter from "../../../components/Filters/WellsFilter";
+  Switch,
+} from '@material-ui/core';
+import Layout from '../../../components/Layout';
+import FormSnackbar from '../../../components/FormSnackbar';
+import useFetchData from '../../../hooks/useFetchData';
+import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
+import { useAuth0 } from '../../../hooks/auth';
+import { TextField, TextArea } from '@lrewater/lre-react';
+import DatasetFilter from '../../../components/Filters/DatasetFilter';
+import WellsFilter from '../../../components/Filters/WellsFilter';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    overflow: "hidden",
+    display: 'flex',
+    overflow: 'hidden',
   },
   content: {
     flexGrow: 1,
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   outlinedLabel: {
     color: theme.palette.primary.main,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   formGroup: {
     margin: theme.spacing(0, 1, 1, 1),
@@ -60,17 +61,18 @@ const useStyles = makeStyles((theme) => ({
   },
   viewSummary: {
     padding: theme.spacing(2),
-    backgroundColor: "#222434",
-    color: "#b7b7b7",
-    borderLeft: "1px solid #dddddd",
+    backgroundColor: '#222434',
+    color: '#b7b7b7',
+    borderLeft: '1px solid #dddddd',
+    height: '100%',
   },
   viewSummaryTitle: {
-    color: "#afbaf2",
+    color: '#afbaf2',
     fontWeight: 400,
   },
   chipCloud: {
-    display: "flex",
-    flexWrap: "wrap",
+    display: 'flex',
+    flexWrap: 'wrap',
     marginBottom: theme.spacing(2),
   },
   chip: {
@@ -79,42 +81,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ManageView = (props) => {
+const ManageView = props => {
   const classes = useStyles();
   const { viewNdx } = useParams();
 
-  const {
-    setWaitingState,
-    snackbarOpen,
-    snackbarError,
-    handleSnackbarClose,
-  } = useFormSubmitStatus();
+  const { setWaitingState, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
   const { getTokenSilently } = useAuth0();
   const [activeStep, setActiveStep] = useState(0);
   const [filterValues, setFilterValues] = useState({
     well_index: [],
-    dataset: "meter-readings",
-    depletion_start_year: "",
+    dataset: 'meter-readings',
+    depletion_start_year: '',
     view_ndx: null,
-    view_name: "",
-    view_description: "",
+    view_name: '',
+    view_description: '',
+    view_default: true,
   });
 
   // Request data for the filters
-  const [Wells] = useFetchData("historical-member-usage/wells", []);
+  const [Wells] = useFetchData('historical-member-usage/wells', []);
   const DatasetData = [
-    { dataset_ndx: "meter-readings", dataset_desc: "Meter Readings" },
+    { dataset_ndx: 'meter-readings', dataset_desc: 'Meter Readings' },
     {
-      dataset_ndx: "well-pumping",
-      dataset_desc: "Pumping",
+      dataset_ndx: 'well-pumping',
+      dataset_desc: 'Pumping',
     },
-    { dataset_ndx: "well-depletions", dataset_desc: "Depletions" },
-    { dataset_ndx: "well-info", dataset_desc: "Well Info" },
+    { dataset_ndx: 'well-depletions', dataset_desc: 'Depletions' },
+    { dataset_ndx: 'well-info', dataset_desc: 'Well Info' },
   ];
-  const [view] = useFetchData(
-    `historical-member-usage/views/${viewNdx ? viewNdx : -9999}`,
-    [viewNdx]
-  );
+  const [view] = useFetchData(`historical-member-usage/views/${viewNdx ? viewNdx : -9999}`, [viewNdx]);
 
   /**
    * Event handler for the filters bar
@@ -123,13 +118,13 @@ const ManageView = (props) => {
    */
   const handleFilter = (event, values) => {
     const { name, value, type, checked } = event.target;
-    setFilterValues((prevState) => {
+    setFilterValues(prevState => {
       let newValues = { ...prevState };
 
-      if (name === "well_index") {
+      if (name === 'well_index') {
         newValues[name] = values;
       } else {
-        if (type === "checkbox") {
+        if (type === 'checkbox') {
           newValues[name] = checked;
         } else {
           newValues[name] = value;
@@ -139,7 +134,7 @@ const ManageView = (props) => {
     });
   };
 
-  const handleStep = (index) => {
+  const handleStep = index => {
     setActiveStep(index);
   };
 
@@ -147,14 +142,14 @@ const ManageView = (props) => {
    * Handler for advancing to the next step
    */
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
   /**
    * Handler for returning to the previous step
    */
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
   /**
@@ -162,16 +157,9 @@ const ManageView = (props) => {
    * for submission to the database
    * @param {object} values
    */
-  const prepFormValues = (values) => {
-    const {
-      view_ndx,
-      view_name,
-      view_description,
-      well_index,
-      dataset,
-    } = values;
-    const depletion_start_year =
-      values.depletion_start_year === "" ? null : values.depletion_start_year;
+  const prepFormValues = values => {
+    const { view_ndx, view_name, view_description, well_index, dataset, view_default } = values;
+    const depletion_start_year = values.depletion_start_year === '' ? null : values.depletion_start_year;
     return {
       view_ndx,
       view_name,
@@ -179,6 +167,7 @@ const ManageView = (props) => {
       well_index,
       depletion_start_year,
       dataset,
+      view_default,
     };
   };
 
@@ -186,9 +175,9 @@ const ManageView = (props) => {
    * Handle form submit
    * @param {Object} event
    */
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    setWaitingState("in progress");
+    setWaitingState('in progress');
     try {
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
@@ -198,10 +187,10 @@ const ManageView = (props) => {
         { headers }
       );
       // resetForm();
-      setWaitingState("complete", "no error");
+      setWaitingState('complete', 'no error');
     } catch (err) {
       console.error(err);
-      setWaitingState("complete", "error");
+      setWaitingState('complete', 'error');
     }
   };
 
@@ -218,6 +207,7 @@ const ManageView = (props) => {
         well_index: view.well_index,
         depletion_start_year: view.depletion_start_year,
         dataset: view.dataset,
+        view_default: view.view_default,
       });
     }
   }, [view]);
@@ -233,20 +223,11 @@ const ManageView = (props) => {
             <Grid container>
               <Grid item xs={12} md={7}>
                 <form onSubmit={handleSubmit}>
-                  <Stepper
-                    activeStep={activeStep}
-                    nonLinear
-                    orientation="vertical"
-                  >
+                  <Stepper activeStep={activeStep} nonLinear orientation="vertical">
                     <Step>
-                      <StepButton onClick={() => handleStep(0)}>
-                        Details
-                      </StepButton>
+                      <StepButton onClick={() => handleStep(0)}>Details</StepButton>
                       <StepContent>
-                        <Typography
-                          variant="body1"
-                          className={classes.helpText}
-                        >
+                        <Typography variant="body1" className={classes.helpText}>
                           Provide a name and description for the view.
                         </Typography>
                         <TextField
@@ -272,19 +253,10 @@ const ManageView = (props) => {
                         />
                         <div className={classes.actionsContainer}>
                           <div>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={handleBack}
-                              className={classes.button}
-                            >
+                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                               Back
                             </Button>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={handleNext}
-                              className={classes.button}
-                            >
+                            <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
                               Next
                             </Button>
                           </div>
@@ -292,36 +264,27 @@ const ManageView = (props) => {
                       </StepContent>
                     </Step>
                     <Step>
-                      <StepButton onClick={() => handleStep(1)}>
-                        Filters
-                      </StepButton>
+                      <StepButton onClick={() => handleStep(1)}>Filters</StepButton>
                       <StepContent>
-                        <Typography
-                          variant="body1"
-                          className={classes.helpText}
-                        >
-                          Select the wells and dataset associated with this
-                          view.
+                        <Typography variant="body1" className={classes.helpText}>
+                          Select the wells and dataset associated with this view.
                         </Typography>
                         {/* Structure Types filter */}
-                        <WellsFilter
-                          multiple
-                          data={Wells}
-                          value={filterValues.well_index}
+                        <WellsFilter multiple data={Wells} value={filterValues.well_index} onChange={handleFilter} />
+                        <DatasetFilter data={DatasetData} value={filterValues.dataset} onChange={handleFilter} />
+                        <Typography variant="body1" className={classes.helpText}>
+                          Would you like to set this as your default view?
+                        </Typography>
+                        <Switch
+                          // disabled={savedViews.length > 0 ? false : true}
+                          checked={filterValues.view_default}
                           onChange={handleFilter}
-                        />
-                        <DatasetFilter
-                          data={DatasetData}
-                          value={filterValues.dataset}
-                          onChange={handleFilter}
+                          name="view_default"
+                          color="primary"
                         />
                         <div className={classes.actionsContainer}>
                           <div>
-                            <Button
-                              disabled={activeStep === 0}
-                              onClick={handleBack}
-                              className={classes.button}
-                            >
+                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                               Back
                             </Button>
                             <Button
@@ -348,67 +311,51 @@ const ManageView = (props) => {
                   <Typography variant="body1" paragraph>
                     This panel provides a summary of current view.
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     View Name
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {filterValues.view_name || "None"}
+                    {filterValues.view_name || 'None'}
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     View Description
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {filterValues.view_description || "None"}
+                    {filterValues.view_description || 'None'}
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     WDIDs
                   </Typography>
                   <div className={classes.chipCloud}>
-                    {filterValues.well_index.length === 0 && "None"}
-                    {Wells.filter((d) =>
-                      filterValues.well_index.includes(d.well_index)
-                    ).map((chip) => (
-                      <Chip
-                        key={chip.well_index}
-                        label={chip.wdid}
-                        className={classes.chip}
-                        onDelete={() => {}}
-                      />
+                    {filterValues.well_index.length === 0 && 'None'}
+                    {Wells.filter(d => filterValues.well_index.includes(d.well_index)).map(chip => (
+                      <Chip key={chip.well_index} label={chip.wdid} className={classes.chip} onDelete={() => {}} />
                     ))}
                   </div>
-                  <Typography
-                    variant="body1"
-                    className={classes.viewSummaryTitle}
-                  >
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
                     Dataset
                   </Typography>
                   <Typography variant="body1" paragraph>
-                    {
-                      DatasetData.filter(
-                        (d) => filterValues.dataset === d.dataset_ndx
-                      )[0].dataset_desc
-                    }
+                    {DatasetData.filter(d => filterValues.dataset === d.dataset_ndx)[0].dataset_desc}
                   </Typography>
+                  <Typography variant="body1" className={classes.viewSummaryTitle}>
+                    View Default
+                  </Typography>
+
+                  <Switch
+                    // disabled={savedViews.length > 0 ? false : true}
+                    checked={filterValues.view_default}
+                    onChange={handleFilter}
+                    name="view_default"
+                    color="primary"
+                  />
                 </div>
               </Grid>
             </Grid>
           </Paper>
         </div>
       </section>
-      <FormSnackbar
-        open={snackbarOpen}
-        error={snackbarError}
-        handleClose={handleSnackbarClose}
-      />
+      <FormSnackbar open={snackbarOpen} error={snackbarError} handleClose={handleSnackbarClose} />
     </Layout>
   );
 };

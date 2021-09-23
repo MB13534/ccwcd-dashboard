@@ -204,7 +204,6 @@ router.get('/views/:id', (req, res, next) => {
 // Route for creating a new view
 router.post('/views', async (req, res, next) => {
   let data = { ...req.body };
-
   data.assoc_user_id = [req.user.sub];
   data.assoc_report_ndx = 1;
   try {

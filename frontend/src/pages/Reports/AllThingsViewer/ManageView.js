@@ -68,6 +68,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#222434',
     color: '#b7b7b7',
     borderLeft: '1px solid #dddddd',
+    height: '100%',
   },
   viewSummaryTitle: {
     color: '#afbaf2',

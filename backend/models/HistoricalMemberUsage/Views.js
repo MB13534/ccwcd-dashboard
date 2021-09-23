@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const { INTEGER, ARRAY, TEXT } = DataTypes;
+  const { INTEGER, ARRAY, TEXT, BOOLEAN } = DataTypes;
   const ReportsView = sequelize.define(
-    "report_views_historical_member_usage",
+    'report_views_historical_member_usage',
     {
       view_ndx: {
         type: INTEGER,
@@ -32,10 +32,13 @@ module.exports = (sequelize, DataTypes) => {
       depletion_start_year: {
         type: INTEGER,
       },
+      view_default: {
+        type: BOOLEAN,
+      },
     },
     {
       timestamps: false,
-      schema: "web",
+      schema: 'web',
       freezeTableName: true,
     }
   );
