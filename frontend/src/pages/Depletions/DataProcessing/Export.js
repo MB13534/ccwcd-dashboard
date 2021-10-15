@@ -2,12 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography, Box, Avatar, Paper } from '@material-ui/core';
+import { Button, Typography, Box, Avatar, Paper, Container } from '@material-ui/core';
 import ProcessingLayout from './ProcessingLayout';
 import { useAuth0 } from '../../../hooks/auth';
 import FormSnackbar from '../../../components/FormSnackbar';
 import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
-import InfoCard from '../../../components/InfoCard';
+import DataStudioEmbed from '../../../components/DataStudioEmbed/DataStudioEmbed';
 import { goTo } from '../../../util';
 
 const useStyles = makeStyles(theme => ({
@@ -56,9 +56,17 @@ const Export = props => {
           <Avatar className={classes.avatar}>6</Avatar>
           <Typography variant="h6">Review Pumping Changes</Typography>
         </Box>
-        <InfoCard mb={0}>
-          <Typography variant="body1">PLACEHOLDER</Typography>
-        </InfoCard>
+        <Box marginTop={4} marginBottom={3} width="100%">
+          <Container maxWidth="xl">
+            <DataStudioEmbed
+              title="GDS Test Report"
+              src="https://datastudio.google.com/embed/reporting/c541670d-7268-4f65-898c-575fa8ce4af8/page/p_hq5ip8pknc"
+              width="100%"
+              height={900}
+              frameBorder={0}
+            />
+          </Container>
+        </Box>
         <Box mt={2} mb={2}>
           <Button variant="contained" component={Link} to="/depletions/review">
             Back
