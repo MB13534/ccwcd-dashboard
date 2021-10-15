@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography, Box, Avatar, Paper, Container } from '@material-ui/core';
 import ProcessingLayout from './ProcessingLayout';
-import InfoCard from '../../../components/InfoCard';
 
 const useStyles = makeStyles(theme => ({
   paper: {
