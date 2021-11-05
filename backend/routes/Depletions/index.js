@@ -31,10 +31,11 @@ router.use(checkPermission(['read:recharge-accounting', 'write:recharge-accounti
 /**
  * POST /api/depletions/refresh
  * Route for refreshing the depletions data
+ * OLD FUNCTION pumpingcalcs._recalculate_pumping()
  */
 router.post('/refresh', (req, res, next) => {
   db.sequelize
-    .query('SELECT pumpingcalcs._recalculate_pumping()')
+    .query('SELECT web._update_pumping_for_depletions_qaqc()')
     .then(data => {
       res.sendStatus(204);
     })
@@ -136,7 +137,7 @@ router.get('/run-model/annual-quota', (req, res, next) => {
  * GET /api/depletions/new-data/estimates-v-actual
  * Route for returning recent pumping data associated with the depletions modeling
  */
- router.get('/new-data/estimates-v-actual', (req, res, next) => {
+router.get('/new-data/estimates-v-actual', (req, res, next) => {
   DEPL_NewDataReachEstimatesVActual.findAll()
     .then(data => {
       res.json(data);

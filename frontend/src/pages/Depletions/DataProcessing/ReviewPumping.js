@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Avatar, Paper, Tab, Tabs } from '@material-ui/core';
 import ProcessingLayout from './ProcessingLayout';
-// import ImportIcon from '@material-ui/icons/ImportExport';
-// import { Flex } from '../../../components/Flex';
-// import illustration from '../../../images/undraw_personal_settings_kihd.svg';
-// import axios from 'axios';
-// import { useAuth0 } from '../../../hooks/auth';
-// import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
-// import FormSnackbar from '../../../components/FormSnackbar';
+import ImportIcon from '@material-ui/icons/ImportExport';
+import { Flex } from '../../../components/Flex';
+import axios from 'axios';
+import { useAuth0 } from '../../../hooks/auth';
+import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
+import FormSnackbar from '../../../components/FormSnackbar';
 import { Link } from 'react-router-dom';
 import InfoCard from '../../../components/InfoCard';
 import PumpingTable from './PumpingTable';
+import Modal from '@material-ui/core/Modal';
+import loadingImg from '../../../images/loading.svg';
 
 function a11yProps(index) {
   return {
@@ -25,7 +26,6 @@ function a11yProps(index) {
  * associated with the endpoint value for each pumping view
  */
 const tabViewLookup = {
-  // 0: 'recent',
   0: 'low-to-high',
   1: 'high-to-low',
   2: 'stale-readings',
@@ -57,6 +57,15 @@ const useStyles = makeStyles(theme => ({
   tabs: {
     backgroundColor: '#fafafa',
   },
+  modalStyle: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    position: 'absolute',
+  },
+  imgStyle: {
+    maxWidth: '150px',
+  },
 }));
 
 const TabPanel = ({ children, value, index, ...other }) => (
@@ -73,24 +82,29 @@ const TabPanel = ({ children, value, index, ...other }) => (
 
 const ReviewPumping = props => {
   const classes = useStyles();
-  // const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
-  // const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
+  const [refreshSwitch, setRefreshSwitch] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const { getTokenSilently } = useAuth0();
 
   //this is the function to handle the import which is curently disabled because it is automated once a night
-  // const handleImport = async () => {
-  //   setWaitingState('in progress');
-  //   try {
-  //     const token = await getTokenSilently();
-  //     const headers = { Authorization: `Bearer ${token}` };
-  //     await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
-  //     setWaitingState('complete', 'no error');
-  //     setRefreshSwitch(state => !state);
-  //   } catch (err) {
-  //     console.error(err);
-  //     setWaitingState('complete', 'error');
-  //   }
-  // };
+  const handleImport = async () => {
+    setWaitingState('in progress');
+    try {
+      setLoading(state => !state);
+      const token = await getTokenSilently();
+      const headers = { Authorization: `Bearer ${token}` };
+      await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
+      setWaitingState('complete', 'no error');
+      setRefreshSwitch(state => !state);
+      setLoading(state => !state);
+    } catch (err) {
+      console.error(err);
+      setLoading(state => !state);
+      setWaitingState('complete', 'error');
+    }
+  };
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -99,38 +113,36 @@ const ReviewPumping = props => {
   return (
     <ProcessingLayout activeStep={1}>
       {/* this used to show a button to refresh data with the DB. It is currently being automated on a nighly basis */}
-      {/* <Paper elevation={0} className={classes.paper}>
-        <Box display="flex" alignItems="center">
-          <Typography variant="h6">Refresh Pumping Data (Optional)</Typography>
-        </Box>
-        <Flex>
-          <Typography variant="body1" className={classes.importText} paragraph>
-            To refresh the data behind these reports, click the button and wait until it turns blue again to indicate
-            processing is complete.
-          </Typography>
-          <div className={classes.illustrationWrapper}>
-            <img src={illustration} alt="Import illustration" />
-          </div>
-        </Flex>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<ImportIcon />}
-          disabled={formSubmitting}
-          onClick={handleImport}
-        >
-          Refresh Data
-        </Button>
-      </Paper> */}
+
+      <Modal open={loading} aria-labelledby="simple-modal-title" aria-describedby="simple-modal-description">
+        <div className={classes.modalStyle}>
+          <img src={loadingImg} className={classes.imgStyle} alt="loading" />
+        </div>
+      </Modal>
+
       <Paper elevation={0} className={classes.paper}>
         <Box display="flex" alignItems="center" mb={2}>
           <Avatar className={classes.avatar}>2</Avatar>
           <Typography variant="h6">Review Pumping Data</Typography>
         </Box>
         <InfoCard mb={0}>
-          <Typography variant="body1">
-            Please review the data below to ensure that the pumping data matches what you are expecting to see.
-          </Typography>
+          <Box display="flex" alignItems="center">
+            <Typography variant="h6">Refresh Pumping Data (Optional)</Typography>
+          </Box>
+          <Flex>
+            <Typography variant="body1" paragraph>
+              Click to refresh the data behind these reports.
+            </Typography>
+          </Flex>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<ImportIcon />}
+            disabled={formSubmitting}
+            onClick={handleImport}
+          >
+            Refresh for Recent Entries
+          </Button>
         </InfoCard>
         <Box mt={2}>
           <Tabs
@@ -140,35 +152,19 @@ const ReviewPumping = props => {
             onChange={handleTabChange}
             aria-label="Pumping Table"
           >
-            {/* <Tab label="Pumping - Recent" {...a11yProps(0)} /> */}
             <Tab label="Pumping - Low to High" {...a11yProps(0)} />
             <Tab label="Pumping - High to Low" {...a11yProps(1)} />
             <Tab label="Pumping - Stale Readings" {...a11yProps(2)} />
           </Tabs>
           <TabPanel value={activeTab} index={0}>
-            <PumpingTable
-              // refresh={refreshSwitch}
-              view={tabViewLookup[activeTab]}
-            />
+            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
           </TabPanel>
           <TabPanel value={activeTab} index={1}>
-            <PumpingTable
-              // refresh={refreshSwitch}
-              view={tabViewLookup[activeTab]}
-            />
+            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
           </TabPanel>
           <TabPanel value={activeTab} index={2}>
-            <PumpingTable
-              // refresh={refreshSwitch}
-              view={tabViewLookup[activeTab]}
-            />
+            <PumpingTable refresh={refreshSwitch} view={tabViewLookup[activeTab]} />
           </TabPanel>
-          {/* <TabPanel value={activeTab} index={3}>
-            <PumpingTable
-              // refresh={refreshSwitch}
-              view={tabViewLookup[activeTab]}
-            />
-          </TabPanel> */}
         </Box>
         <Box mt={2} mb={2}>
           <Button variant="contained" component={Link} to="/depletions/new-data">
@@ -179,13 +175,13 @@ const ReviewPumping = props => {
           </Button>
         </Box>
       </Paper>
-      {/* <FormSnackbar
+      <FormSnackbar
         open={snackbarOpen}
         error={snackbarError}
         handleClose={handleSnackbarClose}
         successMessage="Data successfully refreshed."
         errorMessage="Error: Data could not be refreshed."
-      /> */}
+      />
     </ProcessingLayout>
   );
 };
