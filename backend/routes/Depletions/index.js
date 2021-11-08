@@ -37,9 +37,7 @@ router.use(checkPermission(['read:recharge-accounting', 'write:recharge-accounti
 router.post('/refresh', (req, res, next) => {
   db.sequelize
     .query('SELECT web._update_pumping_for_depletions_qaqc()')
-    .then(data => {
-      res.sendStatus(204);
-    })
+    .then(res.sendStatus(204))
     .catch(err => {
       next(err);
     });

@@ -133,7 +133,7 @@ const ReviewPumping = props => {
             setRefreshSwitch(state => !state);
             setLoading(state => !state);
           }
-        }, 3000);
+        }, 5000);
       };
       timeoutHandle();
     } catch (err) {
@@ -168,7 +168,7 @@ const ReviewPumping = props => {
           </Box>
 
           <Typography variant="body1" paragraph>
-            Click to refresh the data behind these reports. This query will take up to several minutes to complete.
+            Click to refresh the data behind these reports. This query will take several minutes to complete.
           </Typography>
           <Typography variant="body2" color="textSecondary">
             Last Run
