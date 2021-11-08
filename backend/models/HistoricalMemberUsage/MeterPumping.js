@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, TEXT, ARRAY, REAL } = DataTypes;
   const MeterPumping = sequelize.define(
-    'historical_meter_pumping_report_view',
+    'historical_meter_pumping_report',
     {
       well_index: {
         type: ARRAY(INTEGER),
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
       schema: 'web',
       freezeTableName: true,
-    },
+    }
   );
   return MeterPumping;
 };

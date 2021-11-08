@@ -16,6 +16,7 @@ const {
   DEPL_ReviewWellAttributesFlags,
   DEPL_RunModelAnnualQuota,
   DEPL_RunModelUserInput,
+  DEPL_HistoricalWellInfoReport,
 } = require('../../models');
 const db = require('../../models');
 
@@ -38,6 +39,20 @@ router.post('/refresh', (req, res, next) => {
     .query('SELECT web._update_pumping_for_depletions_qaqc()')
     .then(data => {
       res.sendStatus(204);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/depletions/run-model/user-input
+ * Route for returning data for run model requests
+ */
+router.get('/run-model/pumping-last-run', (req, res, next) => {
+  DEPL_HistoricalWellInfoReport.findOne()
+    .then(data => {
+      res.json(data);
     })
     .catch(err => {
       next(err);

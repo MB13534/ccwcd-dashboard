@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Box, Avatar, Paper, Tab, Tabs } from '@material-ui/core';
 import ProcessingLayout from './ProcessingLayout';
 import ImportIcon from '@material-ui/icons/ImportExport';
-import { Flex } from '../../../components/Flex';
 import axios from 'axios';
 import { useAuth0 } from '../../../hooks/auth';
 import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
@@ -13,6 +12,7 @@ import InfoCard from '../../../components/InfoCard';
 import PumpingTable from './PumpingTable';
 import Modal from '@material-ui/core/Modal';
 import loadingImg from '../../../images/loading.svg';
+import useFetchData from '../../../hooks/useFetchData';
 
 function a11yProps(index) {
   return {
@@ -88,6 +88,21 @@ const ReviewPumping = props => {
   const [activeTab, setActiveTab] = useState(0);
   const { getTokenSilently } = useAuth0();
 
+  const [lastRunDate, isLoading, handleDataUpdate] = useFetchData('depletions/run-model/pumping-last-run', []);
+
+  console.log(lastRunDate);
+
+  const formatDate = origDate => {
+    const date = new Date(origDate);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${hours}:${minutes} ${ampm}`;
+  };
+
   //this is the function to handle the import which is curently disabled because it is automated once a night
   const handleImport = async () => {
     setWaitingState('in progress');
@@ -95,10 +110,36 @@ const ReviewPumping = props => {
       setLoading(state => !state);
       const token = await getTokenSilently();
       const headers = { Authorization: `Bearer ${token}` };
-      await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
-      setWaitingState('complete', 'no error');
-      setRefreshSwitch(state => !state);
-      setLoading(state => !state);
+      axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
+      // await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
+
+      let timeoutHandle = () => {
+        let newDate = '';
+        const fetchNewDate = async () => {
+          const response = await axios.get(
+            `${process.env.REACT_APP_ENDPOINT}/api/depletions/run-model/pumping-last-run`,
+            {
+              headers,
+            }
+          );
+          newDate = response.data;
+        };
+        fetchNewDate();
+
+        setTimeout(() => {
+          if (newDate.updated_timestamp === lastRunDate.updated_timestamp) {
+            console.log(newDate, lastRunDate, 'reset');
+            timeoutHandle();
+          } else {
+            console.log(newDate, lastRunDate, 'stop');
+            handleDataUpdate(newDate);
+            setWaitingState('complete', 'no error');
+            setRefreshSwitch(state => !state);
+            setLoading(state => !state);
+          }
+        }, 3000);
+      };
+      timeoutHandle();
     } catch (err) {
       console.error(err);
       setLoading(state => !state);
@@ -129,11 +170,16 @@ const ReviewPumping = props => {
           <Box display="flex" alignItems="center">
             <Typography variant="h6">Refresh Pumping Data (Optional)</Typography>
           </Box>
-          <Flex>
-            <Typography variant="body1" paragraph>
-              Click to refresh the data behind these reports.
-            </Typography>
-          </Flex>
+
+          <Typography variant="body1" paragraph>
+            Click to refresh the data behind these reports. This query will take up to several minutes to complete.
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Last Run
+          </Typography>
+          <Typography variant="body1" color="primary" paragraph>
+            {lastRunDate?.updated_timestamp && formatDate(lastRunDate.updated_timestamp)}
+          </Typography>
           <Button
             variant="contained"
             color="primary"
