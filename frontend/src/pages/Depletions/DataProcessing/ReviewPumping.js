@@ -88,9 +88,7 @@ const ReviewPumping = props => {
   const [activeTab, setActiveTab] = useState(0);
   const { getTokenSilently } = useAuth0();
 
-  const [lastRunDate, isLoading, handleDataUpdate] = useFetchData('depletions/run-model/pumping-last-run', []);
-
-  console.log(lastRunDate);
+  const [lastRunDate, isLoading, handleDataUpdate] = useFetchData('depletions/run-model/pumping-last-run', []); // eslint-disable-line
 
   const formatDate = origDate => {
     const date = new Date(origDate);
@@ -128,10 +126,8 @@ const ReviewPumping = props => {
 
         setTimeout(() => {
           if (newDate.updated_timestamp === lastRunDate.updated_timestamp) {
-            console.log(newDate, lastRunDate, 'reset');
             timeoutHandle();
           } else {
-            console.log(newDate, lastRunDate, 'stop');
             handleDataUpdate(newDate);
             setWaitingState('complete', 'no error');
             setRefreshSwitch(state => !state);
