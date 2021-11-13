@@ -148,7 +148,7 @@ db.RCH_RechargeLaggedQAQC = require('./RechargeAccounting/RechargeLaggedQAQC')(s
  * Depletions Models
  */
 
-db.DEPL_HistoricalWellInfoReport = require('./DepletionsModel/DeplHistoricalWellInfoReport')(sequelize, Sequelize);
+db.DEPL_LastRun = require('./DepletionsModel/DeplLastRun')(sequelize, Sequelize);
 db.DEPL_NewDataReachEstimatesVActual = require('./DepletionsModel/DeplNewDataReachEstimatesVActual')(
   sequelize,
   Sequelize

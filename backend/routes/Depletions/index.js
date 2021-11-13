@@ -16,7 +16,7 @@ const {
   DEPL_ReviewWellAttributesFlags,
   DEPL_RunModelAnnualQuota,
   DEPL_RunModelUserInput,
-  DEPL_HistoricalWellInfoReport,
+  DEPL_LastRun,
 } = require('../../models');
 const db = require('../../models');
 
@@ -33,10 +33,11 @@ router.use(checkPermission(['read:recharge-accounting', 'write:recharge-accounti
  * POST /api/depletions/refresh
  * Route for refreshing the depletions data
  * OLD FUNCTION pumpingcalcs._recalculate_pumping()
+ * second old function web._update_pumping_for_depletions_qaqc()
  */
 router.post('/refresh', (req, res, next) => {
   db.sequelize
-    .query('SELECT web._update_pumping_for_depletions_qaqc()')
+    .query('SELECT web.qaqc_reports_update()')
     .then(res.sendStatus(204))
     .catch(err => {
       next(err);
@@ -48,7 +49,7 @@ router.post('/refresh', (req, res, next) => {
  * Route for returning data for run model requests
  */
 router.get('/run-model/pumping-last-run', (req, res, next) => {
-  DEPL_HistoricalWellInfoReport.findOne()
+  DEPL_LastRun.findOne()
     .then(data => {
       res.json(data);
     })

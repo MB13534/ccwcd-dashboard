@@ -1,18 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
   const { DATE } = DataTypes;
-  const DeplHistoricalWellInfoReport = sequelize.define(
-    'historical_well_info_report',
+  const DeplLastRun = sequelize.define(
+    'last_run',
     {
-      updated_timestamp: {
+      last_run: {
         type: DATE,
         primaryKey: true,
       },
     },
     {
       timestamps: false,
-      schema: 'web',
+      schema: 'contracts_sync',
       freezeTableName: true,
     }
   );
-  return DeplHistoricalWellInfoReport;
+  return DeplLastRun;
 };

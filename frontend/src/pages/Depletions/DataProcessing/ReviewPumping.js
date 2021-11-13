@@ -101,7 +101,7 @@ const ReviewPumping = props => {
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${hours}:${minutes} ${ampm}`;
   };
 
-  //this is the function to handle the import which is curently disabled because it is automated once a night
+  //manually run refresh
   const handleImport = async () => {
     setWaitingState('in progress');
     try {
@@ -110,7 +110,7 @@ const ReviewPumping = props => {
       const headers = { Authorization: `Bearer ${token}` };
       axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
       // await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/refresh`, {}, { headers });
-
+      let count = 0;
       let timeoutHandle = () => {
         let newDate = '';
         const fetchNewDate = async () => {
@@ -125,7 +125,15 @@ const ReviewPumping = props => {
         fetchNewDate();
 
         setTimeout(() => {
-          if (newDate.updated_timestamp === lastRunDate.updated_timestamp) {
+          if (newDate.last_run === lastRunDate.last_run) {
+            //give fail notice if the request takes longer than 3 minutes
+            if (count > 36) {
+              console.error('Query taking longer than normal. Timeout invoked.');
+              setLoading(state => !state);
+              setWaitingState('complete', 'error');
+              return;
+            }
+            count++;
             timeoutHandle();
           } else {
             handleDataUpdate(newDate);
@@ -174,7 +182,7 @@ const ReviewPumping = props => {
             Last Run
           </Typography>
           <Typography variant="body1" color="primary" paragraph>
-            {lastRunDate?.updated_timestamp && formatDate(lastRunDate.updated_timestamp)}
+            {lastRunDate?.last_run && formatDate(lastRunDate.last_run)}
           </Typography>
           <Button
             variant="contained"
