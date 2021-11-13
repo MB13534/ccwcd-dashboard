@@ -100,6 +100,8 @@ const HistoricalMemberUsageReport = props => {
           { title: 'Year', field: 'i_year' },
           { title: 'Month', field: 'i_month' },
           { title: 'Pumping (AF)', field: 'pumping_af' },
+          { title: 'Adjustment (AF)', field: 'adjusted_af' },
+          { title: 'Correction (AF)', field: 'corrected_af' },
           { title: 'Metered Fraction', field: 'fraction_metered' },
           { title: 'WDIDs', field: 'wdids' },
         ];

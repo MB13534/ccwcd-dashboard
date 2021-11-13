@@ -33,6 +33,12 @@ module.exports = (sequelize, DataTypes) => {
       wdids: {
         type: TEXT,
       },
+      adjusted_af: {
+        type: REAL,
+      },
+      corrected_af: {
+        type: REAL,
+      },
     },
     {
       timestamps: false,

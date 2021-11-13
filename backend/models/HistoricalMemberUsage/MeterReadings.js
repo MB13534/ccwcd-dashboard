@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, NUMERIC, DATE, ARRAY, TEXT } = DataTypes;
   const MeterReadings = sequelize.define(
-    "historical_meter_readings_report",
+    'historical_meter_readings_report',
     {
       well_index: {
         type: ARRAY(INTEGER),
@@ -26,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
       correction_factor: {
         type: NUMERIC,
       },
+      adjustment: {
+        type: NUMERIC,
+      },
       source: {
         type: TEXT,
       },
@@ -38,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      schema: "web",
+      schema: 'web',
       freezeTableName: true,
     }
   );
