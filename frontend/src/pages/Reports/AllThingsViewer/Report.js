@@ -81,6 +81,7 @@ const AllThingsViewer = props => {
           title: key,
           field: key,
           type: 'numeric',
+          render: rowData => (rowData[key] === 0 ? 0 : rowData[key].toFixed(2)),
         };
       });
     }
