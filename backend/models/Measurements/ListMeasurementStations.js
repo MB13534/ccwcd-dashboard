@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, TEXT, BOOLEAN } = DataTypes;
   const ListMeasurementStations = sequelize.define(
-    "list_measurement_stations",
+    'list_measurement_stations',
     {
       station_ndx: {
         type: INTEGER,
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         type: INTEGER,
       },
       unit_ndx: {
-        type: INTEGER
+        type: INTEGER,
       },
       display_name_short: {
         type: TEXT,
@@ -32,10 +32,13 @@ module.exports = (sequelize, DataTypes) => {
       remark: {
         type: TEXT,
       },
+      staff_gage_entry: {
+        type: BOOLEAN,
+      },
     },
     {
       timestamps: false,
-      schema: "data",
+      schema: 'data',
       freezeTableName: true,
     }
   );
