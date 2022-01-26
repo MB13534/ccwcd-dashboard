@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const { ARRAY, INTEGER, TEXT, BOOLEAN } = DataTypes;
+  const { ARRAY, INTEGER, TEXT, BOOLEAN, NUMBER } = DataTypes;
   const ListStructures = sequelize.define(
-    "list_structures",
+    'list_structures',
     {
       structure_ndx: {
         type: INTEGER,
@@ -29,10 +29,16 @@ module.exports = (sequelize, DataTypes) => {
       to_accounting_flows_table: {
         type: BOOLEAN,
       },
+      lon_dd: {
+        type: NUMBER,
+      },
+      lat_dd: {
+        type: NUMBER,
+      },
     },
     {
       timestamps: false,
-      schema: "data",
+      schema: 'data',
       freezeTableName: true,
     }
   );

@@ -10,12 +10,13 @@ import RechargeDataExport from './RechargeDataProcessing/RechargeDataExport';
 import DefaultSplits from './Splits/DefaultSplits';
 import URFs from './URFs';
 import QAQC from './QAQC';
+import Statements from './Statements';
 
 const Home = React.lazy(() => import('./Home'));
 const WaterSlices = React.lazy(() => import('./WaterSlices'));
 const Splits = React.lazy(() => import('./Splits'));
 
-const RechargeAccounting = props => {
+const RechargeAccounting = () => {
   const AdminRoles = ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'];
   let { url } = useRouteMatch();
 
@@ -28,6 +29,7 @@ const RechargeAccounting = props => {
       <PrivateRouteWithRoles path={`${url}/urfs/:id`} exact roles={AdminRoles} component={URFs} />
       <PrivateRouteWithRoles path={`${url}/qaqc`} exact roles={AdminRoles} component={QAQC} />
       <PrivateRouteWithRoles path={`${url}/data`} exact roles={AdminRoles} component={RechargeData} />
+      <PrivateRouteWithRoles path={`${url}/statements`} exact roles={AdminRoles} component={Statements} />
       <PrivateRouteWithRoles
         path={`${url}/data/process/import`}
         exact

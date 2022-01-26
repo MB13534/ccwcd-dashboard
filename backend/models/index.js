@@ -143,6 +143,10 @@ db.RCH_SelectedLaggingPeriod = require('./RechargeAccounting/SelectedLaggingPeri
 db.RCH_UrfsData = require('./RechargeAccounting/UrfsData')(sequelize, Sequelize);
 db.RCH_LaggingStatus = require('./RechargeAccounting/LaggingStatus')(sequelize, Sequelize);
 db.RCH_RechargeLaggedQAQC = require('./RechargeAccounting/RechargeLaggedQAQC')(sequelize, Sequelize);
+db.RCH_StatementsPond = require('./RechargeAccounting/StatementsPond')(sequelize, Sequelize);
+db.RCH_StatementsDitch = require('./RechargeAccounting/StatementsDitch')(sequelize, Sequelize);
+db.RCH_StatementsGroups = require('./RechargeAccounting/StatementsGroups')(sequelize, Sequelize);
+db.RCH_StatementsYears = require('./RechargeAccounting/StatementsYears')(sequelize, Sequelize);
 
 /**
  * Depletions Models

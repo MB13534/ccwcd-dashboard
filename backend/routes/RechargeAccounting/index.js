@@ -2,7 +2,7 @@ const express = require('express');
 const { checkAccessToken, checkPermission } = require('../../middleware/auth.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const { crosstab, setAPIDate } = require('../../util');
+const { crosstab } = require('../../util');
 const {
   RCH_FlagsReport,
   RCH_SunburstUnlagged,
@@ -22,6 +22,10 @@ const {
   RCH_LaggingStatus,
   RCH_SunburstLagged,
   RCH_RechargeLaggedQAQC,
+  RCH_StatementsPond,
+  RCH_StatementsDitch,
+  RCH_StatementsGroups,
+  RCH_StatementsYears,
 } = require('../../models');
 const db = require('../../models');
 
@@ -35,6 +39,166 @@ router.use(checkAccessToken(process.env.AUTH0_DOMAIN, process.env.AUDIENCE));
 router.use(checkPermission(['read:recharge-accounting', 'write:recharge-accounting']));
 
 /**
+ * GET /api/recharge-accounting/statements/pond
+ * Route for returning all quarterly statements
+ */
+router.get('/statements/pond/', (req, res, next) => {
+  RCH_StatementsPond.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/recharge-accounting/statements/pond/:ndx
+ * Route for returning quarterly statement for a
+ * single recharge pond
+ */
+router.get('/statements/pond/:ndx', (req, res, next) => {
+  RCH_StatementsPond.findAll({
+    where: {
+      statement_group_ndx: req.params.ndx,
+    },
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/recharge-accounting/statements/pond/:indexes/:years/:quarters
+ * Route for returning quarterly statement for
+ * recharge ponds for specific groups, years and quarters
+ */
+router.get('/statements/pond/:indexes/:years/:quarters', (req, res, next) => {
+  const where = {
+    statement_group_ndx: {
+      [Op.in]: req.params.indexes.split(','),
+    },
+    op_year: {
+      [Op.in]: req.params.years.split(','),
+    },
+    op_quarter: {
+      [Op.in]: req.params.quarters.split(','),
+    },
+  };
+
+  RCH_StatementsPond.findAll({
+    where: where,
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/recharge-accounting/statements/ditch
+ * Route for returning all quarterly statements
+ */
+router.get('/statements/ditch/', (req, res, next) => {
+  RCH_StatementsDitch.findAll()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/recharge-accounting/statements/ditch/:ndx
+ * Route for returning quarterly statement for a
+ * single recharge ditch
+ */
+router.get('/statements/ditch/:ndx', (req, res, next) => {
+  RCH_StatementsDitch.findAll({
+    where: {
+      statement_group_ndx: req.params.ndx,
+    },
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+/**
+ * GET /api/recharge-accounting/statements/ditch/:indexes/:years/:quarters
+ * Route for returning quarterly statement for
+ * recharge ditches for specific groups, years and quarters
+ */
+router.get('/statements/ditch/:indexes/:years/:quarters', (req, res, next) => {
+  const where = {
+    statement_group_ndx: {
+      [Op.in]: req.params.indexes.split(','),
+    },
+    op_year: {
+      [Op.in]: req.params.years.split(','),
+    },
+    op_quarter: {
+      [Op.in]: req.params.quarters.split(','),
+    },
+  };
+
+  RCH_StatementsDitch.findAll({
+    where: where,
+  })
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
+// GET /api/recharge-accounting/statements/groups
+// Route for returning all ponds/ditches associated with statements
+router.get(
+  '/statements/groups',
+  // checkPermission(["monthly-unlagged-recharge", "read:recharge-accounting"]),
+  (req, res, next) => {
+    RCH_StatementsGroups.findAll({
+      // attributes: ["statement_group_ndx", "statement_group_desc"],
+    })
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+);
+
+// GET /api/recharge-accounting/statements/years
+// Route for returning all years associated with statements
+router.get(
+  '/statements/years',
+  // checkPermission(["monthly-unlagged-recharge", "read:recharge-accounting"]),
+  (req, res, next) => {
+    RCH_StatementsYears.findAll({
+      // attributes: ["statement_group_ndx", "statement_group_desc"],
+    })
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
+);
+
+/**
  * POST /api/recharge-accounting/import
  * Route for importing recharge data from
  * Ruthanne's Excel spreadsheet
@@ -42,7 +206,7 @@ router.use(checkPermission(['read:recharge-accounting', 'write:recharge-accounti
 router.post('/import', (req, res, next) => {
   db.sequelize
     .query('SELECT data.import_recharge()')
-    .then(data => {
+    .then(() => {
       res.sendStatus(204);
     })
     .catch(err => {
@@ -188,7 +352,7 @@ router.put('/splits/default/:id', (req, res, next) => {
     .then(data => {
       response = data[1][0];
     })
-    .then(data => {
+    .then(() => {
       return RCH_DefaultSplitsPorLanding.destroy({
         truncate: true,
       });
@@ -196,7 +360,7 @@ router.put('/splits/default/:id', (req, res, next) => {
     .then(() => {
       return RCH_DefaultSplitsPorLanding.create(req.body);
     })
-    .then(data => {
+    .then(() => {
       res.json(response);
     })
     .catch(err => {
@@ -382,7 +546,7 @@ router.post('/lag', (req, res, next) => {
 router.post('/export', (req, res, next) => {
   db.sequelize
     .query('SELECT data.recharge_lagging_export()')
-    .then(data => {
+    .then(() => {
       res.sendStatus(204);
     })
     .catch(err => {

@@ -44,4 +44,11 @@ export const MenuItems = [
     activePath: '/recharge-accounting/qaqc',
     exact: false,
   },
+  // {
+  //   id: 7,
+  //   title: 'Statements',
+  //   path: '/recharge-accounting/statements',
+  //   activePath: '/recharge-accounting/statements',
+  //   exact: false,
+  // },
 ];
