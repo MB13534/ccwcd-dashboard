@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper, Grid, Divider, Avatar, TableCell, TableContainer } from '@material-ui/core';
 
-import logoCcwcd from '../../../images/ccwcd_logo.png';
+// import logoCcwcd from '../../../images/ccwcd_logo.png';
 import moment from 'moment';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -59,14 +59,14 @@ const PrintPondStatement = forwardRef(({ data, statementType }, ref) => {
             <Centered>
               <Grid container justify={'space-between'} alignItems="center">
                 <Grid item xs={2} style={{ textAlign: 'left' }}>
-                  <img src={logoCcwcd} width="120" alt="CCWCD" />
+                  {/*<img src={logoCcwcd} width="120" alt="CCWCD" />*/}
                 </Grid>
                 <Grid item xs={8}>
                   <Typography variant="h5">Central Colorado Water Conservancy District</Typography>
                   <Typography variant="h6">Recharge Accretions Statement</Typography>
                 </Grid>
                 <Grid item xs={2} style={{ textAlign: 'right' }}>
-                  <img src={logoCcwcd} width="120" alt="LRE" />
+                  {/*<img src={logoCcwcd} width="120" alt="LRE" />*/}
                 </Grid>
               </Grid>
             </Centered>
