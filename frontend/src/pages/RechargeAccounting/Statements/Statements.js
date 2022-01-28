@@ -6,6 +6,8 @@ import { TopNav } from '../../../components/TopNav';
 import useFetchData from '../../../hooks/useFetchData';
 import { MenuItems } from '../MenuItems';
 import { useReactToPrint } from 'react-to-print';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import { MultiSelect } from '@lrewater/lre-react';
 import { Flex } from '../../../components/Flex';
@@ -37,6 +39,15 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
   },
 }));
+
+const disableOverrideTheme = createMuiTheme({
+  palette: {
+    action: {
+      disabledBackground: 'rgba(67,160,71,.6)',
+      disabled: 'white',
+    },
+  },
+});
 
 const Statements = () => {
   const classes = useStyles();
@@ -155,17 +166,19 @@ const Statements = () => {
                     Available Statement Types:
                   </Typography>
                   {statementOptions.map(item => (
-                    <Button
-                      onClick={() => setActiveStatementType(item)}
-                      key={item.title}
-                      className={classes.marginRight}
-                      size="small"
-                      color="primary"
-                      variant="contained"
-                      disabled={activeStatementType.endpoint === item.endpoint}
-                    >
-                      {item.title}
-                    </Button>
+                    <ThemeProvider theme={disableOverrideTheme}>
+                      <Button
+                        onClick={() => setActiveStatementType(item)}
+                        key={item.title}
+                        className={classes.marginRight}
+                        size="small"
+                        color="primary"
+                        variant="contained"
+                        disabled={activeStatementType.endpoint === item.endpoint}
+                      >
+                        {item.title}
+                      </Button>
+                    </ThemeProvider>
                   ))}
                 </Flex>
               </Box>
@@ -176,8 +189,7 @@ const Statements = () => {
                 </Typography>
                 <Button
                   disabled={
-                    (activeStatementType.endpoint === 'pond' && !data.length)
-                    ||
+                    (activeStatementType.endpoint === 'pond' && !data.length) ||
                     (activeStatementType.endpoint === 'ditch' && Array.isArray(data))
                   }
                   variant="outlined"
@@ -193,7 +205,7 @@ const Statements = () => {
                   <span>
                     <MultiSelect
                       name="groups"
-                      label="Groups"
+                      label="Pond or Ditch"
                       variant="outlined"
                       valueField="statement_group_ndx"
                       displayField="statement_group_desc"
@@ -208,7 +220,7 @@ const Statements = () => {
                     />
                     <MultiSelect
                       name="years"
-                      label="Years"
+                      label="Calendar Year"
                       variant="outlined"
                       valueField="op_year"
                       displayField="op_year"
