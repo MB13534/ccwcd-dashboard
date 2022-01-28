@@ -165,8 +165,8 @@ const Statements = () => {
                   <Typography variant="h6" className={classes.title}>
                     Available Statement Types:
                   </Typography>
-                  {statementOptions.map(item => (
-                    <ThemeProvider theme={disableOverrideTheme}>
+                  <ThemeProvider theme={disableOverrideTheme}>
+                    {statementOptions.map(item => (
                       <Button
                         onClick={() => setActiveStatementType(item)}
                         key={item.title}
@@ -178,8 +178,8 @@ const Statements = () => {
                       >
                         {item.title}
                       </Button>
-                    </ThemeProvider>
-                  ))}
+                    ))}
+                  </ThemeProvider>
                 </Flex>
               </Box>
               <Divider />
