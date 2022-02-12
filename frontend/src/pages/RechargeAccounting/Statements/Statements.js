@@ -71,7 +71,7 @@ const Statements = () => {
   });
 
   const [activeStatementType, setActiveStatementType] = useState(statementOptions[0]);
-  const [activeGroups, setActiveGroups] = useState([2]);
+  const [activeGroups, setActiveGroups] = useState([]);
   const [activeYears, setActiveYears] = useState([new Date().getFullYear()]);
   const [activeQuarters, setActiveQuarters] = useState([1]);
 
@@ -105,6 +105,19 @@ const Statements = () => {
       quarter_name: 'January-March',
     },
   ];
+
+  const [filteredGroups, setFilteredGroups] = useState([]);
+  useEffect(() => {
+    let filterGroups = [];
+    if (Groups) {
+      if (activeStatementType.endpoint === 'pond') {
+        filterGroups = Groups.filter(item => item.rech_structure_type_desc === 'offditch');
+      } else if (activeStatementType.endpoint === 'ditch') {
+        filterGroups = Groups.filter(item => item.rech_structure_type_desc === 'inditch');
+      } else filterGroups = Groups;
+      setFilteredGroups(filterGroups);
+    }
+  }, [activeStatementType, Groups]);
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -168,7 +181,10 @@ const Statements = () => {
                   <ThemeProvider theme={disableOverrideTheme}>
                     {statementOptions.map(item => (
                       <Button
-                        onClick={() => setActiveStatementType(item)}
+                        onClick={() => {
+                          setActiveGroups([]);
+                          setActiveStatementType(item);
+                        }}
                         key={item.title}
                         className={classes.marginRight}
                         size="small"
@@ -213,7 +229,7 @@ const Statements = () => {
                       labelColor="primary"
                       size="small"
                       margin="normal"
-                      data={Groups}
+                      data={filteredGroups}
                       value={activeGroups}
                       onChange={handleGroupsChange}
                       width={200}

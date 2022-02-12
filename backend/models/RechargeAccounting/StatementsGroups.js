@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
       statement_group_desc: {
         type: TEXT,
       },
+      rech_structure_type_desc: {
+        type: TEXT,
+      },
     },
     {
       timestamps: false,
