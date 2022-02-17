@@ -10,18 +10,18 @@ const unique = (data, field) => {
   if (data[0][field] instanceof Date) {
     return [
       ...new Set(
-        data.map((d) =>
-          d[field].toLocaleString("en-US", {
-            timeZone: "America/Denver",
+        data.map(d =>
+          d[field].toLocaleString('en-US', {
+            timeZone: 'America/Denver',
           })
         )
       ),
     ];
   }
-  return [...new Set(data.map((d) => d[field]))];
+  return [...new Set(data.map(d => d[field]))];
 };
 
-const formatDate = (date) => {
+const formatDate = date => {
   return `${
     date.getMonth() + 1
   }/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
@@ -59,21 +59,16 @@ const formatDate = (date) => {
  * @param {string} type crosstab category type i.e. date vs non-date
  * @param {array} extraFields array of extra fields to append to each record
  */
-const crosstab = (
-  data,
-  categoryField,
-  seriesField,
-  valueField,
-  type = "date",
-  extraFields = []
-) => {
+const crosstab = (data, categoryField, seriesField, valueField, type = 'date', extraFields = []) => {
   const series = unique(data, seriesField);
   const categories = unique(data, categoryField);
 
-  const records = categories.map((category) => {
+  const records = categories.map(category => {
     const record = {};
-    if (type === "date") {
-      record[categoryField] = new Date(`${category} 00:00:00`);
+    if (type === 'date') {
+      //removing the create date feature 2/17/22 so it does not change format in DL to excel - mb
+      // record[categoryField] = new Date(`${category} 00:00:00`);
+      record[categoryField] = category;
     } else {
       record[categoryField] = category;
     }
@@ -82,14 +77,14 @@ const crosstab = (
     // } else {
     //   record[categoryField] = category;
     // }
-    series.forEach((s) => {
+    series.forEach(s => {
       record[s] = null;
     });
-    data.forEach((d) => {
+    data.forEach(d => {
       if (data[0][categoryField] instanceof Date) {
         if (
-          d[categoryField].toLocaleString("en-US", {
-            timeZone: "America/Denver",
+          d[categoryField].toLocaleString('en-US', {
+            timeZone: 'America/Denver',
           }) === category
         ) {
           record[d[seriesField]] = d[valueField];
@@ -99,7 +94,7 @@ const crosstab = (
           record[d[seriesField]] = d[valueField];
         }
       }
-      extraFields.map((field) => {
+      extraFields.map(field => {
         if (d[categoryField] === category) {
           record[field] = d[field];
         }
@@ -114,14 +109,14 @@ const crosstab = (
  * Utility function used to generate crosstabbed data
  * @param {number} count number of records to generate
  */
-const generateCrosstabbedDailyData = (count) => {
+const generateCrosstabbedDailyData = count => {
   const Measurements = [
-    "West Stage (ft)",
-    "Oster Stage (ft)",
-    "FIDCO Stage (ft)",
-    "West Flow (CFS)",
-    "Oster Flow (CFS)",
-    "FIDCO Flow (CFS)",
+    'West Stage (ft)',
+    'Oster Stage (ft)',
+    'FIDCO Stage (ft)',
+    'West Flow (CFS)',
+    'Oster Flow (CFS)',
+    'FIDCO Flow (CFS)',
   ];
 
   const baseDate = new Date();
@@ -130,7 +125,7 @@ const generateCrosstabbedDailyData = (count) => {
     let record = {
       Date: new Date(baseDate.setDate(baseDate.getDate() - 1)),
     };
-    Measurements.forEach((m) => {
+    Measurements.forEach(m => {
       record[m] = (Math.random() * 6).toFixed(2);
     });
     return record;
@@ -142,14 +137,14 @@ const generateCrosstabbedDailyData = (count) => {
  * Utility function used to generate crosstabbed data with nulls
  * @param {number} count number of records to generate
  */
-const generateCrosstabbedDailyDataWithNulls = (count) => {
+const generateCrosstabbedDailyDataWithNulls = count => {
   const Measurements = [
-    "West Stage (ft)",
-    "Oster Stage (ft)",
-    "FIDCO Stage (ft)",
-    "West Flow (CFS)",
-    "Oster Flow (CFS)",
-    "FIDCO Flow (CFS)",
+    'West Stage (ft)',
+    'Oster Stage (ft)',
+    'FIDCO Stage (ft)',
+    'West Flow (CFS)',
+    'Oster Flow (CFS)',
+    'FIDCO Flow (CFS)',
   ];
 
   const baseDate = new Date();
@@ -158,9 +153,8 @@ const generateCrosstabbedDailyDataWithNulls = (count) => {
     let record = {
       Date: new Date(baseDate.setDate(baseDate.getDate() - 1)),
     };
-    Measurements.forEach((m) => {
-      record[m] =
-        i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2);
+    Measurements.forEach(m => {
+      record[m] = i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2);
     });
     return record;
   });
@@ -171,14 +165,14 @@ const generateCrosstabbedDailyDataWithNulls = (count) => {
  * Utility function used to generate a stacked dataset
  * @param {number} count number of crosstabbed records to generate
  */
-const generateDailyData = (count) => {
+const generateDailyData = count => {
   const Measurements = [
-    "West Stage (ft)",
-    "Oster Stage (ft)",
-    "FIDCO Stage (ft)",
-    "West Flow (CFS)",
-    "Oster Flow (CFS)",
-    "FIDCO Flow (CFS)",
+    'West Stage (ft)',
+    'Oster Stage (ft)',
+    'FIDCO Stage (ft)',
+    'West Flow (CFS)',
+    'Oster Flow (CFS)',
+    'FIDCO Flow (CFS)',
   ];
 
   const recordCount = count * Measurements.length;
@@ -201,14 +195,14 @@ const generateDailyData = (count) => {
  * Utility function used to generate a stacked dataset with nulls
  * @param {number} count number of crosstabbed records to generate
  */
-const generateDailyDataWithNulls = (count) => {
+const generateDailyDataWithNulls = count => {
   const Measurements = [
-    "West Stage (ft)",
-    "Oster Stage (ft)",
-    "FIDCO Stage (ft)",
-    "West Flow (CFS)",
-    "Oster Flow (CFS)",
-    "FIDCO Flow (CFS)",
+    'West Stage (ft)',
+    'Oster Stage (ft)',
+    'FIDCO Stage (ft)',
+    'West Flow (CFS)',
+    'Oster Flow (CFS)',
+    'FIDCO Flow (CFS)',
   ];
 
   const recordCount = count * Measurements.length;
@@ -232,14 +226,14 @@ const generateDailyDataWithNulls = (count) => {
  * mocks the last station update info data source
  * @param {number} count number of records to generate
  */
-const generateLastUpdateData = (count) => {
+const generateLastUpdateData = count => {
   const Measurements = [
-    "West Stage (ft)",
-    "Oster Stage (ft)",
-    "FIDCO Stage (ft)",
-    "West Flow (CFS)",
-    "Oster Flow (CFS)",
-    "FIDCO Flow (CFS)",
+    'West Stage (ft)',
+    'Oster Stage (ft)',
+    'FIDCO Stage (ft)',
+    'West Flow (CFS)',
+    'Oster Flow (CFS)',
+    'FIDCO Flow (CFS)',
   ];
 
   let baseDate = new Date();
@@ -250,7 +244,7 @@ const generateLastUpdateData = (count) => {
       last_update: baseDate,
       measurement_abbrev: Measurements[i % 6],
       last_value: +(Math.random() * 6).toFixed(2),
-      unit: Measurements[i % 6].includes("ft") ? "ft" : "cfs",
+      unit: Measurements[i % 6].includes('ft') ? 'ft' : 'cfs',
     };
   });
   return records;
@@ -261,14 +255,14 @@ const generateLastUpdateData = (count) => {
  * mocks the last station update info data source with null values
  * @param {number} count number of records to generate
  */
-const generateLastUpdateDataWithNulls = (count) => {
+const generateLastUpdateDataWithNulls = count => {
   const Measurements = [
-    "West Stage (ft)",
-    "Oster Stage (ft)",
-    "FIDCO Stage (ft)",
-    "West Flow (CFS)",
-    "Oster Flow (CFS)",
-    "FIDCO Flow (CFS)",
+    'West Stage (ft)',
+    'Oster Stage (ft)',
+    'FIDCO Stage (ft)',
+    'West Flow (CFS)',
+    'Oster Flow (CFS)',
+    'FIDCO Flow (CFS)',
   ];
 
   let baseDate = new Date();
@@ -278,14 +272,8 @@ const generateLastUpdateDataWithNulls = (count) => {
     return {
       last_update: baseDate,
       measurement_abbrev: Measurements[i % 6],
-      last_value:
-        i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2),
-      unit:
-        i > count - count * 0.25
-          ? null
-          : Measurements[i % 6].includes("ft")
-          ? "ft"
-          : "cfs",
+      last_value: i > count - count * 0.25 ? null : +(Math.random() * 6).toFixed(2),
+      unit: i > count - count * 0.25 ? null : Measurements[i % 6].includes('ft') ? 'ft' : 'cfs',
     };
   });
   return records;
@@ -296,21 +284,15 @@ const generateLastUpdateDataWithNulls = (count) => {
  * Ideal for extracting the date for a Material-UI date picker
  * @param {*} date
  */
-const extractDate = (date) => {
+const extractDate = date => {
   if (date) {
     const properDate = new Date(date);
     const year = properDate.getFullYear();
-    const month =
-      properDate.getMonth() + 1 < 10
-        ? `0${properDate.getMonth() + 1}`
-        : properDate.getMonth() + 1;
-    const day =
-      properDate.getDate() < 10
-        ? `0${properDate.getDate()}`
-        : properDate.getDate();
+    const month = properDate.getMonth() + 1 < 10 ? `0${properDate.getMonth() + 1}` : properDate.getMonth() + 1;
+    const day = properDate.getDate() < 10 ? `0${properDate.getDate()}` : properDate.getDate();
     return `${year}-${month}-${day}`;
   }
-  return "";
+  return '';
 };
 
 /**
@@ -330,8 +312,8 @@ const subtractDays = (date, days = 30) => {
 const setAPIDate = (days, date = new Date()) => {
   const initDate = new Date(`${date} 00:00:00`) || new Date();
   return extractDate(
-    subtractDays(initDate, days).toLocaleString("en-US", {
-      timeZone: "America/Denver",
+    subtractDays(initDate, days).toLocaleString('en-US', {
+      timeZone: 'America/Denver',
     })
   );
 };

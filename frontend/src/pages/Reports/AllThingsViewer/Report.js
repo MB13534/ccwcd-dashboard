@@ -284,7 +284,7 @@ const AllThingsViewer = props => {
             />
 
             <Typography variant="body1" style={{ marginLeft: 16 }}>
-              Note: The viewer will return 90 days of data ending on the date specified.
+              Note: The viewer will return 366 days of data ending on the date specified.
             </Typography>
           </Flex>
 
