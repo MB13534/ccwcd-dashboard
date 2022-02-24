@@ -27,6 +27,7 @@ import MaterialTable from 'material-table';
 import LineGraph from '../../../components/DataVisualization/LineGraph';
 import useVisibility from '../../../hooks/useVisibility';
 import { copyToClipboard } from '../../../util';
+import format from 'date-fns/format';
 
 const AllThingsViewer = props => {
   let { viewNdx } = useParams();
@@ -63,6 +64,13 @@ const AllThingsViewer = props => {
   ];
   const [view, viewLoading] = useFetchData(`all-things-viewer/views/${viewNdx ? viewNdx : -9999}`, [viewNdx]);
 
+  const convertDate = date => {
+    const dt = new Date(date);
+    const dtDateOnly = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
+    const noOffsetDate = format(dtDateOnly, 'M/dd/yyyy');
+    return noOffsetDate;
+  };
+
   // dynamically update the table columns to reflect
   // the user's current data set
   const columns = useMemo(() => {
@@ -73,8 +81,9 @@ const AllThingsViewer = props => {
           return {
             title: 'Date',
             field: key,
-            type: 'date',
+            // type: 'date',
             defaultSort: 'desc',
+            render: rowData => convertDate(rowData[key]),
           };
         }
         return {
