@@ -1,14 +1,11 @@
 import React from 'react';
-import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography, Box, Avatar, Paper, Container } from '@material-ui/core';
 import ProcessingLayout from './ProcessingLayout';
-import { useAuth0 } from '../../../hooks/auth';
 import FormSnackbar from '../../../components/FormSnackbar';
 import useFormSubmitStatus from '../../../hooks/useFormSubmitStatus';
 import DataStudioEmbed from '../../../components/DataStudioEmbed/DataStudioEmbed';
-import { goTo } from '../../../util';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -25,29 +22,35 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Export = props => {
+const Export = () => {
   const classes = useStyles();
-  let history = useHistory();
-  const { getTokenSilently } = useAuth0();
+  // let history = useHistory();
+  // const { getTokenSilently } = useAuth0();
 
-  const { setWaitingState, formSubmitting, snackbarOpen, snackbarError, handleSnackbarClose } = useFormSubmitStatus();
+  const {
+    // setWaitingState,
+    // formSubmitting,
+    snackbarOpen,
+    snackbarError,
+    handleSnackbarClose,
+  } = useFormSubmitStatus();
 
-  const handleExport = async event => {
-    event.preventDefault();
-    setWaitingState('in progress');
-    try {
-      const token = await getTokenSilently();
-      const headers = { Authorization: `Bearer ${token}` };
-      await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/export`, {}, { headers });
-      setWaitingState('complete', 'no error');
-      setTimeout(() => {
-        goTo(history, 'depletions/new-data');
-      }, 1500);
-    } catch (err) {
-      console.error(err);
-      setWaitingState('complete', 'error');
-    }
-  };
+  // const handleExport = async event => {
+  //   event.preventDefault();
+  //   setWaitingState('in progress');
+  //   try {
+  //     const token = await getTokenSilently();
+  //     const headers = { Authorization: `Bearer ${token}` };
+  //     await axios.post(`${process.env.REACT_APP_ENDPOINT}/api/depletions/export`, {}, { headers });
+  //     setWaitingState('complete', 'no error');
+  //     setTimeout(() => {
+  //       goTo(history, 'depletions/new-data');
+  //     }, 1500);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setWaitingState('complete', 'error');
+  //   }
+  // };
 
   return (
     <ProcessingLayout activeStep={5}>
@@ -71,15 +74,15 @@ const Export = props => {
           <Button variant="contained" component={Link} to="/depletions/review">
             Back
           </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginLeft: 8 }}
-            disabled={formSubmitting}
-            onClick={handleExport}
-          >
-            Export
-          </Button>
+          {/*<Button*/}
+          {/*  variant="contained"*/}
+          {/*  color="primary"*/}
+          {/*  style={{ marginLeft: 8 }}*/}
+          {/*  disabled={formSubmitting}*/}
+          {/*  onClick={handleExport}*/}
+          {/*>*/}
+          {/*  Export*/}
+          {/*</Button>*/}
         </Box>
         <FormSnackbar
           open={snackbarOpen}
