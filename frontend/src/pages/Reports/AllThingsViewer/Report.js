@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Typography, Divider, Button, Box, Paper } from '@material-ui/core';
@@ -311,15 +311,28 @@ const AllThingsViewer = props => {
 
       <Box marginLeft={2} marginTop={2} marginRight={2}>
         <Flex justifyContent="space-between">
-          <Button
-            id="view-graph-btn"
-            startIcon={<ChartIcon />}
-            variant="outlined"
-            color="primary"
-            onClick={handleVisualizationType}
-          >
-            {visualizationType === 'table' ? 'View as Graph' : 'View as Table'}
-          </Button>
+          <div>
+            <Button
+              id="view-graph-btn"
+              startIcon={<ChartIcon />}
+              variant="outlined"
+              color="primary"
+              onClick={handleVisualizationType}
+            >
+              {visualizationType === 'table' ? 'View as Graph' : 'View as Table'}
+            </Button>
+
+            <Button
+              style={{ marginLeft: '8px' }}
+              variant="contained"
+              color="primary"
+              to="/drill-down-15-min"
+              component={Link}
+            >
+              Drill Down 15m Report
+            </Button>
+          </div>
+
           <div>
             <LastUpdateTable />
             <AtvHelp />

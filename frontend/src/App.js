@@ -10,6 +10,7 @@ import Loading from './components/Loading';
 import theme from './theme';
 
 const AllThingsViewer = React.lazy(() => import('./pages/Reports/AllThingsViewer/Report'));
+const DrillDown15Min = React.lazy(() => import('./pages/Reports/DrillDown15Min/Report'));
 const HistoricalMemberUsage = React.lazy(() => import('./pages/Reports/HistoricalMemberUsage/Report'));
 const MonthlyUnlaggedRecharge = React.lazy(() => import('./pages/Reports/MonthlyUnlaggedRecharge/Report'));
 const MonthlyLaggedRecharge = React.lazy(() => import('./pages/Reports/MonthlyLaggedRecharge/Report'));
@@ -81,6 +82,12 @@ const App = () => {
               exact
               roles={[...DataViewerRoles, ...AdminRoles]}
               component={AllThingsViewer}
+            />
+            <PrivateRouteWithRoles
+              path="/drill-down-15-min"
+              exact
+              roles={[...DataViewerRoles, ...AdminRoles]}
+              component={DrillDown15Min}
             />
             <PrivateRouteWithRoles
               path="/mobile-stations-report"

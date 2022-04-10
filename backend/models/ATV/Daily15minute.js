@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const { INTEGER, REAL, DATE, STRING } = DataTypes;
   const Daily15Minute = sequelize.define(
-    "atv_data_15minute_table",
+    'atv_data_15minute',
     {
       station_name: {
         type: STRING,
@@ -22,8 +22,14 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
+      defaultScope: {
+        order: [
+          ['collect_timestamp', 'desc'],
+          ['station_name', 'asc'],
+        ],
+      },
       timestamps: false,
-      schema: "web",
+      schema: 'web',
       freezeTableName: true,
     }
   );
