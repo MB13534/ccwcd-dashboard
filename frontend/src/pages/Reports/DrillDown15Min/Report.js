@@ -45,6 +45,8 @@ const DrillDown15Min = () => {
   const { getTokenSilently } = useAuth0();
 
   const firstOfYear = new Date(new Date().getFullYear(), 0, 1);
+  const today = new Date();
+  const tomorrow = today.setDate(today.getDate() + 1);
 
   const [filterValues, setFilterValues] = useState({
     structure_types: [5, 1],
@@ -52,7 +54,7 @@ const DrillDown15Min = () => {
     measurement_types: [3],
     aggregation_level: 'daily-averages',
     start_date: extractDate(firstOfYear),
-    end_date: extractDate(new Date()),
+    end_date: extractDate(tomorrow),
   });
   const [data, setData] = useState([]);
 
