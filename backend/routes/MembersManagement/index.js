@@ -1,17 +1,19 @@
-const express = require("express");
-const ContractsWellsMetersRoutes = require("./ContractsWellsMeters");
-const MeterAdjustmentsRoutes = require("./MeterAdjustments");
-const MeterCorrectionFactorsRoutes = require("./MeterCorrectionFactors");
-const WellAttributesRoutes = require("./WellAttributes");
-const ListsRoutes = require("./Lists");
+const express = require('express');
+const ContractsWellsMetersRoutes = require('./ContractsWellsMeters');
+const ExternalPlansRoutes = require('./ExternalPlans');
+const MeterAdjustmentsRoutes = require('./MeterAdjustments');
+const MeterCorrectionFactorsRoutes = require('./MeterCorrectionFactors');
+const WellAttributesRoutes = require('./WellAttributes');
+const ListsRoutes = require('./Lists');
 
 // Create Express Router
 const router = express.Router();
 
-router.use("/lists", ListsRoutes);
-router.use("/contracts-wells-meters", ContractsWellsMetersRoutes);
-router.use("/meter-adjustments", MeterAdjustmentsRoutes);
-router.use("/meter-correction-factors", MeterCorrectionFactorsRoutes);
-router.use("/well-attributes", WellAttributesRoutes);
+router.use('/lists', ListsRoutes);
+router.use('/contracts-wells-meters', ContractsWellsMetersRoutes);
+router.use('/external-plans', ExternalPlansRoutes);
+router.use('/meter-adjustments', MeterAdjustmentsRoutes);
+router.use('/meter-correction-factors', MeterCorrectionFactorsRoutes);
+router.use('/well-attributes', WellAttributesRoutes);
 
 module.exports = router;

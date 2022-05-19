@@ -188,6 +188,14 @@ const Sidebar = props => {
           rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
         },
         {
+          link: 'members-management/external-plans',
+          title: 'External Plans',
+          activePath: 'members-management/external-plans',
+          icon: ReportsIcon,
+          loginRequired: true,
+          rolesRequired: ['LRE Admin', 'CCWCD Admin', 'CCWCD Admin Demo'],
+        },
+        {
           link: 'members-management/meter-adjustments',
           title: 'Meter Adjustments',
           activePath: 'members-management/meter-adjustments',

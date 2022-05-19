@@ -101,6 +101,13 @@ db.MonthlyLaggedRecharge = require('./MonthlyLaggedRecharge/MonthlyLaggedRecharg
 /**
  * Members Management models
  */
+db.ListExternalAugPlans = require('./MembersManagement/ListExternalAugPlans')(sequelize, Sequelize);
+db.AssocExternalPlansToContracts = require('./MembersManagement/AssocExternalPlansToContracts')(sequelize, Sequelize);
+db.ContractsListForExternalPlansManagement = require('./MembersManagement/ContractsListForExternalPlansManagement')(
+  sequelize,
+  Sequelize
+);
+
 db.ContractsWellsMetersLanding = require('./MembersManagement/ContractsWellsMetersLanding')(sequelize, Sequelize);
 db.ContractsWellsMetersView = require('./MembersManagement/ContractsWellsMetersView')(sequelize, Sequelize);
 
